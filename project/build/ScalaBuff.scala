@@ -22,6 +22,9 @@ class ScalaBuffProject(info: ProjectInfo) extends DefaultProject(info) {
 
 	override def dependencyPath = "lib"
 
-//	override def mainClass = Some("")
+	override def mainClass = Some("hr.sandrogrzicic.protobuf.ScalaBuff")
+
+	val scalatest = "org.scalatest" % "scalatest_2.9.0" % "1.6.1"
+
 
 }
