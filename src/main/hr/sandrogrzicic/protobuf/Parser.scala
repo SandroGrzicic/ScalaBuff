@@ -45,7 +45,6 @@ object Parser extends RegexParsers with ImplicitConversions {
 		   "sint32" | "sint64" | "fixed32" | "fixed64" | "sfixed32" | "sfixed64" |
 		   "bool" | "string" | "bytes" | userType
 
-	// leading dot for Identifierifiers means they're fully qualified
 	def userType = ("."?) ~ Identifier ~ ("." ~ Identifier)*
 
 	def Constant = Identifier | Integer | FloatingPoint | StringConstant | Bool
