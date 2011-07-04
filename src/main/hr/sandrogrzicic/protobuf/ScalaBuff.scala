@@ -33,7 +33,7 @@ object ScalaBuff {
 	 */
 	protected def exit(message: String) {
 		println(message)
-		System.exit(message.hashCode())
+		System.exit(1)
 	}
 
 }
