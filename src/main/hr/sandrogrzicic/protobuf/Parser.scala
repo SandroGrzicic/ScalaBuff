@@ -1,6 +1,7 @@
 package hr.sandrogrzicic.protobuf
 
 import util.parsing.combinator._
+import java.io.{FileInputStream, InputStreamReader, BufferedReader}
 
 /**
  * Main Protobuf parser.
@@ -68,6 +69,16 @@ object Parser extends RegexParsers with ImplicitConversions {
 	 * Parse the given Protobuf Reader.
 	 */
 	def apply(input: java.io.Reader) = {
+		parseAll(proto, input) match {
+			case Success(tree, _) => tree
+			case e: NoSuccess => e
+		}
+	}
+
+	/**
+	* Parse the given Protobuf input.
+	 */
+	def apply(input: String) = {
 		parseAll(proto, input) match {
 			case Success(tree, _) => tree
 			case e: NoSuccess => e
