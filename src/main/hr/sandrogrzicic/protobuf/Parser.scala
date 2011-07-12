@@ -10,7 +10,7 @@ import java.io.{FileInputStream, InputStreamReader, BufferedReader}
 object Parser extends RegexParsers with ImplicitConversions {
 
 	// skip C/C++ style comments and whitespace.
-	override protected val whiteSpace = """\s*//.*\r?\n?\s*|\s+""".r
+	override protected val whiteSpace = """\s*(//.*\r*\n*\s*)+|\s*/\*(.|\r|\n)*\*/\s*|\s+""".r
 
 
 	// root protobuf parser
@@ -74,7 +74,7 @@ object Parser extends RegexParsers with ImplicitConversions {
 	def apply(input: java.io.Reader) = {
 		parseAll(proto, input) match {
 			case Success(tree, _) => tree
-			case e: NoSuccess => e
+			case NoSuccess(error, element) => parsingError(error, element)
 		}
 	}
 
@@ -84,8 +84,18 @@ object Parser extends RegexParsers with ImplicitConversions {
 	def apply(input: String) = {
 		parseAll(proto, input) match {
 			case Success(tree, _) => tree
-			case e: NoSuccess => e
+			case NoSuccess(error, element) => parsingError(error, element)
 		}
+	}
+
+	/**
+	 * Returns a parsing error.
+	 */
+	def parsingError(error: String, element: Input) = {
+		"Error while attempting to parse input at " +
+		"line [" + element.pos.line + "], column [" + element.pos.column + "]:\n\t[" +
+          	error + "]\n" +
+		element.pos.longString
 	}
 
 }
