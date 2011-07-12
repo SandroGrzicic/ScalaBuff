@@ -24,5 +24,8 @@ class ParserTest extends FunSuite with ShouldMatchers {
 		val input = new File("src/test/resources/proto/simpleWithComments.proto")
 		Parser(input).toString should equal (parserOutputSimple)
 	}
-
+	test("simple .proto file passed as a String") {
+		val input = io.Source.fromFile(new File("src/test/resources/proto/simple.proto")).mkString
+		Parser(input).toString should equal (parserOutputSimple)
+	}
 }

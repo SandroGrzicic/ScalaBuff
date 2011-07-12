@@ -1,6 +1,5 @@
 package hr.sandrogrzicic.protobuf
 
-import java.net.URL
 import java.io._
 
 /**
@@ -24,7 +23,7 @@ object ScalaBuff {
 		} catch {
 			case fnf: FileNotFoundException =>
 				try {
-					reader = new BufferedReader(new InputStreamReader(new URL(name).openStream))
+					reader = new BufferedReader(new InputStreamReader(new java.net.URL(name).openStream))
 				} catch {
 					case e => exit(
 						"Error: Cannot access specified file/URL " + name + ":\n[" +
