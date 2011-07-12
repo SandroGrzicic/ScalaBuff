@@ -9,6 +9,10 @@ import java.io.{FileInputStream, InputStreamReader, BufferedReader}
  */
 object Parser extends RegexParsers with ImplicitConversions {
 
+	// skip C/C++ style comments and whitespace.
+	override protected val whiteSpace = """\s*//.*\r?\n?\s*|\s+""".r
+
+
 	// root protobuf parser
 	def proto = (message | extend_ | enum_ | import_ | package_ | option | ";")*
 
@@ -28,7 +32,6 @@ object Parser extends RegexParsers with ImplicitConversions {
 	def optionBody = Identifier ~ (("." ~ Identifier)*) ~ "=" ~ Constant
 
 	def group = label ~ "group" ~ CamelCaseIdentifier ~ "=" ~ Integer ~ messageBody
-
 
 	def messageBody: Parser[Any] = "{" ~ ((field | enum_ | message | extend_ | extensions | group | option | ":")*) ~ "}"
 
