@@ -1,7 +1,6 @@
 package hr.sandrogrzicic.protobuf
 
 import util.parsing.combinator._
-import java.io.{FileInputStream, InputStreamReader, BufferedReader}
 
 /**
  * Main Protobuf parser.
