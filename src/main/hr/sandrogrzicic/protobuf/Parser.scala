@@ -11,7 +11,8 @@ import collection.immutable.PagedSeq
 object Parser extends RegexParsers with ImplicitConversions with PackratParsers {
 
 	// skip C/C++ style comments and whitespace.
-	override protected val whiteSpace = """\s*(//.*\r*\n*\s*)+|\s*/\*(.|\r|\n)*\*/\s*|\s+""".r
+	override protected val whiteSpace = """((/\*(?:.|\r|\n)*?\*/)|//.*|\s+)+""".r
+	
 
 
 	// root protobuf parser
@@ -42,7 +43,7 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 	lazy val label: PackratParser[Any] = "required" | "optional" | "repeated"
 
 	lazy val extensions: PackratParser[Any] = "extensions" ~ extension ~ (("," ~ extension)*) ~ ";"
-	lazy val extension: PackratParser[Any] = Integer ~ ("to" ~ (Integer | "max"))?
+	lazy val extension: PackratParser[Any] = Integer ~ (("to" ~ (Integer | "max"))?)
 
 	lazy val fieldOption: PackratParser[Any] = optionBody | ("default" ~ "=" ~ Constant)
 
