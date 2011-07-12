@@ -1,5 +1,6 @@
 package hr.sandrogrzicic.protobuf
 
+import java.net.URL
 import java.io._
 
 /**
@@ -10,19 +11,29 @@ import java.io._
 object ScalaBuff {
 
 	/**
-	 * Runs the Protobuf Parser on the input file.
+	 * Runs the Protobuf Parser on the input file or URL.
 	 */
 	def main(args: Array[String]) {
 		if (args.length < 1)
-			exit("Required parameter: input protobuf file name.")
+			exit("Required parameter: input protobuf file name or URL.")
 
 		var reader: Reader = null
+		val name = args(0)
 		try {
-			reader = new BufferedReader(new InputStreamReader(new FileInputStream(args(0)), "utf-8"))
+			reader = new BufferedReader(new InputStreamReader(new FileInputStream(name), "utf-8"))
 		} catch {
+			case fnf: FileNotFoundException =>
+				try {
+					reader = new BufferedReader(new InputStreamReader(new URL(name).openStream))
+				} catch {
+					case e => exit(
+						"Error: Cannot access specified file/URL " + name + ":\n[" +
+						e.getMessage + "]"
+					)
+				}
 			case e => exit(
-				"Error: Cannot access specified file " + args(0) + "!\n" +
-				e.getMessage
+				"Error: Cannot access specified file/URL " + name + ":\n[" +
+				e.getMessage + "]"
 			)
 		}
 		println(Parser(reader))

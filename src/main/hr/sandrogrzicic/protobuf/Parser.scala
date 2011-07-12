@@ -1,87 +1,89 @@
 package hr.sandrogrzicic.protobuf
 
 import util.parsing.combinator._
+import util.parsing.input.{PagedSeqReader, CharSequenceReader}
+import collection.immutable.PagedSeq
 
 /**
  * Main Protobuf parser.
  * @author Sandro Gržičić
  */
-object Parser extends RegexParsers with ImplicitConversions {
+object Parser extends RegexParsers with ImplicitConversions with PackratParsers {
 
 	// skip C/C++ style comments and whitespace.
 	override protected val whiteSpace = """\s*(//.*\r*\n*\s*)+|\s*/\*(.|\r|\n)*\*/\s*|\s+""".r
 
 
 	// root protobuf parser
-	def proto = (message | extend_ | enum_ | import_ | package_ | option | ";")*
+	lazy val proto: PackratParser[Any] = (message | extendP | enumP | importP | packageP | option | ";")*
 
 
-	def message: Parser[Any] = "message" ~ Identifier ~ messageBody
+	lazy val message: PackratParser[Any] = "message" ~ Identifier ~ messageBody
 
-	def extend_ = "extend" ~ userType ~ "{" ~ ((field | group | ";")*) ~ "}"
+	lazy val extendP: PackratParser[Any] = "extend" ~ userType ~ "{" ~ ((field | group | ";")*) ~ "}"
 
-	def enum_ = "enum" ~ Identifier ~ "{" ~ ((option | enumField | ";")*) ~ "}"
-	def enumField = Identifier ~ "=" ~ Integer ~ ";"
+	lazy val enumP: PackratParser[Any] = "enum" ~ Identifier ~ "{" ~ ((option | enumField | ";")*) ~ "}"
+	lazy val enumField: PackratParser[Any] = Identifier ~ "=" ~ Integer ~ ";"
 
-	def import_ = "import" ~ StringConstant ~ ";"
+	lazy val importP: PackratParser[Any] = "import" ~ StringConstant ~ ";"
 
-	def package_ = "package" ~ Identifier ~ (("." ~ Identifier)*) ~ ";"
+	lazy val packageP: PackratParser[Any] = "package" ~ Identifier ~ (("." ~ Identifier)*) ~ ";"
 
-	def option = "option" ~ optionBody ~ ";"
-	def optionBody = Identifier ~ (("." ~ Identifier)*) ~ "=" ~ Constant
+	lazy val option: PackratParser[Any] = "option" ~ optionBody ~ ";"
+	lazy val optionBody: PackratParser[Any] = Identifier ~ (("." ~ Identifier)*) ~ "=" ~ Constant
 
-	def group = label ~ "group" ~ CamelCaseIdentifier ~ "=" ~ Integer ~ messageBody
+	lazy val group: PackratParser[Any] = label ~ "group" ~ CamelCaseIdentifier ~ "=" ~ Integer ~ messageBody
 
-	def messageBody: Parser[Any] = "{" ~ ((field | enum_ | message | extend_ | extensions | group | option | ":")*) ~ "}"
+	lazy val messageBody: PackratParser[Any] = "{" ~ ((field | enumP | message | extendP | extensions | group | option | ":")*) ~ "}"
 
-	def field = label ~ fieldType ~ Identifier ~ "=" ~ Integer ~
+	lazy val field: PackratParser[Any] = label ~ fieldType ~ Identifier ~ "=" ~ Integer ~
 		(("[" ~ fieldOption ~ ("," ~ (fieldOption)*) ~ "]")?) ~ ";"
 
-	def label = "required" | "optional" | "repeated"
+	lazy val label: PackratParser[Any] = "required" | "optional" | "repeated"
 
-	def extensions = "extensions" ~ extension ~ (("," ~ extension)*) ~ ";"
-	def extension = Integer ~ ("to" ~ (Integer | "max"))?
+	lazy val extensions: PackratParser[Any] = "extensions" ~ extension ~ (("," ~ extension)*) ~ ";"
+	lazy val extension: PackratParser[Any] = Integer ~ ("to" ~ (Integer | "max"))?
 
-	def fieldOption = optionBody | ("default" ~ "=" ~ Constant)
+	lazy val fieldOption: PackratParser[Any] = optionBody | ("default" ~ "=" ~ Constant)
 
-	def fieldType = "double" | "float" | "int32" | "int64" | "uint32" | "uint64" |
+	lazy val fieldType: PackratParser[Any] = "double" | "float" | "int32" | "int64" | "uint32" | "uint64" |
 		   "sint32" | "sint64" | "fixed32" | "fixed64" | "sfixed32" | "sfixed64" |
 		   "bool" | "string" | "bytes" | userType
 
-	def userType = ("."?) ~ Identifier ~ ("." ~ Identifier)*
+	lazy val userType: PackratParser[Any] = ("."?) ~ Identifier ~ ("." ~ Identifier)*
 
-	def Constant = Identifier | Integer | FloatingPoint | StringConstant | Bool
-	def Identifier = """[A-Za-z_][\w_]*""".r
-	def CamelCaseIdentifier = """[A-Z][\w_]*""".r
-	def Integer = DecimalInteger | HexadecimalInteger | OctalInteger
-	def DecimalInteger = """[1-9]\d*""".r
-	def HexadecimalInteger = """0[xX]([A-Fa-f0-9])+""".r
-	def OctalInteger = """0[0-7]+""".r
-	def FloatingPoint = """\d+(\.\d+)?([Ee][\+-]?\d+)?""".r
-	def Bool = "true" | "false"
-	def StringConstant = QuotationMarks ~> ((HexEscape | OctEscape | CharEscape | StringConstantStr)*) <~ QuotationMarks
-	def StringConstantStr = """[^\0\n]""".r
-	def QuotationMarks = """["']""".r
-	def HexEscape = """\\[Xx][A-Fa-f0-9]{1,2}""".r
-	def OctEscape = """\\0?[0-7]{1,3}""".r
-	def CharEscape = """\\[abfnrtv\\\?'"]""".r
+	lazy val Constant: PackratParser[Any] = Identifier | Integer | FloatingPoint | StringConstant | Bool
+	lazy val Identifier: PackratParser[Any] = memo("""[A-Za-z_][\w_]*""".r)
+	lazy val CamelCaseIdentifier: PackratParser[Any] = memo("""[A-Z][\w_]*""".r)
+	lazy val Integer: PackratParser[Any] = DecimalInteger | HexadecimalInteger | OctalInteger
+	lazy val DecimalInteger: PackratParser[Any] = memo("""[1-9]\d*""".r)
+	lazy val HexadecimalInteger: PackratParser[Any] = memo("""0[xX]([A-Fa-f0-9])+""".r)
+	lazy val OctalInteger: PackratParser[Any] = memo("""0[0-7]+""".r)
+	lazy val FloatingPoint: PackratParser[Any] = memo("""\d+(\.\d+)?([Ee][\+-]?\d+)?""".r)
+	lazy val Bool: PackratParser[Any] = "true" | "false"
+	lazy val StringConstant: PackratParser[Any] = QuotationMarks ~> ((HexEscape | OctEscape | CharEscape | StringConstantStr)*) <~ QuotationMarks
+	lazy val StringConstantStr: PackratParser[Any] = memo("""[^\0\n]""".r)
+	lazy val QuotationMarks: PackratParser[Any] = memo("""["']""".r)
+	lazy val HexEscape: PackratParser[Any] = memo("""\\[Xx][A-Fa-f0-9]{1,2}""".r)
+	lazy val OctEscape: PackratParser[Any] = memo("""\\0?[0-7]{1,3}""".r)
+	lazy val CharEscape: PackratParser[Any] = memo("""\\[abfnrtv\\\?'"]""".r)
 
-
-	/**
-	 * Parse the given Protobuf Reader.
-	 */
-	def apply(input: java.io.Reader) = {
-		parseAll(proto, input) match {
-			case Success(tree, _) => tree
-			case NoSuccess(error, element) => parsingError(error, element)
-		}
-	}
 
 	/**
-	* Parse the given Protobuf input.
+	 * Parse the given Reader input as a protobuf file.
 	 */
-	def apply(input: String) = {
-		parseAll(proto, input) match {
+	def apply(input: java.io.Reader) = protoParse(new PagedSeqReader(PagedSeq.fromReader(input)))
+
+	/**
+	 * Parse the given String input as a protobuf file.
+	 */
+	def apply(input: String) = protoParse(new CharSequenceReader(input))
+
+	/**
+	 * Parse the given input as a protobuf file.
+	 */
+	def protoParse(input: Input) = {
+		phrase(proto)(input) match {
 			case Success(tree, _) => tree
 			case NoSuccess(error, element) => parsingError(error, element)
 		}
