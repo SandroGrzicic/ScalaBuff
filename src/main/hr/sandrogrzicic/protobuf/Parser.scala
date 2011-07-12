@@ -50,7 +50,7 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 		   "sint32" | "sint64" | "fixed32" | "fixed64" | "sfixed32" | "sfixed64" |
 		   "bool" | "string" | "bytes" | userType
 
-	lazy val userType: PackratParser[Any] = ("."?) ~ Identifier ~ ("." ~ Identifier)*
+	lazy val userType: PackratParser[Any] = ("."?) ~ Identifier ~ (("." ~ Identifier)*)
 
 	lazy val Constant: PackratParser[Any] = Identifier | Integer | FloatingPoint | StringConstant | Bool
 	lazy val Identifier: PackratParser[Any] = memo("""[A-Za-z_][\w_]*""".r)
@@ -61,8 +61,8 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 	lazy val OctalInteger: PackratParser[Any] = memo("""0[0-7]+""".r)
 	lazy val FloatingPoint: PackratParser[Any] = memo("""\d+(\.\d+)?([Ee][\+-]?\d+)?""".r)
 	lazy val Bool: PackratParser[Any] = "true" | "false"
-	lazy val StringConstant: PackratParser[Any] = QuotationMarks ~> ((HexEscape | OctEscape | CharEscape | StringConstantStr)*) <~ QuotationMarks
-	lazy val StringConstantStr: PackratParser[Any] = memo("""[^\0\n]""".r)
+	lazy val StringConstant: PackratParser[Any] = QuotationMarks ~> ((HexEscape | OctEscape | CharEscape | StringCharacter)*) <~ QuotationMarks
+	lazy val StringCharacter: PackratParser[Any] = memo("""[^"\n]""".r)
 	lazy val QuotationMarks: PackratParser[Any] = memo("""["']""".r)
 	lazy val HexEscape: PackratParser[Any] = memo("""\\[Xx][A-Fa-f0-9]{1,2}""".r)
 	lazy val OctEscape: PackratParser[Any] = memo("""\\0?[0-7]{1,3}""".r)
