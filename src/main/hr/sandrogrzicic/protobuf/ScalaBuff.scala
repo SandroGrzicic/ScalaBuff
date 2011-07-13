@@ -18,13 +18,13 @@ object ScalaBuff {
 		if (args.length < 1)
 			exit("Required parameter: input protobuf file name or URL.")
 
-		val resourceName = args(0)
+		val resourcePath = args(0)
 		try {
-			println(parse(resourceName))
+			println(apply(resourcePath))
 		} catch {
 			case e => {
 				exit(
-					"Error: Cannot access specified resource [" + resourceName + "]:\n[" +
+					"Error: Cannot access specified resource [" + resourcePath + "]:\n[" +
 					e.getMessage + "]"
 				)
 			}
@@ -34,7 +34,7 @@ object ScalaBuff {
 	/**
 	 * Runs the Protobuf Parser on the specified resource path and returns the output.
 	 */
-	def parse(resourcePath: String) {
+	def apply(resourcePath: String) = {
 		var reader: Reader = null
 		try {
 			reader = new FileInputStream(resourcePath)
