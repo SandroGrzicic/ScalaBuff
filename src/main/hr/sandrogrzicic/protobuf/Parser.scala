@@ -68,6 +68,16 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 
 
 	/**
+	 * Parse the given input as a protobuf file.
+	 */
+	def protoParse(input: Input) = {
+		phrase(protoParser)(input) match {
+			case Success(tree, _) => tree
+			case NoSuccess(error, element) => parsingError(error, element)
+		}
+	}
+
+	/**
 	 * Parse the given Reader input as a protobuf file.
 	 */
 	def apply(input: java.io.Reader) = protoParse(new PagedSeqReader(PagedSeq.fromReader(input)))
@@ -82,15 +92,6 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 	 */
 	def apply(input: String) = protoParse(new CharSequenceReader(input))
 
-	/**
-	 * Parse the given input as a protobuf file.
-	 */
-	def protoParse(input: Input) = {
-		phrase(protoParser)(input) match {
-			case Success(tree, _) => tree
-			case NoSuccess(error, element) => parsingError(error, element)
-		}
-	}
 
 	/**
 	 * Returns a parsing error.

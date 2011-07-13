@@ -21,5 +21,4 @@ message DataTypes {
 	optional fixed32 _32bit1 = 500;
 	optional sfixed32 _32bit2 = 501;
 	optional float _32bit3 = 502;
-	
 }

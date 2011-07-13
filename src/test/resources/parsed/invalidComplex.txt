@@ -1,0 +1,5 @@
+Error while attempting to parse input at line [3], column [18]:
+	[`=' expected but `i' found]
+	optionala int32 invalid_label = 1; // optionala
+
+	                ^
