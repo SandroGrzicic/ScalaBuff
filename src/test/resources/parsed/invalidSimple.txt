@@ -1,0 +1,4 @@
+Error while attempting to parse input at line [1], column [1]:
+	[string matching regex `\z' expected but `i' found]
+invalidSimple { }
+^

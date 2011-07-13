@@ -1,0 +1,4 @@
+Error while attempting to parse input at line [1], column [17]:
+	[`{' expected but `M' found]
+message Invalid Message { }
+                ^

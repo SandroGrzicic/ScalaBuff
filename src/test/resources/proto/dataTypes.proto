@@ -1,0 +1,25 @@
+message DataTypes {
+	optional int32 varint1 = 1;
+	optional int64 varint2 = 2;
+	optional uint32 varint3 = 3;
+	optional uint64 varint4 = 4;
+	optional sint32 varint5 = 5;
+	optional sint64 varint6 = 6;
+	optional bool varint7 = 7;
+	optional enum varint8 = 8;
+	
+	optional fixed64 _64bit1 = 100;
+	optional sfixed64 _64bit2 = 101;
+	optional double _64bit3 = 102;
+	
+	optional string length_delim1 = 200;
+	optional bytes length_delim2 = 201;
+	optional Embedded length_delim3 = 202;
+	repeated rep length_delim4 = 204;
+	repeated packed length_delim5 = 203 [packed=true];
+
+	optional fixed32 _32bit1 = 500;
+	optional sfixed32 _32bit2 = 501;
+	optional float _32bit3 = 502;
+	
+}
