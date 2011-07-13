@@ -14,10 +14,7 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 	override protected val whiteSpace = """((/\*(?:.|\r|\n)*?\*/)|//.*|\s+)+""".r
 	
 
-
-	// root protobuf parser
-	lazy val proto: PackratParser[Any] = (message | extendP | enumP | importP | packageP | option | ";")*
-
+	lazy val protoParser: PackratParser[Any] = (message | extendP | enumP | importP | packageP | option | ";")*
 
 	lazy val message: PackratParser[Any] = "message" ~ Identifier ~ messageBody
 
@@ -76,6 +73,11 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 	def apply(input: java.io.Reader) = protoParse(new PagedSeqReader(PagedSeq.fromReader(input)))
 
 	/**
+	 * Parse the given File input as a protobuf file.
+	 */
+	def apply(input: java.io.File) = protoParse(new PagedSeqReader(PagedSeq.fromFile(input)))
+
+	/**
 	 * Parse the given String input as a protobuf file.
 	 */
 	def apply(input: String) = protoParse(new CharSequenceReader(input))
@@ -84,7 +86,7 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 	 * Parse the given input as a protobuf file.
 	 */
 	def protoParse(input: Input) = {
-		phrase(proto)(input) match {
+		phrase(protoParser)(input) match {
 			case Success(tree, _) => tree
 			case NoSuccess(error, element) => parsingError(error, element)
 		}
