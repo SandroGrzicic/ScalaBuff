@@ -9,8 +9,10 @@ import java.io._
 
 object ScalaBuff {
 
+	implicit def stream2reader(stream: InputStream) = new BufferedReader(new InputStreamReader(stream, "utf-8"))
+
 	/**
-	 * Runs the Protobuf Parser on the input file or URL.
+	 * Runs the Protobuf Parser on the specified resource.
 	 */
 	def main(args: Array[String]) {
 		if (args.length < 1)
@@ -19,19 +21,19 @@ object ScalaBuff {
 		var reader: Reader = null
 		val name = args(0)
 		try {
-			reader = new BufferedReader(new InputStreamReader(new FileInputStream(name), "utf-8"))
+			reader = new FileInputStream(name)
 		} catch {
 			case fnf: FileNotFoundException =>
 				try {
-					reader = new BufferedReader(new InputStreamReader(new java.net.URL(name).openStream))
+					reader = new java.net.URL(name).openStream
 				} catch {
 					case e => exit(
-						"Error: Cannot access specified file/URL " + name + ":\n[" +
+						"Error: Cannot access specified resource [" + name + "]:\n[" +
 						e.getMessage + "]"
 					)
 				}
 			case e => exit(
-				"Error: Cannot access specified file/URL " + name + ":\n[" +
+				"Error: Cannot access specified resource [" + name + "]:\n[" +
 				e.getMessage + "]"
 			)
 		}
