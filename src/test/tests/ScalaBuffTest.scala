@@ -21,4 +21,8 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 		ScalaBuff("src/test/resources/proto/simple.proto") should equal (output)
 	}
 
+	test("camelCase") {
+		ScalaBuff.camelCase("very_long_name_in_c_style_001") should equal ("VeryLongNameInCStyle001")
+	}
+
 }

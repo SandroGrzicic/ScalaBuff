@@ -88,7 +88,7 @@ object ScalaBuff {
 
 	lazy val camelCaseRegex = """_(\w)""".r
 	def camelCase(str: String) = {
-		camelCaseRegex.replaceAllIn(str, m => m.matched.toUpperCase).capitalize
+		camelCaseRegex.replaceAllIn(str, m => m.matched.tail.toUpperCase).capitalize
 	}
 
 
