@@ -1,4 +1,4 @@
-package hr.sandrogrzicic.protobuf
+package hr.sandrogrzicic.scalabuff
 
 import util.parsing.combinator._
 import util.parsing.input.{PagedSeqReader, CharSequenceReader}
@@ -9,6 +9,8 @@ import collection.immutable.PagedSeq
  * @author Sandro Gržičić
  */
 object Parser extends RegexParsers with ImplicitConversions with PackratParsers {
+
+	var fileName = "?"
 
 	// skip C/C++ style comments and whitespace.
 	override protected val whiteSpace = """((/\*(?:.|\r|\n)*?\*/)|//.*|\s+)+""".r
@@ -68,7 +70,7 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 
 
 	/**
-	 * Parse the given input as a protobuf file.
+	 * Parse the given input as a scalabuff file.
 	 */
 	def protoParse(input: Input) = {
 		phrase(protoParser)(input) match {
@@ -78,17 +80,20 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 	}
 
 	/**
-	 * Parse the given Reader input as a protobuf file.
+	 * Parse the given Reader input as a scalabuff file.
 	 */
 	def apply(input: java.io.Reader) = protoParse(new PagedSeqReader(PagedSeq.fromReader(input)))
 
 	/**
-	 * Parse the given File input as a protobuf file.
+	 * Parse the given File input as a scalabuff file.
 	 */
-	def apply(input: java.io.File) = protoParse(new PagedSeqReader(PagedSeq.fromFile(input)))
+	def apply(input: java.io.File) = {
+		fileName = input.getName
+		protoParse(new PagedSeqReader(PagedSeq.fromFile(input)))
+	}
 
 	/**
-	 * Parse the given String input as a protobuf file.
+	 * Parse the given String input as a scalabuff file.
 	 */
 	def apply(input: String) = protoParse(new CharSequenceReader(input))
 
@@ -97,10 +102,8 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 	 * Returns a parsing error.
 	 */
 	def parsingError(error: String, element: Input) = {
-		"Error while attempting to parse input at " +
-		"line [" + element.pos.line + "], column [" + element.pos.column + "]:\n\t[" +
-          	error + "]\n" +
-		element.pos.longString
+		fileName + ":" + element.pos.line + ":" + element.pos.column + ": " +
+        error + " " + element.pos.longString
 	}
 
 }
