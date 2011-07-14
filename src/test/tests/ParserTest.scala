@@ -1,4 +1,4 @@
-package parser
+package tests
 
 import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
@@ -12,13 +12,11 @@ import java.io._
 
 class ParserTest extends FunSuite with ShouldMatchers {
 
-	val protoExtension = ".proto"
-	val parsedExtension = ".txt"
-
 	val protoFileFilter = new FileFilter {
-		def accept(filtered: File) = filtered.getName.endsWith(protoExtension)
+		def accept(filtered: File) = filtered.getName.endsWith(".proto")
 	}
 
+	val parsedExtension = ".txt"
 	val protoDir = new File("src/test/resources/proto/")
 	val parsedDir = "src/test/resources/parsed/"
 
@@ -27,7 +25,7 @@ class ParserTest extends FunSuite with ShouldMatchers {
 	 * make sure the Parser output equals the corresponding output file in the parsedDir directory.
 	 */
 	for (file <- protoDir.listFiles(protoFileFilter)) {
-		val fileName = file.getName.stripSuffix(protoExtension)
+		val fileName = file.getName.stripSuffix(".proto")
 		test(fileName) {
 			val output = io.Source.fromFile(new File(parsedDir + fileName + parsedExtension)).mkString
 			Parser(file).toString should equal (output)

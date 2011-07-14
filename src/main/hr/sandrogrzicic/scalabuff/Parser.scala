@@ -102,8 +102,8 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 	 * Returns a parsing error.
 	 */
 	def parsingError(error: String, element: Input) = {
-		fileName + ":" + element.pos.line + ":" + element.pos.column + ": " +
-        error + " " + element.pos.longString
+		fileName + ":" + element.pos.line + ":" + element.pos.column + ": " + error + "\n" +
+		element.pos.longString
 	}
 
 }
