@@ -27,6 +27,10 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 	/** The print stream used for testing program output. */
 	val printStream: PrintStream = new PrintStream(outputStream)
 
+	test("camelCase") {
+		ScalaBuff.camelCase("very_long_name_in_c_style_001") should equal ("VeryLongNameInCStyle001")
+	}
+
 	test("apply: simple .proto file") {
 		ScalaBuff(protoDir + testProto + ".proto") should equal (testProtoOutput)
 	}
@@ -73,8 +77,25 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 		outputFile.delete()
 	}
 
-	test("camelCase") {
-		ScalaBuff.camelCase("very_long_name_in_c_style_001") should equal ("VeryLongNameInCStyle001")
+	test("main: unknown option") {
+		outputStream.reset()
+		Console.withOut(printStream)({
+			val unsupportedOption = "--unsupported-option"
+			ScalaBuff.main(Array(unsupportedOption))
+			outputStream.toString("utf-8") should be
+				(Strings.UNKNOWN_ARGUMENT + unsupportedOption + NEWLINE)
+		})
 	}
+
+	test("main: invalid output directory") {
+		outputStream.reset()
+		Console.withOut(printStream)({
+			val invalidOutputDirectory = "()/%$#:;"
+			ScalaBuff.main(Array("--scala_out=" + invalidOutputDirectory))
+			outputStream.toString("utf-8") should be
+				(Strings.INVALID_OUTPUT_DIRECTORY + invalidOutputDirectory + NEWLINE)
+		})
+	}
+
 
 }
