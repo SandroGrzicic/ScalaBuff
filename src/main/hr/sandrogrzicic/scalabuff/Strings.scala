@@ -6,7 +6,9 @@ package hr.sandrogrzicic.scalabuff
  */
 
 object Strings {
-	val NEED_INPUT_FILE = "Required parameter: input protobuf file name(s) or URL(s)."
+	val CANNOT_ACCESS_RESOURCE = "Error: Cannot access specified resource: "
+	val INVALID_OUTPUT_DIRECTORY = "Invalid output directory: "
+	val UNKNOWN_ARGUMENT = "Unknown argument: "
 	val HELP = """Scala protocol buffers compiler.
 Usage: scalabuff [options] protoFiles
 Parse protoFiles and generate output based on the options given:

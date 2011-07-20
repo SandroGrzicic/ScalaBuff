@@ -32,46 +32,53 @@ object ScalaBuff {
 	 * Runner: Runs the ScalaBuff Parser on the specified resource path(s).
 	 */
 	def main(args: Array[String]) {
-		if (args.length < 1)
-			exit(Strings.NEED_INPUT_FILE)
+		if (args.length < 1) {
+			println(Strings.HELP)
+			return
+		}
 
 		for (arg <- args) {
 			// check if the argument is a potential option
 			if (arg.startsWith("-")) {
-				option(arg)
+				if (option(arg))
+					return
 			} else {
 				// argument is a resource path
 				try {
 					write(arg.drop(arg.lastIndexOf("/")), apply(arg))
 				} catch {
 					// just print the error and continue processing other files
-					case e => println("Error: Cannot access specified resource [" + arg + "]!)")
+					case e => println(Strings.CANNOT_ACCESS_RESOURCE + arg)
 				}
 			}
 		}
 	}
 
 	/**
-	 * Handle the specified option.
+	 * Handle the specified option. Returns true if the option needs to stop program execution.
 	 */
-	protected def option(option: String) {
+	protected def option(option: String) = {
 		if (option == "-h" || option == "--help") {
 			println(Strings.HELP)
+			true
 		} else if (option.startsWith("-I")) {
-			importDirectories +:= option.substring("-I".length)
+			importDirectories :+= option.substring("-I".length)
 		} else if (option.startsWith("--proto_path=")) {
-			importDirectories +:= option.substring("--proto_path=".length)
+			importDirectories :+= option.substring("--proto_path=".length)
 		} else if (option.startsWith("--scala_out=")) {
 			outputDirectory = option.substring("--scala_out=".length)
 			if (!outputDirectory.endsWith("/")) {
 				outputDirectory += "/"
 			}
 			if (!(new File(outputDirectory).isDirectory)) {
-				exit("Invalid output directory [" + outputDirectory + "]!")
+				println(Strings.INVALID_OUTPUT_DIRECTORY + outputDirectory)
+				true
 			}
 		} else {
-			exit("Unknown argument [" + option + "]!")
+			println(Strings.UNKNOWN_ARGUMENT + option)
+			true
 		}
+		false
 	}
 
 	/**
@@ -89,15 +96,6 @@ object ScalaBuff {
 	lazy val camelCaseRegex = """_(\w)""".r
 	def camelCase(str: String) = {
 		camelCaseRegex.replaceAllIn(str, m => m.matched.tail.toUpperCase).capitalize
-	}
-
-
-	/**
- 	* Print out the specified message and exit.
- 	*/
-	protected def exit(message: String) {
-		println(message)
-		System.exit(1)
 	}
 
 }
