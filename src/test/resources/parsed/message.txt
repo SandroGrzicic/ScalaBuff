@@ -1,1 +1,1 @@
-List(((message~Message)~(({~List())~})))
+List(Message(Message,List()))

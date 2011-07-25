@@ -1,1 +1,1 @@
-List((((package~proto)~List())~;), ((message~Packages)~(({~List())~})))
+List(PackageStatement(proto), Message(Packages,List()))

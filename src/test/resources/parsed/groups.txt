@@ -1,1 +1,1 @@
-List(((message~Groups)~(({~List((((((repeated~group)~Group)~=)~1)~(({~List(((((((required~string)~name)~=)~2)~None)~;)))~}))))~})))
+List(Message(Groups,List((((repeated~Group)~1)~List(((((required~string)~name)~2)~None))))))
