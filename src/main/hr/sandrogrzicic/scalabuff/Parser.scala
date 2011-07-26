@@ -67,11 +67,7 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 	}
 
 	lazy val extensions: PackratParser[List[Extension]] = "extensions" ~> extension ~ (("," ~ extension) *) <~ ";" ^^ {
-		case ext ~ exts => List(ext) ++ {
-			val es = ListBuffer[Extension]()
-			for (e <- exts) es += e._2
-			es
-		}
+		case ext ~ exts => List(ext) ++ exts.map(e => e._2)
 	}
 	lazy val extension: PackratParser[Extension] = integerConstant ~ (("to" ~> (integerConstant | "max")) ?) ^^ {
 		case from ~ to => to match {
