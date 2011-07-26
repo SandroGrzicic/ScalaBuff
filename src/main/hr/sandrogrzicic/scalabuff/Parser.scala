@@ -3,6 +3,7 @@ package hr.sandrogrzicic.scalabuff
 import util.parsing.combinator._
 import util.parsing.input.{PagedSeqReader, CharSequenceReader}
 import collection.immutable.PagedSeq
+import collection.mutable.ListBuffer
 
 /**
  * Main Protobuf parser.
@@ -19,7 +20,7 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 	lazy val protoParser: PackratParser[Any] = ((message | extendP | enumP | importP | packageP | option | ";") *)
 
 	lazy val message: PackratParser[Any] = "message" ~> identifier ~ messageBody ^^ {
-		case identifier ~ body => Message(identifier.toString, body)
+		case ident ~ body => Message(ident.toString, body)
 	}
 
 	lazy val extendP: PackratParser[Any] = "extend" ~> userType ~ ("{" ~> ((field | group | ";") *) <~ "}")
@@ -35,8 +36,12 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 		protoPackage => PackageStatement(protoPackage._1 + protoPackage._2.mkString)
 	}
 
-	lazy val option: PackratParser[Any] = "option" ~> optionBody <~ ";"
-	lazy val optionBody: PackratParser[Any] = identifier ~ (("." ~ identifier) *) ~ "=" ~ constant
+	lazy val option: PackratParser[OptionStatement] = "option" ~> optionBody <~ ";" ^^ {
+		optBody => OptionStatement(optBody)
+	}
+	lazy val optionBody: PackratParser[OptionBody] = (identifier ~ (("." ~ identifier) *) ~ ("=" ~> constant)) ^^ {
+		case ident ~ idents ~ value => OptionBody(ident + idents.mkString, value)
+	}
 
 	lazy val group: PackratParser[Any] = (label <~ "group") ~ (camelCaseIdentifier <~ "=") ~ integerConstant ~ messageBody
 
@@ -47,37 +52,52 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 
 	lazy val label: PackratParser[String] = "required" | "optional" | "repeated"
 
-	lazy val extensions: PackratParser[Any] = "extensions" ~> extension ~ (("," ~ extension) *) <~ ";"
-	lazy val extension: PackratParser[Any] = integerConstant ~ (("to" ~ (integerConstant | "max")) ?)
 
-	lazy val fieldOption: PackratParser[Any] = optionBody | ("default" ~> "=" ~> constant)
+	lazy val fieldOption: PackratParser[OptionBody] = optionBody |
+		("default" ~> "=" ~> constant) ^^ {
+			value => OptionBody("default", value)
+		}
 
-	lazy val fieldType: PackratParser[Any] = "double" | "float" | "int32" | "int64" | "uint32" | "uint64" |
+	lazy val fieldType: PackratParser[String] = "double" | "float" | "int32" | "int64" | "uint32" | "uint64" |
 		"sint32" | "sint64" | "fixed32" | "fixed64" | "sfixed32" | "sfixed64" |
 		"bool" | "string" | "bytes" | userType
 
-	lazy val userType: PackratParser[Any] = (("." ?) ~ identifier ~ (("." ~ identifier) *))
+	lazy val userType: PackratParser[String] = (("." ?) ~ identifier ~ (("." ~ identifier) *)) ^^ {
+		case dot ~ ident ~ idents => dot + ident + idents
+	}
 
-	lazy val constant: PackratParser[Any] = identifier | integerConstant | floatConstant | stringConstant | booleanConstant
+	lazy val extensions: PackratParser[List[Extension]] = "extensions" ~> extension ~ (("," ~ extension) *) <~ ";" ^^ {
+		case ext ~ exts => List(ext) ++ {
+			val es = ListBuffer[Extension]()
+			for (e <- exts) es += e._2
+			es
+		}
+	}
+	lazy val extension: PackratParser[Extension] = integerConstant ~ (("to" ~> (integerConstant | "max")) ?) ^^ {
+		case from ~ to => to match {
+			case Some(int) => int match {
+				case "max" => Extension(from.toInt, -1)
+				case i => Extension(from.toInt, i.toInt)
+			}
+			case None => Extension(from.toInt)
+		}
+	}
+
+	lazy val constant: PackratParser[String] = identifier | integerConstant | floatConstant | stringConstant | booleanConstant
+
 	lazy val identifier: PackratParser[String] = memo("""[A-Za-z_][\w_]*""".r)
 	lazy val camelCaseIdentifier: PackratParser[String] = memo("""[A-Z][\w_]*""".r)
 
-	lazy val integerConstant: PackratParser[Int] = decimalInteger | hexadecimalInteger | octalInteger
-	lazy val decimalInteger: PackratParser[Int] = memo("""[1-9]\d*""".r) ^^ {
-		int => int.toInt
+	lazy val integerConstant: PackratParser[String] = decimalInteger | hexadecimalInteger | octalInteger
+	lazy val decimalInteger: PackratParser[String] = memo("""[1-9]\d*""".r)
+	lazy val hexadecimalInteger: PackratParser[String] = memo("""0[xX]([A-Fa-f0-9])+""".r) ^^ {
+		int => Integer.parseInt(int, 16).toString
 	}
-	lazy val hexadecimalInteger: PackratParser[Int] = memo("""0[xX]([A-Fa-f0-9])+""".r) ^^ {
-		int => Integer.parseInt(int, 16)
+	lazy val octalInteger: PackratParser[String] = memo("""0[0-7]+""".r) ^^ {
+		int => Integer.parseInt(int, 8).toString
 	}
-	lazy val octalInteger: PackratParser[Int] = memo("""0[0-7]+""".r) ^^ {
-		int => Integer.parseInt(int, 8)
-	}
-	lazy val floatConstant: PackratParser[Double] = memo("""\d+(\.\d+)?([Ee][\+-]?\d+)?""".r) ^^ {
-		float => float.toDouble
-	}
-	lazy val booleanConstant: PackratParser[Boolean] = ("true" | "false") ^^ {
-		bool => bool.toBoolean
-	}
+	lazy val floatConstant: PackratParser[String] = memo("""\d+(\.\d+)?([Ee][\+-]?\d+)?""".r)
+	lazy val booleanConstant: PackratParser[String] = "true" | "false"
 	lazy val stringConstant: PackratParser[String] = quotationMarks ~> ((hexEscape | octEscape | charEscape | stringCharacter) *) <~ quotationMarks ^^ {
 		string: List[String] => string.mkString
 	}
