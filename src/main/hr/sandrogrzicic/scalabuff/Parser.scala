@@ -121,13 +121,14 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 	lazy val charEscape: PackratParser[String] = memo("""\\[abfnrtv\\\?'"]""".r)
 
 
+
 	/**
 	 * Parse the given input as a .proto file.
 	 */
 	def protoParse(input: Input) = {
 		phrase(protoParser)(input) match {
 			case Success(tree, _) => tree
-			case NoSuccess(error, element) => parsingError(error, element)
+			case NoSuccess(error, element) => throw new ParsingFailureException(parsingError(error, element))
 		}
 	}
 
@@ -151,7 +152,7 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 
 
 	/**
-	 * Returns a parsing error.
+	 * Returns the parsing failure details.
 	 */
 	def parsingError(error: String, element: Input) = {
 		fileName + ":" + element.pos.line + ":" + element.pos.column + ": " + error + "\n" +

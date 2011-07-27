@@ -27,7 +27,7 @@ object ScalaBuff {
 				reader = new java.net.URL(resourcePath).openStream
 			case e => throw e
 		}
-		Parser(reader).toString
+		Parser(reader)
 	}
 
 	/**
@@ -50,11 +50,15 @@ object ScalaBuff {
 					if (stdout) {
 						println(apply(arg))
 					} else {
-						write(arg.drop(arg.lastIndexOf("/")), apply(arg))
+						write(arg.drop(arg.lastIndexOf("/")), apply(arg).toString)
 					}
 				} catch {
 					// just print the error and continue processing other files
-					case e => println(Strings.CANNOT_ACCESS_RESOURCE + arg)
+					case pf: ParsingFailureException => println(pf.getMessage)
+					case io: IOException => println(Strings.CANNOT_ACCESS_RESOURCE + arg)
+
+					// serious error - stop execution
+					case e => throw e
 				}
 			}
 		}
