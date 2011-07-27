@@ -17,8 +17,10 @@ Parse protoFiles and generate output based on the options given:
                               directories will be searched in order.  If not
                               given, the current working directory is used.
   -h, --help                  Show this text and exit.
-  --scala_out=OUT_DIR         Generate Scala source files in this directory
+  --scala_out=OUTPUT_DIR      Generate Scala source files in this directory
                               (if not specified, current directory is used).
+  --scala_out                 Generate Scala source files, but output all
+                              results to stdout, do not write any files.
 """
 
 

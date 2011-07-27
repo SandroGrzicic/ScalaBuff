@@ -80,7 +80,7 @@ object ScalaBuff {
 				println(Strings.INVALID_OUTPUT_DIRECTORY + outputDirectory)
 				true
 			}
-		} else if (option == "--std_out") {
+		} else if (option == "--scala_out") {
 			stdout = true
 		} else {
 			println(Strings.UNKNOWN_ARGUMENT + option)
