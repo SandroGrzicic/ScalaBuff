@@ -10,6 +10,8 @@ import hr.sandrogrzicic.scalabuff.Parser._
 object ScalaBuff {
 	protected var outputDirectory: String = "./"
 	protected var importDirectories: Array[String] = Array[String]()
+	/** Whether to write output to stdout (true) or follow standard protoc behavior (false). */
+	protected var stdout = false
 
 	implicit def stream2reader(stream: InputStream) = new BufferedReader(new InputStreamReader(stream, "utf-8"))
 
@@ -45,7 +47,11 @@ object ScalaBuff {
 			} else {
 				// argument is a resource path
 				try {
-					write(arg.drop(arg.lastIndexOf("/")), apply(arg))
+					if (stdout) {
+						println(apply(arg))
+					} else {
+						write(arg.drop(arg.lastIndexOf("/")), apply(arg))
+					}
 				} catch {
 					// just print the error and continue processing other files
 					case e => println(Strings.CANNOT_ACCESS_RESOURCE + arg)
@@ -74,6 +80,8 @@ object ScalaBuff {
 				println(Strings.INVALID_OUTPUT_DIRECTORY + outputDirectory)
 				true
 			}
+		} else if (option == "--std_out") {
+			stdout = true
 		} else {
 			println(Strings.UNKNOWN_ARGUMENT + option)
 			true

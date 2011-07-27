@@ -14,12 +14,20 @@ case class ImportStatement(packageName: String) extends Node
 
 case class PackageStatement(packageName: String) extends Node
 
-case class OptionStatement(option: OptionBody) extends Node
+case class Option(key: String, value: String) extends Node
 
-case class OptionBody(key: String, value: String) extends Node
+case class Message(name: String, body: List[Node]) extends Node
 
-case class Message(name: String, body: Any) extends Node
+case class Extension(name: String, body: List[Node]) extends Node
 
-case class UserType(userType: String) extends Node
+case class Group(label: String, name: String, number: Int, body: List[Node]) extends Node
 
-case class Extension(from: Int, to: Int = -1) extends Node
+case class Field(label: String, fieldType: String, name: String, number: Int, fOptions: List[Option]) extends Node
+
+case class ExtensionRange(from: Int, to: Int = -1) extends Node
+
+case class EnumStatement(name: String, constants: List[EnumConstant], options: List[Option]) extends Node
+
+case class EnumConstant(name: String, id: Int) extends Node
+
+case class ListNode[T](list: List[T]) extends Node

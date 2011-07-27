@@ -1,1 +1,1 @@
-List(Message(Groups,List((((repeated~Group)~1)~List(((((required~string)~name)~2)~None))))))
+List(Message(Groups,List(Group(repeated,Group,1,List(Field(required,string,name,2,List()))))))

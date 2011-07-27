@@ -6,7 +6,11 @@ message DataTypes {
 	optional sint32 varint5 = 5;
 	optional sint64 varint6 = 6;
 	optional bool varint7 = 7;
-	optional enum varint8 = 8;
+	enum varint8 {
+        ENUM_ZERO = 0;
+        ENUM_ONE = 1;
+        option (this_is_an_enum) = true;
+    }
 	
 	optional fixed64 _64bit1 = 100;
 	optional sfixed64 _64bit2 = 101;
