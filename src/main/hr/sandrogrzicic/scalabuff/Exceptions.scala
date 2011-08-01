@@ -6,6 +6,6 @@ package hr.sandrogrzicic.scalabuff
  */
 
 /**
- * Thrown when an input .proto file cannot be parsed successfully.
+ * Thrown when an input .proto file cannot be tree successfully.
  */
 class ParsingFailureException(message: String) extends RuntimeException(message)

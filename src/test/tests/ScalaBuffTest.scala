@@ -3,7 +3,7 @@ package tests
 import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
 import hr.sandrogrzicic.scalabuff.{Strings, ScalaBuff}
-import java.io.{PrintStream, ByteArrayOutputStream, File, OutputStream}
+import java.io.{PrintStream, ByteArrayOutputStream, File}
 
 /**
  * ScalaBuff CLI runner test.
@@ -17,22 +17,22 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 	val parsedExtension = ".txt"
 	val protoDir = "src/test/resources/proto/"
 	val parsedDir = "src/test/resources/parsed/"
+	val generatedDir = "src/test/resources/generated/"
 
 	val testProto = "simple"
-	val testProtoOutput =
+	val testProtoParsed =
 		io.Source.fromFile(new File(parsedDir + testProto + parsedExtension)).mkString
+	val testProtoGenerated =
+		io.Source.fromFile(new File(generatedDir + testProto.capitalize + ".scala")).mkString
 
 	/** The output stream used for testing program output. */
 	val outputStream: ByteArrayOutputStream = new ByteArrayOutputStream()
 	/** The print stream used for testing program output. */
 	val printStream: PrintStream = new PrintStream(outputStream)
 
-	test("camelCase") {
-		ScalaBuff.camelCase("very_long_name_in_c_style_001") should equal ("VeryLongNameInCStyle001")
-	}
 
 	test("apply: simple .proto file") {
-		ScalaBuff(protoDir + testProto + ".proto") should equal (testProtoOutput)
+		ScalaBuff(protoDir + testProto + ".proto") should equal (testProtoGenerated)
 	}
 
 	test("main: no arguments") {
@@ -50,11 +50,11 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 			ScalaBuff.main(Array(simpleProto))
 			outputStream.toString("utf-8") should be ('empty)
 		})
-		val outputFile = new File(testProto + ".scala")
+		val outputFile = new File(testProto.capitalize + ".scala")
 		outputFile should be ('exists)
 		outputFile.deleteOnExit()
 		val outputFileSource = io.Source.fromFile(outputFile)
-		outputFileSource.mkString should equal (testProtoOutput)
+		outputFileSource.mkString should equal (testProtoGenerated)
 		outputFileSource.close()
 		outputFile.delete()
 	}
@@ -68,11 +68,11 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 			ScalaBuff.main(Array("--scala_out=" + outputDirectory, simpleProto))
 			outputStream.toString("utf-8") should be ('empty)
 		})
-		val outputFile = new File(outputDirectory + "/" + testProto + ".scala")
+		val outputFile = new File(outputDirectory + "/" + testProto.capitalize + ".scala")
 		outputFile should be ('exists)
 		outputFile.deleteOnExit()
 		val outputFileSource = io.Source.fromFile(outputFile)
-		outputFileSource.mkString should equal (testProtoOutput)
+		outputFileSource.mkString should equal (testProtoGenerated)
 		outputFileSource.close()
 		outputFile.delete()
 	}

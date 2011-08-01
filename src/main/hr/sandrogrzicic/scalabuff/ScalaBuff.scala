@@ -14,9 +14,10 @@ object ScalaBuff {
 	protected var stdout = false
 
 	implicit def stream2reader(stream: InputStream) = new BufferedReader(new InputStreamReader(stream, "utf-8"))
+	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 
 	/**
-	 * Runs the ScalaBuff Parser on the specified resource path and returns the output.
+	 * Runs ScalaBuff on the specified resource path and returns the output.
 	 */
 	def apply(resourcePath: String) = {
 		var reader: Reader = null
@@ -27,11 +28,12 @@ object ScalaBuff {
 				reader = new java.net.URL(resourcePath).openStream
 			case e => throw e
 		}
-		Parser(reader)
+
+		Generator(Parser(reader), resourcePath.takeFromLast('/'))
 	}
 
 	/**
-	 * Runner: Runs the ScalaBuff Parser on the specified resource path(s).
+	 * Runner: Runs ScalaBuff on the specified resource path(s).
 	 */
 	def main(args: Array[String]) {
 		if (args.length < 1) {
@@ -50,7 +52,7 @@ object ScalaBuff {
 					if (stdout) {
 						println(apply(arg))
 					} else {
-						write(arg.drop(arg.lastIndexOf("/")), apply(arg).toString)
+						write(arg.betweenLast('/', '.'), apply(arg).toString)
 					}
 				} catch {
 					// just print the error and continue processing other files
@@ -97,17 +99,12 @@ object ScalaBuff {
 	 * Write the specified string to the output directory as a Scala class.
 	 */
 	protected def write(fileName: String, output: String) {
-		new File(outputDirectory + fileName).delete()
+		val className = new File(outputDirectory + fileName.camelCase.stripSuffix(".proto") + ".scala")
+		if (className.exists()) className.delete()
 
-		val className = new File(outputDirectory + camelCase(fileName).stripSuffix(".proto") + ".scala")
 		val file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(className), "utf-8"))
 		file.write(output)
 		file.close()
-	}
-
-	lazy val camelCaseRegex = """_(\w)""".r
-	def camelCase(str: String) = {
-		camelCaseRegex.replaceAllIn(str, m => m.matched.tail.toUpperCase).capitalize
 	}
 
 }
