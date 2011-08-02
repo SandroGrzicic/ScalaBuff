@@ -26,8 +26,8 @@ class BuffedString(str: String) {
 
 	/**
 	 * Returns the substring between the specified characters on the last original string positions..
-	 * If any of the characters isn't found,
-	 * the returned string is returned fully from the start and/or to the end of the original string.
+	 * If any of the characters isn't found, the returned string is returned fully from the start and/or
+	 * to the end of the original string.
 	 * If the end position is lower than the start position, an empty string is returned.
 	 */
 	def betweenLast(from: Char, to: Char) = {

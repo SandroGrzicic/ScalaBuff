@@ -1,4 +1,4 @@
-invalidComplex.proto:3:18: `=' expected but `i' found
-	optionala int32 invalid_label = 1; // optionala
+invalidComplex.proto:3:2: `}' expected but `i' found
+	invalidLabel int32 invalid_label = 1; // invalid label
 
-	                ^
+	^
