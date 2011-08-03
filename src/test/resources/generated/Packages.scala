@@ -3,5 +3,5 @@
 
 package proto;
 
-class Packages private {
+case class Packages() {
 }

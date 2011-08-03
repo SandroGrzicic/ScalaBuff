@@ -28,7 +28,7 @@ class Generator(sourceName: String) {
 		if (!packageName.isEmpty)
 			o.append("package " + packageName + ";\n\n")
 
-		o.append("class " + sourceName.takeUntilLast('.').camelCase + " private {\n")
+		o.append("case class " + sourceName.takeUntilLast('.').camelCase + "() {\n")
 
 		o.append("}\n")
 
