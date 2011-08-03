@@ -8,9 +8,7 @@ import collection.immutable.PagedSeq
  * Main Protobuf parser.
  * @author Sandro Gržičić
  */
-object Parser extends RegexParsers with ImplicitConversions with PackratParsers {
-
-	var fileName = "?"
+class Parser(filename: String) extends RegexParsers with ImplicitConversions with PackratParsers {
 
 	// skip C/C++ style comments and whitespace.
 	override protected val whiteSpace = """((/\*(?:.|\r|\n)*?\*/)|//.*|\s+)+""".r
@@ -133,30 +131,29 @@ object Parser extends RegexParsers with ImplicitConversions with PackratParsers 
 	}
 
 	/**
+	 * Returns the parsing failure details.
+	 */
+	def parsingError(error: String, element: Input) = {
+		filename + ":" + element.pos.line + ":" + element.pos.column + ": " + error + "\n" +
+			element.pos.longString
+	}
+
+}
+
+object Parser {
+	/**
 	 * Parse the given Reader input as a .proto file.
 	 */
-	def apply(input: java.io.Reader) = protoParse(new PagedSeqReader(PagedSeq.fromReader(input)))
+	def apply(input: java.io.Reader) = new Parser("unknown").protoParse(new PagedSeqReader(PagedSeq.fromReader(input)))
 
 	/**
 	 * Parse the given File input as a .proto file.
 	 */
-	def apply(input: java.io.File) = {
-		fileName = input.getName
-		protoParse(new PagedSeqReader(PagedSeq.fromFile(input)))
-	}
+	def apply(input: java.io.File) = new Parser(input.getName)
+		.protoParse(new PagedSeqReader(PagedSeq.fromFile(input)))
 
 	/**
 	 * Parse the given String input as a .proto file.
 	 */
-	def apply(input: String) = protoParse(new CharSequenceReader(input))
-
-
-	/**
-	 * Returns the parsing failure details.
-	 */
-	def parsingError(error: String, element: Input) = {
-		fileName + ":" + element.pos.line + ":" + element.pos.column + ": " + error + "\n" +
-			element.pos.longString
-	}
-
+	def apply(input: String) = new Parser("unknown").protoParse(new CharSequenceReader(input))
 }
