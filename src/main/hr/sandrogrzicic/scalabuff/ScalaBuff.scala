@@ -1,7 +1,6 @@
 package hr.sandrogrzicic.scalabuff
 
 import java.io._
-import hr.sandrogrzicic.scalabuff.Parser._
 
 /**
  * ScalaBuff runtime.
@@ -17,7 +16,7 @@ object ScalaBuff {
 	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 
 	/**
-	 * Runs ScalaBuff on the specified resource path and returns the output.
+	 * Runs ScalaBuff on the specified resource path and returns the output Scala class.
 	 */
 	def apply(resourcePath: String) = {
 		var reader: Reader = null
@@ -29,7 +28,7 @@ object ScalaBuff {
 			case e => throw e
 		}
 
-		Generator(Parser(reader), resourcePath.takeFromLast('/'))
+		Generator(Parser(reader), resourcePath.dropUntilLast('/'))
 	}
 
 	/**
@@ -52,7 +51,7 @@ object ScalaBuff {
 					if (stdout) {
 						println(apply(arg))
 					} else {
-						write(arg.betweenLast('/', '.'), apply(arg).toString)
+						write(apply(arg))
 					}
 				} catch {
 					// just print the error and continue processing other files
@@ -86,7 +85,7 @@ object ScalaBuff {
 				println(Strings.INVALID_OUTPUT_DIRECTORY + outputDirectory)
 				true
 			}
-		} else if (option == "--scala_out") {
+		} else if (option == "--stdout") {
 			stdout = true
 		} else {
 			println(Strings.UNKNOWN_ARGUMENT + option)
@@ -96,15 +95,21 @@ object ScalaBuff {
 	}
 
 	/**
-	 * Write the specified string to the output directory as a Scala class.
+	 * Write the specified string to a file as a Scala class.
 	 */
-	protected def write(fileName: String, output: String) {
-		val className = new File(outputDirectory + fileName.camelCase.stripSuffix(".proto") + ".scala")
+	protected def write(generated: ScalaClass) {
+		val className = new File(outputDirectory + generated.path +
+			generated.file.camelCase + ".scala")
 		if (className.exists()) className.delete()
 
 		val file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(className), "utf-8"))
-		file.write(output)
+		file.write(generated.body)
 		file.close()
 	}
 
 }
+
+/**
+ * The root ScalaBuff RuntimeException.
+ */
+class ScalaBuffException(message: String) extends RuntimeException(message)

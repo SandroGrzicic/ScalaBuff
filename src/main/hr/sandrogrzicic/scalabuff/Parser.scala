@@ -137,7 +137,6 @@ class Parser(filename: String) extends RegexParsers with ImplicitConversions wit
 		filename + ":" + element.pos.line + ":" + element.pos.column + ": " + error + "\n" +
 			element.pos.longString
 	}
-
 }
 
 object Parser {
@@ -157,3 +156,10 @@ object Parser {
 	 */
 	def apply(input: String) = new Parser("unknown").protoParse(new CharSequenceReader(input))
 }
+
+
+/**
+ * Thrown when an input .proto file cannot be parsed successfully by the Parser.
+ */
+class ParsingFailureException(message: String) extends RuntimeException(message)
+

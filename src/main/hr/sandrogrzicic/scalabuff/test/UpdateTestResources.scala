@@ -56,7 +56,8 @@ object UpdateTestResources {
 				// if we have a valid parsing tree, generate a scala class too
 				val outGenerated = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(oldFileGenerated), "utf-8"))
 				try {
-					outGenerated.write(Generator(parsed, file.getName))
+					// ignore package file path
+					outGenerated.write(Generator(parsed, file.getName).body)
 				} finally {
 					outGenerated.close()
 				}
