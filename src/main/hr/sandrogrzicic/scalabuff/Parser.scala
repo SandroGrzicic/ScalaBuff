@@ -13,8 +13,6 @@ class Parser(filename: String) extends RegexParsers with ImplicitConversions wit
 	// skip C/C++ style comments and whitespace.
 	override protected val whiteSpace = """((/\*(?:.|\r|\n)*?\*/)|//.*|\s+)+""".r
 
-	protected def listNode[T](list: List[T]) = ListNode[T](list)
-
 	lazy val protoParser: PackratParser[List[Node]] = ((message | extendP | enumP | importP | packageP | option) *)
 
 	lazy val message: PackratParser[Message] = "message" ~> identifier ~ messageBody ^^ {
@@ -53,9 +51,7 @@ class Parser(filename: String) extends RegexParsers with ImplicitConversions wit
 		case gLabel ~ name ~ number ~ body => Group(gLabel, name, number.toInt, body)
 	}
 
-	lazy val messageBody: PackratParser[List[Node]] = "{" ~> ((field | enumP | message | extendP |
-		extensions ^^ { list => listNode(list) } |
-		group | option) *) <~ "}"
+	lazy val messageBody: PackratParser[List[Node]] = "{" ~> ((field | enumP | message | extendP | extensions | group | option) *) <~ "}"
 
 	lazy val field: PackratParser[Field] = label ~ fieldType ~ (identifier <~ "=") ~ integerConstant ~
 		(("[" ~> fieldOption ~ (("," ~ fieldOption) *) <~ "]") ?) <~ ";" ^^ {
@@ -81,8 +77,8 @@ class Parser(filename: String) extends RegexParsers with ImplicitConversions wit
 		case dot ~ ident ~ idents => dot.getOrElse("") + ident + idents.mkString
 	}
 
-	lazy val extensions: PackratParser[List[ExtensionRange]] = "extensions" ~> extension ~ (("," ~ extension) *) <~ ";" ^^ {
-		case ext ~ exts => List(ext) ++ exts.map(e => e._2)
+	lazy val extensions: PackratParser[Extensions] = "extensions" ~> extension ~ (("," ~ extension) *) <~ ";" ^^ {
+		case ext ~ exts => Extensions(List(ext) ++ exts.map(e => e._2))
 	}
 	lazy val extension: PackratParser[ExtensionRange] = integerConstant ~ (("to" ~> (integerConstant | "max")) ?) ^^ {
 		case from ~ to => to match {
