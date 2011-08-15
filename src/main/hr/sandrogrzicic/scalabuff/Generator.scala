@@ -18,6 +18,9 @@ class Generator protected(sourceName: String, reader: Reader) {
 	var packageName: String = ""
 	var className: String = sourceName.takeUntilFirst('.').camelCase
 
+	var optimizeForSpeed = true
+
+
 	/**
 	 * Converts a .proto field type to a valid Java type.
 	 */
@@ -65,13 +68,20 @@ class Generator protected(sourceName: String, reader: Reader) {
 			for (const <- enum.constants) {
 				out.append(indent).append("val ").append(const.name).append("_VALUE = ").append(const.id).append("\n")
 			}
+
 			// valueOf
-			out.append("\n").append(indent).append("def valueOf(id: Int) = id match {\n")
-			for (const <- enum.constants) {
-				out.append(indent).append("\t")
-					.append("case ").append(const.id).append(" => ").append(const.name).append("\n")
+			out.append("\n").append(indent).append("def valueOf(id: Int) = ")
+			if (optimizeForSpeed) {	// O(1)
+				out.append("(id: @annotation.switch) match {\n")
+				for (const <- enum.constants) {
+					out.append(indent).append("\t")
+						.append("case ").append(const.id).append(" => ").append(const.name).append("\n")
+				}
+				out.append(indent).append("}\n")
+			} else {	// O(n)
+				out.append("values.find(_.id == id).getOrElse(null)\n")
 			}
-			out.append(indent).append("}\n\n")
+
 			// internalGetValueMap
 			out.append(indent).append("val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {\n")
 				.append(indent).append("\tdef findValueByNumber(id: Int): EnumVal = valueOf(id)\n")
@@ -124,6 +134,17 @@ class Generator protected(sourceName: String, reader: Reader) {
 
 			out.append(indentOuter).append("}\n\n")
 
+			// object
+			out
+				.append(indentOuter).append("object ").append(name).append(" {\n")
+			    .append(indent).append("final val defaultInstance = new ").append(name).append("(true)\n")
+				.append(indent).append("defaultInstance.initFields()").append("\n")
+				.append(indent).append().append("\n")
+				.append(indent).append().append("\n")
+				.append(indent).append().append("\n")
+			out.append(indentOuter).append("}\n")
+
+
 			body.enums.foreach {
 				e => out.append(enum(e, indentLevel)).append("\n")
 			}
@@ -160,6 +181,12 @@ class Generator protected(sourceName: String, reader: Reader) {
 						case "scala_package" => packageName = value
 						case "java_outer_classname" => className = value
 						case "scala_outer_classname" => className = value
+						case "optimize_for" => value match {
+							case "SPEED" => optimizeForSpeed = true
+							case "CODE_SIZE" => optimizeForSpeed = false
+							case "LITE_RUNTIME" => optimizeForSpeed = true
+							case _ => throw new InvalidOptionValueException(key, value)
+						}
 						case _ => // ignore options which aren't recognized
 					}
 					case _ => throw new UnexpectedNodeException(node)
@@ -238,4 +265,8 @@ class UnexpectedNodeException(node: Node, parentNode: Node = null) extends Gener
 		case null => ""
 		case _ => "found in " + parentNode.toString
 	}
+)
+
+class InvalidOptionValueException(key: String, value: String) extends GenerationFailureException(
+	"Invalid option value " + value + " for key " + key
 )
