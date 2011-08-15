@@ -1,2 +1,4 @@
-message Message {
+option optimize_for = LITE_RUNTIME;
+
+message EmptyMessage {
 }

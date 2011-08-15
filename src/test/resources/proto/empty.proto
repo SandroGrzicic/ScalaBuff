@@ -1,0 +1,4 @@
+option optimize_for = LITE_RUNTIME;
+
+// empty .proto file;
+// contains only comments

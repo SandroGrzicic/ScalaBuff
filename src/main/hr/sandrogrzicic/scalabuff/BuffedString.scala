@@ -6,7 +6,7 @@ package hr.sandrogrzicic.scalabuff
  */
 
 class BuffedString(str: String) {
-	lazy val camelCaseRegex = """_(\w)""".r
+	protected val camelCaseRegex = """_(\w)""".r
 	/**
 	 * CamelCases the string.
 	 */

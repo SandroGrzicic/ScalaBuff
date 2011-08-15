@@ -16,17 +16,23 @@ case class PackageStatement(packageName: String) extends Node
 
 case class Option(key: String, value: String) extends Node
 
-case class Message(name: String, body: List[Node]) extends Node
+case class MessageBody(
+		fields: List[Field], enums: List[EnumStatement], messages: List[Message],
+		extensionRanges: List[ExtensionRanges], extensions: List[Extension],
+ 		groups: List[Group], options: List[Option]
+)
 
-case class Extension(name: String, body: List[Node]) extends Node
+case class Message(name: String, body: MessageBody) extends Node
 
-case class Extensions(list: List[ExtensionRange]) extends Node
+case class Extension(name: String, body: MessageBody) extends Node
+
+case class ExtensionRanges(list: List[ExtensionRange]) extends Node
 
 case class ExtensionRange(from: Int, to: Int = -1) extends Node
 
-case class Group(label: String, name: String, number: Int, body: List[Node]) extends Node
+case class Group(label: String, name: String, number: Int, body: MessageBody) extends Node
 
-case class Field(label: String, fieldType: String, name: String, number: Int, fOptions: List[Option]) extends Node
+case class Field(label: String, fType: String, name: String, number: Int, options: List[Option]) extends Node
 
 case class EnumStatement(name: String, constants: List[EnumConstant], options: List[Option]) extends Node
 

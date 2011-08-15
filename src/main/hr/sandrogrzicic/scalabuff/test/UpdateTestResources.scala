@@ -57,7 +57,7 @@ object UpdateTestResources {
 				val outGenerated = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(oldFileGenerated), "utf-8"))
 				try {
 					// ignore package file path
-					outGenerated.write(Generator(parsed, file.getName).body)
+					outGenerated.write(Generator(parsed, file.getName, file).body)
 				} finally {
 					outGenerated.close()
 				}

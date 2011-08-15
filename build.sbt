@@ -19,3 +19,5 @@ scalaSource in Test <<= baseDirectory(_ / "src/test")
 classDirectory in Compile <<= baseDirectory(_ / "bin/main")
 
 classDirectory in Test <<= baseDirectory(_ / "bin/test")
+
+logLevel := Level.Info

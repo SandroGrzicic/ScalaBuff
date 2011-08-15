@@ -3,5 +3,16 @@
 
 package proto
 
-case class Packages() {
+object Packages {
+	trait PackagesOrBuilder extends com.google.protobuf.MessageLiteOrBuilder {
+
+	}
+
+	case class Packages() extends com.google.protobuf.GeneratedMessageLite with PackagesOrBuilder {
+	}
+
+
+	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
+	}
+
 }

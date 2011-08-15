@@ -3,6 +3,8 @@ package hr.sandrogrzicic.scalabuff
 import util.parsing.combinator._
 import util.parsing.input.{PagedSeqReader, CharSequenceReader}
 import collection.immutable.PagedSeq
+import collection.mutable.ListBuffer
+import annotation.tailrec
 
 /**
  * Main Protobuf parser.
@@ -13,14 +15,43 @@ class Parser(filename: String) extends RegexParsers with ImplicitConversions wit
 	// skip C/C++ style comments and whitespace.
 	override protected val whiteSpace = """((/\*(?:.|\r|\n)*?\*/)|//.*|\s+)+""".r
 
-	lazy val protoParser: PackratParser[List[Node]] = ((message | extendP | enumP | importP | packageP | option) *)
+	lazy val protoParser: PackratParser[List[Node]] = ((message | extension | enumP | importP | packageP | option) *)
 
 	lazy val message: PackratParser[Message] = "message" ~> identifier ~ messageBody ^^ {
 		case name ~ body => Message(name, body)
 	}
 
-	lazy val extendP: PackratParser[Extension] = ("extend" ~> userType ~ ("{" ~> (((field <~ ";") | group) *) <~ "}")) ^^ {
-		case name ~ body => Extension(name, body.filter(_.isInstanceOf[Node]))
+	def parseBody(body: List[Node]): MessageBody = {
+		implicit def bufferToList[T](l: ListBuffer[T]) = l.toList
+
+		val fields = ListBuffer[Field]()
+		val enums = ListBuffer[EnumStatement]()
+		val messages = ListBuffer[Message]()
+		val groups = ListBuffer[Group]()
+		val extensionRanges = ListBuffer[ExtensionRanges]()
+		val options = ListBuffer[Option]()
+		val extensions = ListBuffer[Extension]()
+
+		for (node <- body) node match {
+			case n: Field => fields += n
+			case n: EnumStatement => enums += n
+			case n: Message => messages += n //Message(n.name, parseBody(n.body))
+			case n: Group => groups += n
+			case n: ExtensionRanges => extensionRanges += n
+			case n: Option => options += n
+			case n: Extension => extensions += n
+			case _ => require(false, "Impossible node type found.")
+		}
+
+		MessageBody(fields, enums, messages, extensionRanges, extensions, groups, options)
+	}
+
+	lazy val messageBody: PackratParser[MessageBody] = ("{" ~> ((field | enumP | message | extension | extensionRanges | group | option) *) <~ "}") ^^ {
+		body => parseBody(body)
+	}
+
+	lazy val extension: PackratParser[Extension] = ("extend" ~> userType ~ ("{" ~> (((field <~ ";") | group) *) <~ "}")) ^^ {
+		case name ~ body => Extension(name, parseBody(body.filter(_.isInstanceOf[Node])))
 	}
 
 	lazy val enumP: PackratParser[EnumStatement] = ("enum" ~> identifier <~ "{" ) ~ ((option | enumField | ";") *) <~ "}" <~ (";" ?) ^^ {
@@ -51,8 +82,6 @@ class Parser(filename: String) extends RegexParsers with ImplicitConversions wit
 		case gLabel ~ name ~ number ~ body => Group(gLabel, name, number.toInt, body)
 	}
 
-	lazy val messageBody: PackratParser[List[Node]] = "{" ~> ((field | enumP | message | extendP | extensions | group | option) *) <~ "}"
-
 	lazy val field: PackratParser[Field] = label ~ fieldType ~ (identifier <~ "=") ~ integerConstant ~
 		(("[" ~> fieldOption ~ (("," ~ fieldOption) *) <~ "]") ?) <~ ";" ^^ {
 		case fLabel ~ fType ~ name ~ number ~ options => Field(fLabel, fType, name, number.toInt, options match {
@@ -77,10 +106,10 @@ class Parser(filename: String) extends RegexParsers with ImplicitConversions wit
 		case dot ~ ident ~ idents => dot.getOrElse("") + ident + idents.mkString
 	}
 
-	lazy val extensions: PackratParser[Extensions] = "extensions" ~> extension ~ (("," ~ extension) *) <~ ";" ^^ {
-		case ext ~ exts => Extensions(List(ext) ++ exts.map(e => e._2))
+	lazy val extensionRanges: PackratParser[ExtensionRanges] = "extensions" ~> extensionRange ~ (("," ~ extensionRange) *) <~ ";" ^^ {
+		case ext ~ exts => ExtensionRanges(List(ext) ++ exts.map(e => e._2))
 	}
-	lazy val extension: PackratParser[ExtensionRange] = integerConstant ~ (("to" ~> (integerConstant | "max")) ?) ^^ {
+	lazy val extensionRange: PackratParser[ExtensionRange] = integerConstant ~ (("to" ~> (integerConstant | "max")) ?) ^^ {
 		case from ~ to => to match {
 			case Some(int) => int match {
 				case "max" => ExtensionRange(from.toInt)

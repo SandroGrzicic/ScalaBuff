@@ -6,7 +6,7 @@ message DataTypes {
 	optional sint32 varint5 = 5;
 	optional sint64 varint6 = 6;
 	optional bool varint7 = 7;
-	enum varint8 {
+	enum Varint8Enum {
         ENUM_ZERO = 0;
         ENUM_ONE = 1;
         option (this_is_an_enum) = true;
@@ -19,8 +19,8 @@ message DataTypes {
 	optional string length_delim1 = 200;
 	optional bytes length_delim2 = 201;
 	optional Embedded length_delim3 = 202;
-	repeated rep length_delim4 = 204;
-	repeated packed length_delim5 = 203 [packed=true];
+	repeated int32 length_delim4 = 204;
+	repeated int32 length_delim5 = 203 [packed=true];
 
 	optional fixed32 _32bit1 = 500;
 	optional sfixed32 _32bit2 = 501;

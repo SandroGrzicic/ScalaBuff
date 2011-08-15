@@ -28,7 +28,7 @@ object ScalaBuff {
 			case e => throw e
 		}
 
-		Generator(Parser(reader), resourcePath.dropUntilLast('/'))
+		Generator(Parser(reader), resourcePath.dropUntilLast('/'), reader)
 	}
 
 	/**
