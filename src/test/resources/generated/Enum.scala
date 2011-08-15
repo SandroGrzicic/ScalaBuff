@@ -16,7 +16,8 @@ object Enum {
 			case 2 => KEYBOARD
 		}
 
-		val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {			def findValueByNumber(id: Int): EnumVal = valueOf(id)
+		val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {
+			def findValueByNumber(id: Int): EnumVal = valueOf(id)
 		}
 	}
 
