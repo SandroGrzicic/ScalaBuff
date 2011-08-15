@@ -2,6 +2,7 @@ package hr.sandrogrzicic.scalabuff.runtime
 
 /**
  * Viktor Klang's Enum, modified for ScalaBuff for protobuf usage
+ * Source: https://gist.github.com/1057513/
  */
 trait Enum {
 
