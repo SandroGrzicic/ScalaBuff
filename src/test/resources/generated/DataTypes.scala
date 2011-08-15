@@ -78,7 +78,7 @@ object DataTypes {
 		}
 
 		val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[Varint8Enum] {
-			def findValueByNumber(id: Int) = valueOf(id)
+			def findValueByNumber(id: Int): EnumVal = valueOf(id)
 		}
 	}
 
