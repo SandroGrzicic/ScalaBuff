@@ -73,8 +73,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 			}
 			out.append(indent).append("}\n\n")
 			// internalGetValueMap
-			out.append(indent).append("val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[")
-				.append(enum.name).append("] {\n")
+			out.append(indent).append("val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {")
 				.append(indent).append("\tdef findValueByNumber(id: Int): EnumVal = valueOf(id)\n")
 				.append(indent).append("}\n")
 
