@@ -17,7 +17,6 @@ class Generator protected(sourceName: String, reader: Reader) {
 
 	var packageName: String = ""
 	var className: String = sourceName.takeUntilFirst('.').camelCase
-	var parameters: String = ""
 
 	/**
 	 * Converts a .proto field type to a valid Java type.
@@ -170,7 +169,8 @@ class Generator protected(sourceName: String, reader: Reader) {
 			}
 		}
 
-		// traverse the tree first, so we can get outer object-level data, such as class/package names
+
+		// traverse the tree now, so we can get class/package names, options, etc.
 		val generated = traverse(tree)
 
 		val output = StringBuilder.newBuilder
