@@ -8,10 +8,17 @@ package hr.sandrogrzicic.scalabuff
 class BuffedString(str: String) {
 	protected val camelCaseRegex = """_(\w)""".r
 	/**
-	 * CamelCases the string.
+	 * CamelCases the string, with the first letter uppercased.
 	 */
 	def camelCase = {
-		camelCaseRegex.replaceAllIn(str, m => m.matched.tail.toUpperCase).capitalize
+		lowerCamelCase.capitalize
+	}
+
+	/**
+	 * camelCases the string, leaving the first letter lowercased.
+	 */
+	def lowerCamelCase = {
+		camelCaseRegex.replaceAllIn(str, m => m.matched.tail.toUpperCase)
 	}
 
 	/**
@@ -48,4 +55,11 @@ class BuffedString(str: String) {
 		if (fromPos > toPos) ""
 		str.substring(fromPos, toPos)
 	}
+}
+
+object BuffedString {
+	/**
+	 * Generates as much tabs as there are indent levels.
+	 */
+	def indent(indentLevel: Int) = "\t" * indentLevel
 }
