@@ -8,9 +8,9 @@ trait Enum {
 
 	import java.util.concurrent.atomic.AtomicReference
 
-	type EnumVal <: Value //This is a type that needs to be found in the implementing class
+	type EnumVal <: Value
 
-	private val _values = new AtomicReference(Vector[EnumVal]()) //Stores our enum values
+	private val _values = new AtomicReference(Vector[EnumVal]())
 
 	/**
 	 * Add an EnumVal to our storage, using CCAS to make sure it's thread safe, returns the ordinal.
@@ -27,22 +27,25 @@ trait Enum {
 	 */
 	def values: Vector[EnumVal] = _values.get
 
-
-	//This is the trait that we need to extend our EnumVal type with, it does the book-keeping for us
 	protected trait Value extends com.google.protobuf.Internal.EnumLite {
 		self: EnumVal => // Enforce that no one mixes in Value in a non-EnumVal type
 		final val ordinal = addEnumVal(this) // Adds the EnumVal and returns the ordinal
 
-		// proto enum name
-		def name: String
 		// proto enum value
 		def id: Int
+		// proto enum name
+		def name: String
 		val getNumber = id
 
 		override def toString = name
-		override def equals(other: Any) = this eq other.asInstanceOf[AnyRef]
-
-		override def hashCode = 31 * (this.getClass.## + name.## + ordinal)
+		/**
+		 * Enum Values with identical values are equal.
+		 */
+		override def equals(other: Any) = other.isInstanceOf[Value] && this.id == other.asInstanceOf[Value].id
+		/**
+		 * Enum Values with identical values return the same hashCode.
+		 */
+		override def hashCode = 31 * (this.getClass.## + name.## + id)
 	}
 
 }
