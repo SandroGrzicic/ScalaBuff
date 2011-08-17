@@ -18,32 +18,27 @@ class Generator protected(sourceName: String, reader: Reader) {
 	var packageName: String = ""
 	var className: String = sourceName.takeUntilFirst('.').camelCase
 
-	var optimizeForSpeed = true
-
-
 	/**
-	 * Converts a .proto field type to a valid Java type.
+	 * Whether to optimize the resultant class for speed (true) or for code size (false). True by default.
 	 */
-	def fieldType(fType: String) = fType match {
-		case "int32" | "uint32" | "sint32" | "fixed32" | "sfixed32" => "Int"
-		case "int64" | "uint64" | "sint64" | "fixed64" | "sfixed64" => "Long"
-		case "bool" => "Boolean"
-		case "float" => "Float"
-		case "double" => "Double"
-		case "bytes" => "Array[Byte]"
-		case "string" => "String"
-		case other => other
-	}
+	var optimizeForSpeed = true
 
 	/**
 	 * Generates the Scala class code.
 	 */
+
 	protected def generate(tree: List[Node]) = {
+
+
+		// *******************
+		//   utility methods
+		// *******************
+
 		/**
-		 * EnumStatement -> Enumeration
+		 * Enum generation
 		 */
 		def enum(enum: EnumStatement, indentLevel: Int = 0) = {
-			val indentOuter = "\t" * (indentLevel + 1)
+			val indentOuter = BuffedString.indent(indentLevel + 1)
 			val indent = indentOuter + "\t"
 
 			val out = StringBuilder.newBuilder
@@ -53,7 +48,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 				.append(indent).append("\t\n")
 
 			for (enumOption <- enum.options) {
-				// options support?
+				// options?
 			}
 			// declaration of constants
 			for (const <- enum.constants) {
@@ -92,71 +87,104 @@ class Generator protected(sourceName: String, reader: Reader) {
 			out.mkString
 		}
 
-
 		/**
-		 * Traverse the message sub-tree, using recursion on nested messages.
+		 * Message generation, recurses for nested messages.
 		 * Not tail-recursive, but shouldn't cause stack overflows on sane nesting levels.
 		 */
 		def message(name: String, body: MessageBody, indentLevel: Int = 0): String = {
-			val indentOuter = "\t" * (indentLevel + 1)
+			val indentOuter = BuffedString.indent(indentLevel + 1)
 			val indent = indentOuter + "\t"
+
+			val fields = body.fields
+
+			/**
+			 * Returns a nicely formatted list of fields, used in the constructor, apply(), copy(), etc.
+			 */
+			def fieldsList(appendDefaultValue: Boolean) = {
+				val indentPlus = indent + "\t"
+				if (!fields.isEmpty) {
+					val o = StringBuilder.newBuilder
+					fields.foreach { f =>
+					    o.append("\n").append(indentPlus).append(f.name.lowerCamelCase).append(": ").append(f.fType)
+						if (appendDefaultValue) o.append(" = ").append(f.fType.defaultValue)
+						o.append(", \n")
+					}
+					o.setLength(o.length - 3)
+					o.append("\n").append(indent)
+						.mkString
+				} else {
+					""
+				}
+			}
 
 			body.options.foreach {
 				case Option(key, value) => // ignored: no options supported yet
 			}
-
 			body.extensionRanges.foreach {
 				case ExtensionRanges(extensionRanges) => // not supported yet
 			}
 
+
 			val out = StringBuilder.newBuilder
 
-			// builder
+			// trait
 			out
 				.append(indentOuter).append("trait ").append(name)
-				.append("OrBuilder extends com.google.protobuf.MessageLiteOrBuilder {\n\n")
-			for (field <- body.fields) {
-				out
-					.append(indent).append("def has").append(field.name.camelCase).append(": Boolean\n")
-					.append(indent).append("def get").append(field.name.camelCase)
-					.append(": ").append(fieldType(field.fType)).append("\n")
-					.append("\n")
+				.append("OrBuilder extends com.google.protobuf.MessageLiteOrBuilder {\n")
+			fields.foreach { // has methods for all fields
+				field =>
+				out.append(indent).append("def has").append(field.name.camelCase).append(": Boolean\n")
 			}
 			out.append(indentOuter).append("}\n\n")
 
-			// case class
+			// class
 			out
-				.append(indentOuter).append("case class ").append(name).append("(")
+				.append(indentOuter).append("final class ").append(name).append(" private (").append(fieldsList(false))
 				.append(") extends com.google.protobuf.GeneratedMessageLite with ")
 				.append(name).append("OrBuilder {\n")
-
-				// to do: case class body
-
 			out.append(indentOuter).append("}\n\n")
 
 			// object
 			out
 				.append(indentOuter).append("object ").append(name).append(" {\n")
-			    .append(indent).append("final val defaultInstance = new ").append(name).append("(true)\n")
-				.append(indent).append("defaultInstance.initFields()").append("\n")
-				.append(indent).append().append("\n")
-				.append(indent).append().append("\n")
-				.append(indent).append().append("\n")
-			out.append(indentOuter).append("}\n")
 
+				// apply
+				.append(indent).append("def apply(").append(fieldsList(true)).append(") = {\n")
 
-			body.enums.foreach {
-				e => out.append(enum(e, indentLevel)).append("\n")
+				.append(indent).append("}\n")
+			    .append(indent).append("val defaultInstance = apply()\n")
+				.append(indent).append("def getDefaultInstance = defaultInstance\n")
+
+			body.fields.foreach {  // field number integer constants
+				field => out.append(indent)
+					.append("val ").append(field.name.toUpperCase)
+					.append("_FIELD_NUMBER = ").append(field.number).append("\n")
 			}
+
+//			out
+//				.append(indent).append("").append("\n")
+//				.append(indent).append("").append("\n")
+
+			// append any nested enums
+			body.enums.foreach {
+				e => out.append(enum(e, indentLevel + 1)).append("\n")
+			}
+
+			// append any nested groups
 			body.groups.foreach {
 				case Group(label, nestedName, id, nestedBody) => // not supported yet (also, deprecated..)
 			}
+			// append any nested message extensions
 			body.extensions.foreach {
 				case Extension(nestedName, nestedBody) => // not supported yet
 			}
+			// append any nested messages
 			body.messages.foreach {
 				case Message(nestedName, nestedBody) => out.append(message(nestedName, nestedBody, indentLevel + 1))
 			}
+
+			// finalize object
+			out.append(indentOuter).append("}\n")
 
 			out.mkString
 		}
@@ -195,33 +223,32 @@ class Generator protected(sourceName: String, reader: Reader) {
 			}
 		}
 
-
-		// traverse the tree now, so we can get class/package names, options, etc.
+		// traverse the tree, so we can get class/package names, options, etc.
 		val generated = traverse(tree)
 
 		val output = StringBuilder.newBuilder
 
+		// header
 		output
 			.append("// Generated by ScalaBuff, the Scala protocol buffer compiler. DO NOT EDIT!\n")
 			.append("// source: ")
 			.append(sourceName)
 			.append("\n\n")
-
+		// package
 		if (!packageName.isEmpty)
 			output.append("package ").append(packageName).append("\n\n")
-
+		// begin outer object
 		output.append("object ").append(className).append(" {\n")
-
+		// inner classes, objects etc.
+		output.append(generated).append("\n")
+		// finalize outer object
 		output
-			.append(generated)
-			.append("\n\tdef registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {\n")
+			.append("\tdef registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {\n")
 			.append("\t}\n\n")
 			.append("}")
 
 		ScalaClass(output.mkString, packageName.replace('.', '/') + '/', className)
 	}
-
-
 }
 
 
