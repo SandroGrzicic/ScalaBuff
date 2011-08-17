@@ -30,9 +30,9 @@ case class ExtensionRanges(list: List[ExtensionRange]) extends Node
 
 case class ExtensionRange(from: Int, to: Int = -1) extends Node
 
-case class Group(label: String, name: String, number: Int, body: MessageBody) extends Node
+case class Group(label: FieldLabels.EnumVal, name: String, number: Int, body: MessageBody) extends Node
 
-case class Field(label: String, fType: String, name: String, number: Int, options: List[Option]) extends Node
+case class Field(label: FieldLabels.EnumVal, fType: FieldTypes.EnumVal, name: String, number: Int, options: List[Option]) extends Node
 
 case class EnumStatement(name: String, constants: List[EnumConstant], options: List[Option]) extends Node
 

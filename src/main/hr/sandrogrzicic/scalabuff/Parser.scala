@@ -79,12 +79,12 @@ class Parser(filename: String) extends RegexParsers with ImplicitConversions wit
 	}
 
 	lazy val group: PackratParser[Node] = (label <~ "group") ~ (camelCaseIdentifier <~ "=") ~ integerConstant ~ messageBody ^^ {
-		case gLabel ~ name ~ number ~ body => Group(gLabel, name, number.toInt, body)
+		case gLabel ~ name ~ number ~ body => Group(FieldLabels(gLabel), name, number.toInt, body)
 	}
 
 	lazy val field: PackratParser[Field] = label ~ fieldType ~ (identifier <~ "=") ~ integerConstant ~
 		(("[" ~> fieldOption ~ (("," ~ fieldOption) *) <~ "]") ?) <~ ";" ^^ {
-		case fLabel ~ fType ~ name ~ number ~ options => Field(fLabel, fType, name, number.toInt, options match {
+		case fLabel ~ fType ~ name ~ number ~ options => Field(FieldLabels(fLabel), FieldTypes(fType), name, number.toInt, options match {
 			case Some(fOpt ~ fOpts) => List(fOpt) ++ fOpts.map(e => e._2)
 			case None => List[Option]()
 		})
