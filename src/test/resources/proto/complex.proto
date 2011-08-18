@@ -1,11 +1,11 @@
 option optimize_for = LITE_RUNTIME;
 message ComplexMessage {
 	required bytes first_field = 1;
-	//enum SimpleEnum {
-	//   	KEY_NAME = 0;
-	//}
-	//message Nested {
-	//		required string nested_field = 1;
-	//}
-	//optional string second_field = 2 [default = "defaultValueForSecondField"];
+	enum SimpleEnum {
+	   	KEY_NAME = 0;
+	}
+	message Nested {
+			required string nested_field = 1;
+	}
+	optional string second_field = 2 [default = "defaultValueForSecondField"];
 }
