@@ -4,13 +4,12 @@ import util.parsing.combinator._
 import util.parsing.input.{PagedSeqReader, CharSequenceReader}
 import collection.immutable.PagedSeq
 import collection.mutable.ListBuffer
-import annotation.tailrec
 
 /**
  * Main Protobuf parser.
  * @author Sandro Gržičić
  */
-class Parser(filename: String) extends RegexParsers with ImplicitConversions with PackratParsers {
+class Parser(filename: String) extends RegexParsers with PackratParsers {
 
 	// skip C/C++ style comments and whitespace.
 	override protected val whiteSpace = """((/\*(?:.|\r|\n)*?\*/)|//.*|\s+)+""".r
@@ -19,31 +18,6 @@ class Parser(filename: String) extends RegexParsers with ImplicitConversions wit
 
 	lazy val message: PackratParser[Message] = "message" ~> identifier ~ messageBody ^^ {
 		case name ~ body => Message(name, body)
-	}
-
-	def parseBody(body: List[Node]): MessageBody = {
-		implicit def bufferToList[T](l: ListBuffer[T]) = l.toList
-
-		val fields = ListBuffer[Field]()
-		val enums = ListBuffer[EnumStatement]()
-		val messages = ListBuffer[Message]()
-		val groups = ListBuffer[Group]()
-		val extensionRanges = ListBuffer[ExtensionRanges]()
-		val options = ListBuffer[Option]()
-		val extensions = ListBuffer[Extension]()
-
-		for (node <- body) node match {
-			case n: Field => fields += n
-			case n: EnumStatement => enums += n
-			case n: Message => messages += n
-			case n: ExtensionRanges => extensionRanges += n
-			case n: Extension => extensions += n
-			case n: Group => groups += n
-			case n: Option => options += n
-			case _ => require(false, "Impossible node type found.")
-		}
-
-		MessageBody(fields, enums, messages, extensionRanges, extensions, groups, options)
 	}
 
 	lazy val messageBody: PackratParser[MessageBody] = ("{" ~> ((field | enumP | message | extension | extensionRanges | group | option) *) <~ "}") ^^ {
@@ -78,7 +52,7 @@ class Parser(filename: String) extends RegexParsers with ImplicitConversions wit
 		case ident ~ idents ~ value => Option(ident + idents.mkString, value)
 	}
 
-	lazy val group: PackratParser[Node] = (label <~ "group") ~ (camelCaseIdentifier <~ "=") ~ integerConstant ~ messageBody ^^ {
+	lazy val group: PackratParser[Group] = (label <~ "group") ~ (camelCaseIdentifier <~ "=") ~ integerConstant ~ messageBody ^^ {
 		case gLabel ~ name ~ number ~ body => Group(FieldLabels(gLabel), name, number.toInt, body)
 	}
 
@@ -143,6 +117,36 @@ class Parser(filename: String) extends RegexParsers with ImplicitConversions wit
 	lazy val octEscape: PackratParser[String] = memo("""\\0?[0-7]{1,3}""".r)
 	lazy val charEscape: PackratParser[String] = memo("""\\[abfnrtv\\\?'"]""".r)
 
+
+	/**
+	 * Parsing helper, parses the body of a Message or Extension.
+	 */
+	def parseBody(body: List[Node]): MessageBody = {
+
+		val fields = ListBuffer[Field]()
+		val enums = ListBuffer[EnumStatement]()
+		val messages = ListBuffer[Message]()
+		val groups = ListBuffer[Group]()
+		val extensionRanges = ListBuffer[ExtensionRanges]()
+		val options = ListBuffer[Option]()
+		val extensions = ListBuffer[Extension]()
+
+		for (node <- body) node match {
+			case n: Field => fields += n
+			case n: EnumStatement => enums += n
+			case n: Message => messages += n
+			case n: ExtensionRanges => extensionRanges += n
+			case n: Extension => extensions += n
+			case n: Group => groups += n
+			case n: Option => options += n
+			case _ => require(false, "Impossible node type found.")
+		}
+
+		MessageBody(
+			fields.toList, enums.toList, messages.toList,
+			extensionRanges.toList, extensions.toList, groups.toList, options.toList
+		)
+	}
 
 
 	/**
