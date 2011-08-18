@@ -9,23 +9,16 @@ import com.google.protobuf._
  * @author Sandro Gržičić
  */
 
-trait Message[MessageType] // extends MessageLite.Builder
+trait Message[MessageType <: MessageLite with MessageLite.Builder] extends MessageLite.Builder
 // can't just extend GeneratedMessageLite.Builder because it's a class (Java..)
 /* extends com.google.protobuf.GeneratedMessageLite.Builder[MessageType, MessageType] */ {
-	self =>
 
-	// methods that are implemented by the generated message
+	implicit def anyToOption[T](any: T) = Some[T](any)
 
 	def mergeFrom(message: MessageType): MessageType
-
 	def getDefaultInstanceForType: MessageType
-
 	def isInitialized: Boolean
-
 	def mergeFrom(input: CodedInputStream, extensionRegistry: ExtensionRegistryLite): MessageType
-
-
-	// helper methods that utilize the above methods
 
 	def mergeFrom(input: CodedInputStream): MessageType = mergeFrom(input, ExtensionRegistryLite.getEmptyRegistry)
 
