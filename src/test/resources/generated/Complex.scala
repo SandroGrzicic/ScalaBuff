@@ -2,31 +2,87 @@
 // source: complex.proto
 
 object Complex {
-	final class ComplexMessage private (
-		private var _firstField: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY, 
-		private var setFields: collection.BitSet = collection.BitSet.empty
+	final case class ComplexMessage (
+		firstField: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY,
+		secondField: Option[String] = None
 	) extends com.google.protobuf.GeneratedMessageLite
-		with com.google.protobuf.MessageLiteOrBuilder
 		with hr.sandrogrzicic.scalabuff.runtime.Message[ComplexMessage] {
-		def hasFirstField = setFields.contains(0)
+
+		def getSecondField = secondField.getOrElse("")
+
+		def writeTo(output: com.google.protobuf.CodedOutputStream) {
+			output.writeBytes(1, firstField)
+			secondField.foreach(output.writeString(2, _))
+		}
+		def mergeFrom(m: ComplexMessage) = {
+			ComplexMessage(
+				m.firstField,
+				m.secondField.orElse(secondField)
+			)
+		}
+
+		def getDefaultInstanceForType = ComplexMessage.defaultInstance
+		def clear = getDefaultInstanceForType
+		def isInitialized = true
+		def build = this
+		def buildPartial = this
+		def newBuilderForType = this
+		def toBuilder = this
 	}
 
 	object ComplexMessage {
-		def apply() = defaultInstance
-		def apply(message: ComplexMessage = defaultInstance.mergeFrom(message)
-		def apply(
-				firstField: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
-		) = {
-			val setFields = collection.mutable.BitSet.empty
-			new ComplexMessage(
-				firstField
-			)
-		}
-		val defaultInstance = new ComplexMessage()
+		@reflect.BeanProperty val defaultInstance = new ComplexMessage()
 		def getDefaultInstance = defaultInstance
 
 		val FIRST_FIELD_FIELD_NUMBER = 1
+		val SECOND_FIELD_FIELD_NUMBER = 2
 
+		object SimpleEnum extends hr.sandrogrzicic.scalabuff.runtime.Enum {
+			sealed trait EnumVal extends Value
+				
+			val KEY_NAME = new EnumVal { val name = "KEY_NAME"; val id = 0 }
+
+			val KEY_NAME_VALUE = 0
+
+			def valueOf(id: Int) = (id: @annotation.switch) match {
+				case 0 => KEY_NAME
+			}
+			val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {
+				def findValueByNumber(id: Int): EnumVal = valueOf(id)
+			}
+		}
+
+		final case class Nested (
+			nestedField: String = ""
+		) extends com.google.protobuf.GeneratedMessageLite
+			with hr.sandrogrzicic.scalabuff.runtime.Message[Nested] {
+
+
+			def writeTo(output: com.google.protobuf.CodedOutputStream) {
+				output.writeString(1, nestedField)
+			}
+			def mergeFrom(m: Nested) = {
+				Nested(
+					m.nestedField
+				)
+			}
+
+			def getDefaultInstanceForType = Nested.defaultInstance
+			def clear = getDefaultInstanceForType
+			def isInitialized = true
+			def build = this
+			def buildPartial = this
+			def newBuilderForType = this
+			def toBuilder = this
+		}
+
+		object Nested {
+			@reflect.BeanProperty val defaultInstance = new Nested()
+			def getDefaultInstance = defaultInstance
+
+			val NESTED_FIELD_FIELD_NUMBER = 1
+
+		}
 	}
 
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {

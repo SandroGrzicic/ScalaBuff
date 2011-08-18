@@ -2,93 +2,97 @@
 // source: dataTypes.proto
 
 object DataTypes {
-	final class DataTypes private (
-		private var _varint1: Int = 0, 
-		private var _varint2: Long = 0L, 
-		private var _varint3: Int = 0, 
-		private var _varint4: Long = 0L, 
-		private var _varint5: Int = 0, 
-		private var _varint6: Long = 0L, 
-		private var _varint7: Boolean = false, 
-		private var _f64bit1: Long = 0L, 
-		private var _f64bit2: Long = 0L, 
-		private var _f64bit3: Double = 0.0, 
-		private var _lengthDelim1: String = "", 
-		private var _lengthDelim2: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY, 
-		private var _lengthDelim3: Varint8Enum = null, 
-		private var _lengthDelim4: Vector[Int] = Vector.empty[Int], 
-		private var _lengthDelim5: Vector[Int] = Vector.empty[Int], 
-		private var _f32bit1: Int = 0, 
-		private var _f32bit2: Int = 0, 
-		private var _f32bit3: Float = 0.0f, 
-		private var setFields: collection.BitSet = collection.BitSet.empty
+	final case class DataTypes (
+		varint1: Int = 0,
+		varint2: Option[Long] = None,
+		varint3: Option[Int] = None,
+		varint4: Long = 0L,
+		varint5: Option[Int] = None,
+		varint6: Option[Long] = None,
+		varint7: Option[Boolean] = None,
+		f64bit1: Option[Long] = None,
+		f64bit2: Option[Long] = None,
+		f64bit3: Option[Double] = None,
+		lengthDelim1: Option[String] = None,
+		lengthDelim2: Option[com.google.protobuf.ByteString] = None,
+		lengthDelim3: Option[Varint8Enum] = None,
+		lengthDelim4: Vector[Int] = Vector.empty[Int],
+		lengthDelim5: Vector[Int] = Vector.empty[Int],
+		f32bit1: Option[Int] = None,
+		f32bit2: Option[Int] = None,
+		f32bit3: Option[Float] = None
 	) extends com.google.protobuf.GeneratedMessageLite
-		with com.google.protobuf.MessageLiteOrBuilder
 		with hr.sandrogrzicic.scalabuff.runtime.Message[DataTypes] {
-		def hasVarint1 = setFields.contains(0)
-		def hasVarint2 = setFields.contains(0)
-		def hasVarint3 = setFields.contains(0)
-		def hasVarint4 = setFields.contains(0)
-		def hasVarint5 = setFields.contains(0)
-		def hasVarint6 = setFields.contains(0)
-		def hasVarint7 = setFields.contains(0)
-		def hasF64bit1 = setFields.contains(0)
-		def hasF64bit2 = setFields.contains(0)
-		def hasF64bit3 = setFields.contains(0)
-		def hasLengthDelim1 = setFields.contains(0)
-		def hasLengthDelim2 = setFields.contains(0)
-		def hasLengthDelim3 = setFields.contains(0)
-		def hasF32bit1 = setFields.contains(0)
-		def hasF32bit2 = setFields.contains(0)
-		def hasF32bit3 = setFields.contains(0)
+
+		def getVarint2 = varint2.getOrElse(0L)
+		def getVarint3 = varint3.getOrElse(0)
+		def getVarint5 = varint5.getOrElse(0)
+		def getVarint6 = varint6.getOrElse(0L)
+		def getVarint7 = varint7.getOrElse(false)
+		def getF64bit1 = f64bit1.getOrElse(0L)
+		def getF64bit2 = f64bit2.getOrElse(0L)
+		def getF64bit3 = f64bit3.getOrElse(0.0)
+		def getLengthDelim1 = lengthDelim1.getOrElse("")
+		def getLengthDelim2 = lengthDelim2.getOrElse(com.google.protobuf.ByteString.EMPTY)
+		def getLengthDelim3 = lengthDelim3.getOrElse(null)
+		def getF32bit1 = f32bit1.getOrElse(0)
+		def getF32bit2 = f32bit2.getOrElse(0)
+		def getF32bit3 = f32bit3.getOrElse(0.0f)
+
+		def writeTo(output: com.google.protobuf.CodedOutputStream) {
+			output.writeInt32(1, varint1)
+			varint2.foreach(output.writeInt64(2, _))
+			varint3.foreach(output.writeUint32(3, _))
+			output.writeUint64(4, varint4)
+			varint5.foreach(output.writeSint32(5, _))
+			varint6.foreach(output.writeSint64(6, _))
+			varint7.foreach(output.writeBool(7, _))
+			f64bit1.foreach(output.writeFixed64(100, _))
+			f64bit2.foreach(output.writeSfixed64(101, _))
+			f64bit3.foreach(output.writeDouble(102, _))
+			lengthDelim1.foreach(output.writeString(200, _))
+			lengthDelim2.foreach(output.writeBytes(201, _))
+			lengthDelim3.foreach(output.writeVarint8Enum(202, _))
+			lengthDelim4.foreach(output.writeInt32(204, _))
+			lengthDelim5.foreach(output.writeInt32(203, _))
+			f32bit1.foreach(output.writeFixed32(500, _))
+			f32bit2.foreach(output.writeSfixed32(501, _))
+			f32bit3.foreach(output.writeFloat(502, _))
+		}
+		def mergeFrom(m: DataTypes) = {
+			DataTypes(
+				m.varint1,
+				m.varint2.orElse(varint2),
+				m.varint3.orElse(varint3),
+				m.varint4,
+				m.varint5.orElse(varint5),
+				m.varint6.orElse(varint6),
+				m.varint7.orElse(varint7),
+				m.f64bit1.orElse(f64bit1),
+				m.f64bit2.orElse(f64bit2),
+				m.f64bit3.orElse(f64bit3),
+				m.lengthDelim1.orElse(lengthDelim1),
+				m.lengthDelim2.orElse(lengthDelim2),
+				m.lengthDelim3.orElse(lengthDelim3),
+				lengthDelim4 ++ m.lengthDelim4,
+				lengthDelim5 ++ m.lengthDelim5,
+				m.f32bit1.orElse(f32bit1),
+				m.f32bit2.orElse(f32bit2),
+				m.f32bit3.orElse(f32bit3)
+			)
+		}
+
+		def getDefaultInstanceForType = DataTypes.defaultInstance
+		def clear = getDefaultInstanceForType
+		def isInitialized = true
+		def build = this
+		def buildPartial = this
+		def newBuilderForType = this
+		def toBuilder = this
 	}
 
 	object DataTypes {
-		def apply() = defaultInstance
-		def apply(message: DataTypes = defaultInstance.mergeFrom(message)
-		def apply(
-				varint1: Int = 0,
-				varint2: Option[Long] = None,
-				varint3: Option[Int] = None,
-				varint4: Long = 0L,
-				varint5: Option[Int] = None,
-				varint6: Option[Long] = None,
-				varint7: Option[Boolean] = None,
-				f64bit1: Option[Long] = None,
-				f64bit2: Option[Long] = None,
-				f64bit3: Option[Double] = None,
-				lengthDelim1: Option[String] = None,
-				lengthDelim2: Option[com.google.protobuf.ByteString] = None,
-				lengthDelim3: Option[Varint8Enum] = None,
-				lengthDelim4: Vector[Int] = Vector.empty[Int],
-				lengthDelim5: Vector[Int] = Vector.empty[Int],
-				f32bit1: Option[Int] = None,
-				f32bit2: Option[Int] = None,
-				f32bit3: Option[Float] = None
-		) = {
-			val setFields = collection.mutable.BitSet.empty
-			new DataTypes(
-				varint1,
-				varint2.getOrElse(0L),
-				varint3.getOrElse(0),
-				varint4,
-				varint5.getOrElse(0),
-				varint6.getOrElse(0L),
-				varint7.getOrElse(false),
-				f64bit1.getOrElse(0L),
-				f64bit2.getOrElse(0L),
-				f64bit3.getOrElse(0.0),
-				lengthDelim1.getOrElse(""),
-				lengthDelim2.getOrElse(com.google.protobuf.ByteString.EMPTY),
-				lengthDelim3.getOrElse(null),
-				lengthDelim4,
-				lengthDelim5,
-				f32bit1.getOrElse(0),
-				f32bit2.getOrElse(0),
-				f32bit3.getOrElse(0.0f)
-			)
-		}
-		val defaultInstance = new DataTypes()
+		@reflect.BeanProperty val defaultInstance = new DataTypes()
 		def getDefaultInstance = defaultInstance
 
 		val VARINT1_FIELD_NUMBER = 1

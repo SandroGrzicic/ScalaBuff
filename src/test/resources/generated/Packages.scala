@@ -4,17 +4,29 @@
 package proto
 
 object Packages {
-	final class Packages private (
-		private var setFields: collection.BitSet = collection.BitSet.empty
+	final case class Packages 
 	) extends com.google.protobuf.GeneratedMessageLite
-		with com.google.protobuf.MessageLiteOrBuilder
 		with hr.sandrogrzicic.scalabuff.runtime.Message[Packages] {
+
+
+		def writeTo(output: com.google.protobuf.CodedOutputStream) {
+		}
+		def mergeFrom(m: Packages) = {
+			Packages
+			)
+		}
+
+		def getDefaultInstanceForType = Packages.defaultInstance
+		def clear = getDefaultInstanceForType
+		def isInitialized = true
+		def build = this
+		def buildPartial = this
+		def newBuilderForType = this
+		def toBuilder = this
 	}
 
 	object Packages {
-		def apply() = defaultInstance
-		def apply(message: Packages = defaultInstance.mergeFrom(message)
-		val defaultInstance = new Packages()
+		@reflect.BeanProperty val defaultInstance = new Packages()
 		def getDefaultInstance = defaultInstance
 
 

@@ -1,8 +1,8 @@
 package hr.sandrogrzicic.scalabuff
 
-import collection.mutable.{ListBuffer, StringBuilder}
 import annotation.tailrec
 import java.io._
+import collection.mutable.{HashMap, ListBuffer, StringBuilder}
 
 /**
  * Scala class generator.
@@ -91,20 +91,13 @@ class Generator protected(sourceName: String, reader: Reader) {
 		 * Not tail-recursive, but shouldn't cause stack overflows on sane nesting levels.
 		 */
 		def message(name: String, body: MessageBody, indentLevel: Int = 0): String = {
+			import FieldLabels._
 			val indent0 = BuffedString.indent(indentLevel + 1)
 			val indent1 = indent0 + "\t"
 			val indent2 = indent1 + "\t"
 			val indent3 = indent2 + "\t"
 
 			val fields = body.fields
-
-			/**
-			 * Returns the field ID based on the field number.
-			 */
-			def fieldID(fieldNumber: Int) = {
-				0
-
-			}
 
 			body.options.foreach {
 				case Option(key, value) => // ignored: no options supported yet
@@ -113,84 +106,91 @@ class Generator protected(sourceName: String, reader: Reader) {
 				case ExtensionRanges(extensionRanges) => // not supported yet
 			}
 
-
 			val out = StringBuilder.newBuilder
 
-			// class
+			// case class
 			out
-				.append(indent0).append("final class ").append(name).append(" private (\n")
+				.append(indent0).append("final case class ").append(name).append(" (\n")
 			fields.foreach { field =>
-			    out.append(indent1).append("private var _").append(field.name.lowerCamelCase).append(": ")
-				if (field.label == FieldLabels.REPEATED) out.append("Vector[")
-				out.append(field.fType.scalaType)
-				if (field.label == FieldLabels.REPEATED) out.append("]")
-				out.append(" = ")
+			    // constructor
+				out.append(indent1).append(field.name.lowerCamelCase).append(": ")
 				field.label match {
-					case FieldLabels.REPEATED => out.append("Vector.empty[").append(field.fType.scalaType).append("]")
-					case _ => out.append(field.fType.defaultValue)
+					case REQUIRED => out.append(field.fType.scalaType).append(" = ").append(field.fType.defaultValue).append(",\n")
+					case OPTIONAL => out.append("Option[").append(field.fType.scalaType).append("] = None,\n")
+					case REPEATED => out.append("Vector[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
+					case _ => // weird warning - missing combination <local child> ?!
 				}
-				out.append(", \n")
 			}
-			out
-				.append(indent1).append("private var setFields: collection.BitSet = collection.BitSet.empty\n")
+			out.length -= 2
+			out.append("\n")
 				.append(indent0).append(") extends com.google.protobuf.GeneratedMessageLite\n")
-				.append(indent1).append("with com.google.protobuf.MessageLiteOrBuilder\n")
-				.append(indent1).append("with hr.sandrogrzicic.scalabuff.runtime.Message[").append(name).append("] {\n")
-			fields.foreach { field =>
-				if (field.label != FieldLabels.REPEATED)
-					out.append(indent1)
-						.append("def has").append(field.name.camelCase)
-						.append(" = setFields.contains(").append(fieldID(field.number)).append(")\n")
+				.append(indent1).append("with hr.sandrogrzicic.scalabuff.runtime.Message[").append(name).append("] {\n\n")
+			fields.filter(_.label == OPTIONAL).foreach { field =>
+				// getters for optional fields
+				out.append(indent1)
+					.append("def get").append(field.name.camelCase).append(" = ").append(field.name.lowerCamelCase)
+					.append(".getOrElse(").append(field.fType.defaultValue).append(")\n")
 			}
+
+			out.append("\n").append(indent1).append("def writeTo(output: com.google.protobuf.CodedOutputStream) {\n")
+			fields.foreach { field =>
+				field.label match {
+					case REQUIRED => out.append(indent2)
+						.append("output.write").append(field.fType.name.capitalize).append("(")
+						.append(field.number).append(", ").append(field.name.lowerCamelCase).append(")\n")
+					case OPTIONAL => out.append(indent2)
+						.append(field.name.lowerCamelCase).append(".foreach(")
+						.append("output.write").append(field.fType.name.capitalize).append("(")
+						.append(field.number).append(", _))\n")
+					case REPEATED => out.append(indent2)
+						.append(field.name.lowerCamelCase).append(".foreach(")
+						.append("output.write").append(field.fType.name.capitalize).append("(")
+						.append(field.number).append(", _))\n")
+				}
+			}
+			out.append(indent1).append("}")
+
+			out.append("\n").append(indent1).append("def mergeFrom(m: ").append(name).append(") = {\n")
+				.append(indent2).append(name).append("(\n")
+			fields.foreach { field =>
+				field.label match {
+					case REQUIRED => out.append(indent3)
+						.append("m.").append(field.name.lowerCamelCase).append(",\n")
+					case OPTIONAL => out.append(indent3)
+						.append("m.").append(field.name.lowerCamelCase).append(".orElse(")
+						.append(field.name.lowerCamelCase).append("),\n")
+					case REPEATED => out.append(indent3)
+						.append(field.name.lowerCamelCase).append(" ++ ")
+						.append("m.").append(field.name.lowerCamelCase).append(",\n")
+				}
+			}
+			out.length -= 2
+			out.append("\n").append(indent2).append(")\n")
+			out.append(indent1).append("}\n")
+
+			out.append("\n")
+				.append(indent1).append("def getDefaultInstanceForType = ").append(name).append(".defaultInstance\n")
+				.append(indent1).append("def clear = getDefaultInstanceForType\n")
+				.append(indent1).append("def isInitialized = true\n")
+				.append(indent1).append("def build = this\n")
+				.append(indent1).append("def buildPartial = this\n")
+				.append(indent1).append("def newBuilderForType = this\n")
+				.append(indent1).append("def toBuilder = this\n")
+
 			out.append(indent0).append("}\n\n")
 
-			// object
+			// companion object
 			out.append(indent0).append("object ").append(name).append(" {\n")
-
-				// apply
-				.append(indent1).append("def apply() = defaultInstance\n")
-				.append(indent1).append("def apply(message: ").append(name).append(" = defaultInstance.mergeFrom(message)\n")
-			if (!fields.isEmpty) {
-				out.append(indent1).append("def apply(\n")
-				fields.foreach {
-					field =>
-						out.append(indent2).append("\t").append(field.name.lowerCamelCase).append(": ")
-						field.label match {
-							case FieldLabels.REQUIRED => out.append(field.fType.scalaType).append(" = ").append(field.fType.defaultValue).append(",\n")
-							case FieldLabels.OPTIONAL => out.append("Option[").append(field.fType.scalaType).append("] = None,\n")
-							case FieldLabels.REPEATED => out.append("Vector[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
-							case _ => // weird warning - missing combination <local child> ?!
-						}
-				}
-				out.length -= 2
-				out.append("\n").append(indent1).append(") = {\n")
-					.append(indent2).append("val setFields = collection.mutable.BitSet.empty\n")
-					.append(indent2).append("new ").append(name).append("(\n")
-				fields.foreach {
-					field =>
-						out.append(indent3).append(field.name.lowerCamelCase)
-						if (field.label == FieldLabels.OPTIONAL) out.append(".getOrElse(").append(field.fType.defaultValue).append(")")
-						out.append(",\n")
-				}
-				out.length -= 2
-				out.append("\n")
-					.append(indent2).append(")\n")
-					.append(indent1).append("}\n")
-			}
-			out
-				.append(indent1).append("val defaultInstance = new ").append(name).append("()\n")
+				.append(indent1).append("@reflect.BeanProperty val defaultInstance = new ").append(name).append("()\n")
 				.append(indent1).append("def getDefaultInstance = defaultInstance\n")
-				.append("\n")
 
-			body.fields.foreach {  // field number integer constants
-				field => out.append(indent1)
+			out.append("\n")
+			fields.foreach { field =>
+				// field number integer constants
+				out.append(indent1)
 					.append("val ").append(field.name.toUpperCase)
 					.append("_FIELD_NUMBER = ").append(field.number).append("\n")
 			}
-
-//			out
-//				.append(indent).append("").append("\n")
-//				.append(indent).append("").append("\n")
 
 			out.append("\n")
 			// append any nested enums

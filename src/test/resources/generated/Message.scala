@@ -2,17 +2,29 @@
 // source: message.proto
 
 object Message {
-	final class EmptyMessage private (
-		private var setFields: collection.BitSet = collection.BitSet.empty
+	final case class EmptyMessage 
 	) extends com.google.protobuf.GeneratedMessageLite
-		with com.google.protobuf.MessageLiteOrBuilder
 		with hr.sandrogrzicic.scalabuff.runtime.Message[EmptyMessage] {
+
+
+		def writeTo(output: com.google.protobuf.CodedOutputStream) {
+		}
+		def mergeFrom(m: EmptyMessage) = {
+			EmptyMessage
+			)
+		}
+
+		def getDefaultInstanceForType = EmptyMessage.defaultInstance
+		def clear = getDefaultInstanceForType
+		def isInitialized = true
+		def build = this
+		def buildPartial = this
+		def newBuilderForType = this
+		def toBuilder = this
 	}
 
 	object EmptyMessage {
-		def apply() = defaultInstance
-		def apply(message: EmptyMessage = defaultInstance.mergeFrom(message)
-		val defaultInstance = new EmptyMessage()
+		@reflect.BeanProperty val defaultInstance = new EmptyMessage()
 		def getDefaultInstance = defaultInstance
 
 

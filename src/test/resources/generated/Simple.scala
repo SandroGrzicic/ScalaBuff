@@ -2,34 +2,39 @@
 // source: simple.proto
 
 object Simple {
-	final class SimpleTest private (
-		private var _requiredField: Int = 0, 
-		private var _optionalField: Float = 0.0f, 
-		private var _repeatedField: Vector[String] = Vector.empty[String], 
-		private var setFields: collection.BitSet = collection.BitSet.empty
+	final case class SimpleTest (
+		requiredField: Int = 0,
+		optionalField: Option[Float] = None,
+		repeatedField: Vector[String] = Vector.empty[String]
 	) extends com.google.protobuf.GeneratedMessageLite
-		with com.google.protobuf.MessageLiteOrBuilder
 		with hr.sandrogrzicic.scalabuff.runtime.Message[SimpleTest] {
-		def hasRequiredField = setFields.contains(0)
-		def hasOptionalField = setFields.contains(0)
+
+		def getOptionalField = optionalField.getOrElse(0.0f)
+
+		def writeTo(output: com.google.protobuf.CodedOutputStream) {
+			output.writeInt32(1, requiredField)
+			optionalField.foreach(output.writeFloat(2, _))
+			repeatedField.foreach(output.writeString(3, _))
+		}
+		def mergeFrom(m: SimpleTest) = {
+			SimpleTest(
+				m.requiredField,
+				m.optionalField.orElse(optionalField),
+				repeatedField ++ m.repeatedField
+			)
+		}
+
+		def getDefaultInstanceForType = SimpleTest.defaultInstance
+		def clear = getDefaultInstanceForType
+		def isInitialized = true
+		def build = this
+		def buildPartial = this
+		def newBuilderForType = this
+		def toBuilder = this
 	}
 
 	object SimpleTest {
-		def apply() = defaultInstance
-		def apply(message: SimpleTest = defaultInstance.mergeFrom(message)
-		def apply(
-				requiredField: Int = 0,
-				optionalField: Option[Float] = None,
-				repeatedField: Vector[String] = Vector.empty[String]
-		) = {
-			val setFields = collection.mutable.BitSet.empty
-			new SimpleTest(
-				requiredField,
-				optionalField.getOrElse(0.0f),
-				repeatedField
-			)
-		}
-		val defaultInstance = new SimpleTest()
+		@reflect.BeanProperty val defaultInstance = new SimpleTest()
 		def getDefaultInstance = defaultInstance
 
 		val REQUIRED_FIELD_FIELD_NUMBER = 1

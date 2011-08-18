@@ -2,17 +2,29 @@
 // source: groups.proto
 
 object Groups {
-	final class Groups private (
-		private var setFields: collection.BitSet = collection.BitSet.empty
+	final case class Groups 
 	) extends com.google.protobuf.GeneratedMessageLite
-		with com.google.protobuf.MessageLiteOrBuilder
 		with hr.sandrogrzicic.scalabuff.runtime.Message[Groups] {
+
+
+		def writeTo(output: com.google.protobuf.CodedOutputStream) {
+		}
+		def mergeFrom(m: Groups) = {
+			Groups
+			)
+		}
+
+		def getDefaultInstanceForType = Groups.defaultInstance
+		def clear = getDefaultInstanceForType
+		def isInitialized = true
+		def build = this
+		def buildPartial = this
+		def newBuilderForType = this
+		def toBuilder = this
 	}
 
 	object Groups {
-		def apply() = defaultInstance
-		def apply(message: Groups = defaultInstance.mergeFrom(message)
-		val defaultInstance = new Groups()
+		@reflect.BeanProperty val defaultInstance = new Groups()
 		def getDefaultInstance = defaultInstance
 
 
