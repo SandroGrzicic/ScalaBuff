@@ -2,13 +2,21 @@
 // source: groups.proto
 
 object Groups {
-	trait GroupsOrBuilder extends com.google.protobuf.MessageLiteOrBuilder {
-
+	final class Groups private (
+		private var setFields: collection.BitSet = collection.BitSet.empty
+	) extends com.google.protobuf.GeneratedMessageLite
+		with com.google.protobuf.MessageLiteOrBuilder
+		with hr.sandrogrzicic.scalabuff.runtime.Message[Groups] {
 	}
 
-	case class Groups() extends com.google.protobuf.GeneratedMessageLite with GroupsOrBuilder {
-	}
+	object Groups {
+		def apply() = defaultInstance
+		def apply(message: Groups = defaultInstance.mergeFrom(message)
+		val defaultInstance = new Groups()
+		def getDefaultInstance = defaultInstance
 
+
+	}
 
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}

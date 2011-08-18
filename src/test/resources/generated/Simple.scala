@@ -2,22 +2,41 @@
 // source: simple.proto
 
 object Simple {
-	trait SimpleRequestOrBuilder extends com.google.protobuf.MessageLiteOrBuilder {
-
-		def hasQuery: Boolean
-		def getQuery: String
-
-		def hasPageNumber: Boolean
-		def getPageNumber: Int
-
-		def hasResultsPerPage: Boolean
-		def getResultsPerPage: Int
-
+	final class SimpleTest private (
+		private var _requiredField: Int = 0, 
+		private var _optionalField: Float = 0.0f, 
+		private var _repeatedField: Vector[String] = Vector.empty[String], 
+		private var setFields: collection.BitSet = collection.BitSet.empty
+	) extends com.google.protobuf.GeneratedMessageLite
+		with com.google.protobuf.MessageLiteOrBuilder
+		with hr.sandrogrzicic.scalabuff.runtime.Message[SimpleTest] {
+		def hasRequiredField = setFields.contains(0)
+		def hasOptionalField = setFields.contains(0)
 	}
 
-	case class SimpleRequest() extends com.google.protobuf.GeneratedMessageLite with SimpleRequestOrBuilder {
-	}
+	object SimpleTest {
+		def apply() = defaultInstance
+		def apply(message: SimpleTest = defaultInstance.mergeFrom(message)
+		def apply(
+				requiredField: Int = 0,
+				optionalField: Option[Float] = None,
+				repeatedField: Vector[String] = Vector.empty[String]
+		) = {
+			val setFields = collection.mutable.BitSet.empty
+			new SimpleTest(
+				requiredField,
+				optionalField.getOrElse(0.0f),
+				repeatedField
+			)
+		}
+		val defaultInstance = new SimpleTest()
+		def getDefaultInstance = defaultInstance
 
+		val REQUIRED_FIELD_FIELD_NUMBER = 1
+		val OPTIONAL_FIELD_FIELD_NUMBER = 2
+		val REPEATED_FIELD_FIELD_NUMBER = 3
+
+	}
 
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}

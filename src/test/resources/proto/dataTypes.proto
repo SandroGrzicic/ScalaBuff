@@ -1,28 +1,28 @@
 message DataTypes {
-	optional int32 varint1 = 1;
+	required int32 varint1 = 1;
 	optional int64 varint2 = 2;
 	optional uint32 varint3 = 3;
-	optional uint64 varint4 = 4;
+	required uint64 varint4 = 4;
 	optional sint32 varint5 = 5;
 	optional sint64 varint6 = 6;
 	optional bool varint7 = 7;
 	enum Varint8Enum {
         ENUM_ZERO = 0;
         ENUM_ONE = 1;
-        option (this_is_an_enum) = true;
+        //option (this_is_an_enum) = true; // not recognized by protoc
     }
 	
-	optional fixed64 _64bit1 = 100;
-	optional sfixed64 _64bit2 = 101;
-	optional double _64bit3 = 102;
+	optional fixed64 f64bit1 = 100;
+	optional sfixed64 f64bit2 = 101;
+	optional double f64bit3 = 102;
 	
 	optional string length_delim1 = 200;
 	optional bytes length_delim2 = 201;
-	optional Embedded length_delim3 = 202;
+	optional Varint8Enum length_delim3 = 202;
 	repeated int32 length_delim4 = 204;
 	repeated int32 length_delim5 = 203 [packed=true];
 
-	optional fixed32 _32bit1 = 500;
-	optional sfixed32 _32bit2 = 501;
-	optional float _32bit3 = 502;
+	optional fixed32 f32bit1 = 500;
+	optional sfixed32 f32bit2 = 501;
+	optional float f32bit3 = 502;
 }

@@ -35,11 +35,11 @@ class Parser(filename: String) extends RegexParsers with ImplicitConversions wit
 		for (node <- body) node match {
 			case n: Field => fields += n
 			case n: EnumStatement => enums += n
-			case n: Message => messages += n //Message(n.name, parseBody(n.body))
-			case n: Group => groups += n
+			case n: Message => messages += n
 			case n: ExtensionRanges => extensionRanges += n
-			case n: Option => options += n
 			case n: Extension => extensions += n
+			case n: Group => groups += n
+			case n: Option => options += n
 			case _ => require(false, "Impossible node type found.")
 		}
 

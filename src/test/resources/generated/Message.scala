@@ -2,13 +2,21 @@
 // source: message.proto
 
 object Message {
-	trait EmptyMessageOrBuilder extends com.google.protobuf.MessageLiteOrBuilder {
-
+	final class EmptyMessage private (
+		private var setFields: collection.BitSet = collection.BitSet.empty
+	) extends com.google.protobuf.GeneratedMessageLite
+		with com.google.protobuf.MessageLiteOrBuilder
+		with hr.sandrogrzicic.scalabuff.runtime.Message[EmptyMessage] {
 	}
 
-	case class EmptyMessage() extends com.google.protobuf.GeneratedMessageLite with EmptyMessageOrBuilder {
-	}
+	object EmptyMessage {
+		def apply() = defaultInstance
+		def apply(message: EmptyMessage = defaultInstance.mergeFrom(message)
+		val defaultInstance = new EmptyMessage()
+		def getDefaultInstance = defaultInstance
 
+
+	}
 
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}

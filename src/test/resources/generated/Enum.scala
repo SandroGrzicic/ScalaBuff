@@ -11,11 +11,10 @@ object Enum {
 		val MOUSE_VALUE = 1
 		val KEYBOARD_VALUE = 2
 
-		def valueOf(id: Int) = id match {
+		def valueOf(id: Int) = (id: @annotation.switch) match {
 			case 1 => MOUSE
 			case 2 => KEYBOARD
 		}
-
 		val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {
 			def findValueByNumber(id: Int): EnumVal = valueOf(id)
 		}

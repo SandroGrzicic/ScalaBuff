@@ -2,45 +2,32 @@
 // source: complex.proto
 
 object Complex {
-	trait ComplexMessageOrBuilder extends com.google.protobuf.MessageLiteOrBuilder {
-
-		def hasFirstField: Boolean
-		def getFirstField: Int
-
-		def hasSecondField: Boolean
-		def getSecondField: String
-
+	final class ComplexMessage private (
+		private var _firstField: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY, 
+		private var setFields: collection.BitSet = collection.BitSet.empty
+	) extends com.google.protobuf.GeneratedMessageLite
+		with com.google.protobuf.MessageLiteOrBuilder
+		with hr.sandrogrzicic.scalabuff.runtime.Message[ComplexMessage] {
+		def hasFirstField = setFields.contains(0)
 	}
 
-	case class ComplexMessage() extends com.google.protobuf.GeneratedMessageLite with ComplexMessageOrBuilder {
+	object ComplexMessage {
+		def apply() = defaultInstance
+		def apply(message: ComplexMessage = defaultInstance.mergeFrom(message)
+		def apply(
+				firstField: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
+		) = {
+			val setFields = collection.mutable.BitSet.empty
+			new ComplexMessage(
+				firstField
+			)
+		}
+		val defaultInstance = new ComplexMessage()
+		def getDefaultInstance = defaultInstance
+
+		val FIRST_FIELD_FIELD_NUMBER = 1
+
 	}
-
-	object SimpleEnum extends hr.sandrogrzicic.scalabuff.runtime.Enum {
-		sealed trait EnumVal extends Value
-			
-		val KEY_NAME = new EnumVal { val name = "KEY_NAME"; val id = 0 }
-
-		val KEY_NAME_VALUE = 0
-
-		def valueOf(id: Int) = id match {
-			case 0 => KEY_NAME
-		}
-
-		val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {
-			def findValueByNumber(id: Int): EnumVal = valueOf(id)
-		}
-	}
-
-		trait NestedOrBuilder extends com.google.protobuf.MessageLiteOrBuilder {
-
-			def hasNestedField: Boolean
-			def getNestedField: String
-
-		}
-
-		case class Nested() extends com.google.protobuf.GeneratedMessageLite with NestedOrBuilder {
-		}
-
 
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}

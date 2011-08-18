@@ -1,1 +1,1 @@
-List(Message(SimpleRequest,MessageBody(List(Field(required,string,query,1,List()), Field(optional,int32,page_number,2,List()), Field(optional,int32,results_per_page,3,List())),List(),List(),List(),List(),List(),List())))
+List(Option(optimize_for,LITE_RUNTIME), Message(SimpleTest,MessageBody(List(Field(required,int32,required_field,1,List()), Field(optional,float,optional_field,2,List()), Field(repeated,string,repeated_field,3,List())),List(),List(),List(),List(),List(),List())))

@@ -4,13 +4,21 @@
 package proto
 
 object Packages {
-	trait PackagesOrBuilder extends com.google.protobuf.MessageLiteOrBuilder {
-
+	final class Packages private (
+		private var setFields: collection.BitSet = collection.BitSet.empty
+	) extends com.google.protobuf.GeneratedMessageLite
+		with com.google.protobuf.MessageLiteOrBuilder
+		with hr.sandrogrzicic.scalabuff.runtime.Message[Packages] {
 	}
 
-	case class Packages() extends com.google.protobuf.GeneratedMessageLite with PackagesOrBuilder {
-	}
+	object Packages {
+		def apply() = defaultInstance
+		def apply(message: Packages = defaultInstance.mergeFrom(message)
+		val defaultInstance = new Packages()
+		def getDefaultInstance = defaultInstance
 
+
+	}
 
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}

@@ -26,7 +26,6 @@ class Generator protected(sourceName: String, reader: Reader) {
 	/**
 	 * Generates the Scala class code.
 	 */
-
 	protected def generate(tree: List[Node]) = {
 
 
@@ -92,29 +91,19 @@ class Generator protected(sourceName: String, reader: Reader) {
 		 * Not tail-recursive, but shouldn't cause stack overflows on sane nesting levels.
 		 */
 		def message(name: String, body: MessageBody, indentLevel: Int = 0): String = {
-			val indentOuter = BuffedString.indent(indentLevel + 1)
-			val indent = indentOuter + "\t"
+			val indent0 = BuffedString.indent(indentLevel + 1)
+			val indent1 = indent0 + "\t"
+			val indent2 = indent1 + "\t"
+			val indent3 = indent2 + "\t"
 
 			val fields = body.fields
 
 			/**
-			 * Returns a nicely formatted list of fields, used in the constructor, apply(), copy(), etc.
+			 * Returns the field ID based on the field number.
 			 */
-			def fieldsList(appendDefaultValue: Boolean) = {
-				val indentPlus = indent + "\t"
-				if (!fields.isEmpty) {
-					val o = StringBuilder.newBuilder
-					fields.foreach { f =>
-					    o.append("\n").append(indentPlus).append(f.name.lowerCamelCase).append(": ").append(f.fType)
-						if (appendDefaultValue) o.append(" = ").append(f.fType.defaultValue)
-						o.append(", \n")
-					}
-					o.setLength(o.length - 3)
-					o.append("\n").append(indent)
-						.mkString
-				} else {
-					""
-				}
+			def fieldID(fieldNumber: Int) = {
+				0
+
 			}
 
 			body.options.foreach {
@@ -127,36 +116,74 @@ class Generator protected(sourceName: String, reader: Reader) {
 
 			val out = StringBuilder.newBuilder
 
-			// trait
-			out
-				.append(indentOuter).append("trait ").append(name)
-				.append("OrBuilder extends com.google.protobuf.MessageLiteOrBuilder {\n")
-			fields.foreach { // has methods for all fields
-				field =>
-				out.append(indent).append("def has").append(field.name.camelCase).append(": Boolean\n")
-			}
-			out.append(indentOuter).append("}\n\n")
-
 			// class
 			out
-				.append(indentOuter).append("final class ").append(name).append(" private (").append(fieldsList(false))
-				.append(") extends com.google.protobuf.GeneratedMessageLite with ")
-				.append(name).append("OrBuilder {\n")
-			out.append(indentOuter).append("}\n\n")
+				.append(indent0).append("final class ").append(name).append(" private (\n")
+			fields.foreach { field =>
+			    out.append(indent1).append("private var _").append(field.name.lowerCamelCase).append(": ")
+				if (field.label == FieldLabels.REPEATED) out.append("Vector[")
+				out.append(field.fType.scalaType)
+				if (field.label == FieldLabels.REPEATED) out.append("]")
+				out.append(" = ")
+				field.label match {
+					case FieldLabels.REPEATED => out.append("Vector.empty[").append(field.fType.scalaType).append("]")
+					case _ => out.append(field.fType.defaultValue)
+				}
+				out.append(", \n")
+			}
+			out
+				.append(indent1).append("private var setFields: collection.BitSet = collection.BitSet.empty\n")
+				.append(indent0).append(") extends com.google.protobuf.GeneratedMessageLite\n")
+				.append(indent1).append("with com.google.protobuf.MessageLiteOrBuilder\n")
+				.append(indent1).append("with hr.sandrogrzicic.scalabuff.runtime.Message[").append(name).append("] {\n")
+			fields.foreach { field =>
+				if (field.label != FieldLabels.REPEATED)
+					out.append(indent1)
+						.append("def has").append(field.name.camelCase)
+						.append(" = setFields.contains(").append(fieldID(field.number)).append(")\n")
+			}
+			out.append(indent0).append("}\n\n")
 
 			// object
-			out
-				.append(indentOuter).append("object ").append(name).append(" {\n")
+			out.append(indent0).append("object ").append(name).append(" {\n")
 
 				// apply
-				.append(indent).append("def apply(").append(fieldsList(true)).append(") = {\n")
-
-				.append(indent).append("}\n")
-			    .append(indent).append("val defaultInstance = apply()\n")
-				.append(indent).append("def getDefaultInstance = defaultInstance\n")
+				.append(indent1).append("def apply() = defaultInstance\n")
+				.append(indent1).append("def apply(message: ").append(name).append(" = defaultInstance.mergeFrom(message)\n")
+			if (!fields.isEmpty) {
+				out.append(indent1).append("def apply(\n")
+				fields.foreach {
+					field =>
+						out.append(indent2).append("\t").append(field.name.lowerCamelCase).append(": ")
+						field.label match {
+							case FieldLabels.REQUIRED => out.append(field.fType.scalaType).append(" = ").append(field.fType.defaultValue).append(",\n")
+							case FieldLabels.OPTIONAL => out.append("Option[").append(field.fType.scalaType).append("] = None,\n")
+							case FieldLabels.REPEATED => out.append("Vector[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
+							case _ => // weird warning - missing combination <local child> ?!
+						}
+				}
+				out.length -= 2
+				out.append("\n").append(indent1).append(") = {\n")
+					.append(indent2).append("val setFields = collection.mutable.BitSet.empty\n")
+					.append(indent2).append("new ").append(name).append("(\n")
+				fields.foreach {
+					field =>
+						out.append(indent3).append(field.name.lowerCamelCase)
+						if (field.label == FieldLabels.OPTIONAL) out.append(".getOrElse(").append(field.fType.defaultValue).append(")")
+						out.append(",\n")
+				}
+				out.length -= 2
+				out.append("\n")
+					.append(indent2).append(")\n")
+					.append(indent1).append("}\n")
+			}
+			out
+				.append(indent1).append("val defaultInstance = new ").append(name).append("()\n")
+				.append(indent1).append("def getDefaultInstance = defaultInstance\n")
+				.append("\n")
 
 			body.fields.foreach {  // field number integer constants
-				field => out.append(indent)
+				field => out.append(indent1)
 					.append("val ").append(field.name.toUpperCase)
 					.append("_FIELD_NUMBER = ").append(field.number).append("\n")
 			}
@@ -165,6 +192,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 //				.append(indent).append("").append("\n")
 //				.append(indent).append("").append("\n")
 
+			out.append("\n")
 			// append any nested enums
 			body.enums.foreach {
 				e => out.append(enum(e, indentLevel + 1)).append("\n")
@@ -184,7 +212,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 			}
 
 			// finalize object
-			out.append(indentOuter).append("}\n")
+			out.append(indent0).append("}\n")
 
 			out.mkString
 		}

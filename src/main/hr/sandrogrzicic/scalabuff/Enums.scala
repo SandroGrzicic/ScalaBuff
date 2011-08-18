@@ -1,7 +1,5 @@
 package hr.sandrogrzicic.scalabuff
 
-import hr.sandrogrzicic.scalabuff.FieldLabels.InvalidFieldLabelException
-
 /**
  * Viktor Klang's Enum
  * Source: https://gist.github.com/1057513/
@@ -67,9 +65,7 @@ object FieldLabels extends Enum {
 object FieldTypes extends Enum {
 	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 
-	case class EnumVal private[FieldTypes](name: String, scalaType: String, defaultValue: String) extends Value {
-		override def toString = scalaType
-	}
+	case class EnumVal private[FieldTypes](name: String, scalaType: String, defaultValue: String) extends Value
 
 	val INT32 = EnumVal("int32", "Int", "0")
 	val UINT32 = EnumVal("uint32", "Int", "0")
@@ -89,7 +85,7 @@ object FieldTypes extends Enum {
 
 	/**
 	 * Returns a FieldType.EnumVal based on the specified proto field type,
-	 * or a new EnumVal with a None default value if it's a user type.
+	 * or a new EnumVal with a null default value if it's a user type.
 	 */
-	def apply(fieldType: String) = values.find(fieldType == _.name).getOrElse(EnumVal(fieldType, fieldType, "None"))
+	def apply(fieldType: String) = values.find(fieldType == _.name).getOrElse(EnumVal(fieldType, fieldType, "null"))
 }
