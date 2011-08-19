@@ -2,16 +2,40 @@
 // source: message.proto
 
 object Message {
-	final case class EmptyMessage 
+	final case class EmptyMessage (
+
 	) extends com.google.protobuf.GeneratedMessageLite
 		with hr.sandrogrzicic.scalabuff.runtime.Message[EmptyMessage] {
 
 
+
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
 		}
-		def mergeFrom(m: EmptyMessage) = {
-			EmptyMessage
+		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): EmptyMessage = {
+
+			while (true) (in.readTag: @annotation.switch) match {
+			case 0 => return EmptyMessage(
+
 			)
+			case default => if (!in.skipField(default)) return EmptyMessage(
+
+			)
+			}
+			null // unreachable code
+		}
+
+		def mergeFrom(m: EmptyMessage) = {
+			EmptyMessage(
+
+			)
+		}
+
+		lazy val getSerializedSize = {
+			import com.google.protobuf.CodedOutputStream._
+			import com.google.protobuf.ByteString.copyFromUtf8
+			var size = 0
+
+			size
 		}
 
 		def getDefaultInstanceForType = EmptyMessage.defaultInstance
@@ -25,7 +49,6 @@ object Message {
 
 	object EmptyMessage {
 		@reflect.BeanProperty val defaultInstance = new EmptyMessage()
-		def getDefaultInstance = defaultInstance
 
 
 	}

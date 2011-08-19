@@ -11,18 +11,59 @@ object SimpleWithComments {
 
 		def getPageNumber = pageNumber.getOrElse(0)
 		def getResultsPerPage = resultsPerPage.getOrElse(0)
+		def setQuery(f: String) = copy(query = f)
+		def setPageNumber(f: Int) = copy(pageNumber = f)
+		def setResultsPerPage(f: Int) = copy(resultsPerPage = f)
+
+		def clearQuery = copy(query = "")
+		def clearPageNumber = copy(pageNumber = None)
+		def clearResultsPerPage = copy(resultsPerPage = None)
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
 			output.writeString(1, query)
 			pageNumber.foreach(output.writeInt32(2, _))
 			resultsPerPage.foreach(output.writeInt32(3, _))
 		}
+		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SimpleRequest = {
+			var _query = ""
+			var _pageNumber = pageNumber
+			var _resultsPerPage = resultsPerPage
+
+			while (true) (in.readTag: @annotation.switch) match {
+			case 0 => return SimpleRequest(
+				_query,
+				_pageNumber,
+				_resultsPerPage
+			)
+			case 10 => _query = in.readBytes().toStringUtf8
+			case 16 => _pageNumber = in.readInt32()
+			case 24 => _resultsPerPage = in.readInt32()
+			case default => if (!in.skipField(default)) return SimpleRequest(
+				_query,
+				_pageNumber,
+				_resultsPerPage
+			)
+			}
+			null // unreachable code
+		}
+
 		def mergeFrom(m: SimpleRequest) = {
 			SimpleRequest(
 				m.query,
 				m.pageNumber.orElse(pageNumber),
 				m.resultsPerPage.orElse(resultsPerPage)
 			)
+		}
+
+		lazy val getSerializedSize = {
+			import com.google.protobuf.CodedOutputStream._
+			import com.google.protobuf.ByteString.copyFromUtf8
+			var size = 0
+			size += computeStringSize(1, query)
+			pageNumber.foreach(size += computeInt32Size(2, _))
+			resultsPerPage.foreach(size += computeInt32Size(3, _))
+
+			size
 		}
 
 		def getDefaultInstanceForType = SimpleRequest.defaultInstance
@@ -36,7 +77,6 @@ object SimpleWithComments {
 
 	object SimpleRequest {
 		@reflect.BeanProperty val defaultInstance = new SimpleRequest()
-		def getDefaultInstance = defaultInstance
 
 		val QUERY_FIELD_NUMBER = 1
 		val PAGE_NUMBER_FIELD_NUMBER = 2

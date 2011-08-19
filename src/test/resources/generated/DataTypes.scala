@@ -38,6 +38,49 @@ object DataTypes {
 		def getF32bit1 = f32bit1.getOrElse(0)
 		def getF32bit2 = f32bit2.getOrElse(0)
 		def getF32bit3 = f32bit3.getOrElse(0.0f)
+		def setVarint1(f: Int) = copy(varint1 = f)
+		def setVarint2(f: Long) = copy(varint2 = f)
+		def setVarint3(f: Int) = copy(varint3 = f)
+		def setVarint4(f: Long) = copy(varint4 = f)
+		def setVarint5(f: Int) = copy(varint5 = f)
+		def setVarint6(f: Long) = copy(varint6 = f)
+		def setVarint7(f: Boolean) = copy(varint7 = f)
+		def setF64bit1(f: Long) = copy(f64bit1 = f)
+		def setF64bit2(f: Long) = copy(f64bit2 = f)
+		def setF64bit3(f: Double) = copy(f64bit3 = f)
+		def setLengthDelim1(f: String) = copy(lengthDelim1 = f)
+		def setLengthDelim2(f: com.google.protobuf.ByteString) = copy(lengthDelim2 = f)
+		def setLengthDelim3(f: Varint8Enum) = copy(lengthDelim3 = f)
+		def setLengthDelim4(i: Int, v: Int) = copy(lengthDelim4 = lengthDelim4.updated(i, v))
+		def addLengthDelim4(f: Int) = copy(lengthDelim4 = lengthDelim4 :+ f)
+		def addAllLengthDelim4(f: Int*) = copy(lengthDelim4 = lengthDelim4 ++ f)
+		def addAllLengthDelim4(f: TraversableOnce[Int]) = copy(lengthDelim4 = lengthDelim4 ++ f)
+		def setLengthDelim5(i: Int, v: Int) = copy(lengthDelim5 = lengthDelim5.updated(i, v))
+		def addLengthDelim5(f: Int) = copy(lengthDelim5 = lengthDelim5 :+ f)
+		def addAllLengthDelim5(f: Int*) = copy(lengthDelim5 = lengthDelim5 ++ f)
+		def addAllLengthDelim5(f: TraversableOnce[Int]) = copy(lengthDelim5 = lengthDelim5 ++ f)
+		def setF32bit1(f: Int) = copy(f32bit1 = f)
+		def setF32bit2(f: Int) = copy(f32bit2 = f)
+		def setF32bit3(f: Float) = copy(f32bit3 = f)
+
+		def clearVarint1 = copy(varint1 = 0)
+		def clearVarint2 = copy(varint2 = None)
+		def clearVarint3 = copy(varint3 = None)
+		def clearVarint4 = copy(varint4 = 0L)
+		def clearVarint5 = copy(varint5 = None)
+		def clearVarint6 = copy(varint6 = None)
+		def clearVarint7 = copy(varint7 = None)
+		def clearF64bit1 = copy(f64bit1 = None)
+		def clearF64bit2 = copy(f64bit2 = None)
+		def clearF64bit3 = copy(f64bit3 = None)
+		def clearLengthDelim1 = copy(lengthDelim1 = None)
+		def clearLengthDelim2 = copy(lengthDelim2 = None)
+		def clearLengthDelim3 = copy(lengthDelim3 = None)
+		def clearLengthDelim4 = copy(lengthDelim4 = Vector.empty[Int])
+		def clearLengthDelim5 = copy(lengthDelim5 = Vector.empty[Int])
+		def clearF32bit1 = copy(f32bit1 = None)
+		def clearF32bit2 = copy(f32bit2 = None)
+		def clearF32bit3 = copy(f32bit3 = None)
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
 			output.writeInt32(1, varint1)
@@ -59,6 +102,89 @@ object DataTypes {
 			f32bit2.foreach(output.writeSfixed32(501, _))
 			f32bit3.foreach(output.writeFloat(502, _))
 		}
+		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): DataTypes = {
+			var _varint1 = 0
+			var _varint2 = varint2
+			var _varint3 = varint3
+			var _varint4 = 0L
+			var _varint5 = varint5
+			var _varint6 = varint6
+			var _varint7 = varint7
+			var _f64bit1 = f64bit1
+			var _f64bit2 = f64bit2
+			var _f64bit3 = f64bit3
+			var _lengthDelim1 = lengthDelim1
+			var _lengthDelim2 = lengthDelim2
+			var _lengthDelim3 = lengthDelim3
+			var _lengthDelim4 = lengthDelim4.toBuffer
+			var _lengthDelim5 = lengthDelim5.toBuffer
+			var _f32bit1 = f32bit1
+			var _f32bit2 = f32bit2
+			var _f32bit3 = f32bit3
+
+			while (true) (in.readTag: @annotation.switch) match {
+			case 0 => return DataTypes(
+				_varint1,
+				_varint2,
+				_varint3,
+				_varint4,
+				_varint5,
+				_varint6,
+				_varint7,
+				_f64bit1,
+				_f64bit2,
+				_f64bit3,
+				_lengthDelim1,
+				_lengthDelim2,
+				_lengthDelim3,
+				Vector.concat(_lengthDelim4),
+				Vector.concat(_lengthDelim5),
+				_f32bit1,
+				_f32bit2,
+				_f32bit3
+			)
+			case 8 => _varint1 = in.readInt32()
+			case 16 => _varint2 = in.readInt64()
+			case 24 => _varint3 = in.readUint32()
+			case 32 => _varint4 = in.readUint64()
+			case 40 => _varint5 = in.readSint32()
+			case 48 => _varint6 = in.readSint64()
+			case 56 => _varint7 = in.readBool()
+			case 801 => _f64bit1 = in.readFixed64()
+			case 809 => _f64bit2 = in.readSfixed64()
+			case 817 => _f64bit3 = in.readDouble()
+			case 1602 => _lengthDelim1 = in.readBytes().toStringUtf8
+			case 1610 => _lengthDelim2 = in.readBytes()
+			case 1618 => _lengthDelim3 = in.readVarint8Enum()
+			case 1632 => _lengthDelim4 += in.readInt32()
+			case 1624 => _lengthDelim5 += in.readInt32()
+			case 4005 => _f32bit1 = in.readFixed32()
+			case 4013 => _f32bit2 = in.readSfixed32()
+			case 4021 => _f32bit3 = in.readFloat()
+			case default => if (!in.skipField(default)) return DataTypes(
+				_varint1,
+				_varint2,
+				_varint3,
+				_varint4,
+				_varint5,
+				_varint6,
+				_varint7,
+				_f64bit1,
+				_f64bit2,
+				_f64bit3,
+				_lengthDelim1,
+				_lengthDelim2,
+				_lengthDelim3,
+				Vector.concat(_lengthDelim4),
+				Vector.concat(_lengthDelim5),
+				_f32bit1,
+				_f32bit2,
+				_f32bit3
+			)
+			}
+			null // unreachable code
+		}
+
 		def mergeFrom(m: DataTypes) = {
 			DataTypes(
 				m.varint1,
@@ -82,6 +208,32 @@ object DataTypes {
 			)
 		}
 
+		lazy val getSerializedSize = {
+			import com.google.protobuf.CodedOutputStream._
+			import com.google.protobuf.ByteString.copyFromUtf8
+			var size = 0
+			size += computeInt32Size(1, varint1)
+			varint2.foreach(size += computeInt64Size(2, _))
+			varint3.foreach(size += computeUint32Size(3, _))
+			size += computeUint64Size(4, varint4)
+			varint5.foreach(size += computeSint32Size(5, _))
+			varint6.foreach(size += computeSint64Size(6, _))
+			varint7.foreach(size += computeBoolSize(7, _))
+			f64bit1.foreach(size += computeFixed64Size(100, _))
+			f64bit2.foreach(size += computeSfixed64Size(101, _))
+			f64bit3.foreach(size += computeDoubleSize(102, _))
+			lengthDelim1.foreach(size += computeStringSize(200, _))
+			lengthDelim2.foreach(size += computeBytesSize(201, _))
+			lengthDelim3.foreach(size += computeVarint8EnumSize(202, _))
+			lengthDelim4.foreach(v => size += Int32Size(204, v))
+			lengthDelim5.foreach(v => size += Int32Size(203, v))
+			f32bit1.foreach(size += computeFixed32Size(500, _))
+			f32bit2.foreach(size += computeSfixed32Size(501, _))
+			f32bit3.foreach(size += computeFloatSize(502, _))
+
+			size
+		}
+
 		def getDefaultInstanceForType = DataTypes.defaultInstance
 		def clear = getDefaultInstanceForType
 		def isInitialized = true
@@ -93,7 +245,6 @@ object DataTypes {
 
 	object DataTypes {
 		@reflect.BeanProperty val defaultInstance = new DataTypes()
-		def getDefaultInstance = defaultInstance
 
 		val VARINT1_FIELD_NUMBER = 1
 		val VARINT2_FIELD_NUMBER = 2

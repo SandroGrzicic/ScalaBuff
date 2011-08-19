@@ -2,16 +2,40 @@
 // source: groups.proto
 
 object Groups {
-	final case class Groups 
+	final case class Groups (
+
 	) extends com.google.protobuf.GeneratedMessageLite
 		with hr.sandrogrzicic.scalabuff.runtime.Message[Groups] {
 
 
+
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
 		}
-		def mergeFrom(m: Groups) = {
-			Groups
+		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Groups = {
+
+			while (true) (in.readTag: @annotation.switch) match {
+			case 0 => return Groups(
+
 			)
+			case default => if (!in.skipField(default)) return Groups(
+
+			)
+			}
+			null // unreachable code
+		}
+
+		def mergeFrom(m: Groups) = {
+			Groups(
+
+			)
+		}
+
+		lazy val getSerializedSize = {
+			import com.google.protobuf.CodedOutputStream._
+			import com.google.protobuf.ByteString.copyFromUtf8
+			var size = 0
+
+			size
 		}
 
 		def getDefaultInstanceForType = Groups.defaultInstance
@@ -25,7 +49,6 @@ object Groups {
 
 	object Groups {
 		@reflect.BeanProperty val defaultInstance = new Groups()
-		def getDefaultInstance = defaultInstance
 
 
 	}

@@ -9,16 +9,50 @@ object Complex {
 		with hr.sandrogrzicic.scalabuff.runtime.Message[ComplexMessage] {
 
 		def getSecondField = secondField.getOrElse("")
+		def setFirstField(f: com.google.protobuf.ByteString) = copy(firstField = f)
+		def setSecondField(f: String) = copy(secondField = f)
+
+		def clearFirstField = copy(firstField = com.google.protobuf.ByteString.EMPTY)
+		def clearSecondField = copy(secondField = None)
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
 			output.writeBytes(1, firstField)
 			secondField.foreach(output.writeString(2, _))
 		}
+		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): ComplexMessage = {
+			var _firstField = com.google.protobuf.ByteString.EMPTY
+			var _secondField = secondField
+
+			while (true) (in.readTag: @annotation.switch) match {
+			case 0 => return ComplexMessage(
+				_firstField,
+				_secondField
+			)
+			case 10 => _firstField = in.readBytes()
+			case 18 => _secondField = in.readBytes().toStringUtf8
+			case default => if (!in.skipField(default)) return ComplexMessage(
+				_firstField,
+				_secondField
+			)
+			}
+			null // unreachable code
+		}
+
 		def mergeFrom(m: ComplexMessage) = {
 			ComplexMessage(
 				m.firstField,
 				m.secondField.orElse(secondField)
 			)
+		}
+
+		lazy val getSerializedSize = {
+			import com.google.protobuf.CodedOutputStream._
+			import com.google.protobuf.ByteString.copyFromUtf8
+			var size = 0
+			size += computeBytesSize(1, firstField)
+			secondField.foreach(size += computeStringSize(2, _))
+
+			size
 		}
 
 		def getDefaultInstanceForType = ComplexMessage.defaultInstance
@@ -32,7 +66,6 @@ object Complex {
 
 	object ComplexMessage {
 		@reflect.BeanProperty val defaultInstance = new ComplexMessage()
-		def getDefaultInstance = defaultInstance
 
 		val FIRST_FIELD_FIELD_NUMBER = 1
 		val SECOND_FIELD_FIELD_NUMBER = 2
@@ -57,14 +90,41 @@ object Complex {
 		) extends com.google.protobuf.GeneratedMessageLite
 			with hr.sandrogrzicic.scalabuff.runtime.Message[Nested] {
 
+			def setNestedField(f: String) = copy(nestedField = f)
+
+			def clearNestedField = copy(nestedField = "")
 
 			def writeTo(output: com.google.protobuf.CodedOutputStream) {
 				output.writeString(1, nestedField)
 			}
+			def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Nested = {
+				var _nestedField = ""
+
+				while (true) (in.readTag: @annotation.switch) match {
+				case 0 => return Nested(
+					_nestedField
+				)
+				case 10 => _nestedField = in.readBytes().toStringUtf8
+				case default => if (!in.skipField(default)) return Nested(
+					_nestedField
+				)
+				}
+				null // unreachable code
+			}
+
 			def mergeFrom(m: Nested) = {
 				Nested(
 					m.nestedField
 				)
+			}
+
+			lazy val getSerializedSize = {
+				import com.google.protobuf.CodedOutputStream._
+				import com.google.protobuf.ByteString.copyFromUtf8
+				var size = 0
+				size += computeStringSize(1, nestedField)
+
+				size
 			}
 
 			def getDefaultInstanceForType = Nested.defaultInstance
@@ -78,7 +138,6 @@ object Complex {
 
 		object Nested {
 			@reflect.BeanProperty val defaultInstance = new Nested()
-			def getDefaultInstance = defaultInstance
 
 			val NESTED_FIELD_FIELD_NUMBER = 1
 

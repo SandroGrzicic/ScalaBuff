@@ -121,7 +121,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 					case _ => // weird warning - missing combination <local child> ?!
 				}
 			}
-			out.length -= 2
+			if (!fields.isEmpty) out.length -= 2
 			out.append("\n")
 				.append(indent0).append(") extends com.google.protobuf.GeneratedMessageLite\n")
 				.append(indent1).append("with hr.sandrogrzicic.scalabuff.runtime.Message[").append(name).append("] {\n\n")
@@ -133,15 +133,36 @@ class Generator protected(sourceName: String, reader: Reader) {
 					.append(".getOrElse(").append(field.fType.defaultValue).append(")\n")
 			}
 
-			// clearers
+			// setters
 			fields.foreach { field =>
-				out.append(indent1).append("def clear").append(field.name.camelCase).append(" = copy(").append(field.name.lowerCamelCase)
 				field.label match {
-					case REQUIRED => out.append(" = ").append(field.fType.defaultValue).append(")\n")
-					case OPTIONAL => out.append(" = None)\n")
-					case REPEATED => out.append(" = Vector.empty[").append(field.fType.scalaType).append("])\n")
+					case REQUIRED | OPTIONAL => out.append(indent1)
+						.append("def set").append(field.name.camelCase).append("(f: ").append(field.fType.scalaType)
+						.append(") = copy(").append(field.name.lowerCamelCase).append(" = f)\n")
+					case REPEATED => out
+						.append(indent1).append("def set").append(field.name.camelCase).append("(i: Int, v: ").append(field.fType.scalaType)
+						.append(") = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(".updated(i, v))\n")
+						.append(indent1).append("def add").append(field.name.camelCase).append("(f: ").append(field.fType.scalaType)
+						.append(") = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" :+ f)\n")
+						.append(indent1).append("def addAll").append(field.name.camelCase).append("(f: ").append(field.fType.scalaType)
+						.append("*) = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" ++ f)\n")
+						.append(indent1).append("def addAll").append(field.name.camelCase).append("(f: TraversableOnce[").append(field.fType.scalaType)
+						.append("]) = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" ++ f)\n")
 					case _ => // weird warning - missing combination <local child> ?!
 				}
+			}
+			out.append("\n")
+
+			// clearers
+			fields.foreach { field =>
+				out.append(indent1).append("def clear").append(field.name.camelCase).append(" = copy(").append(field.name.lowerCamelCase).append(" = ")
+				field.label match {
+					case REQUIRED => out.append(field.fType.defaultValue)
+					case OPTIONAL => out.append("None")
+					case REPEATED => out.append("Vector.empty[").append(field.fType.scalaType).append("]")
+					case _ => // weird warning - missing combination <local child> ?!
+				}
+				out.append(")\n")
 			}
 
 			// writeTo(CodedOutputStream)
@@ -232,7 +253,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 					case _ => // weird warning - missing combination <local child> ?!
 				}
 			}
-			out.length -= 2
+			if (!fields.isEmpty) out.length -= 2
 			out.append("\n").append(indent2).append(")\n")
 			out.append(indent1).append("}\n")
 

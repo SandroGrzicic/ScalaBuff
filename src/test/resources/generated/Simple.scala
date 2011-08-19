@@ -10,18 +10,62 @@ object Simple {
 		with hr.sandrogrzicic.scalabuff.runtime.Message[SimpleTest] {
 
 		def getOptionalField = optionalField.getOrElse(0.0f)
+		def setRequiredField(f: Int) = copy(requiredField = f)
+		def setOptionalField(f: Float) = copy(optionalField = f)
+		def setRepeatedField(i: Int, v: String) = copy(repeatedField = repeatedField.updated(i, v))
+		def addRepeatedField(f: String) = copy(repeatedField = repeatedField :+ f)
+		def addAllRepeatedField(f: String*) = copy(repeatedField = repeatedField ++ f)
+		def addAllRepeatedField(f: TraversableOnce[String]) = copy(repeatedField = repeatedField ++ f)
+
+		def clearRequiredField = copy(requiredField = 0)
+		def clearOptionalField = copy(optionalField = None)
+		def clearRepeatedField = copy(repeatedField = Vector.empty[String])
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
 			output.writeInt32(1, requiredField)
 			optionalField.foreach(output.writeFloat(2, _))
 			repeatedField.foreach(output.writeString(3, _))
 		}
+		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SimpleTest = {
+			var _requiredField = 0
+			var _optionalField = optionalField
+			var _repeatedField = repeatedField.toBuffer
+
+			while (true) (in.readTag: @annotation.switch) match {
+			case 0 => return SimpleTest(
+				_requiredField,
+				_optionalField,
+				Vector.concat(_repeatedField)
+			)
+			case 8 => _requiredField = in.readInt32()
+			case 21 => _optionalField = in.readFloat()
+			case 26 => _repeatedField += in.readBytes().toStringUtf8
+			case default => if (!in.skipField(default)) return SimpleTest(
+				_requiredField,
+				_optionalField,
+				Vector.concat(_repeatedField)
+			)
+			}
+			null // unreachable code
+		}
+
 		def mergeFrom(m: SimpleTest) = {
 			SimpleTest(
 				m.requiredField,
 				m.optionalField.orElse(optionalField),
 				repeatedField ++ m.repeatedField
 			)
+		}
+
+		lazy val getSerializedSize = {
+			import com.google.protobuf.CodedOutputStream._
+			import com.google.protobuf.ByteString.copyFromUtf8
+			var size = 0
+			size += computeInt32Size(1, requiredField)
+			optionalField.foreach(size += computeFloatSize(2, _))
+			repeatedField.foreach(v => size += 1 + computeBytesSizeNoTag(copyFromUtf8(v)))
+
+			size
 		}
 
 		def getDefaultInstanceForType = SimpleTest.defaultInstance
@@ -35,7 +79,6 @@ object Simple {
 
 	object SimpleTest {
 		@reflect.BeanProperty val defaultInstance = new SimpleTest()
-		def getDefaultInstance = defaultInstance
 
 		val REQUIRED_FIELD_FIELD_NUMBER = 1
 		val OPTIONAL_FIELD_FIELD_NUMBER = 2
