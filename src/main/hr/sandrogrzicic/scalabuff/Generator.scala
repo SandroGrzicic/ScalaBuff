@@ -133,6 +133,17 @@ class Generator protected(sourceName: String, reader: Reader) {
 					.append(".getOrElse(").append(field.fType.defaultValue).append(")\n")
 			}
 
+			// clearers
+			fields.foreach { field =>
+				out.append(indent1).append("def clear").append(field.name.camelCase).append(" = copy(").append(field.name.lowerCamelCase)
+				field.label match {
+					case REQUIRED => out.append(" = ").append(field.fType.defaultValue).append(")\n")
+					case OPTIONAL => out.append(" = None\n")
+					case REPEATED => out.append(" = Vector.empty[").append(field.fType.scalaType).append("]\n")
+					case _ => // weird warning - missing combination <local child> ?!
+				}
+			}
+
 			// writeTo(CodedOutputStream)
 			out.append("\n").append(indent1)
 				.append("def writeTo(output: com.google.protobuf.CodedOutputStream) {\n")
