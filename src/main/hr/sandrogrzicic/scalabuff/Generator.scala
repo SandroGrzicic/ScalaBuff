@@ -3,7 +3,6 @@ package hr.sandrogrzicic.scalabuff
 import annotation.tailrec
 import java.io._
 import collection.mutable.{ListBuffer, StringBuilder}
-import com.google.protobuf._
 
 /**
  * Scala class generator.
@@ -132,11 +131,12 @@ class Generator protected(sourceName: String, reader: Reader) {
 					.append("def get").append(field.name.camelCase).append(" = ").append(field.name.lowerCamelCase)
 					.append(".getOrElse(").append(field.fType.defaultValue).append(")\n")
 			}
+			out.append("\n")
 
 			// setters
 			fields.foreach { field =>
 				field.label match {
-					case REQUIRED | OPTIONAL => out.append(indent1)
+					case OPTIONAL => out.append(indent1)
 						.append("def set").append(field.name.camelCase).append("(f: ").append(field.fType.scalaType)
 						.append(") = copy(").append(field.name.lowerCamelCase).append(" = f)\n")
 					case REPEATED => out
@@ -148,7 +148,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 						.append("*) = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" ++ f)\n")
 						.append(indent1).append("def addAll").append(field.name.camelCase).append("(f: TraversableOnce[").append(field.fType.scalaType)
 						.append("]) = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" ++ f)\n")
-					case _ => // weird warning - missing combination <local child> ?!
+					case _ => // don't generate a setter for REQUIRED fields, as the copy method can be used
 				}
 			}
 			out.append("\n")
@@ -184,7 +184,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 					case _ => // weird warning - missing combination <local child> ?!
 				}
 			}
-			out.append(indent1).append("}")
+			out.append(indent1).append("}\n")
 
 			// mergeFrom(CodedInputStream, ExtensionRegistryLite)
 			out.append("\n").append(indent1)
@@ -208,9 +208,9 @@ class Generator protected(sourceName: String, reader: Reader) {
 			val mergedFields = StringBuilder.newBuilder
 			fields.foreach { field =>
 				mergedFields.append(indent3)
-				if (field.label == REPEATED) mergedFields.append("Vector.concat(")
+				if (field.label == REPEATED) mergedFields.append("Vector(")
 				mergedFields.append("_").append(field.name.lowerCamelCase)
-				if (field.label == REPEATED) mergedFields.append(")")
+				if (field.label == REPEATED) mergedFields.append(": _*)")
 				mergedFields.append(",\n")
 			}
 			if (!fields.isEmpty) mergedFields.length -= 2
@@ -351,7 +351,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 					case Extension(name, body) => // very similar to Message
 					case e: EnumStatement => output.append(enum(e))
 					case ImportStatement(name) => imports += name
-					case PackageStatement(name) => packageName = name
+					case PackageStatement(name) => if (packageName.isEmpty) packageName = packageName
 					case Option(key, value) => key match {
 						case "java_package" => packageName = value
 						case "scala_package" => packageName = value
