@@ -2,7 +2,8 @@ package hr.sandrogrzicic.scalabuff
 
 import annotation.tailrec
 import java.io._
-import collection.mutable.{HashMap, ListBuffer, StringBuilder}
+import collection.mutable.{ListBuffer, StringBuilder}
+import com.google.protobuf._
 
 /**
  * Scala class generator.
@@ -91,11 +92,11 @@ class Generator protected(sourceName: String, reader: Reader) {
 		 * Not tail-recursive, but shouldn't cause stack overflows on sane nesting levels.
 		 */
 		def message(name: String, body: MessageBody, indentLevel: Int = 0): String = {
-			import FieldLabels._
+			import FieldLabels.{REQUIRED, OPTIONAL, REPEATED}
+			import FieldTypes.{INT32, UINT32, SINT32, FIXED32, SFIXED32, INT64, UINT64, SINT64, FIXED64, SFIXED64, BOOL, FLOAT, DOUBLE, BYTES, STRING}
+
 			val indent0 = BuffedString.indent(indentLevel + 1)
-			val indent1 = indent0 + "\t"
-			val indent2 = indent1 + "\t"
-			val indent3 = indent2 + "\t"
+			val (indent1, indent2, indent3) = (indent0 + "\t", indent0 + "\t\t", indent0 + "\t\t\t")
 
 			val fields = body.fields
 
@@ -108,11 +109,10 @@ class Generator protected(sourceName: String, reader: Reader) {
 
 			val out = StringBuilder.newBuilder
 
-			// case class
-			out
-				.append(indent0).append("final case class ").append(name).append(" (\n")
+			// *** case class
+			out.append(indent0).append("final case class ").append(name).append(" (\n")
+			// constructor
 			fields.foreach { field =>
-			    // constructor
 				out.append(indent1).append(field.name.lowerCamelCase).append(": ")
 				field.label match {
 					case REQUIRED => out.append(field.fType.scalaType).append(" = ").append(field.fType.defaultValue).append(",\n")
@@ -125,14 +125,17 @@ class Generator protected(sourceName: String, reader: Reader) {
 			out.append("\n")
 				.append(indent0).append(") extends com.google.protobuf.GeneratedMessageLite\n")
 				.append(indent1).append("with hr.sandrogrzicic.scalabuff.runtime.Message[").append(name).append("] {\n\n")
+
+			// getOptionalField
 			fields.filter(_.label == OPTIONAL).foreach { field =>
-				// getters for optional fields
 				out.append(indent1)
 					.append("def get").append(field.name.camelCase).append(" = ").append(field.name.lowerCamelCase)
 					.append(".getOrElse(").append(field.fType.defaultValue).append(")\n")
 			}
 
-			out.append("\n").append(indent1).append("def writeTo(output: com.google.protobuf.CodedOutputStream) {\n")
+			// writeTo(CodedOutputStream)
+			out.append("\n").append(indent1)
+				.append("def writeTo(output: com.google.protobuf.CodedOutputStream) {\n")
 			fields.foreach { field =>
 				field.label match {
 					case REQUIRED => out.append(indent2)
@@ -146,11 +149,64 @@ class Generator protected(sourceName: String, reader: Reader) {
 						.append(field.name.lowerCamelCase).append(".foreach(")
 						.append("output.write").append(field.fType.name.capitalize).append("(")
 						.append(field.number).append(", _))\n")
+					case _ => // weird warning - missing combination <local child> ?!
 				}
 			}
 			out.append(indent1).append("}")
 
-			out.append("\n").append(indent1).append("def mergeFrom(m: ").append(name).append(") = {\n")
+			// mergeFrom(CodedInputStream, ExtensionRegistryLite)
+			out.append("\n").append(indent1)
+				.append("def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): ")
+				.append(name).append(" = {\n")
+			fields.foreach { field =>
+				field.label match {
+					case REQUIRED => out.append(indent2)
+						.append("var _").append(field.name.lowerCamelCase)
+						.append(" = ").append(field.fType.defaultValue).append("\n")
+					case OPTIONAL => out.append(indent2)
+						.append("var _").append(field.name.lowerCamelCase)
+						.append(" = ").append(field.name.lowerCamelCase).append("\n")
+					case REPEATED => out.append(indent2)
+						.append("var _").append(field.name.lowerCamelCase)
+						.append(" = ").append(field.name.lowerCamelCase).append(".toBuffer\n")
+					case _ => // weird warning - missing combination <local child> ?!
+				}
+			}
+
+			val mergedFields = StringBuilder.newBuilder
+			fields.foreach { field =>
+				mergedFields.append(indent3)
+				if (field.label == REPEATED) mergedFields.append("Vector.concat(")
+				mergedFields.append("_").append(field.name.lowerCamelCase)
+				if (field.label == REPEATED) mergedFields.append(")")
+				mergedFields.append(",\n")
+			}
+			if (!fields.isEmpty) mergedFields.length -= 2
+			mergedFields.append("\n")
+
+			out.append("\n")
+				.append(indent2).append("while (true) (in.readTag: @annotation.switch) match {\n")
+				.append(indent2).append("case 0 => return ").append(name).append("(\n").append(mergedFields).append(indent2).append(")\n")
+			fields.foreach { field =>
+				out.append(indent2).append("case ").append((field.number << 3) | field.fType.wireType).append(" => ")
+					.append("_").append(field.name.lowerCamelCase).append(" ")
+				if (field.label == REPEATED) out.append("+")
+				out.append("= in.read")
+				field.fType match {
+					case STRING => out.append("Bytes().toStringUtf8")
+					case _ => out.append(field.fType.name.capitalize).append("()")
+				}
+				out.append("\n")
+			}
+			out.append(indent2).append("case default => if (!in.skipField(default)) return ").append(name).append("(\n").append(mergedFields).append(indent2).append(")\n")
+			out
+				.append(indent2).append("}\n")
+				.append(indent2).append("null // unreachable code\n")
+				.append(indent1).append("}\n")
+
+			// mergeFrom(Message)
+			out.append("\n").append(indent1)
+				.append("def mergeFrom(m: ").append(name).append(") = {\n")
 				.append(indent2).append(name).append("(\n")
 			fields.foreach { field =>
 				field.label match {
@@ -162,11 +218,42 @@ class Generator protected(sourceName: String, reader: Reader) {
 					case REPEATED => out.append(indent3)
 						.append(field.name.lowerCamelCase).append(" ++ ")
 						.append("m.").append(field.name.lowerCamelCase).append(",\n")
+					case _ => // weird warning - missing combination <local child> ?!
 				}
 			}
 			out.length -= 2
 			out.append("\n").append(indent2).append(")\n")
 			out.append(indent1).append("}\n")
+
+			// getSerializedSize
+			out.append("\n").append(indent1).append("lazy val getSerializedSize = {\n")
+				.append(indent2).append("import com.google.protobuf.CodedOutputStream._\n")
+				.append(indent2).append("import com.google.protobuf.ByteString.copyFromUtf8\n")
+				.append(indent2).append("var size = 0\n")
+			fields.foreach { field =>
+				field.label match {
+					case REQUIRED => out.append(indent2)
+						.append("size += compute").append(field.fType.name.capitalize).append("Size(")
+						.append(field.number).append(", ").append(field.name.lowerCamelCase).append(")\n")
+					case OPTIONAL => out.append(indent2)
+						.append(field.name.lowerCamelCase).append(".foreach(")
+						.append("size += compute").append(field.fType.name.capitalize).append("Size(")
+						.append(field.number).append(", _))\n")
+					case REPEATED => out.append(indent2)
+						.append(field.name.lowerCamelCase).append(".foreach(")
+						.append("v => size += ")
+						field.fType match {
+							case STRING => out.append("1 + computeBytesSizeNoTag(copyFromUtf8(v))")
+							case _ => out
+								.append(field.fType.name.capitalize).append("Size(")
+								.append(field.number).append(", v)")
+						}
+						out.append(")\n")
+					case _ => // weird warning - missing combination <local child> ?!
+				}
+			}
+			out.append("\n").append(indent2).append("size\n")
+				.append(indent1).append("}\n")
 
 			out.append("\n")
 				.append(indent1).append("def getDefaultInstanceForType = ").append(name).append(".defaultInstance\n")
@@ -179,20 +266,21 @@ class Generator protected(sourceName: String, reader: Reader) {
 
 			out.append(indent0).append("}\n\n")
 
-			// companion object
+			// *** companion object
 			out.append(indent0).append("object ").append(name).append(" {\n")
 				.append(indent1).append("@reflect.BeanProperty val defaultInstance = new ").append(name).append("()\n")
-				.append(indent1).append("def getDefaultInstance = defaultInstance\n")
 
 			out.append("\n")
+
+			// field number integer constants
 			fields.foreach { field =>
-				// field number integer constants
 				out.append(indent1)
 					.append("val ").append(field.name.toUpperCase)
 					.append("_FIELD_NUMBER = ").append(field.number).append("\n")
 			}
 
 			out.append("\n")
+
 			// append any nested enums
 			body.enums.foreach {
 				e => out.append(enum(e, indentLevel + 1)).append("\n")

@@ -1,5 +1,7 @@
 package hr.sandrogrzicic.scalabuff
 
+import com.google.protobuf.WireFormat._
+
 /**
  * Viktor Klang's Enum
  * Source: https://gist.github.com/1057513/
@@ -65,27 +67,29 @@ object FieldLabels extends Enum {
 object FieldTypes extends Enum {
 	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 
-	case class EnumVal private[FieldTypes](name: String, scalaType: String, defaultValue: String) extends Value
+	case class EnumVal private[FieldTypes](name: String, scalaType: String, defaultValue: String, wireType: Int) extends Value
 
-	val INT32 = EnumVal("int32", "Int", "0")
-	val UINT32 = EnumVal("uint32", "Int", "0")
-	val SINT32 = EnumVal("sint32", "Int", "0")
-	val FIXED32 = EnumVal("fixed32", "Int", "0")
-	val SFIXED32 = EnumVal("sfixed32", "Int", "0")
-	val INT64 = EnumVal("int64", "Long", "0L")
-	val UINT64 = EnumVal("uint64", "Long", "0L")
-	val SINT64 = EnumVal("sint64", "Long", "0L")
-	val FIXED64 = EnumVal("fixed64", "Long", "0L")
-	val SFIXED64 = EnumVal("sfixed64", "Long", "0L")
-	val BOOL = EnumVal("bool", "Boolean", "false")
-	val FLOAT = EnumVal("float", "Float", "0.0f")
-	val DOUBLE = EnumVal("double", "Double", "0.0")
-	val BYTES = EnumVal("bytes", "com.google.protobuf.ByteString", "com.google.protobuf.ByteString.EMPTY")
-	val STRING = EnumVal("string", "String", "\"\"")
+	import com.google.protobuf.WireFormat._
+
+	val INT32 = EnumVal("int32", "Int", "0", WIRETYPE_VARINT)
+	val UINT32 = EnumVal("uint32", "Int", "0", WIRETYPE_VARINT)
+	val SINT32 = EnumVal("sint32", "Int", "0", WIRETYPE_VARINT)
+	val FIXED32 = EnumVal("fixed32", "Int", "0", WIRETYPE_FIXED32)
+	val SFIXED32 = EnumVal("sfixed32", "Int", "0", WIRETYPE_FIXED32)
+	val INT64 = EnumVal("int64", "Long", "0L", WIRETYPE_VARINT)
+	val UINT64 = EnumVal("uint64", "Long", "0L", WIRETYPE_VARINT)
+	val SINT64 = EnumVal("sint64", "Long", "0L", WIRETYPE_VARINT)
+	val FIXED64 = EnumVal("fixed64", "Long", "0L", WIRETYPE_FIXED64)
+	val SFIXED64 = EnumVal("sfixed64", "Long", "0L", WIRETYPE_FIXED64)
+	val BOOL = EnumVal("bool", "Boolean", "false", WIRETYPE_VARINT)
+	val FLOAT = EnumVal("float", "Float", "0.0f", WIRETYPE_FIXED32)
+	val DOUBLE = EnumVal("double", "Double", "0.0", WIRETYPE_FIXED64)
+	val BYTES = EnumVal("bytes", "com.google.protobuf.ByteString", "com.google.protobuf.ByteString.EMPTY", WIRETYPE_LENGTH_DELIMITED)
+	val STRING = EnumVal("string", "String", "\"\"", WIRETYPE_LENGTH_DELIMITED)
 
 	/**
 	 * Returns a FieldType.EnumVal based on the specified proto field type,
 	 * or a new EnumVal with a null default value if it's a user type.
 	 */
-	def apply(fieldType: String) = values.find(fieldType == _.name).getOrElse(EnumVal(fieldType, fieldType, "null"))
+	def apply(fieldType: String) = values.find(fieldType == _.name).getOrElse(EnumVal(fieldType, fieldType, "null", WIRETYPE_LENGTH_DELIMITED))
 }
