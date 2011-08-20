@@ -378,7 +378,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 					case Extension(name, body) => // very similar to Message
 					case e: EnumStatement => output.append(enum(e))
 					case ImportStatement(name) => imports += name
-					case PackageStatement(name) => if (packageName.isEmpty) packageName = packageName
+					case PackageStatement(name) => if (packageName.isEmpty) packageName = name
 					case Option(key, value) => key match {
 						case "java_package" => packageName = value
 						case "scala_package" => packageName = value
