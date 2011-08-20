@@ -54,10 +54,9 @@ object ScalaBuff {
 						write(apply(arg))
 					}
 				} catch {
-					// just print the error and continue processing other files
+					// on parsing failure or invalid resource name, just print the error
 					case pf: ParsingFailureException => println(pf.getMessage)
 					case io: IOException => println(Strings.CANNOT_ACCESS_RESOURCE + arg)
-
 					// serious error - stop execution
 					case e => throw e
 				}

@@ -5,7 +5,8 @@ message ComplexMessage {
 	   	KEY_NAME = 0;
 	}
 	message Nested {
-			required string nested_field = 1;
+		required string nested_field = 1;
 	}
 	optional string second_field = 2 [default = "defaultValueForSecondField"];
+	optional Nested nested_outer_field = 3;
 }

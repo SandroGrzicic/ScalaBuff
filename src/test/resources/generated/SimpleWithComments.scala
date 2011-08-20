@@ -11,9 +11,9 @@ object SimpleWithComments {
 
 		def getPageNumber = pageNumber.getOrElse(0)
 		def getResultsPerPage = resultsPerPage.getOrElse(0)
-		def setQuery(f: String) = copy(query = f)
-		def setPageNumber(f: Int) = copy(pageNumber = f)
-		def setResultsPerPage(f: Int) = copy(resultsPerPage = f)
+
+		def setPageNumber(_f: Int) = copy(pageNumber = _f)
+		def setResultsPerPage(_f: Int) = copy(resultsPerPage = _f)
 
 		def clearQuery = copy(query = "")
 		def clearPageNumber = copy(pageNumber = None)
@@ -21,30 +21,38 @@ object SimpleWithComments {
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
 			output.writeString(1, query)
-			pageNumber.foreach(output.writeInt32(2, _))
-			resultsPerPage.foreach(output.writeInt32(3, _))
+			if (pageNumber.isDefined) output.writeInt32(2, pageNumber.get)
+			if (resultsPerPage.isDefined) output.writeInt32(3, resultsPerPage.get)
 		}
+
+		lazy val getSerializedSize = {
+			import com.google.protobuf.CodedOutputStream._
+			var size = 0
+			size += computeStringSize(1, query)
+			if (pageNumber.isDefined) size += computeInt32Size(2, pageNumber.get)
+			if (resultsPerPage.isDefined) size += computeInt32Size(3, resultsPerPage.get)
+
+			size
+		}
+
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SimpleRequest = {
 			var _query = ""
 			var _pageNumber = pageNumber
 			var _resultsPerPage = resultsPerPage
 
+			def _newMerged = SimpleRequest(
+				_query,
+				_pageNumber,
+				_resultsPerPage
+			)
 			while (true) (in.readTag: @annotation.switch) match {
-			case 0 => return SimpleRequest(
-				_query,
-				_pageNumber,
-				_resultsPerPage
-			)
-			case 10 => _query = in.readBytes().toStringUtf8
-			case 16 => _pageNumber = in.readInt32()
-			case 24 => _resultsPerPage = in.readInt32()
-			case default => if (!in.skipField(default)) return SimpleRequest(
-				_query,
-				_pageNumber,
-				_resultsPerPage
-			)
+				case 0 => return _newMerged
+				case 10 => _query = in.readString()
+				case 16 => _pageNumber = in.readInt32()
+				case 24 => _resultsPerPage = in.readInt32()
+				case default => if (!in.skipField(default)) return _newMerged
 			}
-			null // unreachable code
+			null // compiler needs a return value
 		}
 
 		def mergeFrom(m: SimpleRequest) = {
@@ -53,17 +61,6 @@ object SimpleWithComments {
 				m.pageNumber.orElse(pageNumber),
 				m.resultsPerPage.orElse(resultsPerPage)
 			)
-		}
-
-		lazy val getSerializedSize = {
-			import com.google.protobuf.CodedOutputStream._
-			import com.google.protobuf.ByteString.copyFromUtf8
-			var size = 0
-			size += computeStringSize(1, query)
-			pageNumber.foreach(size += computeInt32Size(2, _))
-			resultsPerPage.foreach(size += computeInt32Size(3, _))
-
-			size
 		}
 
 		def getDefaultInstanceForType = SimpleRequest.defaultInstance

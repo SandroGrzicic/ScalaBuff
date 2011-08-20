@@ -10,12 +10,12 @@ object Simple {
 		with hr.sandrogrzicic.scalabuff.runtime.Message[SimpleTest] {
 
 		def getOptionalField = optionalField.getOrElse(0.0f)
-		def setRequiredField(f: Int) = copy(requiredField = f)
-		def setOptionalField(f: Float) = copy(optionalField = f)
-		def setRepeatedField(i: Int, v: String) = copy(repeatedField = repeatedField.updated(i, v))
-		def addRepeatedField(f: String) = copy(repeatedField = repeatedField :+ f)
-		def addAllRepeatedField(f: String*) = copy(repeatedField = repeatedField ++ f)
-		def addAllRepeatedField(f: TraversableOnce[String]) = copy(repeatedField = repeatedField ++ f)
+
+		def setOptionalField(_f: Float) = copy(optionalField = _f)
+		def setRepeatedField(_i: Int, _v: String) = copy(repeatedField = repeatedField.updated(_i, _v))
+		def addRepeatedField(_f: String) = copy(repeatedField = repeatedField :+ _f)
+		def addAllRepeatedField(_f: String*) = copy(repeatedField = repeatedField ++ _f)
+		def addAllRepeatedField(_f: TraversableOnce[String]) = copy(repeatedField = repeatedField ++ _f)
 
 		def clearRequiredField = copy(requiredField = 0)
 		def clearOptionalField = copy(optionalField = None)
@@ -23,30 +23,38 @@ object Simple {
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
 			output.writeInt32(1, requiredField)
-			optionalField.foreach(output.writeFloat(2, _))
-			repeatedField.foreach(output.writeString(3, _))
+			if (optionalField.isDefined) output.writeFloat(2, optionalField.get)
+			for (_v <- repeatedField) output.writeString(3, _v)
 		}
+
+		lazy val getSerializedSize = {
+			import com.google.protobuf.CodedOutputStream._
+			var size = 0
+			size += computeInt32Size(1, requiredField)
+			if (optionalField.isDefined) size += computeFloatSize(2, optionalField.get)
+			for (_v <- repeatedField) size += 1 + computeBytesSizeNoTag(_v)
+
+			size
+		}
+
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SimpleTest = {
 			var _requiredField = 0
 			var _optionalField = optionalField
 			var _repeatedField = repeatedField.toBuffer
 
+			def _newMerged = SimpleTest(
+				_requiredField,
+				_optionalField,
+				Vector(_repeatedField: _*)
+			)
 			while (true) (in.readTag: @annotation.switch) match {
-			case 0 => return SimpleTest(
-				_requiredField,
-				_optionalField,
-				Vector.concat(_repeatedField)
-			)
-			case 8 => _requiredField = in.readInt32()
-			case 21 => _optionalField = in.readFloat()
-			case 26 => _repeatedField += in.readBytes().toStringUtf8
-			case default => if (!in.skipField(default)) return SimpleTest(
-				_requiredField,
-				_optionalField,
-				Vector.concat(_repeatedField)
-			)
+				case 0 => return _newMerged
+				case 8 => _requiredField = in.readInt32()
+				case 21 => _optionalField = in.readFloat()
+				case 26 => _repeatedField += in.readString()
+				case default => if (!in.skipField(default)) return _newMerged
 			}
-			null // unreachable code
+			null // compiler needs a return value
 		}
 
 		def mergeFrom(m: SimpleTest) = {
@@ -55,17 +63,6 @@ object Simple {
 				m.optionalField.orElse(optionalField),
 				repeatedField ++ m.repeatedField
 			)
-		}
-
-		lazy val getSerializedSize = {
-			import com.google.protobuf.CodedOutputStream._
-			import com.google.protobuf.ByteString.copyFromUtf8
-			var size = 0
-			size += computeInt32Size(1, requiredField)
-			optionalField.foreach(size += computeFloatSize(2, _))
-			repeatedField.foreach(v => size += 1 + computeBytesSizeNoTag(copyFromUtf8(v)))
-
-			size
 		}
 
 		def getDefaultInstanceForType = SimpleTest.defaultInstance

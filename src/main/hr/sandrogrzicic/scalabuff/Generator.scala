@@ -93,19 +93,37 @@ class Generator protected(sourceName: String, reader: Reader) {
 		def message(name: String, body: MessageBody, indentLevel: Int = 0): String = {
 			import FieldLabels.{REQUIRED, OPTIONAL, REPEATED}
 			import FieldTypes.{INT32, UINT32, SINT32, FIXED32, SFIXED32, INT64, UINT64, SINT64, FIXED64, SFIXED64, BOOL, FLOAT, DOUBLE, BYTES, STRING}
+			import com.google.protobuf.WireFormat.{WIRETYPE_VARINT, WIRETYPE_FIXED32, WIRETYPE_FIXED64, WIRETYPE_LENGTH_DELIMITED, WIRETYPE_START_GROUP, WIRETYPE_END_GROUP}
 
 			val indent0 = BuffedString.indent(indentLevel + 1)
 			val (indent1, indent2, indent3) = (indent0 + "\t", indent0 + "\t\t", indent0 + "\t\t\t")
 
 			val fields = body.fields
 
+			// discover which fields have enum types and update them accordingly
+			body.enums.foreach { enum =>
+				fields.foreach { field =>
+					if (field.fType.scalaType == enum.name) {
+						field.fType.name = "Enum"
+						field.fType.scalaType += ".EnumVal"
+					}
+				}
+			}
+			// add class (object) name prefix to custom types
+			fields.foreach { field =>
+				if (field.fType.isCustom) {
+					field.fType.scalaType = name + "." + field.fType.scalaType
+				}
+			}
+
 			body.options.foreach {
-				case Option(key, value) => // ignored: no options supported yet
+				case Option(key, value) => // no options supported yet
 			}
 			body.extensionRanges.foreach {
 				case ExtensionRanges(extensionRanges) => // not supported yet
 			}
 
+			/** main StringBuilder for the whole message */
 			val out = StringBuilder.newBuilder
 
 			// *** case class
@@ -179,11 +197,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 						.append(field.number).append(", ").append(field.name.lowerCamelCase).append(".get)\n")
 					case REPEATED => out.append(indent2).append("for (_v <- ")
 						.append(field.name.lowerCamelCase).append(") ")
-						.append("output.write")
-						field.fType match {
-							case STRING | BYTES => out.append("Bytes")
-							case _ => out.append(field.fType.name)
-						}
+						.append("output.write").append(field.fType.name)
 						out.append("(").append(field.number).append(", _v)\n")
 					case _ => // weird warning - missing combination <local child> ?!
 				}
@@ -206,11 +220,10 @@ class Generator protected(sourceName: String, reader: Reader) {
 					case REPEATED => out.append(indent2).append("for (_v <- ")
 						.append(field.name.lowerCamelCase).append(") ")
 						.append("size += ")
-						field.fType match {
-							case STRING | BYTES => out.append("1 + computeBytesSizeNoTag(_v)")
-							case _ => out.append("compute")
-								.append(field.fType.name).append("Size(")
-								.append(field.number).append(", _v)")
+						if (field.fType.wireType == WIRETYPE_LENGTH_DELIMITED) {
+							out.append("1 + computeBytesSizeNoTag(_v)")
+						} else {
+							out.append("compute").append(field.fType.name).append("Size(").append(field.number).append(", _v)")
 						}
 						out.append("\n")
 					case _ => // weird warning - missing combination <local child> ?!
@@ -256,17 +269,16 @@ class Generator protected(sourceName: String, reader: Reader) {
 				out.append(indent3).append("case ").append((field.number << 3) | field.fType.wireType).append(" => ")
 					.append("_").append(field.name.lowerCamelCase).append(" ")
 				if (field.label == REPEATED) out.append("+")
-				out.append("= in.read")
-				field.fType match {
-					case STRING => out.append("Bytes().toStringUtf8")
-					case _ => out.append(field.fType.name.capitalize).append("()")
-				}
+				out.append("= ")
+					if (field.fType == WIRETYPE_LENGTH_DELIMITED) out.append("in.readBytes()")
+					else if (field.fType.name == "Enum") out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
+					else out.append("in.read").append(field.fType.name).append("()")
 				out.append("\n")
 			}
 			out.append(indent3).append("case default => if (!in.skipField(default)) return _newMerged\n")
 			out
 				.append(indent2).append("}\n")
-				.append(indent2).append("null // unreachable code\n")
+				.append(indent2).append("null // compiler needs a return value\n")
 				.append(indent1).append("}\n")
 
 			// mergeFrom(Message)

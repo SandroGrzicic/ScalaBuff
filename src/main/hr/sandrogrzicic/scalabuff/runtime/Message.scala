@@ -12,7 +12,9 @@ import java.io.{FilterInputStream, InputStream}
  */
 trait Message[MessageType <: MessageLite with MessageLite.Builder] extends MessageLite.Builder {
 
-	implicit def anyToOption[T](any: T) = Some[T](any)
+	implicit def _anyToOption[T](any: T) = Some[T](any)
+
+	implicit def _stringToByteString(string: String) = ByteString.copyFromUtf8(string)
 
 	def mergeFrom(message: MessageType): MessageType
 
@@ -89,7 +91,7 @@ trait Message[MessageType <: MessageLite with MessageLite.Builder] extends Messa
 	/**
 	 * See {@link com.google.protobuf.AbstractMessageLite.Builder#LimitedInputStream}.
 	 */
-	private final class LimitedInputStream(
+	private final class LimitedInputStream (
 		val inputStream: InputStream, private var limit: Int
 	) extends FilterInputStream(inputStream) {
 
@@ -107,7 +109,7 @@ trait Message[MessageType <: MessageLite with MessageLite.Builder] extends Messa
 			}
 		}
 
-		override def read(bytes: Array[Byte], offset: Int, length: Int): Int = {
+		override def read(bytes: Array[Byte], offset: Int, length: Int) = {
 			if (limit > 0) {
 				val limitedLength = scala.math.min(length, limit)
 				val result = super.read(bytes, offset, limitedLength)

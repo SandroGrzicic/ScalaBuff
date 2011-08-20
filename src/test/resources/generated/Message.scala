@@ -9,33 +9,33 @@ object Message {
 
 
 
+
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
 		}
+
+		lazy val getSerializedSize = {
+			import com.google.protobuf.CodedOutputStream._
+			var size = 0
+
+			size
+		}
+
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): EmptyMessage = {
 
+			def _newMerged = EmptyMessage(
+
+			)
 			while (true) (in.readTag: @annotation.switch) match {
-			case 0 => return EmptyMessage(
-
-			)
-			case default => if (!in.skipField(default)) return EmptyMessage(
-
-			)
+				case 0 => return _newMerged
+				case default => if (!in.skipField(default)) return _newMerged
 			}
-			null // unreachable code
+			null // compiler needs a return value
 		}
 
 		def mergeFrom(m: EmptyMessage) = {
 			EmptyMessage(
 
 			)
-		}
-
-		lazy val getSerializedSize = {
-			import com.google.protobuf.CodedOutputStream._
-			import com.google.protobuf.ByteString.copyFromUtf8
-			var size = 0
-
-			size
 		}
 
 		def getDefaultInstanceForType = EmptyMessage.defaultInstance

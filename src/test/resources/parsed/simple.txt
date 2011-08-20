@@ -1,1 +1,1 @@
-List(Option(optimize_for,LITE_RUNTIME), Message(SimpleTest,MessageBody(List(Field(required,int32,required_field,1,List()), Field(optional,float,optional_field,2,List()), Field(repeated,string,repeated_field,3,List())),List(),List(),List(),List(),List(),List())))
+List(Option(optimize_for,LITE_RUNTIME), Message(SimpleTest,MessageBody(List(Field(required,Int32,required_field,1,List()), Field(optional,Float,optional_field,2,List()), Field(repeated,String,repeated_field,3,List())),List(),List(),List(),List(),List(),List())))

@@ -10,6 +10,8 @@ trait Enum {
 
 	type EnumVal <: Value
 
+	implicit def _enumToInt(_e: EnumVal) = _e.id
+
 	private val _values = new AtomicReference(Vector[EnumVal]())
 
 	/**
