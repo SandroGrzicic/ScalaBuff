@@ -7,6 +7,7 @@ package hr.sandrogrzicic.scalabuff
 
 object Strings {
 	val CANNOT_ACCESS_RESOURCE = "Error: Cannot access specified resource: "
+	val CANNOT_WRITE_FILE = "Error: Unable to write output file: "
 	val INVALID_OUTPUT_DIRECTORY = "Invalid output directory: "
 	val UNKNOWN_ARGUMENT = "Unknown argument: "
 	val HELP = """Scala protocol buffers compiler.

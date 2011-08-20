@@ -37,7 +37,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 		 * Enum generation
 		 */
 		def enum(enum: EnumStatement, indentLevel: Int = 0) = {
-			val indentOuter = BuffedString.indent(indentLevel + 1)
+			val indentOuter = BuffedString.indent(indentLevel)
 			val indent = indentOuter + "\t"
 
 			val out = StringBuilder.newBuilder
@@ -96,24 +96,16 @@ class Generator protected(sourceName: String, reader: Reader) {
 			import FieldTypes.{INT32, UINT32, SINT32, FIXED32, SFIXED32, INT64, UINT64, SINT64, FIXED64, SFIXED64, BOOL, FLOAT, DOUBLE, BYTES, STRING}
 			import com.google.protobuf.WireFormat.{WIRETYPE_VARINT, WIRETYPE_FIXED32, WIRETYPE_FIXED64, WIRETYPE_LENGTH_DELIMITED, WIRETYPE_START_GROUP, WIRETYPE_END_GROUP}
 
-			val indent0 = BuffedString.indent(indentLevel + 1)
+			val indent0 = BuffedString.indent(indentLevel)
 			val (indent1, indent2, indent3) = (indent0 + "\t", indent0 + "\t\t", indent0 + "\t\t\t")
 
 			val fields = body.fields
 
-			// discover which fields have enum types and update them accordingly
-			body.enums.foreach { enum =>
-				fields.foreach { field =>
-					if (field.fType.scalaType == enum.name) {
-						field.fType.name = "Enum"
-						field.fType.scalaType += ".EnumVal"
-					}
-				}
-			}
 			// add class (object) name prefix to custom types
 			fields.foreach { field =>
 				if (field.fType.isCustom) {
-					field.fType.scalaType = name + "." + field.fType.scalaType
+					// todo: fix this: types are global
+					field.fType.scalaType = field.fType.scalaType
 					if (field.fType.name != "Enum") {
 						field.fType.name = "Message"
 					}
@@ -190,6 +182,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 			// writeTo(CodedOutputStream)
 			out.append("\n").append(indent1)
 				.append("def writeTo(output: com.google.protobuf.CodedOutputStream) {\n")
+
 			fields.foreach { field =>
 				field.label match {
 					case REQUIRED => out.append(indent2)
@@ -224,7 +217,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 					case REPEATED => out.append(indent2).append("for (_v <- ")
 						.append(field.name.lowerCamelCase).append(") ")
 						.append("size += ")
-						if (field.fType.wireType == WIRETYPE_LENGTH_DELIMITED) {
+						if (field.fType == BYTES || field.fType == STRING) {
 							out.append("1 + computeBytesSizeNoTag(_v)")
 						} else {
 							out.append("compute").append(field.fType.name).append("Size(").append(field.number).append(", _v)")
@@ -246,13 +239,13 @@ class Generator protected(sourceName: String, reader: Reader) {
 			fields.foreach { field =>
 				field.label match {
 					case REQUIRED => out.append(indent2)
-						.append("var _").append(field.name.lowerCamelCase)
+						.append("var _").append(field.name.lowerCamelCase).append(": ").append(field.fType.scalaType)
 						.append(" = ").append(field.fType.defaultValue).append("\n")
 					case OPTIONAL => out.append(indent2)
-						.append("var _").append(field.name.lowerCamelCase)
+						.append("var _").append(field.name.lowerCamelCase).append(": Option[").append(field.fType.scalaType).append("]")
 						.append(" = ").append(field.name.lowerCamelCase).append("\n")
 					case REPEATED => out.append(indent2)
-						.append("var _").append(field.name.lowerCamelCase)
+						.append("var _").append(field.name.lowerCamelCase).append(": collection.mutable.Buffer[").append(field.fType.scalaType).append("]")
 						.append(" = ").append(field.name.lowerCamelCase).append(".toBuffer\n")
 					case _ => // weird warning - missing combination <local child> ?!
 				}
@@ -281,8 +274,16 @@ class Generator protected(sourceName: String, reader: Reader) {
 						else if (field.fType.name == "Enum") out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
 						else out.append("in.read").append(field.fType.name).append("()")
 				} else {
-					out.append("in.readMessage(_").append(field.name.lowerCamelCase).append(".orElse(_").append(field.name.lowerCamelCase)
-						.append(" = ").append(className).append(".").append(field.fType.scalaType).append("()).get, _emptyRegistry)")
+					field.label match {
+						case REQUIRED => out.append("in.readMessage(_").append(field.name.lowerCamelCase)
+						case OPTIONAL => out
+							.append("in.readMessage(_").append(field.name.lowerCamelCase).append(".orElse(_").append(field.name.lowerCamelCase)
+							.append(" = ").append(field.fType.scalaType).append("()).get")
+						case REPEATED => out
+							.append("for (_v <- _").append(field.name.lowerCamelCase).append(") in.readMessage(_v")
+						case _ => // weird warning - missing combination <local child> ?!
+					}
+					out.append(", _emptyRegistry)")
 				}
 				out.append("\n")
 			}
@@ -397,6 +398,22 @@ class Generator protected(sourceName: String, reader: Reader) {
 			}
 		}
 
+		// discover which fields have enum types and update them accordingly
+		// todo: nesting etc..
+		tree.foreach { node => node match {
+			case Message(name, body) =>
+				body.enums.foreach { enum =>
+					body.fields.foreach { field =>
+						if (field.fType.scalaType == enum.name) {
+							field.fType.name = "Enum"
+							field.fType.scalaType += ".EnumVal"
+						}
+					}
+				}
+			case _ =>
+			}
+		}
+
 		// traverse the tree, so we can get class/package names, options, etc.
 		val generated = traverse(tree)
 
@@ -411,10 +428,12 @@ class Generator protected(sourceName: String, reader: Reader) {
 		// package
 		if (!packageName.isEmpty)
 			output.append("package ").append(packageName).append("\n\n")
+
+		// generated output
+		output.append(generated).append("\n")
+
 		// begin outer object
 		output.append("object ").append(className).append(" {\n")
-		// inner classes, objects etc.
-		output.append(generated).append("\n")
 		// finalize outer object
 		output
 			.append("\tdef registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {\n")

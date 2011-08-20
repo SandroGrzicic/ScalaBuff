@@ -47,17 +47,23 @@ object ScalaBuff {
 					return
 			} else {
 				// argument is a resource path
+				var scalaClass: ScalaClass = null
 				try {
-					if (stdout) {
-						println(apply(arg))
-					} else {
-						write(apply(arg))
+					scalaClass = apply(arg)
+					try {
+						if (stdout) {
+							println(scalaClass)
+						} else {
+							write(scalaClass)
+						}
+					} catch {
+						case io: IOException => println(Strings.CANNOT_WRITE_FILE + scalaClass.path + scalaClass.file + ".scala")
+						case e => throw e
 					}
 				} catch {
-					// on parsing failure or invalid resource name, just print the error
+					// on parsing failure or resource access error name, just print the error
 					case pf: ParsingFailureException => println(pf.getMessage)
 					case io: IOException => println(Strings.CANNOT_ACCESS_RESOURCE + arg)
-					// serious error - stop execution
 					case e => throw e
 				}
 			}
