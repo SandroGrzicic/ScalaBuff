@@ -72,7 +72,7 @@ object FieldTypes extends Enum {
 	 * @param isClass whether the field is a custom type.
 	 */
 	case class EnumVal private[FieldTypes](
-		var name: String, var scalaType: String, defaultValue: String, wireType: Int,
+		var name: String, var scalaType: String, var defaultValue: String, wireType: Int,
 		isCustom: Boolean = false
 	) extends Value
 

@@ -2,7 +2,8 @@ package hr.sandrogrzicic.scalabuff
 
 import annotation.tailrec
 import java.io._
-import collection.mutable.{ListBuffer, StringBuilder}
+import collection.mutable
+import mutable.{ArrayBuffer, HashSet}
 
 /**
  * Scala class generator.
@@ -13,7 +14,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 
 	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 
-	val imports = ListBuffer[String]()
+	val imports = mutable.ListBuffer[String]()
 
 	var packageName: String = ""
 	var className: String = sourceName.takeUntilFirst('.').camelCase
@@ -100,17 +101,6 @@ class Generator protected(sourceName: String, reader: Reader) {
 			val (indent1, indent2, indent3) = (indent0 + "\t", indent0 + "\t\t", indent0 + "\t\t\t")
 
 			val fields = body.fields
-
-			// add class (object) name prefix to custom types
-			fields.foreach { field =>
-				if (field.fType.isCustom) {
-					// todo: fix this: types are global
-					field.fType.scalaType = field.fType.scalaType
-					if (field.fType.name != "Enum") {
-						field.fType.name = "Message"
-					}
-				}
-			}
 
 			body.options.foreach {
 				case Option(key, value) => // no options supported yet
@@ -239,13 +229,15 @@ class Generator protected(sourceName: String, reader: Reader) {
 			fields.foreach { field =>
 				field.label match {
 					case REQUIRED => out.append(indent2)
-						.append("var _").append(field.name.lowerCamelCase).append(": ").append(field.fType.scalaType)
+						if (field.fType.name == "Message") out.append("val")
+						else out.append("var")
+						out.append(" _").append(field.name.lowerCamelCase).append(": ").append(field.fType.scalaType)
 						.append(" = ").append(field.fType.defaultValue).append("\n")
 					case OPTIONAL => out.append(indent2)
 						.append("var _").append(field.name.lowerCamelCase).append(": Option[").append(field.fType.scalaType).append("]")
 						.append(" = ").append(field.name.lowerCamelCase).append("\n")
 					case REPEATED => out.append(indent2)
-						.append("var _").append(field.name.lowerCamelCase).append(": collection.mutable.Buffer[").append(field.fType.scalaType).append("]")
+						.append("val _").append(field.name.lowerCamelCase).append(": collection.mutable.Buffer[").append(field.fType.scalaType).append("]")
 						.append(" = ").append(field.name.lowerCamelCase).append(".toBuffer\n")
 					case _ => // weird warning - missing combination <local child> ?!
 				}
@@ -398,21 +390,39 @@ class Generator protected(sourceName: String, reader: Reader) {
 			}
 		}
 
-		// discover which fields have enum types and update them accordingly
-		// todo: nesting etc..
-		tree.foreach { node => node match {
-			case Message(name, body) =>
-				body.enums.foreach { enum =>
-					body.fields.foreach { field =>
-						if (field.fType.scalaType == enum.name) {
-							field.fType.name = "Enum"
-							field.fType.scalaType += ".EnumVal"
-						}
-					}
+		/** Discover which fields have enum types. */
+		def getEnumNames(
+			tree: List[Node],
+			enumNames: mutable.HashSet[String] = mutable.HashSet.empty[String],
+			allProtoFields: mutable.ArrayBuffer[Field] = mutable.ArrayBuffer.empty[Field]
+		): (HashSet[String], ArrayBuffer[Field]) = {
+
+			for (node <- tree) {
+				node match {
+					case Message(name, body) =>
+						for (enum <- body.enums) enumNames += enum.name
+						allProtoFields ++= body.fields
+						getEnumNames(body.messages, enumNames)
+					case EnumStatement(name, constants, options) => enumNames += name
+					case _ =>
 				}
-			case _ =>
+			}
+			(enumNames, allProtoFields)
+		}
+		/** Update fields which have enum types. */
+		def fixEnumNames(tree: List[Node], enumNames: mutable.Set[String], allProtoFields: mutable.Buffer[Field]) {
+			for (field <- allProtoFields) {
+				if (enumNames.contains(field.fType.name)) {
+					field.fType.name = "Enum"
+					field.fType.scalaType += ".EnumVal"
+				} else if (field.fType.isCustom) {
+					field.fType.name = "Message"
+					field.fType.defaultValue = field.fType.scalaType + "()"
+				}
 			}
 		}
+		val (enumNames, allProtoFields) = getEnumNames(tree)
+		fixEnumNames(tree, enumNames, allProtoFields)
 
 		// traverse the tree, so we can get class/package names, options, etc.
 		val generated = traverse(tree)
