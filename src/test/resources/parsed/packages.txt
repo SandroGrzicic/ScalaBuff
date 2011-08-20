@@ -1,1 +1,1 @@
-List(PackageStatement(proto), Message(Packages,MessageBody(List(),List(),List(),List(),List(),List(),List())))
+List(Option(scala_outer_classname,PackageTest), PackageStatement(proto), Message(Packages,MessageBody(List(),List(),List(),List(),List(),List(),List())))

@@ -254,7 +254,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 			if (!fields.isEmpty) out.length -= 2
 			out.append("\n")
 			out.append(indent2).append(")\n")
-				.append(indent2).append("while (true) (in.readTag: @annotation.switch) match {\n")
+				.append(indent2).append("while (true) in.readTag match {\n")
 				.append(indent3).append("case 0 => return _newMerged\n")
 			fields.foreach { field =>
 				out.append(indent3).append("case ").append((field.number << 3) | field.fType.wireType).append(" => ")
@@ -402,12 +402,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 			for (node <- tree) {
 				node match {
 					case Message(name, body) =>
-						for (enum <- body.enums) {
-							enumNames += enum.name
-//							body.fields
-//								.filter(_.fType.name == enum.name)
-//								.foreach(field => field.fType.scalaType = name + "." + field.fType.name)
-						}
+						for (enum <- body.enums) enumNames += enum.name
 						allProtoFields ++= body.fields
 						getEnumNames(body.messages, enumNames)
 					case EnumStatement(name, constants, options) => enumNames += name

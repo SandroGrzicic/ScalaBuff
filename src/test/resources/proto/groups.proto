@@ -1,3 +1,5 @@
+option scala_outer_classname = "GroupsTest";
+
 message Groups {
 	repeated group Group = 1 {
         required string name = 2;

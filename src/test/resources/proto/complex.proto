@@ -6,7 +6,9 @@ message ComplexMessage {
 	}
 	message Nested {
 		required string nested_field = 1;
+		optional SimpleEnum nested_enum = 2;
 	}
 	optional string second_field = 2 [default = "defaultValueForSecondField"];
 	optional Nested nested_outer_field = 3;
+	repeated SimpleEnum simple_enum_field = 4;
 }

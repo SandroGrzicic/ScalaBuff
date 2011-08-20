@@ -1,3 +1,5 @@
+option scala_outer_classname = "DataTypesTest";
+
 message DataTypes {
 	required int32 varint1 = 1;
 	optional int64 varint2 = 2;
