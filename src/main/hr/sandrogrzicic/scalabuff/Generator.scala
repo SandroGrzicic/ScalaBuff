@@ -412,12 +412,14 @@ class Generator protected(sourceName: String, reader: Reader) {
 		/** Update fields which have enum types. */
 		def fixEnumNames(tree: List[Node], enumNames: mutable.Set[String], allProtoFields: mutable.Buffer[Field]) {
 			for (field <- allProtoFields) {
-				if (enumNames.contains(field.fType.name)) {
-					field.fType.name = "Enum"
-					field.fType.scalaType += ".EnumVal"
-				} else if (field.fType.isCustom) {
-					field.fType.name = "Message"
-					field.fType.defaultValue = field.fType.scalaType + "()"
+				if (field.fType.isCustom) {
+					if (enumNames.contains(field.fType.name)) {
+						field.fType.name = "Enum"
+						field.fType.scalaType += ".EnumVal"
+					} else {
+						field.fType.name = "Message"
+						field.fType.defaultValue = field.fType.scalaType + "()"
+					}
 				}
 			}
 		}
