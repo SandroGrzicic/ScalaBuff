@@ -44,7 +44,6 @@ class Generator protected(sourceName: String, reader: Reader) {
 			out
 				.append(indentOuter).append("object ").append(enum.name).append(" extends hr.sandrogrzicic.scalabuff.runtime.Enum {\n")
 				.append(indent).append("sealed trait EnumVal extends Value\n")
-				.append(indent).append("\t\n")
 
 			for (enumOption <- enum.options) {
 				// options?
@@ -66,11 +65,13 @@ class Generator protected(sourceName: String, reader: Reader) {
 			// valueOf
 			out.append("\n").append(indent).append("def valueOf(id: Int) = ")
 			if (optimizeForSpeed) {	// O(1)
-				out.append("(id: @annotation.switch) match {\n")
+				// todo: find out why @annotation.switch doesn't work properly
+				out.append("id match {\n")
 				for (const <- enum.constants) {
 					out.append(indent).append("\t")
 						.append("case ").append(const.id).append(" => ").append(const.name).append("\n")
 				}
+				out.append(indent).append("\t").append("case _default => throw new hr.sandrogrzicic.scalabuff.runtime.UnknownEnumException(_default)\n");
 				out.append(indent).append("}\n")
 			} else {	// O(n)
 				out.append("values.find(_.id == id).getOrElse(null)\n")
@@ -118,8 +119,6 @@ class Generator protected(sourceName: String, reader: Reader) {
 					}
 				}
 			}
-
-			lazy val fieldsWithoutMessages = fields.filter(_.fType.name != "Message")
 
 			body.options.foreach {
 				case Option(key, value) => // no options supported yet

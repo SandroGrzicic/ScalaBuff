@@ -51,3 +51,9 @@ trait Enum {
 	}
 
 }
+
+
+/**
+ * Thrown when an unknown enum number is passed to the valueOf method of an Enum.
+ */
+class UnknownEnumException(enumID: Int) extends RuntimeException("Unknown enum ID: " + enumID)

@@ -39,16 +39,18 @@ object Complex {
 			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 			var _firstField = com.google.protobuf.ByteString.EMPTY
 			var _secondField = secondField
+			var _nestedOuterField = nestedOuterField
 
 			def _newMerged = ComplexMessage(
 				_firstField,
-				_secondField
+				_secondField,
+				_nestedOuterField
 			)
 			while (true) (in.readTag: @annotation.switch) match {
 				case 0 => return _newMerged
 				case 10 => _firstField = in.readBytes()
 				case 18 => _secondField = in.readString()
-				case 26 => in.readMessage(nestedOuterField.orElse(nestedOuterField = Complex.ComplexMessage.Nested()).get, _emptyRegistry)
+				case 26 => in.readMessage(_nestedOuterField.orElse(_nestedOuterField = ComplexTest.ComplexMessage.Nested()).get, _emptyRegistry)
 				case default => if (!in.skipField(default)) return _newMerged
 			}
 			null // compiler needs a return value
