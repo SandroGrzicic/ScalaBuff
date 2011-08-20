@@ -137,17 +137,17 @@ class Generator protected(sourceName: String, reader: Reader) {
 			fields.foreach { field =>
 				field.label match {
 					case OPTIONAL => out.append(indent1)
-						.append("def set").append(field.name.camelCase).append("(f: ").append(field.fType.scalaType)
-						.append(") = copy(").append(field.name.lowerCamelCase).append(" = f)\n")
+						.append("def set").append(field.name.camelCase).append("(_f: ").append(field.fType.scalaType)
+						.append(") = copy(").append(field.name.lowerCamelCase).append(" = _f)\n")
 					case REPEATED => out
-						.append(indent1).append("def set").append(field.name.camelCase).append("(i: Int, v: ").append(field.fType.scalaType)
-						.append(") = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(".updated(i, v))\n")
-						.append(indent1).append("def add").append(field.name.camelCase).append("(f: ").append(field.fType.scalaType)
-						.append(") = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" :+ f)\n")
-						.append(indent1).append("def addAll").append(field.name.camelCase).append("(f: ").append(field.fType.scalaType)
-						.append("*) = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" ++ f)\n")
-						.append(indent1).append("def addAll").append(field.name.camelCase).append("(f: TraversableOnce[").append(field.fType.scalaType)
-						.append("]) = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" ++ f)\n")
+						.append(indent1).append("def set").append(field.name.camelCase).append("(_i: Int, _v: ").append(field.fType.scalaType)
+						.append(") = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(".updated(_i, _v))\n")
+						.append(indent1).append("def add").append(field.name.camelCase).append("(_f: ").append(field.fType.scalaType)
+						.append(") = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" :+ _f)\n")
+						.append(indent1).append("def addAll").append(field.name.camelCase).append("(_f: ").append(field.fType.scalaType)
+						.append("*) = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" ++ _f)\n")
+						.append(indent1).append("def addAll").append(field.name.camelCase).append("(_f: TraversableOnce[").append(field.fType.scalaType)
+						.append("]) = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" ++ _f)\n")
 					case _ => // don't generate a setter for REQUIRED fields, as the copy method can be used
 				}
 			}
@@ -177,16 +177,50 @@ class Generator protected(sourceName: String, reader: Reader) {
 						.append(field.name.lowerCamelCase).append(".isDefined) ")
 						.append("output.write").append(field.fType.name).append("(")
 						.append(field.number).append(", ").append(field.name.lowerCamelCase).append(".get)\n")
-					case REPEATED => out.append(indent2).append("for (_ <- ")
+					case REPEATED => out.append(indent2).append("for (_v <- ")
 						.append(field.name.lowerCamelCase).append(") ")
-						.append("output.write").append(field.fType.name).append("(")
-						.append(field.number).append(", _)\n")
+						.append("output.write")
+						field.fType match {
+							case STRING | BYTES => out.append("Bytes")
+							case _ => out.append(field.fType.name)
+						}
+						out.append("(").append(field.number).append(", _v)\n")
 					case _ => // weird warning - missing combination <local child> ?!
 				}
 			}
 			out.append(indent1).append("}\n")
 
+			// getSerializedSize
+			out.append("\n").append(indent1).append("lazy val getSerializedSize = {\n")
+				.append(indent2).append("import com.google.protobuf.CodedOutputStream._\n")
+				.append(indent2).append("var size = 0\n")
+			fields.foreach { field =>
+				field.label match {
+					case REQUIRED => out.append(indent2)
+						.append("size += compute").append(field.fType.name).append("Size(")
+						.append(field.number).append(", ").append(field.name.lowerCamelCase).append(")\n")
+					case OPTIONAL => out.append(indent2).append("if (")
+						.append(field.name.lowerCamelCase).append(".isDefined) ")
+						.append("size += compute").append(field.fType.name).append("Size(")
+						.append(field.number).append(", ").append(field.name.lowerCamelCase).append(".get)\n")
+					case REPEATED => out.append(indent2).append("for (_v <- ")
+						.append(field.name.lowerCamelCase).append(") ")
+						.append("size += ")
+						field.fType match {
+							case STRING | BYTES => out.append("1 + computeBytesSizeNoTag(_v)")
+							case _ => out.append("compute")
+								.append(field.fType.name).append("Size(")
+								.append(field.number).append(", _v)")
+						}
+						out.append("\n")
+					case _ => // weird warning - missing combination <local child> ?!
+				}
+			}
+			out.append("\n").append(indent2).append("size\n")
+				.append(indent1).append("}\n")
+
 			// mergeFrom(CodedInputStream, ExtensionRegistryLite)
+			// need to split this into 2 versions: optimize for speed (current code) and for code size (use setters, generating new Messages each time)
 			out.append("\n").append(indent1)
 				.append("def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): ")
 				.append(name).append(" = {\n")
@@ -204,21 +238,18 @@ class Generator protected(sourceName: String, reader: Reader) {
 					case _ => // weird warning - missing combination <local child> ?!
 				}
 			}
-
-			val mergedFields = StringBuilder.newBuilder
-			fields.foreach { field =>
-				mergedFields.append(indent3)
-				if (field.label == REPEATED) mergedFields.append("Vector(")
-				mergedFields.append("_").append(field.name.lowerCamelCase)
-				if (field.label == REPEATED) mergedFields.append(": _*)")
-				mergedFields.append(",\n")
-			}
-			if (!fields.isEmpty) mergedFields.length -= 2
-			mergedFields.append("\n")
-
 			out.append("\n")
 				.append(indent2).append("def _newMerged = ").append(name).append("(\n")
-				.append(mergedFields).append(indent2).append(")\n")
+			fields.foreach { field =>
+				out.append(indent3)
+				if (field.label == REPEATED) out.append("Vector(")
+				out.append("_").append(field.name.lowerCamelCase)
+				if (field.label == REPEATED) out.append(": _*)")
+				out.append(",\n")
+			}
+			if (!fields.isEmpty) out.length -= 2
+			out.append("\n")
+			out.append(indent2).append(")\n")
 				.append(indent2).append("while (true) (in.readTag: @annotation.switch) match {\n")
 				.append(indent3).append("case 0 => return _newMerged\n")
 			fields.foreach { field =>
@@ -258,36 +289,6 @@ class Generator protected(sourceName: String, reader: Reader) {
 			if (!fields.isEmpty) out.length -= 2
 			out.append("\n").append(indent2).append(")\n")
 			out.append(indent1).append("}\n")
-
-			// getSerializedSize
-			out.append("\n").append(indent1).append("lazy val getSerializedSize = {\n")
-				.append(indent2).append("import com.google.protobuf.CodedOutputStream._\n")
-				.append(indent2).append("import com.google.protobuf.ByteString.copyFromUtf8\n")
-				.append(indent2).append("var size = 0\n")
-			fields.foreach { field =>
-				field.label match {
-					case REQUIRED => out.append(indent2)
-						.append("size += compute").append(field.fType.name).append("Size(")
-						.append(field.number).append(", ").append(field.name.lowerCamelCase).append(")\n")
-					case OPTIONAL => out.append(indent2)
-						.append(field.name.lowerCamelCase).append(".foreach(")
-						.append("size += compute").append(field.fType.name).append("Size(")
-						.append(field.number).append(", _))\n")
-					case REPEATED => out.append(indent2)
-						.append(field.name.lowerCamelCase).append(".foreach(")
-						.append("v => size += ")
-						field.fType match {
-							case STRING => out.append("1 + computeBytesSizeNoTag(copyFromUtf8(v))")
-							case _ => out.append("compute")
-								.append(field.fType.name).append("Size(")
-								.append(field.number).append(", v)")
-						}
-						out.append(")\n")
-					case _ => // weird warning - missing combination <local child> ?!
-				}
-			}
-			out.append("\n").append(indent2).append("size\n")
-				.append(indent1).append("}\n")
 
 			out.append("\n")
 				.append(indent1).append("def getDefaultInstanceForType = ").append(name).append(".defaultInstance\n")
