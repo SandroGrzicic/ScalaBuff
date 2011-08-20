@@ -1,23 +1,25 @@
 package hr.sandrogrzicic.scalabuff.runtime
 
-import java.io.InputStream
 import com.google.protobuf._
+import java.io.{FilterInputStream, InputStream}
 
 /**
  * Message trait for messages generated with ScalaBuff.
- * Acts as a wrapper for GeneratedMessageLite.Builder; contains some helpful methods similar to those in those classes.
+ * Ordinarily Messages would have GeneratedMessageLite.Builder mixed in, but since it's a Java class, we can't do that.
+ * Contains methods implementing the MessageLite.Builder Java interface, similar to ones in GeneratedMessageLite.Builder.
+ *
  * @author Sandro Gržičić
  */
-
-trait Message[MessageType <: MessageLite with MessageLite.Builder] extends MessageLite.Builder
-// can't just extend GeneratedMessageLite.Builder because it's a class (Java..)
-/* extends com.google.protobuf.GeneratedMessageLite.Builder[MessageType, MessageType] */ {
+trait Message[MessageType <: MessageLite with MessageLite.Builder] extends MessageLite.Builder {
 
 	implicit def anyToOption[T](any: T) = Some[T](any)
 
 	def mergeFrom(message: MessageType): MessageType
+
 	def getDefaultInstanceForType: MessageType
+
 	def isInitialized: Boolean
+
 	def mergeFrom(input: CodedInputStream, extensionRegistry: ExtensionRegistryLite): MessageType
 
 	def mergeFrom(input: CodedInputStream): MessageType = mergeFrom(input, ExtensionRegistryLite.getEmptyRegistry)
@@ -66,6 +68,65 @@ trait Message[MessageType <: MessageLite with MessageLite.Builder] extends Messa
 		val merged = mergeFrom(codedInput, extensionRegistry)
 		codedInput.checkLastTagWas(0)
 		merged
+	}
+
+	def mergeDelimitedFrom(input: InputStream, extensionRegistry: ExtensionRegistryLite) = {
+		val firstByte = input.read
+		if (firstByte != -1) {
+			val size = CodedInputStream.readRawVarint32(firstByte, input)
+			val limitedInput = new LimitedInputStream(input, size)
+			mergeFrom(limitedInput, extensionRegistry)
+			true
+		} else {
+			false
+		}
+	}
+
+	def mergeDelimitedFrom(input: InputStream) = {
+		mergeDelimitedFrom(input, ExtensionRegistryLite.getEmptyRegistry)
+	}
+
+	/**
+	 * See {@link com.google.protobuf.AbstractMessageLite.Builder#LimitedInputStream}.
+	 */
+	private final class LimitedInputStream(
+		val inputStream: InputStream, private var limit: Int
+	) extends FilterInputStream(inputStream) {
+
+		override def available = scala.math.min(super.available, limit)
+
+		override def read = {
+			if (limit > 0) {
+				val result = super.read
+				if (result >= 0) {
+					limit -= 1
+				}
+				result
+			} else {
+				-1
+			}
+		}
+
+		override def read(bytes: Array[Byte], offset: Int, length: Int): Int = {
+			if (limit > 0) {
+				val limitedLength = scala.math.min(length, limit)
+				val result = super.read(bytes, offset, limitedLength)
+				if (result >= 0) {
+					limit -= result
+				}
+				result
+			} else {
+				-1
+			}
+		}
+
+		override def skip(n: Long) = {
+			val result = super.skip(scala.math.min(n, limit))
+			if (result >= 0) {
+				limit = (limit - result).toInt
+			}
+			result
+		}
 	}
 
 }
