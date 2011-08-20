@@ -244,7 +244,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 				.append(name).append(" = {\n")
 				.append(indent2).append("import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}\n")
 
-			fieldsWithoutMessages.foreach { field =>
+			fields.foreach { field =>
 				field.label match {
 					case REQUIRED => out.append(indent2)
 						.append("var _").append(field.name.lowerCamelCase)
@@ -260,7 +260,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 			}
 			out.append("\n")
 				.append(indent2).append("def _newMerged = ").append(name).append("(\n")
-			fieldsWithoutMessages.foreach { field =>
+			fields.foreach { field =>
 				out.append(indent3)
 				if (field.label == REPEATED) out.append("Vector(")
 				out.append("_").append(field.name.lowerCamelCase)
@@ -282,7 +282,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 						else if (field.fType.name == "Enum") out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
 						else out.append("in.read").append(field.fType.name).append("()")
 				} else {
-					out.append("in.readMessage(").append(field.name.lowerCamelCase).append(".orElse(").append(field.name.lowerCamelCase)
+					out.append("in.readMessage(_").append(field.name.lowerCamelCase).append(".orElse(_").append(field.name.lowerCamelCase)
 						.append(" = ").append(className).append(".").append(field.fType.scalaType).append("()).get, _emptyRegistry)")
 				}
 				out.append("\n")
@@ -353,7 +353,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 			body.extensions.foreach {
 				case Extension(nestedName, nestedBody) => // not supported yet
 			}
-			// append any nested messages
+			// append any nested messages (recursive)
 			body.messages.foreach {
 				case Message(nestedName, nestedBody) => out.append(message(nestedName, nestedBody, indentLevel + 1))
 			}
