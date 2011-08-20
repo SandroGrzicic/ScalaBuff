@@ -53,28 +53,23 @@ class Parser(filename: String) extends RegexParsers with PackratParsers {
 	}
 
 	lazy val group: PackratParser[Group] = (label <~ "group") ~ (camelCaseIdentifier <~ "=") ~ integerConstant ~ messageBody ^^ {
-		case gLabel ~ name ~ number ~ body => Group(FieldLabels(gLabel), name, number.toInt, body)
+		case gLabel ~ name ~ number ~ body => Group(gLabel, name, number.toInt, body)
 	}
 
 	lazy val field: PackratParser[Field] = label ~ fieldType ~ (identifier <~ "=") ~ integerConstant ~
-		(("[" ~> fieldOption ~ (("," ~ fieldOption) *) <~ "]") ?) <~ ";" ^^ {
-		case fLabel ~ fType ~ name ~ number ~ options => Field(FieldLabels(fLabel), FieldTypes(fType), name, number.toInt, options match {
-			case Some(fOpt ~ fOpts) => List(fOpt) ++ fOpts.map(e => e._2)
+		(("[" ~> optionBody ~ (("," ~ optionBody) *) <~ "]") ?) <~ ";" ^^ {
+		case fLabel ~ fType ~ name ~ number ~ options => Field(fLabel, fType, name, number.toInt, options match {			case Some(fOpt ~ fOpts) => List(fOpt) ++ fOpts.map(e => e._2)
 			case None => List[Option]()
 		})
 	}
 
-	lazy val label: PackratParser[String] = "required" | "optional" | "repeated"
+	lazy val label: PackratParser[FieldLabels.EnumVal] = ("required" | "optional" | "repeated") ^^ {
+		fLabel => FieldLabels(fLabel)
+	}
 
-	lazy val fieldOption: PackratParser[Option] = optionBody |
-		("default" ~> "=" ~> constant) ^^ {
-			value => Option("default", value)
-		}
-
-	lazy val fieldType: PackratParser[String] = "double" | "float" | "int32" | "int64" | "uint32" | "uint64" |
-		"sint32" | "sint64" | "fixed32" | "fixed64" | "sfixed32" | "sfixed64" |
-		"bool" | "string" | "bytes" | userType
-
+	lazy val fieldType: PackratParser[FieldTypes.EnumVal] = userType ^^ {
+		fType => FieldTypes(fType)
+	}
 
 	lazy val userType: PackratParser[String] = (("." ?) ~ identifier ~ (("." ~ identifier) *)) ^^ {
 		case dot ~ ident ~ idents => dot.getOrElse("") + ident + idents.mkString
