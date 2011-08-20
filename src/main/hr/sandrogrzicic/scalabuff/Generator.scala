@@ -113,8 +113,13 @@ class Generator protected(sourceName: String, reader: Reader) {
 			fields.foreach { field =>
 				if (field.fType.isCustom) {
 					field.fType.scalaType = name + "." + field.fType.scalaType
+					if (field.fType.name != "Enum") {
+						field.fType.name = "Message"
+					}
 				}
 			}
+
+			lazy val fieldsWithoutMessages = fields.filter(_.fType.name != "Message")
 
 			body.options.foreach {
 				case Option(key, value) => // no options supported yet
@@ -237,7 +242,9 @@ class Generator protected(sourceName: String, reader: Reader) {
 			out.append("\n").append(indent1)
 				.append("def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): ")
 				.append(name).append(" = {\n")
-			fields.foreach { field =>
+				.append(indent2).append("import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}\n")
+
+			fieldsWithoutMessages.foreach { field =>
 				field.label match {
 					case REQUIRED => out.append(indent2)
 						.append("var _").append(field.name.lowerCamelCase)
@@ -253,7 +260,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 			}
 			out.append("\n")
 				.append(indent2).append("def _newMerged = ").append(name).append("(\n")
-			fields.foreach { field =>
+			fieldsWithoutMessages.foreach { field =>
 				out.append(indent3)
 				if (field.label == REPEATED) out.append("Vector(")
 				out.append("_").append(field.name.lowerCamelCase)
@@ -267,12 +274,17 @@ class Generator protected(sourceName: String, reader: Reader) {
 				.append(indent3).append("case 0 => return _newMerged\n")
 			fields.foreach { field =>
 				out.append(indent3).append("case ").append((field.number << 3) | field.fType.wireType).append(" => ")
-					.append("_").append(field.name.lowerCamelCase).append(" ")
-				if (field.label == REPEATED) out.append("+")
-				out.append("= ")
-					if (field.fType == WIRETYPE_LENGTH_DELIMITED) out.append("in.readBytes()")
-					else if (field.fType.name == "Enum") out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
-					else out.append("in.read").append(field.fType.name).append("()")
+				if (field.fType.name != "Message") {
+					out.append("_").append(field.name.lowerCamelCase).append(" ")
+					if (field.label == REPEATED) out.append("+")
+					out.append("= ")
+						if (field.fType == WIRETYPE_LENGTH_DELIMITED) out.append("in.readBytes()")
+						else if (field.fType.name == "Enum") out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
+						else out.append("in.read").append(field.fType.name).append("()")
+				} else {
+					out.append("in.readMessage(").append(field.name.lowerCamelCase).append(".orElse(").append(field.name.lowerCamelCase)
+						.append(" = ").append(className).append(".").append(field.fType.scalaType).append("()).get, _emptyRegistry)")
+				}
 				out.append("\n")
 			}
 			out.append(indent3).append("case default => if (!in.skipField(default)) return _newMerged\n")

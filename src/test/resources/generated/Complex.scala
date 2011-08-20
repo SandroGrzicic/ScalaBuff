@@ -22,7 +22,7 @@ object Complex {
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
 			output.writeBytes(1, firstField)
 			if (secondField.isDefined) output.writeString(2, secondField.get)
-			if (nestedOuterField.isDefined) output.writeNested(3, nestedOuterField.get)
+			if (nestedOuterField.isDefined) output.writeMessage(3, nestedOuterField.get)
 		}
 
 		lazy val getSerializedSize = {
@@ -30,26 +30,25 @@ object Complex {
 			var size = 0
 			size += computeBytesSize(1, firstField)
 			if (secondField.isDefined) size += computeStringSize(2, secondField.get)
-			if (nestedOuterField.isDefined) size += computeNestedSize(3, nestedOuterField.get)
+			if (nestedOuterField.isDefined) size += computeMessageSize(3, nestedOuterField.get)
 
 			size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): ComplexMessage = {
+			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 			var _firstField = com.google.protobuf.ByteString.EMPTY
 			var _secondField = secondField
-			var _nestedOuterField = nestedOuterField
 
 			def _newMerged = ComplexMessage(
 				_firstField,
-				_secondField,
-				_nestedOuterField
+				_secondField
 			)
 			while (true) (in.readTag: @annotation.switch) match {
 				case 0 => return _newMerged
 				case 10 => _firstField = in.readBytes()
 				case 18 => _secondField = in.readString()
-				case 26 => _nestedOuterField = in.readNested()
+				case 26 => in.readMessage(nestedOuterField.orElse(nestedOuterField = Complex.ComplexMessage.Nested()).get, _emptyRegistry)
 				case default => if (!in.skipField(default)) return _newMerged
 			}
 			null // compiler needs a return value
@@ -116,6 +115,7 @@ object Complex {
 			}
 
 			def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Nested = {
+				import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 				var _nestedField = ""
 
 				def _newMerged = Nested(

@@ -21,6 +21,7 @@ object Message {
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): EmptyMessage = {
+			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 
 			def _newMerged = EmptyMessage(
 

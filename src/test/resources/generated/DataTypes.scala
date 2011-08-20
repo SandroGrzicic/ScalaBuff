@@ -128,6 +128,7 @@ object DataTypes {
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): DataTypes = {
+			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 			var _varint1 = 0
 			var _varint2 = varint2
 			var _varint3 = varint3

@@ -36,6 +36,7 @@ object SimpleWithComments {
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SimpleRequest = {
+			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 			var _query = ""
 			var _pageNumber = pageNumber
 			var _resultsPerPage = resultsPerPage

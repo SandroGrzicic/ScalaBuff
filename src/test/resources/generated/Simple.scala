@@ -38,6 +38,7 @@ object Simple {
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SimpleTest = {
+			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 			var _requiredField = 0
 			var _optionalField = optionalField
 			var _repeatedField = repeatedField.toBuffer
