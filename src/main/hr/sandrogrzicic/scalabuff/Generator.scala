@@ -269,8 +269,10 @@ class Generator protected(sourceName: String, reader: Reader) {
 					field.label match {
 						case REQUIRED => out.append("in.readMessage(_").append(field.name.lowerCamelCase)
 						case OPTIONAL => out
-							.append("in.readMessage(_").append(field.name.lowerCamelCase).append(".orElse(_").append(field.name.lowerCamelCase)
-							.append(" = ").append(field.fType.scalaType).append("()).get")
+							.append("in.readMessage(_").append(field.name.lowerCamelCase).append(".orElse({\n")
+							.append(indent3).append("\t_").append(field.name.lowerCamelCase).append(" = ").append(field.fType.scalaType).append(".defaultInstance\n")
+							.append(indent3).append("\t_").append(field.name.lowerCamelCase).append("\n")
+							.append(indent3).append("}).get")
 						case REPEATED => out
 							.append("for (_v <- _").append(field.name.lowerCamelCase).append(") in.readMessage(_v")
 						case _ => // weird warning - missing combination <local child> ?!
@@ -400,7 +402,12 @@ class Generator protected(sourceName: String, reader: Reader) {
 			for (node <- tree) {
 				node match {
 					case Message(name, body) =>
-						for (enum <- body.enums) enumNames += enum.name
+						for (enum <- body.enums) {
+							enumNames += enum.name
+//							body.fields
+//								.filter(_.fType.name == enum.name)
+//								.foreach(field => field.fType.scalaType = name + "." + field.fType.name)
+						}
 						allProtoFields ++= body.fields
 						getEnumNames(body.messages, enumNames)
 					case EnumStatement(name, constants, options) => enumNames += name
@@ -423,8 +430,32 @@ class Generator protected(sourceName: String, reader: Reader) {
 				}
 			}
 		}
+
+		/** Prepends parent class names to all nested custom field types. */
+		def prependParentClassNames(tree: List[Node]) {
+			for (node <- tree) {
+				node match {
+					case Message(name, body) =>
+						body.messages.foreach {	case Message(mName, mBody) =>
+							body.fields.filter(_.fType.name == "Message").foreach { field =>
+								field.fType.scalaType = name + "." + field.fType.scalaType
+								field.fType.defaultValue = name + "." + field.fType.defaultValue
+							}
+							prependParentClassNames(mBody.messages)
+						}
+						body.enums.foreach { case EnumStatement(eName, eConstants, eOptions) =>
+							body.fields.filter(_.fType.name == "Enum").foreach { field =>
+								field.fType.scalaType = name + "." + field.fType.scalaType
+							}
+						}
+					case _ =>
+				}
+			}
+		}
+
 		val (enumNames, allProtoFields) = getEnumNames(tree)
 		fixEnumNames(tree, enumNames, allProtoFields)
+		prependParentClassNames(tree)
 
 		// traverse the tree, so we can get class/package names, options, etc.
 		val generated = traverse(tree)
