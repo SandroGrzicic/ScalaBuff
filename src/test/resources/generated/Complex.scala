@@ -10,7 +10,7 @@ final case class ComplexMessage (
 	with hr.sandrogrzicic.scalabuff.runtime.Message[ComplexMessage] {
 
 	def getSecondField = secondField.getOrElse("")
-	def getNestedOuterField = nestedOuterField.getOrElse(ComplexMessage.Nested())
+	def getNestedOuterField = nestedOuterField.getOrElse(ComplexMessage.Nested.defaultInstance)
 
 	def setSecondField(_f: String) = copy(secondField = _f)
 	def setNestedOuterField(_f: ComplexMessage.Nested) = copy(nestedOuterField = _f)

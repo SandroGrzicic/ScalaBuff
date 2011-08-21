@@ -229,7 +229,7 @@ class Generator protected(sourceName: String, reader: Reader) {
 			fields.foreach { field =>
 				field.label match {
 					case REQUIRED => out.append(indent2)
-						if (field.fType.name == "Message") out.append("val")
+						if (field.fType.isMessage) out.append("val")
 						else out.append("var")
 						out.append(" _").append(field.name.lowerCamelCase).append(": ").append(field.fType.scalaType)
 						.append(" = ").append(field.fType.defaultValue).append("\n")
@@ -258,19 +258,19 @@ class Generator protected(sourceName: String, reader: Reader) {
 				.append(indent3).append("case 0 => return _newMerged\n")
 			fields.foreach { field =>
 				out.append(indent3).append("case ").append((field.number << 3) | field.fType.wireType).append(" => ")
-				if (field.fType.name != "Message") {
+				if (!field.fType.isMessage) {
 					out.append("_").append(field.name.lowerCamelCase).append(" ")
 					if (field.label == REPEATED) out.append("+")
 					out.append("= ")
 						if (field.fType == WIRETYPE_LENGTH_DELIMITED) out.append("in.readBytes()")
-						else if (field.fType.name == "Enum") out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
+						else if (field.fType.isEnum) out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
 						else out.append("in.read").append(field.fType.name).append("()")
 				} else {
 					field.label match {
 						case REQUIRED => out.append("in.readMessage(_").append(field.name.lowerCamelCase)
 						case OPTIONAL => out
 							.append("in.readMessage(_").append(field.name.lowerCamelCase).append(".orElse({\n")
-							.append(indent3).append("\t_").append(field.name.lowerCamelCase).append(" = ").append(field.fType.scalaType).append(".defaultInstance\n")
+							.append(indent3).append("\t_").append(field.name.lowerCamelCase).append(" = ").append(field.fType.defaultValue).append("\n")
 							.append(indent3).append("\t_").append(field.name.lowerCamelCase).append("\n")
 							.append(indent3).append("}).get")
 						case REPEATED => out
@@ -392,65 +392,8 @@ class Generator protected(sourceName: String, reader: Reader) {
 			}
 		}
 
-		/** Discover which fields have enum types. */
-		def getEnumNames(
-			tree: List[Node],
-			enumNames: mutable.HashSet[String] = mutable.HashSet.empty[String],
-			allProtoFields: mutable.ArrayBuffer[Field] = mutable.ArrayBuffer.empty[Field]
-		): (HashSet[String], ArrayBuffer[Field]) = {
-
-			for (node <- tree) {
-				node match {
-					case Message(name, body) =>
-						for (enum <- body.enums) enumNames += enum.name
-						allProtoFields ++= body.fields
-						getEnumNames(body.messages, enumNames)
-					case EnumStatement(name, constants, options) => enumNames += name
-					case _ =>
-				}
-			}
-			(enumNames, allProtoFields)
-		}
-		/** Update fields which have enum types. */
-		def fixEnumNames(tree: List[Node], enumNames: mutable.Set[String], allProtoFields: mutable.Buffer[Field]) {
-			for (field <- allProtoFields) {
-				if (field.fType.isCustom) {
-					if (enumNames.contains(field.fType.name)) {
-						field.fType.name = "Enum"
-						field.fType.scalaType += ".EnumVal"
-					} else {
-						field.fType.name = "Message"
-						field.fType.defaultValue = field.fType.scalaType + "()"
-					}
-				}
-			}
-		}
-
-		/** Prepends parent class names to all nested custom field types. */
-		def prependParentClassNames(tree: List[Node]) {
-			for (node <- tree) {
-				node match {
-					case Message(name, body) =>
-						body.messages.foreach {	case Message(mName, mBody) =>
-							body.fields.filter(_.fType.name == "Message").foreach { field =>
-								field.fType.scalaType = name + "." + field.fType.scalaType
-								field.fType.defaultValue = name + "." + field.fType.defaultValue
-							}
-							prependParentClassNames(mBody.messages)
-						}
-						body.enums.foreach { case EnumStatement(eName, eConstants, eOptions) =>
-							body.fields.filter(_.fType.name == "Enum").foreach { field =>
-								field.fType.scalaType = name + "." + field.fType.scalaType
-							}
-						}
-					case _ =>
-				}
-			}
-		}
-
-		val (enumNames, allProtoFields) = getEnumNames(tree)
-		fixEnumNames(tree, enumNames, allProtoFields)
-		prependParentClassNames(tree)
+		// make sure custom types such as Enums and Messages are properly recognized
+		FieldTypes.recognizeCustomTypes(tree)
 
 		// traverse the tree, so we can get class/package names, options, etc.
 		val generated = traverse(tree)

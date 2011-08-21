@@ -1,6 +1,8 @@
 package hr.sandrogrzicic.scalabuff
 
 import com.google.protobuf.WireFormat._
+import collection.mutable
+import mutable.{ArrayBuffer, HashSet}
 
 /**
  * Viktor Klang's Enum
@@ -68,12 +70,18 @@ object FieldTypes extends Enum {
 	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 
 	/**
-	 * Field type.
-	 * @param isClass whether the field is a custom type.
+	 * Represents a field type.
+	 * @param name the field type name; only modified from inside this class.
+	 * @param scalaType the output field type name; only modified from inside this class.
+	 * @param defaultValue field type default value; only modified from inside this class.
+	 * @param wireType the field wire type.
+	 * @param isCustom whether the field is a custom type, like an Enum, Message, etc.
+	 * @param isEnum whether the field is an Enum; only modified from inside this class.
+	 * @param isMessage whether the field is a Message; only modified from inside this class.
 	 */
 	case class EnumVal private[FieldTypes](
 		var name: String, var scalaType: String, var defaultValue: String, wireType: Int,
-		isCustom: Boolean = false
+		isCustom: Boolean = false, var isEnum: Boolean = false, var isMessage: Boolean = false
 	) extends Value
 
 	import com.google.protobuf.WireFormat._
@@ -99,4 +107,74 @@ object FieldTypes extends Enum {
 	 * or a new EnumVal with a null default value if it's a user type.
 	 */
 	def apply(fieldType: String) = values.find(fieldType.toLowerCase == _.name.toLowerCase).getOrElse(EnumVal(fieldType, fieldType, "null", WIRETYPE_LENGTH_DELIMITED, true))
+
+	/**
+	 * Modifies some fields of Message and Enum types so that they can be used properly.
+	 */
+	def recognizeCustomTypes(tree: List[Node]) {
+		val (enumNames, allProtoFields) = getEnumNames(tree)
+		fixCustomTypes(tree, enumNames, allProtoFields)
+		prependParentClassNames(tree)
+	}
+
+	/** Return all fields found in the specified tree and all enum names. */
+	def getEnumNames(
+		tree: List[Node],
+		enumNames: mutable.HashSet[String] = mutable.HashSet.empty[String],
+		allProtoFields: mutable.ArrayBuffer[Field] = mutable.ArrayBuffer.empty[Field]
+	): (HashSet[String], ArrayBuffer[Field]) = {
+
+		for (node <- tree) {
+			node match {
+				case Message(name, body) =>
+					enumNames ++= body.enums.map(_.name)
+					allProtoFields ++= body.fields
+					getEnumNames(body.messages, enumNames)
+				case EnumStatement(name, constants, options) => enumNames += name
+				case _ =>
+			}
+		}
+		(enumNames, allProtoFields)
+	}
+	/** Update fields which have custom types. */
+	def fixCustomTypes(tree: List[Node], enumNames: mutable.Set[String], allProtoFields: mutable.Buffer[Field]) {
+		for (field <- allProtoFields if field.fType.isCustom) {
+			if (enumNames.contains(field.fType.name)) {
+				field.fType.isEnum = true
+				field.fType.name = "Enum"
+				field.fType.scalaType += ".EnumVal"
+			} else {
+				field.fType.isMessage = true
+				field.fType.name = "Message"
+				field.fType.defaultValue = field.fType.scalaType + ".defaultInstance"
+			}
+		}
+	}
+
+	/** Prepend parent class names to all nested custom field types. */
+	def prependParentClassNames(tree: List[Node]) {
+		for (node <- tree) {
+			node match {
+				case Message(name, body) =>
+					body.messages.foreach {
+						case Message(mName, mBody) => {
+							body.fields.filter(_.fType.isMessage).foreach { field =>
+								field.fType.scalaType = name + "." + field.fType.scalaType
+								field.fType.defaultValue = name + "." + field.fType.defaultValue
+							}
+							prependParentClassNames(mBody.messages)
+						}
+					}
+					body.enums.foreach {
+						case EnumStatement(eName, eConstants, eOptions) => {
+							for (field <- body.fields if field.fType.isEnum) {
+								field.fType.scalaType = name + "." + field.fType.scalaType
+							}
+						}
+					}
+				case _ =>
+			}
+		}
+	}
+
 }
