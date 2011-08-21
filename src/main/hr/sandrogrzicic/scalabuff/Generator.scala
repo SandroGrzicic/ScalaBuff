@@ -10,7 +10,7 @@ import mutable.{ArrayBuffer, HashSet}
  * @author Sandro Gržičić
  */
 
-class Generator protected(sourceName: String, reader: Reader) {
+class Generator protected(sourceName: String) {
 
 	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 
@@ -430,26 +430,16 @@ object Generator {
 	/**
 	 * Returns a valid Scala class.
 	 */
-	def apply(tree: List[Node], sourceName: String, sourceReader: Reader): ScalaClass = {
-		new Generator(sourceName, sourceReader).generate(tree)
+	def apply(tree: List[Node], sourceName: String): ScalaClass = {
+		new Generator(sourceName).generate(tree)
 	}
-
-	/**
-	 * Returns a valid Scala class.
-	 */
-	def apply(tree: List[Node], sourceName: String, sourceFile: File): ScalaClass = {
-		apply(tree, sourceName, new BufferedReader(new InputStreamReader(new FileInputStream(sourceFile), "utf-8")))
-	}
-
 }
 
 /**
  * A generated Scala class. The path is relative.
- * @author Sandro Gržičić
  */
 case class ScalaClass(body: String, path: String, file: String) {
 	assert(path.endsWith("/"), "path must end with a /")
-	assert(!file.isEmpty, "file name must not be empty")
 	assert(!file.contains("/"), "file name must not contain a /")
 }
 

@@ -4,6 +4,7 @@ import util.parsing.combinator._
 import util.parsing.input.{PagedSeqReader, CharSequenceReader}
 import collection.immutable.PagedSeq
 import collection.mutable.ListBuffer
+import annotation.unchecked
 
 /**
  * Main Protobuf parser.
@@ -147,7 +148,7 @@ class Parser(filename: String) extends RegexParsers with PackratParsers {
 	/**
 	 * Parse the given input as a .proto file.
 	 */
-	def protoParse(input: Input) = {
+	def protoParse(input: Input): List[Node] = {
 		phrase(protoParser)(input) match {
 			case Success(tree, _) => tree
 			case NoSuccess(error, element) => throw new ParsingFailureException(parsingError(error, element))
@@ -165,20 +166,20 @@ class Parser(filename: String) extends RegexParsers with PackratParsers {
 
 object Parser {
 	/**
-	 * Parse the given Reader input as a .proto file.
+	 * Parse the given Reader input as a .proto file and return the resulting parse tree.
 	 */
-	def apply(input: java.io.Reader) = new Parser("unknown").protoParse(new PagedSeqReader(PagedSeq.fromReader(input)))
+	def apply(input: java.io.Reader): List[Node] = new Parser("unknown").protoParse(new PagedSeqReader(PagedSeq.fromReader(input)))
 
 	/**
-	 * Parse the given File input as a .proto file.
+	 * Parse the given File input as a .proto file and return the resulting parse tree.
 	 */
-	def apply(input: java.io.File) = new Parser(input.getName)
+	def apply(input: java.io.File): List[Node] = new Parser(input.getName)
 		.protoParse(new PagedSeqReader(PagedSeq.fromFile(input)))
 
 	/**
-	 * Parse the given String input as a .proto file.
+	 * Parse the given String input as a .proto file and return the resulting parse tree.
 	 */
-	def apply(input: String) = new Parser("unknown").protoParse(new CharSequenceReader(input))
+	def apply(input: String): List[Node] = new Parser("unknown").protoParse(new CharSequenceReader(input))
 }
 
 
