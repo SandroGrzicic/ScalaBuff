@@ -169,6 +169,7 @@ object FieldTypes extends Enum {
 			if (enumNames.contains(fType.name.dropUntilLast('.'))) {
 				fType.isEnum = true
 				fType.name = "Enum"
+				fType.defaultValue = fType.scalaType + "._UNINITIALIZED"
 				fType.scalaType += ".EnumVal"
 			} else {
 				fType.isMessage = true
@@ -189,6 +190,7 @@ object FieldTypes extends Enum {
 							for (field <- body.fields if field.fType.isEnum) {
 								val fType = field.fType
 								fType.scalaType = name + "." + fType.scalaType
+								fType.defaultValue = fType.scalaType + "._UNINITIALIZED"
 							}
 						}
 					}

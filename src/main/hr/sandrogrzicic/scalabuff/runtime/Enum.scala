@@ -57,3 +57,8 @@ trait Enum {
  * Thrown when an unknown enum number is passed to the valueOf method of an Enum.
  */
 class UnknownEnumException(enumID: Int) extends RuntimeException("Unknown enum ID: " + enumID)
+
+/**
+ * Thrown when a required field with enum type is uninitialized on access attempt.
+ */
+class UninitializedEnumException[T](name: String) extends RuntimeException("Enum not initialized: " + name)

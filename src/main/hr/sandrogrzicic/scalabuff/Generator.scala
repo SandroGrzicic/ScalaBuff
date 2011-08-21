@@ -1,9 +1,7 @@
 package hr.sandrogrzicic.scalabuff
 
 import annotation.tailrec
-import java.io._
 import collection.mutable
-import mutable.{ArrayBuffer, HashSet}
 
 /**
  * Scala class generator.
@@ -14,15 +12,15 @@ class Generator protected(sourceName: String) {
 
 	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 
-	val imports = mutable.ListBuffer[String]()
+	protected val imports = mutable.ListBuffer[String]()
 
-	var packageName: String = ""
-	var className: String = sourceName.takeUntilFirst('.').camelCase
+	protected var packageName: String = ""
+	protected var className: String = sourceName.takeUntilFirst('.').camelCase
 
 	/**
 	 * Whether to optimize the resultant class for speed (true) or for code size (false). True by default.
 	 */
-	var optimizeForSpeed = true
+	protected var optimizeForSpeed = true
 
 	/**
 	 * Generates the Scala class code.
@@ -45,6 +43,8 @@ class Generator protected(sourceName: String) {
 			out
 				.append(indentOuter).append("object ").append(enum.name).append(" extends hr.sandrogrzicic.scalabuff.runtime.Enum {\n")
 				.append(indent).append("sealed trait EnumVal extends Value\n")
+				.append(indent).append("val _UNINITIALIZED = new EnumVal { val name = id; val id = throw new hr.sandrogrzicic.scalabuff.runtime.UninitializedEnumException(")
+				.append(enum.name).append(".getClass.getName) }\n\n")
 
 			for (enumOption <- enum.options) {
 				// options?
