@@ -12,9 +12,7 @@ scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation")
 
 javacOptions ++= Seq("-source", "1.6", "-encoding", "utf8")
 
-//mainClass in (Compile, run) := Some("hr.sandrogrzicic.scalabuff.ScalaBuff")
-mainClass in (Compile, run) := Some("hr.sandrogrzicic.scalabuff.test.UpdateTestResources")
-//mainClass in (Compile, run) := Some("Test")
+mainClass in (Compile, run) := Some("hr.sandrogrzicic.scalabuff.ScalaBuff")
 
 scalaSource in Compile <<= baseDirectory(_ / "src/main")
 
