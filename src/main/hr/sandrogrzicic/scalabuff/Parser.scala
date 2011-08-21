@@ -4,7 +4,6 @@ import util.parsing.combinator._
 import util.parsing.input.{PagedSeqReader, CharSequenceReader}
 import collection.immutable.PagedSeq
 import collection.mutable.ListBuffer
-import annotation.unchecked
 
 /**
  * Main Protobuf parser.
@@ -59,7 +58,8 @@ class Parser(filename: String) extends RegexParsers with PackratParsers {
 
 	lazy val field: PackratParser[Field] = label ~ fieldType ~ (identifier <~ "=") ~ integerConstant ~
 		(("[" ~> optionBody ~ (("," ~ optionBody) *) <~ "]") ?) <~ ";" ^^ {
-		case fLabel ~ fType ~ name ~ number ~ options => Field(fLabel, fType, name, number.toInt, options match {			case Some(fOpt ~ fOpts) => List(fOpt) ++ fOpts.map(e => e._2)
+		case fLabel ~ fType ~ name ~ number ~ options => Field(fLabel, fType, name, number.toInt, options match	{
+			case Some(fOpt ~ fOpts) => List(fOpt) ++ fOpts.map(e => e._2)
 			case None => List[Option]()
 		})
 	}
@@ -73,7 +73,7 @@ class Parser(filename: String) extends RegexParsers with PackratParsers {
 	}
 
 	lazy val userType: PackratParser[String] = (("." ?) ~ identifier ~ (("." ~ identifier) *)) ^^ {
-		case dot ~ ident ~ idents => dot.getOrElse("") + ident + idents.mkString
+		case dot ~ ident ~ idents => dot.getOrElse("") + ident + idents.map(i => i._1 + i._2).mkString
 	}
 
 	lazy val extensionRanges: PackratParser[ExtensionRanges] = "extensions" ~> extensionRange ~ (("," ~ extensionRange) *) <~ ";" ^^ {
