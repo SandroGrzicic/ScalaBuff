@@ -9,5 +9,7 @@ import org.scalatest.matchers.ShouldMatchers
  */
 
 class MessageTest extends FunSuite with ShouldMatchers {
+	 test("Complex Message") {
 
+	 }
 }

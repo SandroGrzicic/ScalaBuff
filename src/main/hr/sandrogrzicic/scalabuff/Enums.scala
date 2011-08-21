@@ -1,6 +1,5 @@
 package hr.sandrogrzicic.scalabuff
 
-import com.google.protobuf.WireFormat._
 import collection.mutable
 import mutable.{ArrayBuffer, HashSet}
 
@@ -64,52 +63,80 @@ object FieldLabels extends Enum {
 }
 
 /**
- * Field types, along with a conversion method.
+ * Field types; both predefined and custom types are an instance of FieldTypes.EnumVal.
  */
 object FieldTypes extends Enum {
 	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 
 	/**
-	 * Represents a field type.
+	 * Represents a predefined field type.
 	 * @param name the field type name; only modified from inside this class.
 	 * @param scalaType the output field type name; only modified from inside this class.
 	 * @param defaultValue field type default value; only modified from inside this class.
 	 * @param wireType the field wire type.
-	 * @param isCustom whether the field is a custom type, like an Enum, Message, etc.
 	 * @param isEnum whether the field is an Enum; only modified from inside this class.
 	 * @param isMessage whether the field is a Message; only modified from inside this class.
 	 */
-	case class EnumVal private[FieldTypes](
-		var name: String, var scalaType: String, var defaultValue: String, wireType: Int,
-		isCustom: Boolean = false, var isEnum: Boolean = false, var isMessage: Boolean = false
-	) extends Value
+	trait EnumVal extends Value {
+		var name: String
+		var scalaType: String
+		var defaultValue: String
+		val wireType: Int
+		var isEnum: Boolean = false
+		var isMessage: Boolean = false
+	}
+
+	/**
+	 * A predefined field type; immutable.
+	 */
+	case class PredefinedEnumVal private[FieldTypes] (
+		name: String, scalaType: String, defaultValue: String, wireType: Int
+	) extends EnumVal {
+		def name_=(name: String) {}
+		def scalaType_=(scalaType: String) {}
+		def defaultValue_=(defaultValue: String) {}
+	}
 
 	import com.google.protobuf.WireFormat._
 
-	val INT32 = EnumVal("Int32", "Int", "0", WIRETYPE_VARINT)
-	val UINT32 = EnumVal("UInt32", "Int", "0", WIRETYPE_VARINT)
-	val SINT32 = EnumVal("SInt32", "Int", "0", WIRETYPE_VARINT)
-	val FIXED32 = EnumVal("Fixed32", "Int", "0", WIRETYPE_FIXED32)
-	val SFIXED32 = EnumVal("SFixed32", "Int", "0", WIRETYPE_FIXED32)
-	val INT64 = EnumVal("Int64", "Long", "0L", WIRETYPE_VARINT)
-	val UINT64 = EnumVal("UInt64", "Long", "0L", WIRETYPE_VARINT)
-	val SINT64 = EnumVal("SInt64", "Long", "0L", WIRETYPE_VARINT)
-	val FIXED64 = EnumVal("Fixed64", "Long", "0L", WIRETYPE_FIXED64)
-	val SFIXED64 = EnumVal("SFixed64", "Long", "0L", WIRETYPE_FIXED64)
-	val BOOL = EnumVal("Bool", "Boolean", "false", WIRETYPE_VARINT)
-	val FLOAT = EnumVal("Float", "Float", "0.0f", WIRETYPE_FIXED32)
-	val DOUBLE = EnumVal("Double", "Double", "0.0", WIRETYPE_FIXED64)
-	val BYTES = EnumVal("Bytes", "com.google.protobuf.ByteString", "com.google.protobuf.ByteString.EMPTY", WIRETYPE_LENGTH_DELIMITED)
-	val STRING = EnumVal("String", "String", "\"\"", WIRETYPE_LENGTH_DELIMITED)
+	val INT32 = PredefinedEnumVal("Int32", "Int", "0", WIRETYPE_VARINT)
+	val UINT32 = PredefinedEnumVal("UInt32", "Int", "0", WIRETYPE_VARINT)
+	val SINT32 = PredefinedEnumVal("SInt32", "Int", "0", WIRETYPE_VARINT)
+	val FIXED32 = PredefinedEnumVal("Fixed32", "Int", "0", WIRETYPE_FIXED32)
+	val SFIXED32 = PredefinedEnumVal("SFixed32", "Int", "0", WIRETYPE_FIXED32)
+	val INT64 = PredefinedEnumVal("Int64", "Long", "0L", WIRETYPE_VARINT)
+	val UINT64 = PredefinedEnumVal("UInt64", "Long", "0L", WIRETYPE_VARINT)
+	val SINT64 = PredefinedEnumVal("SInt64", "Long", "0L", WIRETYPE_VARINT)
+	val FIXED64 = PredefinedEnumVal("Fixed64", "Long", "0L", WIRETYPE_FIXED64)
+	val SFIXED64 = PredefinedEnumVal("SFixed64", "Long", "0L", WIRETYPE_FIXED64)
+	val BOOL = PredefinedEnumVal("Bool", "Boolean", "false", WIRETYPE_VARINT)
+	val FLOAT = PredefinedEnumVal("Float", "Float", "0.0f", WIRETYPE_FIXED32)
+	val DOUBLE = PredefinedEnumVal("Double", "Double", "0.0", WIRETYPE_FIXED64)
+	val BYTES = PredefinedEnumVal("Bytes", "com.google.protobuf.ByteString", "com.google.protobuf.ByteString.EMPTY", WIRETYPE_LENGTH_DELIMITED)
+	val STRING = PredefinedEnumVal("String", "String", "\"\"", WIRETYPE_LENGTH_DELIMITED)
 
 	/**
-	 * Returns a FieldType.EnumVal based on the specified proto field type,
-	 * or a new EnumVal with a null default value if it's a user type.
+	 * A custom field type representing a Message or an Enum.
 	 */
-	def apply(fieldType: String) = values.find(fieldType.toLowerCase == _.name.toLowerCase).getOrElse(EnumVal(fieldType, fieldType, "null", WIRETYPE_LENGTH_DELIMITED, true))
+	case class CustomEnumVal private[FieldTypes] (
+		var name: String, var scalaType: String, var defaultValue: String, wireType: Int
+	) extends EnumVal
+
+	/**
+	 * Returns an immutable FieldType.PredefinedEnumVal based on the specified proto field type,
+	 * or a new EnumVal with a null default value if it's a custom Message or Enum type.
+	 */
+	def apply(fieldType: String) = {
+		values
+			.find(fieldType.toLowerCase == _.name.toLowerCase)
+			.getOrElse(
+				CustomEnumVal(fieldType, fieldType, "null", WIRETYPE_LENGTH_DELIMITED)
+		)
+	}
 
 	/**
 	 * Modifies some fields of Message and Enum types so that they can be used properly.
+	 * Discovers whether each field type is a Message or an Enum.
 	 */
 	def recognizeCustomTypes(tree: List[Node]) {
 		val (enumNames, allProtoFields) = getEnumNames(tree)
@@ -117,36 +144,36 @@ object FieldTypes extends Enum {
 		prependParentClassNames(tree)
 	}
 
-	/** Return all fields found in the specified tree and all enum names. */
+	/** Return all enum names and custom field types found in the specified tree. */
 	def getEnumNames(
 		tree: List[Node],
 		enumNames: mutable.HashSet[String] = mutable.HashSet.empty[String],
-		allProtoFields: mutable.ArrayBuffer[Field] = mutable.ArrayBuffer.empty[Field]
-	): (HashSet[String], ArrayBuffer[Field]) = {
+		customFieldTypes: mutable.ArrayBuffer[FieldTypes.EnumVal] = mutable.ArrayBuffer.empty[FieldTypes.EnumVal]
+	): (HashSet[String], ArrayBuffer[EnumVal]) = {
 
 		for (node <- tree) {
 			node match {
 				case Message(name, body) =>
 					enumNames ++= body.enums.map(_.name)
-					allProtoFields ++= body.fields
+					body.fields.filter(_.fType.isInstanceOf[CustomEnumVal]).foreach(customFieldTypes += _.fType)
 					getEnumNames(body.messages, enumNames)
 				case EnumStatement(name, constants, options) => enumNames += name
 				case _ =>
 			}
 		}
-		(enumNames, allProtoFields)
+		(enumNames, customFieldTypes)
 	}
 	/** Update fields which have custom types. */
-	def fixCustomTypes(tree: List[Node], enumNames: mutable.Set[String], allProtoFields: mutable.Buffer[Field]) {
-		for (field <- allProtoFields if field.fType.isCustom) {
-			if (enumNames.contains(field.fType.name)) {
-				field.fType.isEnum = true
-				field.fType.name = "Enum"
-				field.fType.scalaType += ".EnumVal"
+	def fixCustomTypes(tree: List[Node], enumNames: mutable.Set[String], allProtoFields: mutable.Buffer[EnumVal]) {
+		for (fType <- allProtoFields) {
+			if (enumNames.contains(fType.name.dropUntilLast('.'))) {
+				fType.isEnum = true
+				fType.name = "Enum"
+				fType.scalaType += ".EnumVal"
 			} else {
-				field.fType.isMessage = true
-				field.fType.name = "Message"
-				field.fType.defaultValue = field.fType.scalaType + ".defaultInstance"
+				fType.isMessage = true
+				fType.name = "Message"
+				fType.defaultValue = fType.scalaType + ".defaultInstance"
 			}
 		}
 	}
@@ -156,20 +183,25 @@ object FieldTypes extends Enum {
 		for (node <- tree) {
 			node match {
 				case Message(name, body) =>
-					body.messages.foreach {
-						case Message(mName, mBody) => {
-							body.fields.filter(_.fType.isMessage).foreach { field =>
-								field.fType.scalaType = name + "." + field.fType.scalaType
-								field.fType.defaultValue = name + "." + field.fType.defaultValue
-							}
-							prependParentClassNames(mBody.messages)
-						}
-					}
+					// prepend parent class names to all nested enums
 					body.enums.foreach {
 						case EnumStatement(eName, eConstants, eOptions) => {
 							for (field <- body.fields if field.fType.isEnum) {
-								field.fType.scalaType = name + "." + field.fType.scalaType
+								val fType = field.fType
+								fType.scalaType = name + "." + fType.scalaType
 							}
+						}
+					}
+					// prepend parent class names to all messages
+					body.messages.foreach {
+						case Message(mName, mBody) => {
+							body.fields.filter(_.fType.isMessage).foreach { field =>
+								val fType = field.fType
+								fType.scalaType = name + "." + fType.scalaType
+								fType.defaultValue = name + "." + fType.defaultValue
+							}
+							// recurse for any nested messages
+							prependParentClassNames(mBody.messages)
 						}
 					}
 				case _ =>

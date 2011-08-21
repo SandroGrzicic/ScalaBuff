@@ -66,14 +66,14 @@ object ScalaBuff {
 							write(scalaClass)
 						}
 					} catch {
-						case ue: UnsupportedEncodingException => println(Strings.UNSUPPORTED_OUTPUT_ENCODING + outputEncoding)
+						case ue: UnsupportedEncodingException => println(Strings.UNSUPPORTED_OUTPUT_ENCODING + outputEncoding); return
 						case io: IOException => println(Strings.CANNOT_WRITE_FILE + scalaClass.path + scalaClass.file + ".scala")
 						case e => throw e
 					}
 				} catch {
 					// on parsing failure or resource access error name, just print the error
 					case pf: ParsingFailureException => println(pf.getMessage)
-					case ue: UnsupportedEncodingException => println(Strings.UNSUPPORTED_INPUT_ENCODING + inputEncoding)
+					case ue: UnsupportedEncodingException => println(Strings.UNSUPPORTED_INPUT_ENCODING + inputEncoding); return
 					case io: IOException => println(Strings.CANNOT_ACCESS_RESOURCE + arg)
 					case e => throw e
 				}
@@ -136,6 +136,8 @@ object ScalaBuff {
 	protected def write(generated: ScalaClass) {
 		val className = new File(outputDirectory + generated.path +
 			generated.file.camelCase + ".scala")
+
+		// todo: add recursive directory creation, if generated path inside outputDirectory doesn't exist
 
 		val file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(className), outputEncoding))
 
