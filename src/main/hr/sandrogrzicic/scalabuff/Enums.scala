@@ -145,7 +145,7 @@ object FieldTypes extends Enum {
 	}
 
 	/** Return all enum names and custom field types found in the specified tree. */
-	def getEnumNames(
+	protected def getEnumNames(
 		tree: List[Node],
 		enumNames: mutable.HashSet[String] = mutable.HashSet.empty[String],
 		customFieldTypes: mutable.ArrayBuffer[FieldTypes.EnumVal] = mutable.ArrayBuffer.empty[FieldTypes.EnumVal]
@@ -164,7 +164,7 @@ object FieldTypes extends Enum {
 		(enumNames, customFieldTypes)
 	}
 	/** Update fields which have custom types. */
-	def fixCustomTypes(tree: List[Node], enumNames: mutable.Set[String], allProtoFields: mutable.Buffer[EnumVal]) {
+	protected def fixCustomTypes(tree: List[Node], enumNames: mutable.Set[String], allProtoFields: mutable.Buffer[EnumVal]) {
 		for (fType <- allProtoFields) {
 			if (enumNames.contains(fType.name.dropUntilLast('.'))) {
 				fType.isEnum = true
@@ -179,7 +179,7 @@ object FieldTypes extends Enum {
 	}
 
 	/** Prepend parent class names to all nested custom field types. */
-	def prependParentClassNames(tree: List[Node]) {
+	protected def prependParentClassNames(tree: List[Node]) {
 		for (node <- tree) {
 			node match {
 				case Message(name, body) =>
