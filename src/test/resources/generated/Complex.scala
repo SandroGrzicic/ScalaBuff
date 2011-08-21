@@ -179,6 +179,77 @@ object ComplexMessage {
 
 	}
 }
+final case class AnotherMessage (
+	fieldNested: ComplexMessage.Nested = ComplexMessage.Nested.defaultInstance,
+	fieldEnum: Option[ComplexMessage.SimpleEnum] = None
+) extends com.google.protobuf.GeneratedMessageLite
+	with hr.sandrogrzicic.scalabuff.runtime.Message[AnotherMessage] {
+
+	def getFieldEnum = fieldEnum.getOrElse(ComplexMessage.SimpleEnum.defaultInstance)
+
+	def setFieldEnum(_f: ComplexMessage.SimpleEnum) = copy(fieldEnum = _f)
+
+	def clearFieldNested = copy(fieldNested = ComplexMessage.Nested.defaultInstance)
+	def clearFieldEnum = copy(fieldEnum = None)
+
+	def writeTo(output: com.google.protobuf.CodedOutputStream) {
+		output.writeMessage(1, fieldNested)
+		if (fieldEnum.isDefined) output.writeMessage(2, fieldEnum.get)
+	}
+
+	lazy val getSerializedSize = {
+		import com.google.protobuf.CodedOutputStream._
+		var size = 0
+		size += computeMessageSize(1, fieldNested)
+		if (fieldEnum.isDefined) size += computeMessageSize(2, fieldEnum.get)
+
+		size
+	}
+
+	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): AnotherMessage = {
+		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
+		val _fieldNested: ComplexMessage.Nested = ComplexMessage.Nested.defaultInstance
+		var _fieldEnum: Option[ComplexMessage.SimpleEnum] = fieldEnum
+
+		def _newMerged = AnotherMessage(
+			_fieldNested,
+			_fieldEnum
+		)
+		while (true) in.readTag match {
+			case 0 => return _newMerged
+			case 10 => in.readMessage(_fieldNested, _emptyRegistry)
+			case 18 => in.readMessage(_fieldEnum.orElse({
+				_fieldEnum = ComplexMessage.SimpleEnum.defaultInstance
+				_fieldEnum
+			}).get, _emptyRegistry)
+			case default => if (!in.skipField(default)) return _newMerged
+		}
+		null // compiler needs a return value
+	}
+
+	def mergeFrom(m: AnotherMessage) = {
+		AnotherMessage(
+			m.fieldNested,
+			m.fieldEnum.orElse(fieldEnum)
+		)
+	}
+
+	def getDefaultInstanceForType = AnotherMessage.defaultInstance
+	def clear = getDefaultInstanceForType
+	def isInitialized = true
+	def build = this
+	def buildPartial = this
+	def newBuilderForType = this
+	def toBuilder = this
+}
+
+object AnotherMessage {
+	@reflect.BeanProperty val defaultInstance = new AnotherMessage()
+
+	val FIELD_NESTED_FIELD_NUMBER = 1
+	val FIELD_ENUM_FIELD_NUMBER = 2
+
+}
 
 object Complex {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
