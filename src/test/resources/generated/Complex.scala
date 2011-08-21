@@ -116,7 +116,6 @@ object ComplexMessage {
 	) extends com.google.protobuf.GeneratedMessageLite
 		with hr.sandrogrzicic.scalabuff.runtime.Message[Nested] {
 
-		def getNestedEnum = nestedEnum.getOrElse(null)
 
 		def setNestedEnum(_f: ComplexMessage.SimpleEnum.EnumVal) = copy(nestedEnum = _f)
 
@@ -185,7 +184,6 @@ final case class AnotherMessage (
 ) extends com.google.protobuf.GeneratedMessageLite
 	with hr.sandrogrzicic.scalabuff.runtime.Message[AnotherMessage] {
 
-	def getFieldEnum = fieldEnum.getOrElse(null)
 
 	def setFieldEnum(_f: ComplexMessage.SimpleEnum.EnumVal) = copy(fieldEnum = _f)
 

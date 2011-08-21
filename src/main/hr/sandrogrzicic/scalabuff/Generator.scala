@@ -130,7 +130,7 @@ class Generator protected(sourceName: String) {
 				.append(indent1).append("with hr.sandrogrzicic.scalabuff.runtime.Message[").append(name).append("] {\n\n")
 
 			// getOptionalField
-			fields.filter(_.label == OPTIONAL).foreach { field =>
+			fields.filter(f => f.label == OPTIONAL && f.fType.isEnum == false).foreach { field =>
 				out.append(indent1)
 					.append("def get").append(field.name.camelCase).append(" = ").append(field.name.lowerCamelCase)
 					.append(".getOrElse(").append(field.fType.defaultValue).append(")\n")

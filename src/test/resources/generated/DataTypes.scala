@@ -33,7 +33,6 @@ final case class DataTypes (
 	def getF64bit3 = f64bit3.getOrElse(0.0)
 	def getLengthDelim1 = lengthDelim1.getOrElse("")
 	def getLengthDelim2 = lengthDelim2.getOrElse(com.google.protobuf.ByteString.EMPTY)
-	def getLengthDelim3 = lengthDelim3.getOrElse(null)
 	def getF32bit1 = f32bit1.getOrElse(0)
 	def getF32bit2 = f32bit2.getOrElse(0)
 	def getF32bit3 = f32bit3.getOrElse(0.0f)
