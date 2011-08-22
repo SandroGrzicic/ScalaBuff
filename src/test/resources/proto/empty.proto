@@ -1,5 +1,7 @@
 package resources.generated;
 
+option scala_outer_classname = "EmptyMessageTest";
+
 option optimize_for = LITE_RUNTIME;
 
 // empty .proto file;

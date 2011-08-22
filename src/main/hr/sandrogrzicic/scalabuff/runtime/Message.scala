@@ -131,4 +131,24 @@ trait Message[MessageType <: MessageLite with MessageLite.Builder] extends Messa
 		}
 	}
 
+	/**
+	 * See {@link com.google.protobuf.CodedInputStream#readMessage}.
+	 *
+	 * CodedInputStream#readMessage attempts to mutate the passed Builder and discards the returned value,
+	 * which we need, since our "Builders" (Messages) return a new instance whenever a mutation is performed.
+	 */
+	def readMessage[ReadMessageType <: MessageLite.Builder](in: CodedInputStream, message: ReadMessageType, extensionRegistry: ExtensionRegistryLite) = {
+		val length = in.readRawVarint32()
+		val oldLimit = in.pushLimit(length)
+
+		val newMessage = message.mergeFrom(in, extensionRegistry).asInstanceOf[ReadMessageType]
+
+		in.checkLastTagWas(0)
+		in.popLimit(oldLimit)
+
+		newMessage
+	}
+
+
 }
+

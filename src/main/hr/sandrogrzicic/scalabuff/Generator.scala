@@ -228,9 +228,7 @@ class Generator protected(sourceName: String) {
 			fields.foreach { field =>
 				field.label match {
 					case REQUIRED => out.append(indent2)
-						if (field.fType.isMessage) out.append("val")
-						else out.append("var")
-						out.append(" _").append(field.name.lowerCamelCase).append(": ").append(field.fType.scalaType)
+						.append("var _").append(field.name.lowerCamelCase).append(": ").append(field.fType.scalaType)
 						.append(" = ").append(field.fType.defaultValue).append("\n")
 					case OPTIONAL => out.append(indent2)
 						.append("var _").append(field.name.lowerCamelCase).append(": Option[").append(field.fType.scalaType).append("]")
@@ -257,27 +255,27 @@ class Generator protected(sourceName: String) {
 				.append(indent3).append("case 0 => return _newMerged\n")
 			fields.foreach { field =>
 				out.append(indent3).append("case ").append((field.number << 3) | field.fType.wireType).append(" => ")
-				if (!field.fType.isMessage) {
-					out.append("_").append(field.name.lowerCamelCase).append(" ")
-					if (field.label == REPEATED) out.append("+")
-					out.append("= ")
-						if (field.fType == WIRETYPE_LENGTH_DELIMITED) out.append("in.readBytes()")
-						else if (field.fType.isEnum) out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
-						else out.append("in.read").append(field.fType.name).append("()")
-				} else {
-					field.label match {
-						case REQUIRED => out.append("in.readMessage(_").append(field.name.lowerCamelCase)
-						case OPTIONAL => out
-							.append("in.readMessage(_").append(field.name.lowerCamelCase).append(".orElse({\n")
-							.append(indent3).append("\t_").append(field.name.lowerCamelCase).append(" = ").append(field.fType.defaultValue).append("\n")
-							.append(indent3).append("\t_").append(field.name.lowerCamelCase).append("\n")
-							.append(indent3).append("}).get")
-						case REPEATED => out
-							.append("for (_v <- _").append(field.name.lowerCamelCase).append(") in.readMessage(_v")
-						case _ => // weird warning - missing combination <local child> ?!
+				out.append("_").append(field.name.lowerCamelCase).append(" ")
+				if (field.label == REPEATED) out.append("+")
+				out.append("= ")
+					if (field.fType == WIRETYPE_LENGTH_DELIMITED) out.append("in.readBytes()")
+					else if (field.fType.isEnum) out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
+					else if (field.fType.isMessage) {
+						out.append("readMessage[").append(field.fType.scalaType).append("](in, ")
+						field.label match {
+							case REQUIRED => out.append("_").append(field.name.lowerCamelCase)
+							case OPTIONAL => out
+								.append("_").append(field.name.lowerCamelCase).append(".orElse({\n")
+								.append(indent3).append("\t_").append(field.name.lowerCamelCase).append(" = ").append(field.fType.defaultValue).append("\n")
+								.append(indent3).append("\t_").append(field.name.lowerCamelCase).append("\n")
+								.append(indent3).append("}).get")
+							case REPEATED => out
+								.append(field.fType.defaultValue)
+							case _ => // weird warning - missing combination <local child> ?!
+						}
+						out.append(", _emptyRegistry)")
 					}
-					out.append(", _emptyRegistry)")
-				}
+					else out.append("in.read").append(field.fType.name).append("()")
 				out.append("\n")
 			}
 			out.append(indent3).append("case default => if (!in.skipField(default)) return _newMerged\n")

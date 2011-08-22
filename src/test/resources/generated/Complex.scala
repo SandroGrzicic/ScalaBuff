@@ -61,7 +61,7 @@ final case class ComplexMessage (
 			case 0 => return _newMerged
 			case 10 => _firstField = in.readBytes()
 			case 18 => _secondField = in.readString()
-			case 26 => in.readMessage(_nestedOuterField.orElse({
+			case 26 => _nestedOuterField = readMessage[ComplexMessage.Nested](in, _nestedOuterField.orElse({
 				_nestedOuterField = ComplexMessage.Nested.defaultInstance
 				_nestedOuterField
 			}).get, _emptyRegistry)
@@ -101,12 +101,12 @@ object ComplexMessage {
 		sealed trait EnumVal extends Value
 		val _UNINITIALIZED = new EnumVal { val name = "UNINITIALIZED ENUM VALUE"; val id = -1 }
 
-		val KEY_NAME = new EnumVal { val name = "KEY_NAME"; val id = 0 }
+		val KEY_NAME = new EnumVal { val name = "KEY_NAME"; val id = 1 }
 
-		val KEY_NAME_VALUE = 0
+		val KEY_NAME_VALUE = 1
 
 		def valueOf(id: Int) = id match {
-			case 0 => KEY_NAME
+			case 1 => KEY_NAME
 			case _default => throw new hr.sandrogrzicic.scalabuff.runtime.UnknownEnumException(_default)
 		}
 		val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {
@@ -181,72 +181,6 @@ object ComplexMessage {
 		val NESTED_ENUM_FIELD_NUMBER = 2
 
 	}
-}
-final case class AnotherMessage (
-	fieldNested: ComplexMessage.Nested = ComplexMessage.Nested.defaultInstance,
-	fieldEnum: ComplexMessage.SimpleEnum.EnumVal = ComplexMessage.SimpleEnum._UNINITIALIZED
-) extends com.google.protobuf.GeneratedMessageLite
-	with hr.sandrogrzicic.scalabuff.runtime.Message[AnotherMessage] {
-
-
-
-	def clearFieldNested = copy(fieldNested = ComplexMessage.Nested.defaultInstance)
-	def clearFieldEnum = copy(fieldEnum = ComplexMessage.SimpleEnum._UNINITIALIZED)
-
-	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, fieldNested)
-		output.writeEnum(2, fieldEnum)
-	}
-
-	lazy val getSerializedSize = {
-		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeMessageSize(1, fieldNested)
-		size += computeEnumSize(2, fieldEnum)
-
-		size
-	}
-
-	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): AnotherMessage = {
-		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		val _fieldNested: ComplexMessage.Nested = ComplexMessage.Nested.defaultInstance
-		var _fieldEnum: ComplexMessage.SimpleEnum.EnumVal = ComplexMessage.SimpleEnum._UNINITIALIZED
-
-		def _newMerged = AnotherMessage(
-			_fieldNested,
-			_fieldEnum
-		)
-		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 10 => in.readMessage(_fieldNested, _emptyRegistry)
-			case 18 => _fieldEnum = ComplexMessage.SimpleEnum.valueOf(in.readEnum())
-			case default => if (!in.skipField(default)) return _newMerged
-		}
-		null // compiler needs a return value
-	}
-
-	def mergeFrom(m: AnotherMessage) = {
-		AnotherMessage(
-			m.fieldNested,
-			m.fieldEnum
-		)
-	}
-
-	def getDefaultInstanceForType = AnotherMessage.defaultInstance
-	def clear = getDefaultInstanceForType
-	def isInitialized = true
-	def build = this
-	def buildPartial = this
-	def newBuilderForType = this
-	def toBuilder = this
-}
-
-object AnotherMessage {
-	@reflect.BeanProperty val defaultInstance = new AnotherMessage()
-
-	val FIELD_NESTED_FIELD_NUMBER = 1
-	val FIELD_ENUM_FIELD_NUMBER = 2
-
 }
 
 object Complex {
