@@ -5,7 +5,7 @@ option optimize_for = LITE_RUNTIME;
 message ComplexMessage {
 	required bytes first_field = 1;
 	enum SimpleEnum {
-	   	KEY_NAME = 0;
+	   	KEY_NAME = 1;
 	}
 	message Nested {
 		required string nested_field = 1;
@@ -15,6 +15,7 @@ message ComplexMessage {
 	optional Nested nested_outer_field = 3;
 	repeated SimpleEnum simple_enum_field = 4;
 }
+
 message AnotherMessage {
 	required ComplexMessage.Nested field_nested = 1;
 	required ComplexMessage.SimpleEnum field_enum = 2;

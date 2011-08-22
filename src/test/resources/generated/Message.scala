@@ -55,7 +55,7 @@ object EmptyMessage {
 
 }
 
-object Message {
+object ScalaBuffMessageTest {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 

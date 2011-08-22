@@ -182,7 +182,7 @@ final case class DataTypes (
 			case 817 => _f64bit3 = in.readDouble()
 			case 1602 => _lengthDelim1 = in.readString()
 			case 1610 => _lengthDelim2 = in.readBytes()
-			case 1618 => _lengthDelim3 = DataTypes.Varint8Enum.valueOf(in.readEnum())
+			case 1616 => _lengthDelim3 = DataTypes.Varint8Enum.valueOf(in.readEnum())
 			case 1632 => _lengthDelim4 += in.readInt32()
 			case 1624 => _lengthDelim5 += in.readInt32()
 			case 4005 => _f32bit1 = in.readFixed32()

@@ -81,7 +81,7 @@ object FieldTypes extends Enum {
 		var name: String
 		var scalaType: String
 		var defaultValue: String
-		val wireType: Int
+		var wireType: Int
 		var isEnum: Boolean = false
 		var isMessage: Boolean = false
 	}
@@ -95,6 +95,7 @@ object FieldTypes extends Enum {
 		def name_=(name: String) {}
 		def scalaType_=(scalaType: String) {}
 		def defaultValue_=(defaultValue: String) {}
+		def wireType_=(wireType: Int) {}
 	}
 
 	import com.google.protobuf.WireFormat._
@@ -119,7 +120,7 @@ object FieldTypes extends Enum {
 	 * A custom field type representing a Message or an Enum.
 	 */
 	case class CustomEnumVal private[FieldTypes] (
-		var name: String, var scalaType: String, var defaultValue: String, wireType: Int
+		var name: String, var scalaType: String, var defaultValue: String, var wireType: Int
 	) extends EnumVal
 
 	/**
@@ -171,6 +172,7 @@ object FieldTypes extends Enum {
 				fType.name = "Enum"
 				fType.defaultValue = fType.scalaType + "._UNINITIALIZED"
 				fType.scalaType += ".EnumVal"
+				fType.wireType = WIRETYPE_VARINT
 			} else {
 				fType.isMessage = true
 				fType.name = "Message"
