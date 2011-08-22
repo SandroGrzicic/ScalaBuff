@@ -33,7 +33,7 @@ final case class SimpleTest (
 		var size = 0
 		size += computeInt32Size(1, requiredField)
 		if (optionalField.isDefined) size += computeFloatSize(2, optionalField.get)
-		for (_v <- repeatedField) size += 1 + computeBytesSizeNoTag(_v)
+		for (_v <- repeatedField) size += computeStringSize(3, _v)
 
 		size
 	}

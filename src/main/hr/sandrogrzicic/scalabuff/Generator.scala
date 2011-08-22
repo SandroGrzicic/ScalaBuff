@@ -205,13 +205,8 @@ class Generator protected(sourceName: String) {
 						.append(field.number).append(", ").append(field.name.lowerCamelCase).append(".get)\n")
 					case REPEATED => out.append(indent2).append("for (_v <- ")
 						.append(field.name.lowerCamelCase).append(") ")
-						.append("size += ")
-						if (field.fType == BYTES || field.fType == STRING) {
-							out.append("1 + computeBytesSizeNoTag(_v)")
-						} else {
-							out.append("compute").append(field.fType.name).append("Size(").append(field.number).append(", _v)")
-						}
-						out.append("\n")
+						.append("size += compute").append(field.fType.name).append("Size(")
+						.append(field.number).append(", _v)\n")
 					case _ => // weird warning - missing combination <local child> ?!
 				}
 			}

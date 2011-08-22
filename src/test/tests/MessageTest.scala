@@ -19,13 +19,17 @@ class MessageTest extends FunSuite with ShouldMatchers {
 		val second = "Sandro Grzicic"
 		val nestedOuter = ComplexMessage.Nested.apply(nestedOuterNested, Some(nestedOuterEnum))
 		val simpleEnum = Vector(ComplexMessage.SimpleEnum.KEY_NAME)
+		val repeatedString = Vector("hr", "sandrogrzicic", "scalabuff")
+		val repeatedBytes = Vector(ByteString.copyFrom(Array[Byte](1, 2, 3)), ByteString.copyFrom(Array[Byte](4, 5, 6)))
 
-		val sent = ComplexMessage.apply(first, Some(second), Some(nestedOuter), simpleEnum)
+		val sent = ComplexMessage.apply(first, Some(second), Some(nestedOuter), simpleEnum, repeatedString, repeatedBytes)
 
 		sent.firstField should equal(first)
 		sent.getSecondField should equal(second)
 		sent.getNestedOuterField should equal(nestedOuter)
 		sent.simpleEnumField should equal (simpleEnum)
+		sent.repeatedStringField should equal (repeatedString)
+		sent.repeatedBytesField should equal (repeatedBytes)
 
 		val received = ComplexMessage.defaultInstance.mergeFrom(sent.toByteArray)
 
@@ -33,5 +37,9 @@ class MessageTest extends FunSuite with ShouldMatchers {
 		received.getSecondField should equal(sent.getSecondField)
 		received.getNestedOuterField should equal(sent.getNestedOuterField)
 		received.simpleEnumField should equal (sent.simpleEnumField)
+		received.repeatedStringField should equal (sent.repeatedStringField)
+		received.repeatedBytesField should equal (sent.repeatedBytesField)
+
+		println(received)
 	}
 }
