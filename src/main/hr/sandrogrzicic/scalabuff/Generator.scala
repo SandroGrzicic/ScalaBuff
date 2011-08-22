@@ -25,7 +25,7 @@ class Generator protected(sourceName: String) {
 	/**
 	 * Generates the Scala class code.
 	 */
-	protected def generate(tree: List[Node]) = {
+	protected def generate(tree: List[Node]): ScalaClass = {
 
 
 		// *******************
@@ -74,7 +74,7 @@ class Generator protected(sourceName: String) {
 				out.append(indent).append("\t").append("case _default => throw new hr.sandrogrzicic.scalabuff.runtime.UnknownEnumException(_default)\n");
 				out.append(indent).append("}\n")
 			} else {	// O(n)
-				out.append("values.find(_.id == id).getOrElse(null)\n")
+				out.append("values.find(_.id == id).orNull\n")
 			}
 
 			// internalGetValueMap
@@ -444,10 +444,7 @@ class GenerationFailureException(message: String) extends RuntimeException(messa
  * Thrown when a Node occurs in an unexpected location in the tree.
  */
 class UnexpectedNodeException(node: Node, parentNode: Node = null) extends GenerationFailureException(
-	"Unexpected child node " + node.toString + parentNode match {
-		case null => ""
-		case _ => "found in " + parentNode.toString
-	}
+	"Unexpected child node " + node + (if (parentNode ne null) "found in " + parentNode else "")
 )
 
 class InvalidOptionValueException(key: String, value: String) extends GenerationFailureException(

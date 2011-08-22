@@ -7,28 +7,25 @@ import java.io._
  * @author Sandro Gržičić
  */
 object ScalaBuff {
-	protected var outputDirectory: String = "./"
-	protected var importDirectories: Array[String] = Array[String]()
-	/** Whether to write output to stdout (true) or follow standard protoc behavior (false). */
-	protected var stdout = false
-
-	// If UTF-8 isn't supported by the JVM, the user can override the encodings;
-	// no checks are performed until after the user has set his encoding preferences.
-	protected var inputEncoding = "utf-8"
-	protected var outputEncoding = "utf-8"
+	case class Settings(
+		outputDirectory: String = "./",
+		importDirectories: Seq[String] = Nil,
+		stdout: Boolean = false,
+		inputEncoding: String = "utf-8",
+		outputEncoding: String = "utf-8")
 
 	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 
 	/**
 	 * Runs ScalaBuff on the specified resource path (file path or URL) and returns the resulting Scala class.
 	 */
-	def apply(resourcePath: String) = fromResourcePath(resourcePath)
+	def apply(resourcePath: String, encoding: String = "utf-8") = fromResourcePath(resourcePath, encoding)
 
 	/**
 	 * Runs ScalaBuff on the specified resource path (file path or URL) and returns the resulting Scala class.
 	 */
-	def fromResourcePath(resourcePath: String): ScalaClass = {
-		val reader = read(resourcePath)
+	def fromResourcePath(resourcePath: String, encoding: String): ScalaClass = {
+		val reader = read(resourcePath, encoding)
 		try {
 		  Generator(Parser(reader), resourcePath.dropUntilLast('/'))
 	    } finally {
@@ -46,92 +43,102 @@ object ScalaBuff {
 	def main(args: Array[String]): Unit = args match {
 		case a if a.isEmpty => println(Strings.HELP)
 		case args =>
-		for (arg <- args) {
-			// check if the argument is a potential option
-			if (arg.startsWith("-")) {
-				if (option(arg))
-					return
-			} else {
-				// argument is a resource path
-				var scalaClass: ScalaClass = null
+
+		  val (rawSettings, paths) = args.partition(_.startsWith("-"))
+
+          val parsedSettings = rawSettings.foldLeft(Settings()) {
+		  	case (settings, setting) => parseSetting(setting, settings) match {
+		  		case Left(message) => println(message); settings //If parseSetting returned a message, print it and return the old settings
+		  		case Right(newSettings) => newSettings
+		  	}
+		  }
+
+		  for(path <- paths) {
+		  	try {
+				val scalaClass = apply(path, parsedSettings.inputEncoding)
 				try {
-					scalaClass = apply(arg)
-					try {
-						if (stdout) println(scalaClass) else write(scalaClass)
-					} catch {
-						case ue: UnsupportedEncodingException => println(Strings.UNSUPPORTED_OUTPUT_ENCODING + outputEncoding); return
-						case io: IOException => println(Strings.CANNOT_WRITE_FILE + scalaClass.path + scalaClass.file + ".scala")
-					}
+					write(scalaClass, parsedSettings)
 				} catch {
-					// on parsing failure or resource access error name, just print the error
-					case pf: ParsingFailureException => println(pf.getMessage)
-					case ue: UnsupportedEncodingException => println(Strings.UNSUPPORTED_INPUT_ENCODING + inputEncoding); return
-					case io: IOException => println(Strings.CANNOT_ACCESS_RESOURCE + arg)
+					case ue: UnsupportedEncodingException => println(Strings.UNSUPPORTED_OUTPUT_ENCODING + parsedSettings.outputEncoding)
+					case io: IOException => println(Strings.CANNOT_WRITE_FILE + scalaClass.path + scalaClass.file + ".scala")
 				}
+			} catch {
+				// on parsing failure or resource access error name, just print the error
+				case pf: ParsingFailureException => println(pf.getMessage)
+				case ue: UnsupportedEncodingException => println(Strings.UNSUPPORTED_INPUT_ENCODING + parsedSettings.inputEncoding)
+				case io: IOException => println(Strings.CANNOT_ACCESS_RESOURCE + path)
 			}
-		}
+		  }
 	}
 
 	/**
-	 * Handle the specified option. Returns true if the option needs to stop program execution.
+	 * Parse the provided setting, return either an error message or a new Settings
 	 */
-	protected def option(option: String): Boolean = {
-		if (option == "-h" || option == "--help") {
-			println(Strings.HELP)
-			true
-		} else if (option.startsWith("-I")) {
-			importDirectories :+= option.substring("-I".length)
-		} else if (option.startsWith("--proto_path=")) {
-			importDirectories :+= option.substring("--proto_path=".length)
-		} else if (option.startsWith("--scala_out=")) {
-			outputDirectory = option.substring("--scala_out=".length)
-			if (!outputDirectory.endsWith("/")) {
-				outputDirectory += "/"
-			}
-			if (!(new File(outputDirectory).isDirectory)) {
-				println(Strings.INVALID_OUTPUT_DIRECTORY + outputDirectory)
-				true
-			}
-		} else if (option == "--stdout") {
-			stdout = true
-		} else if (option.startsWith("--proto_encoding=")) {
-			inputEncoding = option.substring("--proto_encoding=".length)
-		} else if (option.startsWith("--out_encoding=")) {
-			outputEncoding = option.substring("--out_encoding=".length)
-		} else {
-			println(Strings.UNKNOWN_ARGUMENT + option)
-			true
-		}
-		false
-	}
+	protected def parseSetting(setting: String, settings: Settings): Either[String, Settings] =
+	  (setting match {
+		case "-h" | "--help" =>
+		  Strings.HELP
+
+		case s if s startsWith "-I" =>
+		  settings.copy(importDirectories = settings.importDirectories :+ s.substring("-I".length))
+
+		case s if s startsWith "--proto_path=" =>
+		  settings.copy(importDirectories = settings.importDirectories :+ s.substring("--proto_path=".length))
+
+		case s if s startsWith "--scala_out=" =>
+		  val dir = s.substring("--scala_out=".length) + (if (s endsWith File.separator) "" else File.separator)
+		  val fileDir = new File(dir)
+		  if (fileDir.exists && !fileDir.isDirectory) Strings.INVALID_OUTPUT_DIRECTORY + dir
+		  else settings.copy(outputDirectory = dir)
+
+		case "--stdout" =>
+		  settings.copy(stdout = true)
+
+		case s if s startsWith "--proto_encoding=" =>
+		  settings.copy(inputEncoding = s.substring("--proto_encoding=".length))
+
+        case s if s startsWith "--out_encoding=" =>
+          settings.copy(outputEncoding = s.substring("--out_encoding=".length))
+
+		case unknown =>
+		  Strings.UNKNOWN_ARGUMENT + unknown
+
+	  }) match {
+		case s: String => Left(s)
+		case s: Settings => Right(s)
+	  }
 
 	/**
 	 * Returns a new Reader based on the specified resource path, which is either a File or an URL.
 	 */
-	protected def read(resourcePath: String): Reader = 
+	protected def read(resourcePath: String, encoding: String): Reader = 
 		new BufferedReader(new InputStreamReader((try {
 			new FileInputStream(resourcePath)
 		} catch {
 			case fnf: FileNotFoundException => new java.net.URL(resourcePath).openStream
-	    }), inputEncoding))
+	    }), encoding))
 	    
 	/**
 	 * Write the specified string to a file as a Scala class.
 	 */
-	protected def write(generated: ScalaClass) {
-		val targetDir = new File(outputDirectory + generated.path)
+	protected def write(generated: ScalaClass, settings: Settings) {
+		if (settings.stdout) {
+			println(generated)
+		} else {
+			val targetDir = new File(settings.outputDirectory + generated.path)
 
-		// generate all the directories between outputDirectory and generated.path
-		// outputDirectory exists because the passed option is checked in option()
-		targetDir.mkdirs()
+			// generate all the directories between outputDirectory and generated.path
+			// outputDirectory exists because the passed option is checked in option()
+			targetDir.mkdirs()
 		
-		val targetFile = new File(targetDir, generated.file.camelCase + ".scala")
+			val targetFile = new File(targetDir, generated.file.camelCase + ".scala")
 		
-		if (targetFile.exists()) targetFile.delete()
+			if (targetFile.exists()) targetFile.delete()
 
-		val writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFile), outputEncoding))
+			val writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFile), settings.outputEncoding))
 
-		try { writer.write(generated.body) } finally { writer.close() }
+			try { writer.write(generated.body) } finally { writer.close() }
+		}
 	}
 
 }

@@ -192,17 +192,15 @@ object Parser {
 	 */
 	def apply(input: java.io.File): List[Node] = {
 		val fis = new java.io.FileInputStream(input)
-		val result = apply(fis, input.getName)
-		fis.close()
-		result
+		try { apply(fis, input.getName) } finally { fis.close() }
 	}
 
 	/**
 	 * Parse the given String input as a .proto file and return the resulting parse tree.
 	 */
-	def apply(input: String, name: String): List[Node] = {
+	def apply(input: String, name: String): List[Node] =
 		new Parser(name).protoParse(new CharSequenceReader(input))
-	}
+	
 	/**
 	 * Parse the given String input as a .proto file and return the resulting parse tree.
 	 */
