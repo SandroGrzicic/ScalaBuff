@@ -40,6 +40,5 @@ class MessageTest extends FunSuite with ShouldMatchers {
 		received.repeatedStringField should equal (sent.repeatedStringField)
 		received.repeatedBytesField should equal (sent.repeatedBytesField)
 
-		println(received)
 	}
 }
