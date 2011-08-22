@@ -137,11 +137,14 @@ object ScalaBuff {
 		val className = new File(outputDirectory + generated.path +
 			generated.file.camelCase + ".scala")
 
-		// todo: add recursive directory creation, if generated path inside outputDirectory doesn't exist
+		// generate all the directories between outputDirectory and generated.path
+		// outputDirectory exists because the passed option is checked in option()
+		new File(outputDirectory + generated.path).mkdirs()
 
 		val file = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(className), outputEncoding))
 
 		if (className.exists()) className.delete()
+
 		file.write(generated.body)
 		file.close()
 	}

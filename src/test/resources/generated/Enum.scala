@@ -3,6 +3,8 @@
 
 object ComputerPeripherals extends hr.sandrogrzicic.scalabuff.runtime.Enum {
 	sealed trait EnumVal extends Value
+	val _UNINITIALIZED = new EnumVal { val name = id; val id = throw new hr.sandrogrzicic.scalabuff.runtime.UninitializedEnumException(ComputerPeripherals.getClass.getName) }
+
 	val MOUSE = new EnumVal { val name = "MOUSE"; val id = 1 }
 	val KEYBOARD = new EnumVal { val name = "KEYBOARD"; val id = 2 }
 

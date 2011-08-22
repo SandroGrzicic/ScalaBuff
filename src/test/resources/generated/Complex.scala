@@ -97,6 +97,8 @@ object ComplexMessage {
 
 	object SimpleEnum extends hr.sandrogrzicic.scalabuff.runtime.Enum {
 		sealed trait EnumVal extends Value
+		val _UNINITIALIZED = new EnumVal { val name = id; val id = throw new hr.sandrogrzicic.scalabuff.runtime.UninitializedEnumException(SimpleEnum.getClass.getName) }
+
 		val KEY_NAME = new EnumVal { val name = "KEY_NAME"; val id = 0 }
 
 		val KEY_NAME_VALUE = 0
@@ -180,26 +182,25 @@ object ComplexMessage {
 }
 final case class AnotherMessage (
 	fieldNested: ComplexMessage.Nested = ComplexMessage.Nested.defaultInstance,
-	fieldEnum: Option[ComplexMessage.SimpleEnum.EnumVal] = None
+	fieldEnum: ComplexMessage.SimpleEnum.EnumVal = ComplexMessage.SimpleEnum._UNINITIALIZED
 ) extends com.google.protobuf.GeneratedMessageLite
 	with hr.sandrogrzicic.scalabuff.runtime.Message[AnotherMessage] {
 
 
-	def setFieldEnum(_f: ComplexMessage.SimpleEnum.EnumVal) = copy(fieldEnum = _f)
 
 	def clearFieldNested = copy(fieldNested = ComplexMessage.Nested.defaultInstance)
-	def clearFieldEnum = copy(fieldEnum = None)
+	def clearFieldEnum = copy(fieldEnum = ComplexMessage.SimpleEnum._UNINITIALIZED)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
 		output.writeMessage(1, fieldNested)
-		if (fieldEnum.isDefined) output.writeEnum(2, fieldEnum.get)
+		output.writeEnum(2, fieldEnum)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
 		size += computeMessageSize(1, fieldNested)
-		if (fieldEnum.isDefined) size += computeEnumSize(2, fieldEnum.get)
+		size += computeEnumSize(2, fieldEnum)
 
 		size
 	}
@@ -207,7 +208,7 @@ final case class AnotherMessage (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): AnotherMessage = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		val _fieldNested: ComplexMessage.Nested = ComplexMessage.Nested.defaultInstance
-		var _fieldEnum: Option[ComplexMessage.SimpleEnum.EnumVal] = fieldEnum
+		var _fieldEnum: ComplexMessage.SimpleEnum.EnumVal = ComplexMessage.SimpleEnum._UNINITIALIZED
 
 		def _newMerged = AnotherMessage(
 			_fieldNested,
@@ -225,7 +226,7 @@ final case class AnotherMessage (
 	def mergeFrom(m: AnotherMessage) = {
 		AnotherMessage(
 			m.fieldNested,
-			m.fieldEnum.orElse(fieldEnum)
+			m.fieldEnum
 		)
 	}
 

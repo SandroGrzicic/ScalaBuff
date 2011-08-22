@@ -14,5 +14,5 @@ message ComplexMessage {
 }
 message AnotherMessage {
 	required ComplexMessage.Nested field_nested = 1;
-	optional ComplexMessage.SimpleEnum field_enum = 2;
+	required ComplexMessage.SimpleEnum field_enum = 2;
 }
