@@ -35,7 +35,7 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 		val scalaClass = ScalaBuff(protoDir + testProto + ".proto")
 		scalaClass.body should equal (testProtoGenerated)
 		scalaClass.file should equal ("Simple")
-		scalaClass.path should equal ("/")
+		scalaClass.path should equal ("resources/generated/")
 	}
 
 	test("main: no arguments") {
@@ -47,19 +47,28 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 	}
 
 	test("main: simple .proto file without a specified output directory") {
-		outputStream.reset()
-		val simpleProto = protoDir + testProto + ".proto"
-		Console.withOut(printStream)({
-			ScalaBuff.main(Array(simpleProto))
-			outputStream.toString("utf-8") should be ('empty)
-		})
-		val outputFile = new File(testProto.capitalize + ".scala")
-		outputFile should be ('exists)
-		outputFile.deleteOnExit()
-		val outputFileSource = io.Source.fromFile(outputFile)
-		outputFileSource.mkString should equal (testProtoGenerated)
-		outputFileSource.close()
-		outputFile.delete()
+		val resourcesDirectory = new File("resources")
+		val resourcesGeneratedDirectory = new File("resources/generated")
+		// don't attempt to modify an existing root folder
+		if (!(resourcesDirectory.exists() && resourcesDirectory.isDirectory ||
+			resourcesGeneratedDirectory.exists() && resourcesGeneratedDirectory.isDirectory)
+		) {
+			outputStream.reset()
+			val simpleProto = protoDir + testProto + ".proto"
+			Console.withOut(printStream)({
+				ScalaBuff.main(Array(simpleProto))
+				outputStream.toString("utf-8") should be ('empty)
+			})
+			val outputFile = new File("resources/generated/" + testProto.capitalize + ".scala")
+			outputFile should be ('exists)
+			outputFile.deleteOnExit()
+			val outputFileSource = io.Source.fromFile(outputFile)
+			outputFileSource.mkString should equal (testProtoGenerated)
+			outputFileSource.close()
+			outputFile.delete()
+			new File("resources/generated").delete()
+			new File("resources").delete()
+		}
 	}
 
 	test("main: simple .proto file with a specified output directory") {
@@ -71,13 +80,11 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 			ScalaBuff.main(Array("--scala_out=" + outputDirectory, simpleProto))
 			outputStream.toString("utf-8") should be ('empty)
 		})
-		val outputFile = new File(outputDirectory + "/" + testProto.capitalize + ".scala")
+		val outputFile = new File(outputDirectory + "/resources/generated/" + testProto.capitalize + ".scala")
 		outputFile should be ('exists)
-		outputFile.deleteOnExit()
 		val outputFileSource = io.Source.fromFile(outputFile)
 		outputFileSource.mkString should equal (testProtoGenerated)
 		outputFileSource.close()
-		outputFile.delete()
 	}
 
 	test("main: unknown option") {
