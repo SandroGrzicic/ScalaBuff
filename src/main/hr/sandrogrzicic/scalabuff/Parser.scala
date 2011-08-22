@@ -44,12 +44,12 @@ class Parser(filename: String) extends RegexParsers with PackratParsers {
 	}
 
 	lazy val packageP: PackratParser[PackageStatement] = "package" ~> (identifier ~ (("." ~ identifier) *)) <~ ";" ^^ {
-		protoPackage => PackageStatement(protoPackage._1 + protoPackage._2.mkString)
+		case ident ~ idents => PackageStatement(ident + idents.map(i => i._1 + i._2).mkString)
 	}
 
 	lazy val option: PackratParser[Option] = "option" ~> optionBody <~ ";"
 	lazy val optionBody: PackratParser[Option] = (("(" ?) ~> identifier ~ (("." ~ identifier) *) <~ (")" ?)) ~ ("=" ~> constant) ^^ {
-		case ident ~ idents ~ value => Option(ident + idents.mkString, value)
+		case ident ~ idents ~ value => Option(ident + idents.map(i => i._1 + i._2).mkString, value)
 	}
 
 	lazy val group: PackratParser[Group] = (label <~ "group") ~ (camelCaseIdentifier <~ "=") ~ integerConstant ~ messageBody ^^ {

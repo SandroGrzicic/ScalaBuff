@@ -1,1 +1,1 @@
-List(Option(optimize_for,LITE_RUNTIME))
+List(PackageStatement(resources.generated), Option(optimize_for,LITE_RUNTIME))
