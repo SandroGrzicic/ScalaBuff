@@ -1,3 +1,5 @@
+package resources.generated;
+
 option scala_outer_classname = "GroupsTest";
 
 message Groups {

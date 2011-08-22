@@ -1,5 +1,0 @@
-option scala_outer_classname = "PackageTest";
-package proto;
-
-message Packages {
-}

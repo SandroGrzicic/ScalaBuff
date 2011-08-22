@@ -1,4 +1,7 @@
+package resources.generated;
+
 option optimize_for = LITE_RUNTIME;
+
 message ComplexMessage {
 	required bytes first_field = 1;
 	enum SimpleEnum {

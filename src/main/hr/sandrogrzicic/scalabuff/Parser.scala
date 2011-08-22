@@ -168,13 +168,27 @@ object Parser {
 	/**
 	 * Parse the given Reader input as a .proto file and return the resulting parse tree.
 	 */
-	def apply(input: java.io.Reader): List[Node] = new Parser("unknown").protoParse(new PagedSeqReader(PagedSeq.fromReader(input)))
+	def apply(input: java.io.Reader): List[Node] = {
+		new Parser("unknown").protoParse(new PagedSeqReader(PagedSeq.fromReader(input)))
+	}
+
+
+	/**
+	 * Parse the given InputStream input as a .proto file and return the resulting parse tree.
+	 */
+	def apply(input: java.io.InputStream, encoding: String = "utf-8"): List[Node] = {
+		apply(new java.io.BufferedReader(new java.io.InputStreamReader(input, encoding)))
+	}
 
 	/**
 	 * Parse the given File input as a .proto file and return the resulting parse tree.
 	 */
-	def apply(input: java.io.File): List[Node] = new Parser(input.getName)
-		.protoParse(new PagedSeqReader(PagedSeq.fromFile(input)))
+	def apply(input: java.io.File): List[Node] = {
+		val fis = new java.io.FileInputStream(input)
+		val result = apply(fis)
+		fis.close()
+		result
+	}
 
 	/**
 	 * Parse the given String input as a .proto file and return the resulting parse tree.
