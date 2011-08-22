@@ -28,5 +28,7 @@ Parse protocol buffer files and generate output based on the options given:
   -h, --help                  Show this help text and exit.
 """
 
+	val UNKNOWN_INPUT = "<unknown>"
+
 
 }
