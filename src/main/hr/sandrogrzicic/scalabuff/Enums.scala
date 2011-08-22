@@ -156,7 +156,7 @@ object FieldTypes extends Enum {
 			node match {
 				case Message(name, body) =>
 					enumNames ++= body.enums.map(_.name)
-					body.fields.filter(_.fType.isInstanceOf[CustomEnumVal]).foreach(customFieldTypes += _.fType)
+					customFieldTypes ++= body.fields.map(_.fType) collect { case t: CustomEnumVal => t }
 					getEnumNames(body.messages, enumNames)
 				case EnumStatement(name, constants, options) => enumNames += name
 				case _ =>
