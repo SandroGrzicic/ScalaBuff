@@ -157,8 +157,6 @@ object ScalaBuff {
 
 			val targetFile = new File(targetDir, generated.file.camelCase + ".scala")
 
-			println(targetDir)
-			println(targetFile)
 			if (targetFile.exists()) targetFile.delete()
 
 			val writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFile), settings.outputEncoding))
