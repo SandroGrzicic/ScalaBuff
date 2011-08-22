@@ -6,6 +6,8 @@ scalaVersion := "2.9.0-1"
 
 libraryDependencies += "org.scalatest" % "scalatest_2.9.0-1" % "1.6.1"
 
+parallelExecution in GlobalScope := false
+
 unmanagedBase <<= baseDirectory { base => base / "lib" }
 
 scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation")
