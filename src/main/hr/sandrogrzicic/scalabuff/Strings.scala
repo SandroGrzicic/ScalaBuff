@@ -8,6 +8,7 @@ package hr.sandrogrzicic.scalabuff
 object Strings {
 	val CANNOT_ACCESS_RESOURCE = "* Error: Cannot access specified resource: "
 	val CANNOT_WRITE_FILE = "* Error: Unable to write output file: "
+	val INVALID_IMPORT_DIRECTORY = "* Error: Invalid import directory: "
 	val INVALID_OUTPUT_DIRECTORY = "* Error: Invalid output directory: "
 	val UNSUPPORTED_INPUT_ENCODING = "* Error: Unsupported proto encoding: "
 	val UNSUPPORTED_OUTPUT_ENCODING = "* Error: Unsupported output encoding: "
