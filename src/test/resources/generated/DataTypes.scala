@@ -249,7 +249,7 @@ object DataTypes {
 
 	object Varint8Enum extends hr.sandrogrzicic.scalabuff.runtime.Enum {
 		sealed trait EnumVal extends Value
-		val _UNINITIALIZED = new EnumVal { val name = id; val id = throw new hr.sandrogrzicic.scalabuff.runtime.UninitializedEnumException(Varint8Enum.getClass.getName) }
+		val _UNINITIALIZED = new EnumVal { val name = "UNINITIALIZED ENUM VALUE"; val id = -1 }
 
 		val ENUM_ZERO = new EnumVal { val name = "ENUM_ZERO"; val id = 0 }
 		val ENUM_ONE = new EnumVal { val name = "ENUM_ONE"; val id = 1 }

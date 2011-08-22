@@ -43,8 +43,7 @@ class Generator protected(sourceName: String) {
 			out
 				.append(indentOuter).append("object ").append(enum.name).append(" extends hr.sandrogrzicic.scalabuff.runtime.Enum {\n")
 				.append(indent).append("sealed trait EnumVal extends Value\n")
-				.append(indent).append("val _UNINITIALIZED = new EnumVal { val name = id; val id = throw new hr.sandrogrzicic.scalabuff.runtime.UninitializedEnumException(")
-				.append(enum.name).append(".getClass.getName) }\n\n")
+				.append(indent).append("val _UNINITIALIZED = new EnumVal { val name = \"UNINITIALIZED ENUM VALUE\"; val id = -1 }\n\n")
 
 			for (enumOption <- enum.options) {
 				// options?

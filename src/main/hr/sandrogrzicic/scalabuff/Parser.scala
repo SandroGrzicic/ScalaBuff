@@ -9,7 +9,7 @@ import collection.mutable.ListBuffer
  * Main Protobuf parser.
  * @author Sandro Gržičić
  */
-class Parser(inputName: String) extends RegexParsers with PackratParsers {
+class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 
 	// skip C/C++ style comments and whitespace.
 	override protected val whiteSpace = """((/\*(?:.|\r|\n)*?\*/)|//.*|\s+)+""".r
@@ -168,17 +168,24 @@ object Parser {
 	/**
 	 * Parse the given Reader input as a .proto file and return the resulting parse tree.
 	 */
-	def apply(input: java.io.Reader, name: String = Strings.UNKNOWN_INPUT): List[Node] = {
+	def apply(input: java.io.Reader, name: String): List[Node] = {
 		new Parser(name).protoParse(new PagedSeqReader(PagedSeq.fromReader(input)))
 	}
-
+	/**
+	 * Parse the given Reader input as a .proto file and return the resulting parse tree.
+	 */
+	def apply(input: java.io.Reader): List[Node] = apply(input, Strings.UNKNOWN_INPUT)
 
 	/**
 	 * Parse the given InputStream input as a .proto file and return the resulting parse tree.
 	 */
-	def apply(input: java.io.InputStream, name: String = Strings.UNKNOWN_INPUT, encoding: String = "utf-8"): List[Node] = {
+	def apply(input: java.io.InputStream, name: String, encoding: String): List[Node] = {
 		apply(new java.io.BufferedReader(new java.io.InputStreamReader(input, encoding)), name)
 	}
+	/**
+	 * Parse the given InputStream input as a .proto file and return the resulting parse tree.
+	 */
+	def apply(input: java.io.InputStream, encoding: String = "utf-8"): List[Node] = apply(input, Strings.UNKNOWN_INPUT, "utf-8")
 
 	/**
 	 * Parse the given File input as a .proto file and return the resulting parse tree.
@@ -193,9 +200,14 @@ object Parser {
 	/**
 	 * Parse the given String input as a .proto file and return the resulting parse tree.
 	 */
-	def apply(input: String, name: String = Strings.UNKNOWN_INPUT): List[Node] = {
+	def apply(input: String, name: String): List[Node] = {
 		new Parser(name).protoParse(new CharSequenceReader(input))
 	}
+	/**
+	 * Parse the given String input as a .proto file and return the resulting parse tree.
+	 */
+	def apply(input: String): List[Node] = apply(input, Strings.UNKNOWN_INPUT)
+
 }
 
 
