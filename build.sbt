@@ -1,12 +1,16 @@
 name := "ScalaBuff"
 
-version := "0.7"
+version := "0.8"
 
 scalaVersion := "2.9.0-1"
 
+resolvers += "Akka Maven Repository" at "http://akka.io/repository"
+
 libraryDependencies += "org.scalatest" % "scalatest_2.9.0-1" % "1.6.1"
 
-parallelExecution in GlobalScope := false
+libraryDependencies += "com.google.protobuf" % "protobuf-java" % "2.4.1"
+
+parallelExecution in GlobalScope := true
 
 unmanagedBase <<= baseDirectory { base => base / "lib" }
 

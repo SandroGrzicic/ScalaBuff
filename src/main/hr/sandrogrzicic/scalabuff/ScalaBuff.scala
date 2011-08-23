@@ -29,8 +29,9 @@ object ScalaBuff {
 
 	/**
 	 * Runs ScalaBuff on the specified resource path (file path or URL) and returns the resulting Scala class.
+	 * If the encoding is not specified, it defaults to either UTF-8 (if available) or the platform default charset.
 	 */
-	def fromResourcePath(resourcePath: String, encoding: Charset): ScalaClass = {
+	def fromResourcePath(resourcePath: String, encoding: Charset = defaultCharset): ScalaClass = {
 		val reader = read(resourcePath, encoding)
 		try {
 			Generator(Parser(reader), resourcePath.dropUntilLast('/'))
