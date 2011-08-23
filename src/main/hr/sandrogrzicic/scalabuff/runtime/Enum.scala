@@ -34,10 +34,11 @@ trait Enum {
 		final val ordinal = addEnumVal(this) // Adds the EnumVal and returns the ordinal
 
 		// proto enum value
-		def id: Int
+		val id: Int
 		// proto enum name
-		def name: String
-		val getNumber = id
+		val name: String
+
+		lazy val getNumber = id
 
 		override def toString = name
 		/**
