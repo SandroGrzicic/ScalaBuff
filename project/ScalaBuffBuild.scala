@@ -15,7 +15,7 @@ object ScalaBuffBuild extends Build {
 	lazy val defaultSettings = Defaults.defaultSettings ++ Seq(
 		resolvers += "Akka Maven Repository" at "http://akka.io/repository",
 
-    	libraryDependencies += "org.scalatest" % "scalatest_2.9.0-1" % "1.6.1",
+		libraryDependencies += "org.scalatest" % "scalatest_2.9.0-1" % "1.6.1",
 		libraryDependencies += "com.google.protobuf" % "protobuf-java" % "2.4.1",
 
 		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation"),
