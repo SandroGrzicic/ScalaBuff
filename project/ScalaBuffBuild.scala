@@ -23,13 +23,13 @@ object ScalaBuffBuild extends Build {
 
 		parallelExecution in GlobalScope := true,
 
-        scalaSource in Compile <<= baseDirectory(_ / "src/main"),
-        scalaSource in Test <<= baseDirectory(_ / "src/test"),
+		scalaSource in Compile <<= baseDirectory(_ / "src/main"),
+		scalaSource in Test <<= baseDirectory(_ / "src/test"),
 
-        classDirectory in Compile <<= baseDirectory(_ / "bin/main"),
-        classDirectory in Test <<= baseDirectory(_ / "bin/test"),
+		classDirectory in Compile <<= baseDirectory(_ / "bin/main"),
+		classDirectory in Test <<= baseDirectory(_ / "bin/test"),
 
-        docDirectory in Compile <<= baseDirectory(_ / "doc")
+		docDirectory in Compile <<= baseDirectory(_ / "doc")
 	)
 
 	lazy val scalaBuff = Project(
