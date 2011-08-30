@@ -1,4 +1,4 @@
-package hr.sandrogrzicic.scalabuff
+package hr.sandrogrzicic.scalabuff.compiler
 
 /**
  * String extension with some useful methods.

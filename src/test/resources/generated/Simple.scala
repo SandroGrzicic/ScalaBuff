@@ -8,7 +8,7 @@ final case class SimpleTest (
 	optionalField: Option[Float] = None,
 	repeatedField: Vector[String] = Vector.empty[String]
 ) extends com.google.protobuf.GeneratedMessageLite
-	with hr.sandrogrzicic.scalabuff.runtime.Message[SimpleTest] {
+	with hr.sandrogrzicic.scalabuff.Message[SimpleTest] {
 
 	def getOptionalField = optionalField.getOrElse(0.0f)
 

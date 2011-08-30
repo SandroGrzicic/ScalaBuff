@@ -1,4 +1,4 @@
-package hr.sandrogrzicic.scalabuff
+package hr.sandrogrzicic.scalabuff.compiler
 
 import java.io._
 import java.nio.charset.Charset

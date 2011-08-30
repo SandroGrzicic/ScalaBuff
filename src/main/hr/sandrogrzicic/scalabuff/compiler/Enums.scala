@@ -1,4 +1,4 @@
-package hr.sandrogrzicic.scalabuff
+package hr.sandrogrzicic.scalabuff.compiler
 
 import collection.mutable
 import mutable.{ArrayBuffer, HashSet}

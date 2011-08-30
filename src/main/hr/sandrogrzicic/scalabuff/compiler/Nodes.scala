@@ -1,4 +1,4 @@
-package hr.sandrogrzicic.scalabuff
+package hr.sandrogrzicic.scalabuff.compiler
 
 /**
  * Nodes produced by the Parser.

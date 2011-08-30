@@ -6,7 +6,7 @@ package resources.generated
 final case class Groups (
 
 ) extends com.google.protobuf.GeneratedMessageLite
-	with hr.sandrogrzicic.scalabuff.runtime.Message[Groups] {
+	with hr.sandrogrzicic.scalabuff.Message[Groups] {
 
 
 

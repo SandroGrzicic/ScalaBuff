@@ -4,7 +4,7 @@ package hr.sandrogrzicic.scalabuff.test
  * @author Sandro Gržičić
  */
 
-import hr.sandrogrzicic.scalabuff.{Generator, Parser, Node}
+import hr.sandrogrzicic.scalabuff.compiler.{Generator, Parser, Node}
 
 import java.io._
 

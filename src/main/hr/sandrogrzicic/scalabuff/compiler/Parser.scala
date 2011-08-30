@@ -1,4 +1,4 @@
-package hr.sandrogrzicic.scalabuff
+package hr.sandrogrzicic.scalabuff.compiler
 
 import util.parsing.combinator._
 import util.parsing.input.{PagedSeqReader, CharSequenceReader}

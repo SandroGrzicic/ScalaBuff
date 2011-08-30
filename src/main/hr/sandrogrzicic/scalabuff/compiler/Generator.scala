@@ -1,4 +1,4 @@
-package hr.sandrogrzicic.scalabuff
+package hr.sandrogrzicic.scalabuff.compiler
 
 import annotation.tailrec
 import collection.mutable
@@ -41,7 +41,7 @@ class Generator protected(sourceName: String) {
 
 			val out = StringBuilder.newBuilder
 			out
-				.append(indentOuter).append("object ").append(enum.name).append(" extends hr.sandrogrzicic.scalabuff.runtime.Enum {\n")
+				.append(indentOuter).append("object ").append(enum.name).append(" extends hr.sandrogrzicic.scalabuff.Enum {\n")
 				.append(indent).append("sealed trait EnumVal extends Value\n")
 				.append(indent).append("val _UNINITIALIZED = new EnumVal { val name = \"UNINITIALIZED ENUM VALUE\"; val id = -1 }\n\n")
 
@@ -71,7 +71,7 @@ class Generator protected(sourceName: String) {
 					out.append(indent).append("\t")
 						.append("case ").append(const.id).append(" => ").append(const.name).append("\n")
 				}
-				out.append(indent).append("\t").append("case _default => throw new hr.sandrogrzicic.scalabuff.runtime.UnknownEnumException(_default)\n");
+				out.append(indent).append("\t").append("case _default => throw new hr.sandrogrzicic.scalabuff.UnknownEnumException(_default)\n");
 				out.append(indent).append("}\n")
 			} else {	// O(n)
 				out.append("values.find(_.id == id).orNull\n")
@@ -126,7 +126,7 @@ class Generator protected(sourceName: String) {
 			if (!fields.isEmpty) out.length -= 2
 			out.append("\n")
 				.append(indent0).append(") extends com.google.protobuf.GeneratedMessageLite\n")
-				.append(indent1).append("with hr.sandrogrzicic.scalabuff.runtime.Message[").append(name).append("] {\n\n")
+				.append(indent1).append("with hr.sandrogrzicic.scalabuff.Message[").append(name).append("] {\n\n")
 
 			// getOptionalField
 			fields.filter(f => f.label == OPTIONAL && f.fType.isEnum == false).foreach { field =>

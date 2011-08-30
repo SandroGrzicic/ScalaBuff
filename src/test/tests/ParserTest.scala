@@ -2,7 +2,7 @@ package tests
 
 import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
-import hr.sandrogrzicic.scalabuff.Parser
+import hr.sandrogrzicic.scalabuff.compiler.Parser
 import java.io._
 
 /**
