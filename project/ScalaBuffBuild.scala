@@ -8,13 +8,12 @@ import java.io.File
  * Useful SBT commands:
  *
  *      run (arguments)             Runs ScalaBuff inside SBT with the specified arguments.
- *      test						Runs the tests.
+ *      test                        Runs the tests.
  *      package                     Generates the main ScalaBuff compiler .JAR.
  *      update-test-resources       Regenerates the test resources using ScalaBuff.
  *
- * To switch to the Runtime sub-project, use:
- *
- *      project ScalaBuffRuntime
+ *      project ScalaBuff           Switches to the main project (default).
+ *      project ScalaBuffRuntime    Switches to the Runtime sub-project.
  *
  */
 object ScalaBuffBuild extends Build {
