@@ -1,4 +1,4 @@
-package hr.sandrogrzicic.scalabuff
+package net.sandrogrzicic.scalabuff
 
 import com.google.protobuf._
 import java.io.{FilterInputStream, InputStream}

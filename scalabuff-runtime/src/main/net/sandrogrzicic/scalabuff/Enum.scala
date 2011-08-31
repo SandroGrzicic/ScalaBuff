@@ -1,4 +1,4 @@
-package hr.sandrogrzicic.scalabuff
+package net.sandrogrzicic.scalabuff
 
 /**
  * Viktor Klang's Enum, modified for ScalaBuff for protobuf usage
