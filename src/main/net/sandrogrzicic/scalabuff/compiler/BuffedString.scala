@@ -1,4 +1,4 @@
-package hr.sandrogrzicic.scalabuff.compiler
+package net.sandrogrzicic.scalabuff.compiler
 
 /**
  * String extension with some useful methods.
@@ -47,7 +47,7 @@ class BuffedString(str: String) {
 	def betweenLast(from: Char, to: Char) = {
 		var fromPos = str.lastIndexOf(from) + 1
 		var toPos = str.lastIndexOf(to, from)
-		if (fromPos < 1) fromPos = 0
+		if (fromPos < 0) fromPos = 0
 		if (toPos < 0) toPos = str.length
 		if (fromPos > toPos) ""
 		str.substring(fromPos, toPos)

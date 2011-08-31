@@ -23,7 +23,7 @@ final case class DataTypes (
 	f32bit2: Option[Int] = None,
 	f32bit3: Option[Float] = None
 ) extends com.google.protobuf.GeneratedMessageLite
-	with hr.sandrogrzicic.scalabuff.Message[DataTypes] {
+	with net.sandrogrzicic.scalabuff.Message[DataTypes] {
 
 	def getVarint2 = varint2.getOrElse(0L)
 	def getVarint3 = varint3.getOrElse(0)
@@ -247,7 +247,7 @@ object DataTypes {
 	val F32BIT2_FIELD_NUMBER = 501
 	val F32BIT3_FIELD_NUMBER = 502
 
-	object Varint8Enum extends hr.sandrogrzicic.scalabuff.Enum {
+	object Varint8Enum extends net.sandrogrzicic.scalabuff.Enum {
 		sealed trait EnumVal extends Value
 		val _UNINITIALIZED = new EnumVal { val name = "UNINITIALIZED ENUM VALUE"; val id = -1 }
 
@@ -260,7 +260,7 @@ object DataTypes {
 		def valueOf(id: Int) = id match {
 			case 0 => ENUM_ZERO
 			case 1 => ENUM_ONE
-			case _default => throw new hr.sandrogrzicic.scalabuff.UnknownEnumException(_default)
+			case _default => throw new net.sandrogrzicic.scalabuff.UnknownEnumException(_default)
 		}
 		val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {
 			def findValueByNumber(id: Int): EnumVal = valueOf(id)

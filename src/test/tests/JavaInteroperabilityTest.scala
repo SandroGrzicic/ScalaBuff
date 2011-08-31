@@ -20,7 +20,7 @@ class JavaInteroperabilityTest extends FunSuite with ShouldMatchers {
 		val second = "Sandro Grzicic"
 		val nestedNested = "Nested String"
 
-		val repeatedStringArray = Array("hr", "sandrogrzicic", "scalabuff")
+		val repeatedStringArray = Array("net", "sandrogrzicic", "scalabuff")
 		val repeatedBytesArray = Array(ByteString.copyFrom(Array[Byte](1, 2, 3)), ByteString.copyFrom(Array[Byte](4, 5, 6)))
 
 		val scala = ComplexMessage(

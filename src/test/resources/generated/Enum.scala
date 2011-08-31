@@ -3,7 +3,7 @@
 
 package resources.generated
 
-object ComputerPeripherals extends hr.sandrogrzicic.scalabuff.Enum {
+object ComputerPeripherals extends net.sandrogrzicic.scalabuff.Enum {
 	sealed trait EnumVal extends Value
 	val _UNINITIALIZED = new EnumVal { val name = "UNINITIALIZED ENUM VALUE"; val id = -1 }
 
@@ -16,7 +16,7 @@ object ComputerPeripherals extends hr.sandrogrzicic.scalabuff.Enum {
 	def valueOf(id: Int) = id match {
 		case 1 => MOUSE
 		case 2 => KEYBOARD
-		case _default => throw new hr.sandrogrzicic.scalabuff.UnknownEnumException(_default)
+		case _default => throw new net.sandrogrzicic.scalabuff.UnknownEnumException(_default)
 	}
 	val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {
 		def findValueByNumber(id: Int): EnumVal = valueOf(id)

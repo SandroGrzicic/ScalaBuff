@@ -11,7 +11,7 @@ final case class ComplexMessage (
 	repeatedStringField: Vector[String] = Vector.empty[String],
 	repeatedBytesField: Vector[com.google.protobuf.ByteString] = Vector.empty[com.google.protobuf.ByteString]
 ) extends com.google.protobuf.GeneratedMessageLite
-	with hr.sandrogrzicic.scalabuff.Message[ComplexMessage] {
+	with net.sandrogrzicic.scalabuff.Message[ComplexMessage] {
 
 	def getSecondField = secondField.getOrElse("")
 	def getNestedOuterField = nestedOuterField.getOrElse(ComplexMessage.Nested.defaultInstance)
@@ -123,7 +123,7 @@ object ComplexMessage {
 	val REPEATED_STRING_FIELD_FIELD_NUMBER = 5
 	val REPEATED_BYTES_FIELD_FIELD_NUMBER = 6
 
-	object SimpleEnum extends hr.sandrogrzicic.scalabuff.Enum {
+	object SimpleEnum extends net.sandrogrzicic.scalabuff.Enum {
 		sealed trait EnumVal extends Value
 		val _UNINITIALIZED = new EnumVal { val name = "UNINITIALIZED ENUM VALUE"; val id = -1 }
 
@@ -133,7 +133,7 @@ object ComplexMessage {
 
 		def valueOf(id: Int) = id match {
 			case 1 => KEY_NAME
-			case _default => throw new hr.sandrogrzicic.scalabuff.UnknownEnumException(_default)
+			case _default => throw new net.sandrogrzicic.scalabuff.UnknownEnumException(_default)
 		}
 		val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {
 			def findValueByNumber(id: Int): EnumVal = valueOf(id)
@@ -144,7 +144,7 @@ object ComplexMessage {
 		nestedField: String = "",
 		nestedEnum: Option[ComplexMessage.SimpleEnum.EnumVal] = None
 	) extends com.google.protobuf.GeneratedMessageLite
-		with hr.sandrogrzicic.scalabuff.Message[Nested] {
+		with net.sandrogrzicic.scalabuff.Message[Nested] {
 
 
 		def setNestedEnum(_f: ComplexMessage.SimpleEnum.EnumVal) = copy(nestedEnum = _f)
@@ -212,7 +212,7 @@ final case class AnotherMessage (
 	fieldNested: ComplexMessage.Nested = ComplexMessage.Nested.defaultInstance,
 	fieldEnum: ComplexMessage.SimpleEnum.EnumVal = ComplexMessage.SimpleEnum._UNINITIALIZED
 ) extends com.google.protobuf.GeneratedMessageLite
-	with hr.sandrogrzicic.scalabuff.Message[AnotherMessage] {
+	with net.sandrogrzicic.scalabuff.Message[AnotherMessage] {
 
 
 

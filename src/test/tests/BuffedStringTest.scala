@@ -2,7 +2,7 @@ package tests
 
 import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
-import hr.sandrogrzicic.scalabuff.compiler.BuffedString
+import net.sandrogrzicic.scalabuff.compiler.BuffedString
 
 /**
  * Tests for the BuffedString string helper class.

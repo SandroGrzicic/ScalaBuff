@@ -8,7 +8,7 @@ final case class SimpleRequest (
 	pageNumber: Option[Int] = None,
 	resultsPerPage: Option[Int] = None
 ) extends com.google.protobuf.GeneratedMessageLite
-	with hr.sandrogrzicic.scalabuff.Message[SimpleRequest] {
+	with net.sandrogrzicic.scalabuff.Message[SimpleRequest] {
 
 	def getPageNumber = pageNumber.getOrElse(0)
 	def getResultsPerPage = resultsPerPage.getOrElse(0)

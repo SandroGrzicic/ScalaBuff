@@ -20,7 +20,7 @@ class MessageTest extends FunSuite with ShouldMatchers {
 		val second = "Sandro Grzicic"
 		val nestedOuter = ComplexMessage.Nested(nestedNested, Some(nestedEnum))
 		val simpleEnum = Vector(ComplexMessage.SimpleEnum.KEY_NAME)
-		val repeatedString = Vector("hr", "sandrogrzicic", "scalabuff")
+		val repeatedString = Vector("net", "sandrogrzicic", "scalabuff")
 		val repeatedBytes = Vector(ByteString.copyFrom(Array[Byte](1, 2, 3)), ByteString.copyFrom(Array[Byte](4, 5, 6)))
 
 		val sent = ComplexMessage(first, Some(second), Some(nestedOuter), simpleEnum, repeatedString, repeatedBytes)

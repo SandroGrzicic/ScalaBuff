@@ -2,7 +2,7 @@ package tests
 
 import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
-import hr.sandrogrzicic.scalabuff.compiler.{Strings, ScalaBuff}
+import net.sandrogrzicic.scalabuff.compiler.{Strings, ScalaBuff}
 import java.io.{PrintStream, ByteArrayOutputStream, File}
 
 /**

@@ -1,4 +1,4 @@
-package hr.sandrogrzicic.scalabuff.compiler
+package net.sandrogrzicic.scalabuff.compiler
 
 /**
  * Text strings.
