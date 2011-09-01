@@ -42,12 +42,17 @@ object ScalaBuffBuild extends Build {
 		scalaSource in Compile <<= baseDirectory(_ / "src/main"),
 		scalaSource in Test <<= baseDirectory(_ / "src/test"),
 
+		javaSource in Compile <<= baseDirectory(_ / "src/main"),
+		javaSource in Test <<= baseDirectory(_ / "src/test"),
+
 		classDirectory in Compile <<= baseDirectory(_ / "bin/main"),
 		classDirectory in Test <<= baseDirectory(_ / "bin/test"),
 
 		docDirectory in Compile <<= baseDirectory(_ / "doc"),
 
-        unmanagedBase <<= baseDirectory(_ / "lib")
+        unmanagedBase <<= baseDirectory(_ / "lib"),
+
+        compileOrder := CompileOrder.JavaThenScala
 	)
 
 	lazy val scalaBuff = Project(
