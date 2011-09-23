@@ -367,9 +367,9 @@ class Generator protected(sourceName: String) {
 					case PackageStatement(name) => if (packageName.isEmpty) packageName = name
 					case Option(key, value) => key match {
 						case "java_package" => packageName = value
-						case "scala_package" => packageName = value
+						case "scalabuff.scala_package" => packageName = value
 						case "java_outer_classname" => className = value
-						case "scala_outer_classname" => className = value
+						case "scalabuff.scala_outer_classname" => className = value
 						case "optimize_for" => value match {
 							case "SPEED" => optimizeForSpeed = true
 							case "CODE_SIZE" => optimizeForSpeed = false
