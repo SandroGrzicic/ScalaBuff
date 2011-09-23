@@ -39,6 +39,9 @@ object ScalaBuffBuild extends Build {
 
 		parallelExecution in GlobalScope := true,
 
+		// This is used to add the *.proto files to the jar file.
+		unmanagedResourceDirectories in Compile <+= baseDirectory(_ / "src/resources"),
+
 		scalaSource in Compile <<= baseDirectory(_ / "src/main"),
 		scalaSource in Test <<= baseDirectory(_ / "src/test"),
 
