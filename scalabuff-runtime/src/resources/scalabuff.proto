@@ -1,0 +1,8 @@
+package scalabuff;
+import "google/protobuf/descriptor.proto";
+
+
+extend google.protobuf.FileOptions {
+    optional string scala_package = 1742;
+    optional string scala_outer_classname = 1743;
+}
