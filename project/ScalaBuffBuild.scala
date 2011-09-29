@@ -18,16 +18,15 @@ import java.io.File
  */
 object ScalaBuffBuild extends Build {
 
-	lazy val buildSettings = Seq(
-		name := "ScalaBuff",
+	lazy val buildSettings = Defaults.defaultSettings ++ Seq[Setting[_]](
+    organization := "net.sandrogrzicic.scalabuff",
 		version := "0.10-SNAPSHOT",
-		scalaVersion := "2.9.1",
-		logLevel := Level.Info
 	)
 
-	override lazy val settings = super.settings ++ buildSettings
+//	override lazy val settings = Defaults.defaultSettings ++ buildSettings
 
-	lazy val defaultSettings = Defaults.defaultSettings ++ Seq(
+	lazy val defaultSettings =  buildSettings ++ Seq[Setting[_]](
+    scalaVersion := "2.9.1",
 
 		resolvers += "Akka Maven Repository" at "http://akka.io/repository",
 
@@ -39,45 +38,39 @@ object ScalaBuffBuild extends Build {
 
 		parallelExecution in GlobalScope := true,
 
-		// This is used to add the *.proto files to the jar file.
-		unmanagedResourceDirectories in Compile <+= baseDirectory(_ / "src/resources"),
-
-		scalaSource in Compile <<= baseDirectory(_ / "src/main"),
-		scalaSource in Test <<= baseDirectory(_ / "src/test"),
-
-		javaSource in Compile <<= baseDirectory(_ / "src/main"),
-		javaSource in Test <<= baseDirectory(_ / "src/test"),
-
-		classDirectory in Compile <<= baseDirectory(_ / "bin/main"),
-		classDirectory in Test <<= baseDirectory(_ / "bin/test"),
-
-		docDirectory in Compile <<= baseDirectory(_ / "doc"),
-
-        unmanagedBase <<= baseDirectory(_ / "lib"),
-
-        compileOrder := CompileOrder.JavaThenScala
+    compileOrder := CompileOrder.JavaThenScala
 	)
 
-	lazy val scalaBuff = Project(
-		id = "ScalaBuff",
-		base = file("."),
+  lazy val root = Project(
+    id = "root",
+    base = file("."),
+    settings = buildSettings,
+    aggregate = Seq(scalaBuffCompiler, scalaBuffRuntime, scalaBuffProtocCompat)
+  )
+
+
+	lazy val scalaBuffCompiler = Project(
+		id = "compiler",
+		base = file("scalabuff-compiler"),
 		dependencies = Seq(scalaBuffRuntime % "test->compile"),
 		settings = defaultSettings ++ Seq(
 			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
-            fullRunTask(TaskKey[Unit]("update-test-resources"), Compile, "net.sandrogrzicic.scalabuff.test.UpdateTestResources")
+      fullRunTask(TaskKey[Unit]("update-test-resources"), Compile, "net.sandrogrzicic.scalabuff.compiler.tests.UpdateTestResources")
 		)
 	)
 
 	lazy val scalaBuffRuntime = Project(
-		id = "ScalaBuffRuntime",
+		id = "runtime",
 		base = file("scalabuff-runtime"),
 		settings = defaultSettings
 	)
 
   lazy val scalaBuffProtocCompat = Project(
-    id = "ScalaBuffProtocCompat",
+    id = "protoc-compat",
     base = file("scalabuff-protoc-compat"),
-    settings = defaultSettings
+    settings = defaultSettings ++ Seq[Setting[_]](
+
+    )
   )
 
 }

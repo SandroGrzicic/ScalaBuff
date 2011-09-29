@@ -1,8 +1,0 @@
-package resources.generated;
-
-option scala_outer_classname = "ScalaBuffMessageTest";
-
-option optimize_for = LITE_RUNTIME;
-
-message EmptyMessage {
-}

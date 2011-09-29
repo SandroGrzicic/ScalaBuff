@@ -1,0 +1,9 @@
+.idea
+.idea_modules
+bin
+doc
+project/target
+scalabuff-runtime/target
+scalabuff-runtime/bin
+scalabuff-runtime/doc
+target

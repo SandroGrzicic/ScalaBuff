@@ -1,0 +1,4 @@
+<unknown>:3:1: string matching regex `\z' expected but `i' found
+invalidSimple { }
+
+^

@@ -1,0 +1,9 @@
+package tests.generated;
+
+option optimize_for = LITE_RUNTIME;
+
+enum ComputerPeripherals {
+	MOUSE = 1;
+	KEYBOARD = 2;
+}
+

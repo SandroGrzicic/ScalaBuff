@@ -1,0 +1,4 @@
+<unknown>:3:17: `{' expected but `M' found
+message Invalid Message { }
+
+                ^

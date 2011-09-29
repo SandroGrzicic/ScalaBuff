@@ -1,3 +1,0 @@
-package resources.generated;
-
-message Invalid Message { }
