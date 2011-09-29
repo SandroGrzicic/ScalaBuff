@@ -74,4 +74,10 @@ object ScalaBuffBuild extends Build {
 		settings = defaultSettings
 	)
 
+  lazy val scalaBuffProtocCompat = Project(
+    id = "ScalaBuffProtocCompat",
+    base = file("scalabuff-protoc-compat"),
+    settings = defaultSettings
+  )
+
 }
