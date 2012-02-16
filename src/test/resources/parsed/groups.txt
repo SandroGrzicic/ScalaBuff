@@ -1,1 +1,0 @@
-List(PackageStatement(resources.generated), Option(scala_outer_classname,GroupsTest), Message(Groups,MessageBody(List(),List(),List(),List(),List(),List(Group(repeated,Group,1,MessageBody(List(Field(required,String,name,2,List())),List(),List(),List(),List(),List(),List()))),List())))

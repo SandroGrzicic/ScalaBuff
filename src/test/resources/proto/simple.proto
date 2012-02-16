@@ -1,9 +1,0 @@
-package resources.generated;
-
-option optimize_for = LITE_RUNTIME;
-
-message SimpleTest {
-	required int32 required_field = 1;
-	optional float optional_field = 2;
-	repeated string repeated_field = 3;
-}

@@ -1,1 +1,0 @@
-List(PackageStatement(resources.generated), Option(scala_outer_classname,EmptyMessageTest), Option(optimize_for,LITE_RUNTIME))

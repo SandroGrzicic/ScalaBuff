@@ -1,1 +1,0 @@
-List(PackageStatement(resources.generated), Message(SimpleRequest,MessageBody(List(Field(required,String,query,1,List()), Field(optional,Int32,page_number,2,List()), Field(optional,Int32,results_per_page,3,List())),List(),List(),List(),List(),List(),List())))

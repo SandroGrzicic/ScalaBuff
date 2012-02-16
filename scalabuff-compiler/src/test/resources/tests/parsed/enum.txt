@@ -1,0 +1,1 @@
+List(PackageStatement(tests.generated), Option(optimize_for,LITE_RUNTIME), EnumStatement(ComputerPeripherals,List(EnumConstant(MOUSE,1), EnumConstant(KEYBOARD,2)),List()))
