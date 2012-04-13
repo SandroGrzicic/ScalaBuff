@@ -10,8 +10,6 @@ import collection.mutable
 
 class Generator protected(sourceName: String) {
 
-	implicit def buffString(string: String): BuffedString = new BuffedString(string)
-
 	protected val imports = mutable.ListBuffer[String]()
 
 	protected var packageName: String = ""

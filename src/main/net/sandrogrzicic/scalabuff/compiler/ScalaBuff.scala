@@ -9,8 +9,6 @@ import java.nio.charset.Charset
  */
 object ScalaBuff {
 
-	implicit def buffString(string: String): BuffedString = new BuffedString(string)
-
 	val defaultCharset: Charset = if (Charset.isSupported("utf-8")) Charset.forName("utf-8") else Charset.defaultCharset()
 
 	case class Settings (

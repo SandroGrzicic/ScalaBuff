@@ -20,8 +20,9 @@ object ScalaBuffBuild extends Build {
 
 	lazy val buildSettings = Seq(
 		name := "ScalaBuff",
-		version := "0.9",
-		scalaVersion := "2.9.1",
+		organization := "net.sandrogrzicic",
+		version := "0.9-SNAPSHOT",
+		scalaVersion := "2.9.2",
 		logLevel := Level.Info
 	)
 
@@ -31,8 +32,12 @@ object ScalaBuffBuild extends Build {
 
 		resolvers += "Akka Maven Repository" at "http://akka.io/repository",
 
-		libraryDependencies += "org.scalatest" % "scalatest_2.9.1" % "1.6.1",
-		libraryDependencies += "com.google.protobuf" % "protobuf-java" % "2.4.1",
+		libraryDependencies ++= Seq(
+			"org.scalatest" % "scalatest_2.9.1" % "1.6.1",
+			"com.google.protobuf" % "protobuf-java" % "2.4.1"
+		),
+
+		crossScalaVersions ++= Seq("2.10.0-M2"),
 
 		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation"),
 		javacOptions ++= Seq("-encoding", "utf8", "-Xlint:unchecked", "-Xlint:deprecation"),
@@ -50,9 +55,14 @@ object ScalaBuffBuild extends Build {
 
 		docDirectory in Compile <<= baseDirectory(_ / "doc"),
 
-        unmanagedBase <<= baseDirectory(_ / "lib"),
-
-        compileOrder := CompileOrder.JavaThenScala
+		compileOrder := CompileOrder.JavaThenScala,
+		
+		credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
+		publishTo <<= (version) { version: String =>
+			val nexus = "http://nexus.scala-tools.org/content/repositories/"
+			if (version.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "snapshots/")
+			else                                   Some("releases"  at nexus + "releases/")
+		}
 	)
 
 	lazy val scalaBuff = Project(
@@ -61,7 +71,7 @@ object ScalaBuffBuild extends Build {
 		dependencies = Seq(scalaBuffRuntime % "test->compile"),
 		settings = defaultSettings ++ Seq(
 			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
-            fullRunTask(TaskKey[Unit]("update-test-resources"), Compile, "net.sandrogrzicic.scalabuff.test.UpdateTestResources")
+			fullRunTask(TaskKey[Unit]("update-test-resources"), Compile, "net.sandrogrzicic.scalabuff.test.UpdateTestResources")
 		)
 	)
 
