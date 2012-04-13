@@ -148,10 +148,11 @@ object ScalaBuff {
 		if (settings.stdout) {
 			println(generated)
 		} else {
+
 			val targetDir = new File(settings.outputDirectory + File.separator + generated.path)
 
 			// generate all the directories between outputDirectory and generated.path
-			// outputDirectory exists because the passed option is checked in option()
+			// target directory exists because the passed option is checked in option()
 			targetDir.mkdirs()
 
 			val targetFile = new File(targetDir, generated.file.camelCase + ".scala")
@@ -160,7 +161,11 @@ object ScalaBuff {
 
 			val writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(targetFile), settings.outputEncoding))
 
-			try { writer.write(generated.body) } finally { writer.close() }
+			try {
+				writer.write(generated.body)
+			} finally {
+				writer.close()
+			}
 		}
 	}
 
