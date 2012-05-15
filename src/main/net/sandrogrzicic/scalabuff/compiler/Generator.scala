@@ -409,7 +409,7 @@ class Generator protected(sourceName: String) {
 		output
 			.append("\tdef registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {\n")
 			.append("\t}\n\n")
-			.append("}")
+			.append("}\n")
 
 		ScalaClass(output.mkString, packageName.replace('.', '/') + '/', className)
 	}
