@@ -7,7 +7,7 @@ enum ComputerPeripherals {
 
 message Outer {
 	enum Inner {
-    	FIRST = 1;
+		FIRST = 1;
 		SECOND = 2;
 	}
 	required Inner inner_required = 1;
