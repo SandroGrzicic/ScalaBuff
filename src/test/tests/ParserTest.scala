@@ -30,7 +30,7 @@ class ParserTest extends FunSuite with ShouldMatchers {
 			val output = io.Source.fromFile(new File(parsedDir + fileName + parsedExtension)).mkString
 			var parsed: String = null
 			try {
-				parsed = Parser(file).toString
+				parsed = Parser(file).toString + "\n"
 			} catch {
 				case e => parsed = e.getMessage
 			}
