@@ -173,7 +173,7 @@ object FieldTypes extends Enum {
 				fType.defaultValue = fType.scalaType + "._UNINITIALIZED"
 				fType.scalaType += ".EnumVal"
 				fType.wireType = WIRETYPE_VARINT
-			} else {
+			} else if (!fType.isEnum) {
 				fType.isMessage = true
 				fType.name = "Message"
 				fType.defaultValue = fType.scalaType + ".defaultInstance"

@@ -11,4 +11,6 @@ message Outer {
 		SECOND = 2;
 	}
 	required Inner inner_required = 1;
+	optional Inner inner_optional = 2;
+	repeated Inner inner_repeated = 3;
 }
