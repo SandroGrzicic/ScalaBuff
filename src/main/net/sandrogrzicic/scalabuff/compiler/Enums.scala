@@ -191,8 +191,10 @@ object FieldTypes extends Enum {
 						case EnumStatement(eName, eConstants, eOptions) => {
 							for (field <- body.fields if field.fType.isEnum) {
 								val fType = field.fType
-								fType.scalaType = name + "." + fType.scalaType
-								fType.defaultValue = fType.scalaType + "._UNINITIALIZED"
+								if (!fType.scalaType.startsWith(name)) {
+									fType.scalaType = name + "." + fType.scalaType
+								}
+								fType.defaultValue = fType.scalaType.replace(".EnumVal", "") + "._UNINITIALIZED"
 							}
 						}
 					}

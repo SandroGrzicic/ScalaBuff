@@ -1,9 +1,14 @@
 package resources.generated;
 
-option optimize_for = LITE_RUNTIME;
-
 enum ComputerPeripherals {
 	MOUSE = 1;
 	KEYBOARD = 2;
 }
 
+message Outer {
+	enum Inner {
+    	FIRST = 1;
+		SECOND = 2;
+	}
+	required Inner inner_required = 1;
+}

@@ -22,6 +22,83 @@ object ComputerPeripherals extends net.sandrogrzicic.scalabuff.Enum {
 		def findValueByNumber(id: Int): EnumVal = valueOf(id)
 	}
 }
+final case class Outer (
+	innerRequired: Outer.Inner.EnumVal = Outer.Inner._UNINITIALIZED
+) extends com.google.protobuf.GeneratedMessageLite
+	with net.sandrogrzicic.scalabuff.Message[Outer] {
+
+
+
+	def clearInnerRequired = copy(innerRequired = Outer.Inner._UNINITIALIZED)
+
+	def writeTo(output: com.google.protobuf.CodedOutputStream) {
+		output.writeEnum(1, innerRequired)
+	}
+
+	lazy val getSerializedSize = {
+		import com.google.protobuf.CodedOutputStream._
+		var size = 0
+		size += computeEnumSize(1, innerRequired)
+
+		size
+	}
+
+	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Outer = {
+		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
+		var _innerRequired: Outer.Inner.EnumVal = Outer.Inner._UNINITIALIZED
+
+		def _newMerged = Outer(
+			_innerRequired
+		)
+		while (true) in.readTag match {
+			case 0 => return _newMerged
+			case 8 => _innerRequired = Outer.Inner.valueOf(in.readEnum())
+			case default => if (!in.skipField(default)) return _newMerged
+		}
+		null // compiler needs a return value
+	}
+
+	def mergeFrom(m: Outer) = {
+		Outer(
+			m.innerRequired
+		)
+	}
+
+	def getDefaultInstanceForType = Outer.defaultInstance
+	def clear = getDefaultInstanceForType
+	def isInitialized = true
+	def build = this
+	def buildPartial = this
+	def newBuilderForType = this
+	def toBuilder = this
+}
+
+object Outer {
+	@reflect.BeanProperty val defaultInstance = new Outer()
+
+	val INNER_REQUIRED_FIELD_NUMBER = 1
+
+	object Inner extends net.sandrogrzicic.scalabuff.Enum {
+		sealed trait EnumVal extends Value
+		val _UNINITIALIZED = new EnumVal { val name = "UNINITIALIZED ENUM VALUE"; val id = -1 }
+
+		val FIRST = new EnumVal { val name = "FIRST"; val id = 1 }
+		val SECOND = new EnumVal { val name = "SECOND"; val id = 2 }
+
+		val FIRST_VALUE = 1
+		val SECOND_VALUE = 2
+
+		def valueOf(id: Int) = id match {
+			case 1 => FIRST
+			case 2 => SECOND
+			case _default => throw new net.sandrogrzicic.scalabuff.UnknownEnumException(_default)
+		}
+		val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {
+			def findValueByNumber(id: Int): EnumVal = valueOf(id)
+		}
+	}
+
+}
 
 object Enum {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
