@@ -128,11 +128,9 @@ object FieldTypes extends Enum {
 	 * or a new EnumVal with a null default value if it's a custom Message or Enum type.
 	 */
 	def apply(fieldType: String) = {
-		values
-			.find(fieldType.toLowerCase == _.name.toLowerCase)
-			.getOrElse(
-				CustomEnumVal(fieldType, fieldType, "null", WIRETYPE_LENGTH_DELIMITED)
-		)
+		values find { fType =>
+				fType.name.toLowerCase == fieldType.toLowerCase && fType.isInstanceOf[PredefinedEnumVal]
+			} getOrElse	CustomEnumVal(fieldType, fieldType, "null", WIRETYPE_LENGTH_DELIMITED)
 	}
 
 	/**
@@ -157,7 +155,7 @@ object FieldTypes extends Enum {
 				case Message(name, body) =>
 					enumNames ++= body.enums.map(_.name)
 					customFieldTypes ++= body.fields.map(_.fType) collect { case t: CustomEnumVal => t }
-					getEnumNames(body.messages, enumNames)
+					getEnumNames(body.messages, enumNames, customFieldTypes)
 				case EnumStatement(name, constants, options) => enumNames += name
 				case _ =>
 			}
@@ -166,14 +164,14 @@ object FieldTypes extends Enum {
 	}
 	/** Update fields which have custom types. */
 	protected def fixCustomTypes(tree: List[Node], enumNames: mutable.Set[String], allProtoFields: mutable.Buffer[EnumVal]) {
-		for (fType <- allProtoFields) {
+		for (fType <- allProtoFields if !fType.isMessage && !fType.isEnum) {
 			if (enumNames.contains(fType.name.dropUntilLast('.'))) {
 				fType.isEnum = true
 				fType.name = "Enum"
 				fType.defaultValue = fType.scalaType + "._UNINITIALIZED"
 				fType.scalaType += ".EnumVal"
 				fType.wireType = WIRETYPE_VARINT
-			} else if (!fType.isEnum) {
+			} else {
 				fType.isMessage = true
 				fType.name = "Message"
 				fType.defaultValue = fType.scalaType + ".defaultInstance"
@@ -189,7 +187,7 @@ object FieldTypes extends Enum {
 					// prepend parent class names to all nested enums
 					body.enums.foreach {
 						case EnumStatement(eName, eConstants, eOptions) => {
-							for (field <- body.fields if field.fType.isEnum) {
+							body.fields.withFilter(_.fType.isEnum).foreach { field =>
 								val fType = field.fType
 								if (!fType.scalaType.startsWith(name)) {
 									fType.scalaType = name + "." + fType.scalaType
@@ -201,7 +199,7 @@ object FieldTypes extends Enum {
 					// prepend parent class names to all messages
 					body.messages.foreach {
 						case Message(mName, mBody) => {
-							body.fields.filter(_.fType.isMessage).foreach { field =>
+							body.fields.withFilter(_.fType.isMessage).foreach { field =>
 								val fType = field.fType
 								fType.scalaType = name + "." + fType.scalaType
 								fType.defaultValue = name + "." + fType.defaultValue
