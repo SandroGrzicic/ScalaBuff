@@ -74,6 +74,7 @@ object ScalaBuffBuild extends Build {
 		dependencies = Seq(runtime % "test->compile"),
 		settings = defaultSettings ++ Seq(
 			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
+			mainClass in (Compile, packageBin) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
 			fullRunTask(TaskKey[Unit]("update-test-resources"), Compile, "net.sandrogrzicic.scalabuff.test.UpdateTestResources")
 		)
 	)
