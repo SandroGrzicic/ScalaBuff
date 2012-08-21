@@ -88,6 +88,22 @@ trait Message[MessageType <: MessageLite with MessageLite.Builder] extends Messa
 		mergeDelimitedFrom(input, ExtensionRegistryLite.getEmptyRegistry)
 	}
 
+	def mergeDelimitedFromStream(input: InputStream, extensionRegistry: ExtensionRegistryLite): Option[MessageType] = {
+		val firstByte = input.read
+		if (firstByte != -1) {
+			val size = CodedInputStream.readRawVarint32(firstByte, input)
+			val limitedInput = new LimitedInputStream(input, size)
+			Some(mergeFrom(limitedInput, extensionRegistry))
+		} else {
+			None
+		}
+	}
+
+	def mergeDelimitedFromStream(input: InputStream): Option[MessageType] = {
+		mergeDelimitedFromStream(input, ExtensionRegistryLite.getEmptyRegistry)
+	}
+
+
 	/**
 	 * See {@link com.google.protobuf.AbstractMessageLite.Builder#LimitedInputStream}.
 	 */

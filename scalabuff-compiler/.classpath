@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" output="bin/main" path="src/main"/>
+	<classpathentry kind="src" output="bin/test" path="src/test"/>
+	<classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Sandro/.ivy2/cache/com.google.protobuf/protobuf-java/jars/protobuf-java-2.4.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sandro/.ivy2/cache/org.scalatest/scalatest_2.9.2/jars/scalatest_2.9.2-1.8.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/scalabuff-runtime"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

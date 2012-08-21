@@ -1,0 +1,24 @@
+package resources.generated;
+
+option optimize_for = LITE_RUNTIME;
+
+message ComplexMessage {
+	required bytes first_field = 1;
+	enum SimpleEnum {
+	   	KEY_NAME = 1;
+	}
+	message Nested {
+		required string nested_field = 1;
+		optional SimpleEnum nested_enum = 2;
+	}
+	optional string second_field = 2 [default = "defaultValueForSecondField"];
+	optional Nested nested_outer_field = 3;
+	repeated SimpleEnum simple_enum_field = 4;
+	repeated string repeated_string_field = 5;
+	repeated bytes repeated_bytes_field = 6;
+}
+
+message AnotherMessage {
+	required ComplexMessage.Nested field_nested = 1;
+	required ComplexMessage.SimpleEnum field_enum = 2;
+}

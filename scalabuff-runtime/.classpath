@@ -1,0 +1,9 @@
+<classpath>
+  <classpathentry output="bin\main" path="src\main" kind="src"></classpathentry>
+  <classpathentry output="bin\test" path="src\test" kind="src"></classpathentry>
+  <classpathentry kind="con" path="org.scala-ide.sdt.launching.SCALA_CONTAINER"></classpathentry>
+  <classpathentry path="C:\Users\Sandro\.ivy2\cache\com.google.protobuf\protobuf-java\jars\protobuf-java-2.4.1.jar" kind="lib"></classpathentry>
+  <classpathentry path="C:\Users\Sandro\.ivy2\cache\org.scalatest\scalatest_2.9.2\jars\scalatest_2.9.2-1.8.jar" kind="lib"></classpathentry>
+  <classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"></classpathentry>
+  <classpathentry path="bin" kind="output"></classpathentry>
+</classpath>
