@@ -17,8 +17,8 @@ class ParserTest extends FunSuite with ShouldMatchers {
 	}
 
 	val parsedExtension = ".txt"
-	val protoDir = new File("src/test/resources/proto/")
-	val parsedDir = "src/test/resources/parsed/"
+	val protoDir = new File("scalabuff-compiler/src/test/resources/proto/")
+	val parsedDir = "scalabuff-compiler/src/test/resources/parsed/"
 
 	/*
 	 * Iterate over all files with the protoExtension in the protoDir directory and
