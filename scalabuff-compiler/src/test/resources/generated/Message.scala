@@ -24,14 +24,14 @@ final case class EmptyMessage (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): EmptyMessage = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 
-		def _newMerged = EmptyMessage(
+		def __newMerged = EmptyMessage(
 
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case default => if (!in.skipField(default)) return _newMerged
+			case 0 => return __newMerged
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: EmptyMessage) = {
@@ -55,7 +55,7 @@ object EmptyMessage {
 
 }
 
-object ScalaBuffMessageTest {
+object Message {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 

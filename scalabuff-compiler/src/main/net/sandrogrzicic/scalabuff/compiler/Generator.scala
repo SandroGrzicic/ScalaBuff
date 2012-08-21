@@ -113,7 +113,7 @@ class Generator protected(sourceName: String) {
 			out.append(indent0).append("final case class ").append(name).append(" (\n")
 			// constructor
 			fields.foreach { field =>
-				out.append(indent1).append(field.name.lowerCamelCase).append(": ")
+				out.append(indent1).append(field.name.toScalaIdent).append(": ")
 				field.label match {
 					case REQUIRED => out.append(field.fType.scalaType).append(" = ").append(field.fType.defaultValue).append(",\n")
 					case OPTIONAL => out.append("Option[").append(field.fType.scalaType).append("] = None,\n")
@@ -129,7 +129,7 @@ class Generator protected(sourceName: String) {
 			// getOptionalField
 			fields.filter(f => f.label == OPTIONAL && f.fType.isEnum == false).foreach { field =>
 				out.append(indent1)
-					.append("def get").append(field.name.camelCase).append(" = ").append(field.name.lowerCamelCase)
+					.append("def get").append(field.name.camelCase).append(" = ").append(field.name.toScalaIdent)
 					.append(".getOrElse(").append(field.fType.defaultValue).append(")\n")
 			}
 			out.append("\n")
@@ -139,16 +139,16 @@ class Generator protected(sourceName: String) {
 				field.label match {
 					case OPTIONAL => out.append(indent1)
 						.append("def set").append(field.name.camelCase).append("(_f: ").append(field.fType.scalaType)
-						.append(") = copy(").append(field.name.lowerCamelCase).append(" = _f)\n")
+						.append(") = copy(").append(field.name.toScalaIdent).append(" = _f)\n")
 					case REPEATED => out
 						.append(indent1).append("def set").append(field.name.camelCase).append("(_i: Int, _v: ").append(field.fType.scalaType)
-						.append(") = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(".updated(_i, _v))\n")
+						.append(") = copy(").append(field.name.toScalaIdent).append(" = ").append(field.name.toScalaIdent).append(".updated(_i, _v))\n")
 						.append(indent1).append("def add").append(field.name.camelCase).append("(_f: ").append(field.fType.scalaType)
-						.append(") = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" :+ _f)\n")
+						.append(") = copy(").append(field.name.toScalaIdent).append(" = ").append(field.name.toScalaIdent).append(" :+ _f)\n")
 						.append(indent1).append("def addAll").append(field.name.camelCase).append("(_f: ").append(field.fType.scalaType)
-						.append("*) = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" ++ _f)\n")
+						.append("*) = copy(").append(field.name.toScalaIdent).append(" = ").append(field.name.toScalaIdent).append(" ++ _f)\n")
 						.append(indent1).append("def addAll").append(field.name.camelCase).append("(_f: TraversableOnce[").append(field.fType.scalaType)
-						.append("]) = copy(").append(field.name.lowerCamelCase).append(" = ").append(field.name.lowerCamelCase).append(" ++ _f)\n")
+						.append("]) = copy(").append(field.name.toScalaIdent).append(" = ").append(field.name.toScalaIdent).append(" ++ _f)\n")
 					case _ => // don't generate a setter for REQUIRED fields, as the copy method can be used
 				}
 			}
@@ -156,7 +156,7 @@ class Generator protected(sourceName: String) {
 
 			// clearers
 			fields.foreach { field =>
-				out.append(indent1).append("def clear").append(field.name.camelCase).append(" = copy(").append(field.name.lowerCamelCase).append(" = ")
+				out.append(indent1).append("def clear").append(field.name.camelCase).append(" = copy(").append(field.name.toScalaIdent).append(" = ")
 				field.label match {
 					case REQUIRED => out.append(field.fType.defaultValue)
 					case OPTIONAL => out.append("None")
@@ -174,13 +174,13 @@ class Generator protected(sourceName: String) {
 				field.label match {
 					case REQUIRED => out.append(indent2)
 						.append("output.write").append(field.fType.name).append("(")
-						.append(field.number).append(", ").append(field.name.lowerCamelCase).append(")\n")
+						.append(field.number).append(", ").append(field.name.toScalaIdent).append(")\n")
 					case OPTIONAL => out.append(indent2).append("if (")
-						.append(field.name.lowerCamelCase).append(".isDefined) ")
+						.append(field.name.toScalaIdent).append(".isDefined) ")
 						.append("output.write").append(field.fType.name).append("(")
-						.append(field.number).append(", ").append(field.name.lowerCamelCase).append(".get)\n")
+						.append(field.number).append(", ").append(field.name.toScalaIdent).append(".get)\n")
 					case REPEATED => out.append(indent2).append("for (_v <- ")
-						.append(field.name.lowerCamelCase).append(") ")
+						.append(field.name.toScalaIdent).append(") ")
 						.append("output.write").append(field.fType.name)
 						out.append("(").append(field.number).append(", _v)\n")
 					case _ => // weird warning - missing combination <local child> ?!
@@ -196,13 +196,13 @@ class Generator protected(sourceName: String) {
 				field.label match {
 					case REQUIRED => out.append(indent2)
 						.append("size += compute").append(field.fType.name).append("Size(")
-						.append(field.number).append(", ").append(field.name.lowerCamelCase).append(")\n")
+						.append(field.number).append(", ").append(field.name.toScalaIdent).append(")\n")
 					case OPTIONAL => out.append(indent2).append("if (")
-						.append(field.name.lowerCamelCase).append(".isDefined) ")
+						.append(field.name.toScalaIdent).append(".isDefined) ")
 						.append("size += compute").append(field.fType.name).append("Size(")
-						.append(field.number).append(", ").append(field.name.lowerCamelCase).append(".get)\n")
+						.append(field.number).append(", ").append(field.name.toScalaIdent).append(".get)\n")
 					case REPEATED => out.append(indent2).append("for (_v <- ")
-						.append(field.name.lowerCamelCase).append(") ")
+						.append(field.name.toScalaIdent).append(") ")
 						.append("size += compute").append(field.fType.name).append("Size(")
 						.append(field.number).append(", _v)\n")
 					case _ => // weird warning - missing combination <local child> ?!
@@ -221,23 +221,23 @@ class Generator protected(sourceName: String) {
 			fields.foreach { field =>
 				field.label match {
 					case REQUIRED => out.append(indent2)
-						.append("var _").append(field.name.lowerCamelCase).append(": ").append(field.fType.scalaType)
+						.append("var ").append(field.name.toTemporaryIdent).append(": ").append(field.fType.scalaType)
 						.append(" = ").append(field.fType.defaultValue).append("\n")
 					case OPTIONAL => out.append(indent2)
-						.append("var _").append(field.name.lowerCamelCase).append(": Option[").append(field.fType.scalaType).append("]")
-						.append(" = ").append(field.name.lowerCamelCase).append("\n")
+						.append("var ").append(field.name.toTemporaryIdent).append(": Option[").append(field.fType.scalaType).append("]")
+						.append(" = ").append(field.name.toScalaIdent).append("\n")
 					case REPEATED => out.append(indent2)
-						.append("val _").append(field.name.lowerCamelCase).append(": collection.mutable.Buffer[").append(field.fType.scalaType).append("]")
-						.append(" = ").append(field.name.lowerCamelCase).append(".toBuffer\n")
+						.append("val ").append(field.name.toTemporaryIdent).append(": collection.mutable.Buffer[").append(field.fType.scalaType).append("]")
+						.append(" = ").append(field.name.toScalaIdent).append(".toBuffer\n")
 					case _ => // weird warning - missing combination <local child> ?!
 				}
 			}
 			out.append("\n")
-				.append(indent2).append("def _newMerged = ").append(name).append("(\n")
+				.append(indent2).append("def __newMerged = ").append(name).append("(\n")
 			fields.foreach { field =>
 				out.append(indent3)
 				if (field.label == REPEATED) out.append("Vector(")
-				out.append("_").append(field.name.lowerCamelCase)
+				out.append(field.name.toTemporaryIdent)
 				if (field.label == REPEATED) out.append(": _*)")
 				out.append(",\n")
 			}
@@ -245,10 +245,10 @@ class Generator protected(sourceName: String) {
 			out.append("\n")
 			out.append(indent2).append(")\n")
 				.append(indent2).append("while (true) in.readTag match {\n")
-				.append(indent3).append("case 0 => return _newMerged\n")
+				.append(indent3).append("case 0 => return __newMerged\n")
 			fields.foreach { field =>
 				out.append(indent3).append("case ").append((field.number << 3) | field.fType.wireType).append(" => ")
-				out.append("_").append(field.name.lowerCamelCase).append(" ")
+				out.append(field.name.toTemporaryIdent).append(" ")
 				if (field.label == REPEATED) out.append("+")
 				out.append("= ")
 					if (field.fType == WIRETYPE_LENGTH_DELIMITED) out.append("in.readBytes()")
@@ -256,11 +256,11 @@ class Generator protected(sourceName: String) {
 					else if (field.fType.isMessage) {
 						out.append("readMessage[").append(field.fType.scalaType).append("](in, ")
 						field.label match {
-							case REQUIRED => out.append("_").append(field.name.lowerCamelCase)
+							case REQUIRED => out.append(field.name.toTemporaryIdent)
 							case OPTIONAL => out
-								.append("_").append(field.name.lowerCamelCase).append(".orElse({\n")
-								.append(indent3).append("\t_").append(field.name.lowerCamelCase).append(" = ").append(field.fType.defaultValue).append("\n")
-								.append(indent3).append("\t_").append(field.name.lowerCamelCase).append("\n")
+								.append(field.name.toTemporaryIdent).append(".orElse({\n")
+								.append(indent3).append("\t").append(field.name.toTemporaryIdent).append(" = ").append(field.fType.defaultValue).append("\n")
+								.append(indent3).append("\t").append(field.name.toTemporaryIdent).append("\n")
 								.append(indent3).append("}).get")
 							case REPEATED => out
 								.append(field.fType.defaultValue)
@@ -271,10 +271,10 @@ class Generator protected(sourceName: String) {
 					else out.append("in.read").append(field.fType.name).append("()")
 				out.append("\n")
 			}
-			out.append(indent3).append("case default => if (!in.skipField(default)) return _newMerged\n")
+			out.append(indent3).append("case default => if (!in.skipField(default)) return __newMerged\n")
 			out
 				.append(indent2).append("}\n")
-				.append(indent2).append("null // compiler needs a return value\n")
+				.append(indent2).append("null\n") // compiler needs a return value
 				.append(indent1).append("}\n")
 
 			// mergeFrom(Message)
@@ -284,13 +284,13 @@ class Generator protected(sourceName: String) {
 			fields.foreach { field =>
 				field.label match {
 					case REQUIRED => out.append(indent3)
-						.append("m.").append(field.name.lowerCamelCase).append(",\n")
+						.append("m.").append(field.name.toScalaIdent).append(",\n")
 					case OPTIONAL => out.append(indent3)
-						.append("m.").append(field.name.lowerCamelCase).append(".orElse(")
-						.append(field.name.lowerCamelCase).append("),\n")
+						.append("m.").append(field.name.toScalaIdent).append(".orElse(")
+						.append(field.name.toScalaIdent).append("),\n")
 					case REPEATED => out.append(indent3)
-						.append(field.name.lowerCamelCase).append(" ++ ")
-						.append("m.").append(field.name.lowerCamelCase).append(",\n")
+						.append(field.name.toScalaIdent).append(" ++ ")
+						.append("m.").append(field.name.toScalaIdent).append(",\n")
 					case _ => // weird warning - missing combination <local child> ?!
 				}
 			}
@@ -421,6 +421,8 @@ object Generator {
 	def apply(tree: List[Node], sourceName: String): ScalaClass = {
 		new Generator(sourceName).generate(tree)
 	}
+	
+	val RESERVED_IDENTIFIERS = Seq("type")
 }
 
 /**

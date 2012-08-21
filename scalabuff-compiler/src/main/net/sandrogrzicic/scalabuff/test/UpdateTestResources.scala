@@ -26,10 +26,10 @@ object UpdateTestResources {
 			def accept(filtered: File) = filtered.getName.endsWith(protoExtension)
 		}
 
-		val protoDir = new File("src/test/resources/proto/")
+		val protoDir = new File("scalabuff-compiler/src/test/resources/proto/")
 
-		val parsedDir = "src/test/resources/parsed/"
-		val generatedDir = "src/test/resources/generated/"
+		val parsedDir = "scalabuff-compiler/src/test/resources/parsed/"
+		val generatedDir = "scalabuff-compiler/src/test/resources/generated/"
 
 		for (file <- protoDir.listFiles(protoFileFilter)) {
 			val fileName = file.getName.dropRight(protoExtension.length)

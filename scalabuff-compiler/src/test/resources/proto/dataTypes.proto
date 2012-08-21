@@ -1,6 +1,6 @@
 package resources.generated;
 
-option scala_outer_classname = "DataTypesTest";
+option java_outer_classname = "DataTypesTest";
 
 message DataTypes {
 	required int32 varint1 = 1;
@@ -13,7 +13,6 @@ message DataTypes {
 	enum Varint8Enum {
         ENUM_ZERO = 0;
         ENUM_ONE = 1;
-        //option (this_is_an_enum) = true; // not recognized by protoc
     }
 	
 	optional fixed64 f64bit1 = 100;

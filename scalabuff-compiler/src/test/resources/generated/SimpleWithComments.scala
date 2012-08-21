@@ -4,64 +4,64 @@
 package resources.generated
 
 final case class SimpleRequest (
-	query: String = "",
-	pageNumber: Option[Int] = None,
-	resultsPerPage: Option[Int] = None
+	`query`: String = "",
+	`pageNumber`: Option[Int] = None,
+	`resultsPerPage`: Option[Int] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[SimpleRequest] {
 
-	def getPageNumber = pageNumber.getOrElse(0)
-	def getResultsPerPage = resultsPerPage.getOrElse(0)
+	def getPageNumber = `pageNumber`.getOrElse(0)
+	def getResultsPerPage = `resultsPerPage`.getOrElse(0)
 
-	def setPageNumber(_f: Int) = copy(pageNumber = _f)
-	def setResultsPerPage(_f: Int) = copy(resultsPerPage = _f)
+	def setPageNumber(_f: Int) = copy(`pageNumber` = _f)
+	def setResultsPerPage(_f: Int) = copy(`resultsPerPage` = _f)
 
-	def clearQuery = copy(query = "")
-	def clearPageNumber = copy(pageNumber = None)
-	def clearResultsPerPage = copy(resultsPerPage = None)
+	def clearQuery = copy(`query` = "")
+	def clearPageNumber = copy(`pageNumber` = None)
+	def clearResultsPerPage = copy(`resultsPerPage` = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeString(1, query)
-		if (pageNumber.isDefined) output.writeInt32(2, pageNumber.get)
-		if (resultsPerPage.isDefined) output.writeInt32(3, resultsPerPage.get)
+		output.writeString(1, `query`)
+		if (`pageNumber`.isDefined) output.writeInt32(2, `pageNumber`.get)
+		if (`resultsPerPage`.isDefined) output.writeInt32(3, `resultsPerPage`.get)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		size += computeStringSize(1, query)
-		if (pageNumber.isDefined) size += computeInt32Size(2, pageNumber.get)
-		if (resultsPerPage.isDefined) size += computeInt32Size(3, resultsPerPage.get)
+		size += computeStringSize(1, `query`)
+		if (`pageNumber`.isDefined) size += computeInt32Size(2, `pageNumber`.get)
+		if (`resultsPerPage`.isDefined) size += computeInt32Size(3, `resultsPerPage`.get)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SimpleRequest = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _query: String = ""
-		var _pageNumber: Option[Int] = pageNumber
-		var _resultsPerPage: Option[Int] = resultsPerPage
+		var __query: String = ""
+		var __pageNumber: Option[Int] = `pageNumber`
+		var __resultsPerPage: Option[Int] = `resultsPerPage`
 
-		def _newMerged = SimpleRequest(
-			_query,
-			_pageNumber,
-			_resultsPerPage
+		def __newMerged = SimpleRequest(
+			__query,
+			__pageNumber,
+			__resultsPerPage
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 10 => _query = in.readString()
-			case 16 => _pageNumber = in.readInt32()
-			case 24 => _resultsPerPage = in.readInt32()
-			case default => if (!in.skipField(default)) return _newMerged
+			case 0 => return __newMerged
+			case 10 => __query = in.readString()
+			case 16 => __pageNumber = in.readInt32()
+			case 24 => __resultsPerPage = in.readInt32()
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: SimpleRequest) = {
 		SimpleRequest(
-			m.query,
-			m.pageNumber.orElse(pageNumber),
-			m.resultsPerPage.orElse(resultsPerPage)
+			m.`query`,
+			m.`pageNumber`.orElse(`pageNumber`),
+			m.`resultsPerPage`.orElse(`resultsPerPage`)
 		)
 	}
 

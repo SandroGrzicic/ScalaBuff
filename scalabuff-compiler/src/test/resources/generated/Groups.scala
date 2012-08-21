@@ -24,14 +24,14 @@ final case class Groups (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Groups = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 
-		def _newMerged = Groups(
+		def __newMerged = Groups(
 
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case default => if (!in.skipField(default)) return _newMerged
+			case 0 => return __newMerged
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: Groups) = {

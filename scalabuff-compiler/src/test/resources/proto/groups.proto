@@ -1,6 +1,6 @@
 package resources.generated;
 
-option scala_outer_classname = "GroupsTest";
+option java_outer_classname = "GroupsTest";
 
 message Groups {
 	repeated group Group = 1 {

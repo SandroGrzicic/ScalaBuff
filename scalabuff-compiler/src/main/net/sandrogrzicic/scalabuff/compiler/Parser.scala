@@ -92,6 +92,7 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 	lazy val constant: PackratParser[String] = identifier | integerConstant | floatConstant | stringConstant | booleanConstant
 
 	lazy val identifier: PackratParser[String] = memo("""[A-Za-z_][\w_]*""".r)
+	
 	lazy val camelCaseIdentifier: PackratParser[String] = memo("""[A-Z][\w_]*""".r)
 
 	lazy val integerConstant: PackratParser[String] = hexadecimalInteger | octalInteger | decimalInteger
@@ -207,7 +208,6 @@ object Parser {
 	def apply(input: String): List[Node] = apply(input, Strings.UNKNOWN_INPUT)
 
 }
-
 
 /**
  * Thrown when an input .proto file cannot be parsed successfully by the Parser.

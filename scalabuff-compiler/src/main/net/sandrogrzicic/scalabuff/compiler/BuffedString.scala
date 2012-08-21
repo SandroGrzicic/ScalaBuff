@@ -9,32 +9,43 @@ class BuffedString(str: String) {
 	import BuffedString.camelCaseRegex
 
 	/**
-	 * CamelCases the string, with the first letter uppercased.
+	 * CamelCases this string, with the first letter uppercased.
 	 */
 	def camelCase = lowerCamelCase.capitalize
 
 	/**
-	 * camelCases the string, leaving the first letter lowercased.
+	 * Generates a valid Scala identifier: 
+	 * camelCases this string, leaving the first letter lowercased and wraps it into backticks.
 	 */
-	def lowerCamelCase = camelCaseRegex.replaceAllIn(str, _.matched.tail.toUpperCase)
+	def toScalaIdent = "`" + lowerCamelCase + "`"
+	
+	/**
+	 * camelCases this string, with the first letter lowercased.
+	 */
+	def lowerCamelCase = camelCaseRegex.replaceAllIn(str, _.matched.tail.toUpperCase) 
 
 	/**
-	 * Returns the tail of the string, starting at the first character after the last occurence of the specified character.
+	 * Generates a valid temporary Scala identifier:
+	 * camelCases this string and prefixes it with two underscores.
+	 */
+	def toTemporaryIdent = "__" + lowerCamelCase
+	/**
+	 * Returns the tail of this string, starting at the first character after the last occurence of the specified character.
 	 */
 	def dropUntilLast(c: Char) = str.drop(str.lastIndexOf(c)+1)
 
 	/**
-	 * Returns the tail of the string, starting at the first character after the first occurence of the specified character.
+	 * Returns the tail of this string, starting at the first character after the first occurence of the specified character.
 	 */
 	def dropUntilFirst(c: Char) = str.drop(str.indexOf(c)+1)
 
 	/**
-	 * Returns the head of the string, until the first occurence of the specified character.
+	 * Returns the head of this string, until the first occurence of the specified character.
 	 */
 	def takeUntilFirst(c: Char) = str.take(str.indexOf(c))
 
 	/**
-	 * Returns the head of the string, until the last occurence of the specified character.
+	 * Returns the head of this string, until the last occurence of the specified character.
 	 */
 	def takeUntilLast(c: Char) = str.take(str.lastIndexOf(c))
 

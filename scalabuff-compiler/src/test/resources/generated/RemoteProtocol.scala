@@ -4,62 +4,62 @@
 package resources.generated
 
 final case class AkkaRemoteProtocol (
-	message: Option[RemoteMessageProtocol] = None,
-	instruction: Option[RemoteControlProtocol] = None
+	`message`: Option[RemoteMessageProtocol] = None,
+	`instruction`: Option[RemoteControlProtocol] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[AkkaRemoteProtocol] {
 
-	def getMessage = message.getOrElse(RemoteMessageProtocol.defaultInstance)
-	def getInstruction = instruction.getOrElse(RemoteControlProtocol.defaultInstance)
+	def getMessage = `message`.getOrElse(RemoteMessageProtocol.defaultInstance)
+	def getInstruction = `instruction`.getOrElse(RemoteControlProtocol.defaultInstance)
 
-	def setMessage(_f: RemoteMessageProtocol) = copy(message = _f)
-	def setInstruction(_f: RemoteControlProtocol) = copy(instruction = _f)
+	def setMessage(_f: RemoteMessageProtocol) = copy(`message` = _f)
+	def setInstruction(_f: RemoteControlProtocol) = copy(`instruction` = _f)
 
-	def clearMessage = copy(message = None)
-	def clearInstruction = copy(instruction = None)
+	def clearMessage = copy(`message` = None)
+	def clearInstruction = copy(`instruction` = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		if (message.isDefined) output.writeMessage(1, message.get)
-		if (instruction.isDefined) output.writeMessage(2, instruction.get)
+		if (`message`.isDefined) output.writeMessage(1, `message`.get)
+		if (`instruction`.isDefined) output.writeMessage(2, `instruction`.get)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		if (message.isDefined) size += computeMessageSize(1, message.get)
-		if (instruction.isDefined) size += computeMessageSize(2, instruction.get)
+		if (`message`.isDefined) size += computeMessageSize(1, `message`.get)
+		if (`instruction`.isDefined) size += computeMessageSize(2, `instruction`.get)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): AkkaRemoteProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _message: Option[RemoteMessageProtocol] = message
-		var _instruction: Option[RemoteControlProtocol] = instruction
+		var __message: Option[RemoteMessageProtocol] = `message`
+		var __instruction: Option[RemoteControlProtocol] = `instruction`
 
-		def _newMerged = AkkaRemoteProtocol(
-			_message,
-			_instruction
+		def __newMerged = AkkaRemoteProtocol(
+			__message,
+			__instruction
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 10 => _message = readMessage[RemoteMessageProtocol](in, _message.orElse({
-				_message = RemoteMessageProtocol.defaultInstance
-				_message
+			case 0 => return __newMerged
+			case 10 => __message = readMessage[RemoteMessageProtocol](in, __message.orElse({
+				__message = RemoteMessageProtocol.defaultInstance
+				__message
 			}).get, _emptyRegistry)
-			case 18 => _instruction = readMessage[RemoteControlProtocol](in, _instruction.orElse({
-				_instruction = RemoteControlProtocol.defaultInstance
-				_instruction
+			case 18 => __instruction = readMessage[RemoteControlProtocol](in, __instruction.orElse({
+				__instruction = RemoteControlProtocol.defaultInstance
+				__instruction
 			}).get, _emptyRegistry)
-			case default => if (!in.skipField(default)) return _newMerged
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: AkkaRemoteProtocol) = {
 		AkkaRemoteProtocol(
-			m.message.orElse(message),
-			m.instruction.orElse(instruction)
+			m.`message`.orElse(`message`),
+			m.`instruction`.orElse(`instruction`)
 		)
 	}
 
@@ -80,124 +80,124 @@ object AkkaRemoteProtocol {
 
 }
 final case class RemoteMessageProtocol (
-	uuid: UuidProtocol = UuidProtocol.defaultInstance,
-	actorInfo: ActorInfoProtocol = ActorInfoProtocol.defaultInstance,
-	oneWay: Boolean = false,
-	message: Option[MessageProtocol] = None,
-	exception: Option[ExceptionProtocol] = None,
-	supervisorUuid: Option[UuidProtocol] = None,
-	sender: Option[RemoteActorRefProtocol] = None,
-	metadata: Vector[MetadataEntryProtocol] = Vector.empty[MetadataEntryProtocol]
+	`uuid`: UuidProtocol = UuidProtocol.defaultInstance,
+	`actorInfo`: ActorInfoProtocol = ActorInfoProtocol.defaultInstance,
+	`oneWay`: Boolean = false,
+	`message`: Option[MessageProtocol] = None,
+	`exception`: Option[ExceptionProtocol] = None,
+	`supervisorUuid`: Option[UuidProtocol] = None,
+	`sender`: Option[RemoteActorRefProtocol] = None,
+	`metadata`: Vector[MetadataEntryProtocol] = Vector.empty[MetadataEntryProtocol]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[RemoteMessageProtocol] {
 
-	def getMessage = message.getOrElse(MessageProtocol.defaultInstance)
-	def getException = exception.getOrElse(ExceptionProtocol.defaultInstance)
-	def getSupervisorUuid = supervisorUuid.getOrElse(UuidProtocol.defaultInstance)
-	def getSender = sender.getOrElse(RemoteActorRefProtocol.defaultInstance)
+	def getMessage = `message`.getOrElse(MessageProtocol.defaultInstance)
+	def getException = `exception`.getOrElse(ExceptionProtocol.defaultInstance)
+	def getSupervisorUuid = `supervisorUuid`.getOrElse(UuidProtocol.defaultInstance)
+	def getSender = `sender`.getOrElse(RemoteActorRefProtocol.defaultInstance)
 
-	def setMessage(_f: MessageProtocol) = copy(message = _f)
-	def setException(_f: ExceptionProtocol) = copy(exception = _f)
-	def setSupervisorUuid(_f: UuidProtocol) = copy(supervisorUuid = _f)
-	def setSender(_f: RemoteActorRefProtocol) = copy(sender = _f)
-	def setMetadata(_i: Int, _v: MetadataEntryProtocol) = copy(metadata = metadata.updated(_i, _v))
-	def addMetadata(_f: MetadataEntryProtocol) = copy(metadata = metadata :+ _f)
-	def addAllMetadata(_f: MetadataEntryProtocol*) = copy(metadata = metadata ++ _f)
-	def addAllMetadata(_f: TraversableOnce[MetadataEntryProtocol]) = copy(metadata = metadata ++ _f)
+	def setMessage(_f: MessageProtocol) = copy(`message` = _f)
+	def setException(_f: ExceptionProtocol) = copy(`exception` = _f)
+	def setSupervisorUuid(_f: UuidProtocol) = copy(`supervisorUuid` = _f)
+	def setSender(_f: RemoteActorRefProtocol) = copy(`sender` = _f)
+	def setMetadata(_i: Int, _v: MetadataEntryProtocol) = copy(`metadata` = `metadata`.updated(_i, _v))
+	def addMetadata(_f: MetadataEntryProtocol) = copy(`metadata` = `metadata` :+ _f)
+	def addAllMetadata(_f: MetadataEntryProtocol*) = copy(`metadata` = `metadata` ++ _f)
+	def addAllMetadata(_f: TraversableOnce[MetadataEntryProtocol]) = copy(`metadata` = `metadata` ++ _f)
 
-	def clearUuid = copy(uuid = UuidProtocol.defaultInstance)
-	def clearActorInfo = copy(actorInfo = ActorInfoProtocol.defaultInstance)
-	def clearOneWay = copy(oneWay = false)
-	def clearMessage = copy(message = None)
-	def clearException = copy(exception = None)
-	def clearSupervisorUuid = copy(supervisorUuid = None)
-	def clearSender = copy(sender = None)
-	def clearMetadata = copy(metadata = Vector.empty[MetadataEntryProtocol])
+	def clearUuid = copy(`uuid` = UuidProtocol.defaultInstance)
+	def clearActorInfo = copy(`actorInfo` = ActorInfoProtocol.defaultInstance)
+	def clearOneWay = copy(`oneWay` = false)
+	def clearMessage = copy(`message` = None)
+	def clearException = copy(`exception` = None)
+	def clearSupervisorUuid = copy(`supervisorUuid` = None)
+	def clearSender = copy(`sender` = None)
+	def clearMetadata = copy(`metadata` = Vector.empty[MetadataEntryProtocol])
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, uuid)
-		output.writeMessage(2, actorInfo)
-		output.writeBool(3, oneWay)
-		if (message.isDefined) output.writeMessage(4, message.get)
-		if (exception.isDefined) output.writeMessage(5, exception.get)
-		if (supervisorUuid.isDefined) output.writeMessage(6, supervisorUuid.get)
-		if (sender.isDefined) output.writeMessage(7, sender.get)
-		for (_v <- metadata) output.writeMessage(8, _v)
+		output.writeMessage(1, `uuid`)
+		output.writeMessage(2, `actorInfo`)
+		output.writeBool(3, `oneWay`)
+		if (`message`.isDefined) output.writeMessage(4, `message`.get)
+		if (`exception`.isDefined) output.writeMessage(5, `exception`.get)
+		if (`supervisorUuid`.isDefined) output.writeMessage(6, `supervisorUuid`.get)
+		if (`sender`.isDefined) output.writeMessage(7, `sender`.get)
+		for (_v <- `metadata`) output.writeMessage(8, _v)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		size += computeMessageSize(1, uuid)
-		size += computeMessageSize(2, actorInfo)
-		size += computeBoolSize(3, oneWay)
-		if (message.isDefined) size += computeMessageSize(4, message.get)
-		if (exception.isDefined) size += computeMessageSize(5, exception.get)
-		if (supervisorUuid.isDefined) size += computeMessageSize(6, supervisorUuid.get)
-		if (sender.isDefined) size += computeMessageSize(7, sender.get)
-		for (_v <- metadata) size += computeMessageSize(8, _v)
+		size += computeMessageSize(1, `uuid`)
+		size += computeMessageSize(2, `actorInfo`)
+		size += computeBoolSize(3, `oneWay`)
+		if (`message`.isDefined) size += computeMessageSize(4, `message`.get)
+		if (`exception`.isDefined) size += computeMessageSize(5, `exception`.get)
+		if (`supervisorUuid`.isDefined) size += computeMessageSize(6, `supervisorUuid`.get)
+		if (`sender`.isDefined) size += computeMessageSize(7, `sender`.get)
+		for (_v <- `metadata`) size += computeMessageSize(8, _v)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): RemoteMessageProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _uuid: UuidProtocol = UuidProtocol.defaultInstance
-		var _actorInfo: ActorInfoProtocol = ActorInfoProtocol.defaultInstance
-		var _oneWay: Boolean = false
-		var _message: Option[MessageProtocol] = message
-		var _exception: Option[ExceptionProtocol] = exception
-		var _supervisorUuid: Option[UuidProtocol] = supervisorUuid
-		var _sender: Option[RemoteActorRefProtocol] = sender
-		val _metadata: collection.mutable.Buffer[MetadataEntryProtocol] = metadata.toBuffer
+		var __uuid: UuidProtocol = UuidProtocol.defaultInstance
+		var __actorInfo: ActorInfoProtocol = ActorInfoProtocol.defaultInstance
+		var __oneWay: Boolean = false
+		var __message: Option[MessageProtocol] = `message`
+		var __exception: Option[ExceptionProtocol] = `exception`
+		var __supervisorUuid: Option[UuidProtocol] = `supervisorUuid`
+		var __sender: Option[RemoteActorRefProtocol] = `sender`
+		val __metadata: collection.mutable.Buffer[MetadataEntryProtocol] = `metadata`.toBuffer
 
-		def _newMerged = RemoteMessageProtocol(
-			_uuid,
-			_actorInfo,
-			_oneWay,
-			_message,
-			_exception,
-			_supervisorUuid,
-			_sender,
-			Vector(_metadata: _*)
+		def __newMerged = RemoteMessageProtocol(
+			__uuid,
+			__actorInfo,
+			__oneWay,
+			__message,
+			__exception,
+			__supervisorUuid,
+			__sender,
+			Vector(__metadata: _*)
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 10 => _uuid = readMessage[UuidProtocol](in, _uuid, _emptyRegistry)
-			case 18 => _actorInfo = readMessage[ActorInfoProtocol](in, _actorInfo, _emptyRegistry)
-			case 24 => _oneWay = in.readBool()
-			case 34 => _message = readMessage[MessageProtocol](in, _message.orElse({
-				_message = MessageProtocol.defaultInstance
-				_message
+			case 0 => return __newMerged
+			case 10 => __uuid = readMessage[UuidProtocol](in, __uuid, _emptyRegistry)
+			case 18 => __actorInfo = readMessage[ActorInfoProtocol](in, __actorInfo, _emptyRegistry)
+			case 24 => __oneWay = in.readBool()
+			case 34 => __message = readMessage[MessageProtocol](in, __message.orElse({
+				__message = MessageProtocol.defaultInstance
+				__message
 			}).get, _emptyRegistry)
-			case 42 => _exception = readMessage[ExceptionProtocol](in, _exception.orElse({
-				_exception = ExceptionProtocol.defaultInstance
-				_exception
+			case 42 => __exception = readMessage[ExceptionProtocol](in, __exception.orElse({
+				__exception = ExceptionProtocol.defaultInstance
+				__exception
 			}).get, _emptyRegistry)
-			case 50 => _supervisorUuid = readMessage[UuidProtocol](in, _supervisorUuid.orElse({
-				_supervisorUuid = UuidProtocol.defaultInstance
-				_supervisorUuid
+			case 50 => __supervisorUuid = readMessage[UuidProtocol](in, __supervisorUuid.orElse({
+				__supervisorUuid = UuidProtocol.defaultInstance
+				__supervisorUuid
 			}).get, _emptyRegistry)
-			case 58 => _sender = readMessage[RemoteActorRefProtocol](in, _sender.orElse({
-				_sender = RemoteActorRefProtocol.defaultInstance
-				_sender
+			case 58 => __sender = readMessage[RemoteActorRefProtocol](in, __sender.orElse({
+				__sender = RemoteActorRefProtocol.defaultInstance
+				__sender
 			}).get, _emptyRegistry)
-			case 66 => _metadata += readMessage[MetadataEntryProtocol](in, MetadataEntryProtocol.defaultInstance, _emptyRegistry)
-			case default => if (!in.skipField(default)) return _newMerged
+			case 66 => __metadata += readMessage[MetadataEntryProtocol](in, MetadataEntryProtocol.defaultInstance, _emptyRegistry)
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: RemoteMessageProtocol) = {
 		RemoteMessageProtocol(
-			m.uuid,
-			m.actorInfo,
-			m.oneWay,
-			m.message.orElse(message),
-			m.exception.orElse(exception),
-			m.supervisorUuid.orElse(supervisorUuid),
-			m.sender.orElse(sender),
-			metadata ++ m.metadata
+			m.`uuid`,
+			m.`actorInfo`,
+			m.`oneWay`,
+			m.`message`.orElse(`message`),
+			m.`exception`.orElse(`exception`),
+			m.`supervisorUuid`.orElse(`supervisorUuid`),
+			m.`sender`.orElse(`sender`),
+			`metadata` ++ m.`metadata`
 		)
 	}
 
@@ -224,54 +224,54 @@ object RemoteMessageProtocol {
 
 }
 final case class RemoteControlProtocol (
-	cookie: Option[String] = None,
-	commandType: CommandType.EnumVal = CommandType._UNINITIALIZED
+	`cookie`: Option[String] = None,
+	`commandType`: CommandType.EnumVal = CommandType._UNINITIALIZED
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[RemoteControlProtocol] {
 
-	def getCookie = cookie.getOrElse("")
+	def getCookie = `cookie`.getOrElse("")
 
-	def setCookie(_f: String) = copy(cookie = _f)
+	def setCookie(_f: String) = copy(`cookie` = _f)
 
-	def clearCookie = copy(cookie = None)
-	def clearCommandType = copy(commandType = CommandType._UNINITIALIZED)
+	def clearCookie = copy(`cookie` = None)
+	def clearCommandType = copy(`commandType` = CommandType._UNINITIALIZED)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		if (cookie.isDefined) output.writeString(1, cookie.get)
-		output.writeEnum(2, commandType)
+		if (`cookie`.isDefined) output.writeString(1, `cookie`.get)
+		output.writeEnum(2, `commandType`)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		if (cookie.isDefined) size += computeStringSize(1, cookie.get)
-		size += computeEnumSize(2, commandType)
+		if (`cookie`.isDefined) size += computeStringSize(1, `cookie`.get)
+		size += computeEnumSize(2, `commandType`)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): RemoteControlProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _cookie: Option[String] = cookie
-		var _commandType: CommandType.EnumVal = CommandType._UNINITIALIZED
+		var __cookie: Option[String] = `cookie`
+		var __commandType: CommandType.EnumVal = CommandType._UNINITIALIZED
 
-		def _newMerged = RemoteControlProtocol(
-			_cookie,
-			_commandType
+		def __newMerged = RemoteControlProtocol(
+			__cookie,
+			__commandType
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 10 => _cookie = in.readString()
-			case 16 => _commandType = CommandType.valueOf(in.readEnum())
-			case default => if (!in.skipField(default)) return _newMerged
+			case 0 => return __newMerged
+			case 10 => __cookie = in.readString()
+			case 16 => __commandType = CommandType.valueOf(in.readEnum())
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: RemoteControlProtocol) = {
 		RemoteControlProtocol(
-			m.cookie.orElse(cookie),
-			m.commandType
+			m.`cookie`.orElse(`cookie`),
+			m.`commandType`
 		)
 	}
 
@@ -352,62 +352,62 @@ object ReplicationStrategyType extends net.sandrogrzicic.scalabuff.Enum {
 	}
 }
 final case class RemoteActorRefProtocol (
-	address: String = "",
-	inetSocketAddress: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY,
-	timeout: Option[Long] = None
+	`address`: String = "",
+	`inetSocketAddress`: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY,
+	`timeout`: Option[Long] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[RemoteActorRefProtocol] {
 
-	def getTimeout = timeout.getOrElse(0L)
+	def getTimeout = `timeout`.getOrElse(0L)
 
-	def setTimeout(_f: Long) = copy(timeout = _f)
+	def setTimeout(_f: Long) = copy(`timeout` = _f)
 
-	def clearAddress = copy(address = "")
-	def clearInetSocketAddress = copy(inetSocketAddress = com.google.protobuf.ByteString.EMPTY)
-	def clearTimeout = copy(timeout = None)
+	def clearAddress = copy(`address` = "")
+	def clearInetSocketAddress = copy(`inetSocketAddress` = com.google.protobuf.ByteString.EMPTY)
+	def clearTimeout = copy(`timeout` = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeString(1, address)
-		output.writeBytes(2, inetSocketAddress)
-		if (timeout.isDefined) output.writeUInt64(3, timeout.get)
+		output.writeString(1, `address`)
+		output.writeBytes(2, `inetSocketAddress`)
+		if (`timeout`.isDefined) output.writeUInt64(3, `timeout`.get)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		size += computeStringSize(1, address)
-		size += computeBytesSize(2, inetSocketAddress)
-		if (timeout.isDefined) size += computeUInt64Size(3, timeout.get)
+		size += computeStringSize(1, `address`)
+		size += computeBytesSize(2, `inetSocketAddress`)
+		if (`timeout`.isDefined) size += computeUInt64Size(3, `timeout`.get)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): RemoteActorRefProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _address: String = ""
-		var _inetSocketAddress: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
-		var _timeout: Option[Long] = timeout
+		var __address: String = ""
+		var __inetSocketAddress: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
+		var __timeout: Option[Long] = `timeout`
 
-		def _newMerged = RemoteActorRefProtocol(
-			_address,
-			_inetSocketAddress,
-			_timeout
+		def __newMerged = RemoteActorRefProtocol(
+			__address,
+			__inetSocketAddress,
+			__timeout
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 10 => _address = in.readString()
-			case 18 => _inetSocketAddress = in.readBytes()
-			case 24 => _timeout = in.readUInt64()
-			case default => if (!in.skipField(default)) return _newMerged
+			case 0 => return __newMerged
+			case 10 => __address = in.readString()
+			case 18 => __inetSocketAddress = in.readBytes()
+			case 24 => __timeout = in.readUInt64()
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: RemoteActorRefProtocol) = {
 		RemoteActorRefProtocol(
-			m.address,
-			m.inetSocketAddress,
-			m.timeout.orElse(timeout)
+			m.`address`,
+			m.`inetSocketAddress`,
+			m.`timeout`.orElse(`timeout`)
 		)
 	}
 
@@ -429,166 +429,166 @@ object RemoteActorRefProtocol {
 
 }
 final case class SerializedActorRefProtocol (
-	uuid: UuidProtocol = UuidProtocol.defaultInstance,
-	address: String = "",
-	actorClassname: String = "",
-	actorInstance: Option[com.google.protobuf.ByteString] = None,
-	serializerClassname: Option[String] = None,
-	timeout: Option[Long] = None,
-	receiveTimeout: Option[Long] = None,
-	lifeCycle: Option[LifeCycleProtocol] = None,
-	supervisor: Option[RemoteActorRefProtocol] = None,
-	hotswapStack: Option[com.google.protobuf.ByteString] = None,
-	replicationStorage: Option[ReplicationStorageType.EnumVal] = None,
-	replicationStrategy: Option[ReplicationStrategyType.EnumVal] = None,
-	messages: Vector[RemoteMessageProtocol] = Vector.empty[RemoteMessageProtocol]
+	`uuid`: UuidProtocol = UuidProtocol.defaultInstance,
+	`address`: String = "",
+	`actorClassname`: String = "",
+	`actorInstance`: Option[com.google.protobuf.ByteString] = None,
+	`serializerClassname`: Option[String] = None,
+	`timeout`: Option[Long] = None,
+	`receiveTimeout`: Option[Long] = None,
+	`lifeCycle`: Option[LifeCycleProtocol] = None,
+	`supervisor`: Option[RemoteActorRefProtocol] = None,
+	`hotswapStack`: Option[com.google.protobuf.ByteString] = None,
+	`replicationStorage`: Option[ReplicationStorageType.EnumVal] = None,
+	`replicationStrategy`: Option[ReplicationStrategyType.EnumVal] = None,
+	`messages`: Vector[RemoteMessageProtocol] = Vector.empty[RemoteMessageProtocol]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[SerializedActorRefProtocol] {
 
-	def getActorInstance = actorInstance.getOrElse(com.google.protobuf.ByteString.EMPTY)
-	def getSerializerClassname = serializerClassname.getOrElse("")
-	def getTimeout = timeout.getOrElse(0L)
-	def getReceiveTimeout = receiveTimeout.getOrElse(0L)
-	def getLifeCycle = lifeCycle.getOrElse(LifeCycleProtocol.defaultInstance)
-	def getSupervisor = supervisor.getOrElse(RemoteActorRefProtocol.defaultInstance)
-	def getHotswapStack = hotswapStack.getOrElse(com.google.protobuf.ByteString.EMPTY)
+	def getActorInstance = `actorInstance`.getOrElse(com.google.protobuf.ByteString.EMPTY)
+	def getSerializerClassname = `serializerClassname`.getOrElse("")
+	def getTimeout = `timeout`.getOrElse(0L)
+	def getReceiveTimeout = `receiveTimeout`.getOrElse(0L)
+	def getLifeCycle = `lifeCycle`.getOrElse(LifeCycleProtocol.defaultInstance)
+	def getSupervisor = `supervisor`.getOrElse(RemoteActorRefProtocol.defaultInstance)
+	def getHotswapStack = `hotswapStack`.getOrElse(com.google.protobuf.ByteString.EMPTY)
 
-	def setActorInstance(_f: com.google.protobuf.ByteString) = copy(actorInstance = _f)
-	def setSerializerClassname(_f: String) = copy(serializerClassname = _f)
-	def setTimeout(_f: Long) = copy(timeout = _f)
-	def setReceiveTimeout(_f: Long) = copy(receiveTimeout = _f)
-	def setLifeCycle(_f: LifeCycleProtocol) = copy(lifeCycle = _f)
-	def setSupervisor(_f: RemoteActorRefProtocol) = copy(supervisor = _f)
-	def setHotswapStack(_f: com.google.protobuf.ByteString) = copy(hotswapStack = _f)
-	def setReplicationStorage(_f: ReplicationStorageType.EnumVal) = copy(replicationStorage = _f)
-	def setReplicationStrategy(_f: ReplicationStrategyType.EnumVal) = copy(replicationStrategy = _f)
-	def setMessages(_i: Int, _v: RemoteMessageProtocol) = copy(messages = messages.updated(_i, _v))
-	def addMessages(_f: RemoteMessageProtocol) = copy(messages = messages :+ _f)
-	def addAllMessages(_f: RemoteMessageProtocol*) = copy(messages = messages ++ _f)
-	def addAllMessages(_f: TraversableOnce[RemoteMessageProtocol]) = copy(messages = messages ++ _f)
+	def setActorInstance(_f: com.google.protobuf.ByteString) = copy(`actorInstance` = _f)
+	def setSerializerClassname(_f: String) = copy(`serializerClassname` = _f)
+	def setTimeout(_f: Long) = copy(`timeout` = _f)
+	def setReceiveTimeout(_f: Long) = copy(`receiveTimeout` = _f)
+	def setLifeCycle(_f: LifeCycleProtocol) = copy(`lifeCycle` = _f)
+	def setSupervisor(_f: RemoteActorRefProtocol) = copy(`supervisor` = _f)
+	def setHotswapStack(_f: com.google.protobuf.ByteString) = copy(`hotswapStack` = _f)
+	def setReplicationStorage(_f: ReplicationStorageType.EnumVal) = copy(`replicationStorage` = _f)
+	def setReplicationStrategy(_f: ReplicationStrategyType.EnumVal) = copy(`replicationStrategy` = _f)
+	def setMessages(_i: Int, _v: RemoteMessageProtocol) = copy(`messages` = `messages`.updated(_i, _v))
+	def addMessages(_f: RemoteMessageProtocol) = copy(`messages` = `messages` :+ _f)
+	def addAllMessages(_f: RemoteMessageProtocol*) = copy(`messages` = `messages` ++ _f)
+	def addAllMessages(_f: TraversableOnce[RemoteMessageProtocol]) = copy(`messages` = `messages` ++ _f)
 
-	def clearUuid = copy(uuid = UuidProtocol.defaultInstance)
-	def clearAddress = copy(address = "")
-	def clearActorClassname = copy(actorClassname = "")
-	def clearActorInstance = copy(actorInstance = None)
-	def clearSerializerClassname = copy(serializerClassname = None)
-	def clearTimeout = copy(timeout = None)
-	def clearReceiveTimeout = copy(receiveTimeout = None)
-	def clearLifeCycle = copy(lifeCycle = None)
-	def clearSupervisor = copy(supervisor = None)
-	def clearHotswapStack = copy(hotswapStack = None)
-	def clearReplicationStorage = copy(replicationStorage = None)
-	def clearReplicationStrategy = copy(replicationStrategy = None)
-	def clearMessages = copy(messages = Vector.empty[RemoteMessageProtocol])
+	def clearUuid = copy(`uuid` = UuidProtocol.defaultInstance)
+	def clearAddress = copy(`address` = "")
+	def clearActorClassname = copy(`actorClassname` = "")
+	def clearActorInstance = copy(`actorInstance` = None)
+	def clearSerializerClassname = copy(`serializerClassname` = None)
+	def clearTimeout = copy(`timeout` = None)
+	def clearReceiveTimeout = copy(`receiveTimeout` = None)
+	def clearLifeCycle = copy(`lifeCycle` = None)
+	def clearSupervisor = copy(`supervisor` = None)
+	def clearHotswapStack = copy(`hotswapStack` = None)
+	def clearReplicationStorage = copy(`replicationStorage` = None)
+	def clearReplicationStrategy = copy(`replicationStrategy` = None)
+	def clearMessages = copy(`messages` = Vector.empty[RemoteMessageProtocol])
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, uuid)
-		output.writeString(2, address)
-		output.writeString(3, actorClassname)
-		if (actorInstance.isDefined) output.writeBytes(4, actorInstance.get)
-		if (serializerClassname.isDefined) output.writeString(5, serializerClassname.get)
-		if (timeout.isDefined) output.writeUInt64(6, timeout.get)
-		if (receiveTimeout.isDefined) output.writeUInt64(7, receiveTimeout.get)
-		if (lifeCycle.isDefined) output.writeMessage(8, lifeCycle.get)
-		if (supervisor.isDefined) output.writeMessage(9, supervisor.get)
-		if (hotswapStack.isDefined) output.writeBytes(10, hotswapStack.get)
-		if (replicationStorage.isDefined) output.writeEnum(11, replicationStorage.get)
-		if (replicationStrategy.isDefined) output.writeEnum(12, replicationStrategy.get)
-		for (_v <- messages) output.writeMessage(13, _v)
+		output.writeMessage(1, `uuid`)
+		output.writeString(2, `address`)
+		output.writeString(3, `actorClassname`)
+		if (`actorInstance`.isDefined) output.writeBytes(4, `actorInstance`.get)
+		if (`serializerClassname`.isDefined) output.writeString(5, `serializerClassname`.get)
+		if (`timeout`.isDefined) output.writeUInt64(6, `timeout`.get)
+		if (`receiveTimeout`.isDefined) output.writeUInt64(7, `receiveTimeout`.get)
+		if (`lifeCycle`.isDefined) output.writeMessage(8, `lifeCycle`.get)
+		if (`supervisor`.isDefined) output.writeMessage(9, `supervisor`.get)
+		if (`hotswapStack`.isDefined) output.writeBytes(10, `hotswapStack`.get)
+		if (`replicationStorage`.isDefined) output.writeEnum(11, `replicationStorage`.get)
+		if (`replicationStrategy`.isDefined) output.writeEnum(12, `replicationStrategy`.get)
+		for (_v <- `messages`) output.writeMessage(13, _v)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		size += computeMessageSize(1, uuid)
-		size += computeStringSize(2, address)
-		size += computeStringSize(3, actorClassname)
-		if (actorInstance.isDefined) size += computeBytesSize(4, actorInstance.get)
-		if (serializerClassname.isDefined) size += computeStringSize(5, serializerClassname.get)
-		if (timeout.isDefined) size += computeUInt64Size(6, timeout.get)
-		if (receiveTimeout.isDefined) size += computeUInt64Size(7, receiveTimeout.get)
-		if (lifeCycle.isDefined) size += computeMessageSize(8, lifeCycle.get)
-		if (supervisor.isDefined) size += computeMessageSize(9, supervisor.get)
-		if (hotswapStack.isDefined) size += computeBytesSize(10, hotswapStack.get)
-		if (replicationStorage.isDefined) size += computeEnumSize(11, replicationStorage.get)
-		if (replicationStrategy.isDefined) size += computeEnumSize(12, replicationStrategy.get)
-		for (_v <- messages) size += computeMessageSize(13, _v)
+		size += computeMessageSize(1, `uuid`)
+		size += computeStringSize(2, `address`)
+		size += computeStringSize(3, `actorClassname`)
+		if (`actorInstance`.isDefined) size += computeBytesSize(4, `actorInstance`.get)
+		if (`serializerClassname`.isDefined) size += computeStringSize(5, `serializerClassname`.get)
+		if (`timeout`.isDefined) size += computeUInt64Size(6, `timeout`.get)
+		if (`receiveTimeout`.isDefined) size += computeUInt64Size(7, `receiveTimeout`.get)
+		if (`lifeCycle`.isDefined) size += computeMessageSize(8, `lifeCycle`.get)
+		if (`supervisor`.isDefined) size += computeMessageSize(9, `supervisor`.get)
+		if (`hotswapStack`.isDefined) size += computeBytesSize(10, `hotswapStack`.get)
+		if (`replicationStorage`.isDefined) size += computeEnumSize(11, `replicationStorage`.get)
+		if (`replicationStrategy`.isDefined) size += computeEnumSize(12, `replicationStrategy`.get)
+		for (_v <- `messages`) size += computeMessageSize(13, _v)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SerializedActorRefProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _uuid: UuidProtocol = UuidProtocol.defaultInstance
-		var _address: String = ""
-		var _actorClassname: String = ""
-		var _actorInstance: Option[com.google.protobuf.ByteString] = actorInstance
-		var _serializerClassname: Option[String] = serializerClassname
-		var _timeout: Option[Long] = timeout
-		var _receiveTimeout: Option[Long] = receiveTimeout
-		var _lifeCycle: Option[LifeCycleProtocol] = lifeCycle
-		var _supervisor: Option[RemoteActorRefProtocol] = supervisor
-		var _hotswapStack: Option[com.google.protobuf.ByteString] = hotswapStack
-		var _replicationStorage: Option[ReplicationStorageType.EnumVal] = replicationStorage
-		var _replicationStrategy: Option[ReplicationStrategyType.EnumVal] = replicationStrategy
-		val _messages: collection.mutable.Buffer[RemoteMessageProtocol] = messages.toBuffer
+		var __uuid: UuidProtocol = UuidProtocol.defaultInstance
+		var __address: String = ""
+		var __actorClassname: String = ""
+		var __actorInstance: Option[com.google.protobuf.ByteString] = `actorInstance`
+		var __serializerClassname: Option[String] = `serializerClassname`
+		var __timeout: Option[Long] = `timeout`
+		var __receiveTimeout: Option[Long] = `receiveTimeout`
+		var __lifeCycle: Option[LifeCycleProtocol] = `lifeCycle`
+		var __supervisor: Option[RemoteActorRefProtocol] = `supervisor`
+		var __hotswapStack: Option[com.google.protobuf.ByteString] = `hotswapStack`
+		var __replicationStorage: Option[ReplicationStorageType.EnumVal] = `replicationStorage`
+		var __replicationStrategy: Option[ReplicationStrategyType.EnumVal] = `replicationStrategy`
+		val __messages: collection.mutable.Buffer[RemoteMessageProtocol] = `messages`.toBuffer
 
-		def _newMerged = SerializedActorRefProtocol(
-			_uuid,
-			_address,
-			_actorClassname,
-			_actorInstance,
-			_serializerClassname,
-			_timeout,
-			_receiveTimeout,
-			_lifeCycle,
-			_supervisor,
-			_hotswapStack,
-			_replicationStorage,
-			_replicationStrategy,
-			Vector(_messages: _*)
+		def __newMerged = SerializedActorRefProtocol(
+			__uuid,
+			__address,
+			__actorClassname,
+			__actorInstance,
+			__serializerClassname,
+			__timeout,
+			__receiveTimeout,
+			__lifeCycle,
+			__supervisor,
+			__hotswapStack,
+			__replicationStorage,
+			__replicationStrategy,
+			Vector(__messages: _*)
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 10 => _uuid = readMessage[UuidProtocol](in, _uuid, _emptyRegistry)
-			case 18 => _address = in.readString()
-			case 26 => _actorClassname = in.readString()
-			case 34 => _actorInstance = in.readBytes()
-			case 42 => _serializerClassname = in.readString()
-			case 48 => _timeout = in.readUInt64()
-			case 56 => _receiveTimeout = in.readUInt64()
-			case 66 => _lifeCycle = readMessage[LifeCycleProtocol](in, _lifeCycle.orElse({
-				_lifeCycle = LifeCycleProtocol.defaultInstance
-				_lifeCycle
+			case 0 => return __newMerged
+			case 10 => __uuid = readMessage[UuidProtocol](in, __uuid, _emptyRegistry)
+			case 18 => __address = in.readString()
+			case 26 => __actorClassname = in.readString()
+			case 34 => __actorInstance = in.readBytes()
+			case 42 => __serializerClassname = in.readString()
+			case 48 => __timeout = in.readUInt64()
+			case 56 => __receiveTimeout = in.readUInt64()
+			case 66 => __lifeCycle = readMessage[LifeCycleProtocol](in, __lifeCycle.orElse({
+				__lifeCycle = LifeCycleProtocol.defaultInstance
+				__lifeCycle
 			}).get, _emptyRegistry)
-			case 74 => _supervisor = readMessage[RemoteActorRefProtocol](in, _supervisor.orElse({
-				_supervisor = RemoteActorRefProtocol.defaultInstance
-				_supervisor
+			case 74 => __supervisor = readMessage[RemoteActorRefProtocol](in, __supervisor.orElse({
+				__supervisor = RemoteActorRefProtocol.defaultInstance
+				__supervisor
 			}).get, _emptyRegistry)
-			case 82 => _hotswapStack = in.readBytes()
-			case 88 => _replicationStorage = ReplicationStorageType.valueOf(in.readEnum())
-			case 96 => _replicationStrategy = ReplicationStrategyType.valueOf(in.readEnum())
-			case 106 => _messages += readMessage[RemoteMessageProtocol](in, RemoteMessageProtocol.defaultInstance, _emptyRegistry)
-			case default => if (!in.skipField(default)) return _newMerged
+			case 82 => __hotswapStack = in.readBytes()
+			case 88 => __replicationStorage = ReplicationStorageType.valueOf(in.readEnum())
+			case 96 => __replicationStrategy = ReplicationStrategyType.valueOf(in.readEnum())
+			case 106 => __messages += readMessage[RemoteMessageProtocol](in, RemoteMessageProtocol.defaultInstance, _emptyRegistry)
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: SerializedActorRefProtocol) = {
 		SerializedActorRefProtocol(
-			m.uuid,
-			m.address,
-			m.actorClassname,
-			m.actorInstance.orElse(actorInstance),
-			m.serializerClassname.orElse(serializerClassname),
-			m.timeout.orElse(timeout),
-			m.receiveTimeout.orElse(receiveTimeout),
-			m.lifeCycle.orElse(lifeCycle),
-			m.supervisor.orElse(supervisor),
-			m.hotswapStack.orElse(hotswapStack),
-			m.replicationStorage.orElse(replicationStorage),
-			m.replicationStrategy.orElse(replicationStrategy),
-			messages ++ m.messages
+			m.`uuid`,
+			m.`address`,
+			m.`actorClassname`,
+			m.`actorInstance`.orElse(`actorInstance`),
+			m.`serializerClassname`.orElse(`serializerClassname`),
+			m.`timeout`.orElse(`timeout`),
+			m.`receiveTimeout`.orElse(`receiveTimeout`),
+			m.`lifeCycle`.orElse(`lifeCycle`),
+			m.`supervisor`.orElse(`supervisor`),
+			m.`hotswapStack`.orElse(`hotswapStack`),
+			m.`replicationStorage`.orElse(`replicationStorage`),
+			m.`replicationStrategy`.orElse(`replicationStrategy`),
+			`messages` ++ m.`messages`
 		)
 	}
 
@@ -620,52 +620,52 @@ object SerializedActorRefProtocol {
 
 }
 final case class SerializedTypedActorRefProtocol (
-	actorRef: SerializedActorRefProtocol = SerializedActorRefProtocol.defaultInstance,
-	interfaceName: String = ""
+	`actorRef`: SerializedActorRefProtocol = SerializedActorRefProtocol.defaultInstance,
+	`interfaceName`: String = ""
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[SerializedTypedActorRefProtocol] {
 
 
 
-	def clearActorRef = copy(actorRef = SerializedActorRefProtocol.defaultInstance)
-	def clearInterfaceName = copy(interfaceName = "")
+	def clearActorRef = copy(`actorRef` = SerializedActorRefProtocol.defaultInstance)
+	def clearInterfaceName = copy(`interfaceName` = "")
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, actorRef)
-		output.writeString(2, interfaceName)
+		output.writeMessage(1, `actorRef`)
+		output.writeString(2, `interfaceName`)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		size += computeMessageSize(1, actorRef)
-		size += computeStringSize(2, interfaceName)
+		size += computeMessageSize(1, `actorRef`)
+		size += computeStringSize(2, `interfaceName`)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SerializedTypedActorRefProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _actorRef: SerializedActorRefProtocol = SerializedActorRefProtocol.defaultInstance
-		var _interfaceName: String = ""
+		var __actorRef: SerializedActorRefProtocol = SerializedActorRefProtocol.defaultInstance
+		var __interfaceName: String = ""
 
-		def _newMerged = SerializedTypedActorRefProtocol(
-			_actorRef,
-			_interfaceName
+		def __newMerged = SerializedTypedActorRefProtocol(
+			__actorRef,
+			__interfaceName
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 10 => _actorRef = readMessage[SerializedActorRefProtocol](in, _actorRef, _emptyRegistry)
-			case 18 => _interfaceName = in.readString()
-			case default => if (!in.skipField(default)) return _newMerged
+			case 0 => return __newMerged
+			case 10 => __actorRef = readMessage[SerializedActorRefProtocol](in, __actorRef, _emptyRegistry)
+			case 18 => __interfaceName = in.readString()
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: SerializedTypedActorRefProtocol) = {
 		SerializedTypedActorRefProtocol(
-			m.actorRef,
-			m.interfaceName
+			m.`actorRef`,
+			m.`interfaceName`
 		)
 	}
 
@@ -686,54 +686,54 @@ object SerializedTypedActorRefProtocol {
 
 }
 final case class MessageProtocol (
-	message: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY,
-	messageManifest: Option[com.google.protobuf.ByteString] = None
+	`message`: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY,
+	`messageManifest`: Option[com.google.protobuf.ByteString] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[MessageProtocol] {
 
-	def getMessageManifest = messageManifest.getOrElse(com.google.protobuf.ByteString.EMPTY)
+	def getMessageManifest = `messageManifest`.getOrElse(com.google.protobuf.ByteString.EMPTY)
 
-	def setMessageManifest(_f: com.google.protobuf.ByteString) = copy(messageManifest = _f)
+	def setMessageManifest(_f: com.google.protobuf.ByteString) = copy(`messageManifest` = _f)
 
-	def clearMessage = copy(message = com.google.protobuf.ByteString.EMPTY)
-	def clearMessageManifest = copy(messageManifest = None)
+	def clearMessage = copy(`message` = com.google.protobuf.ByteString.EMPTY)
+	def clearMessageManifest = copy(`messageManifest` = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeBytes(1, message)
-		if (messageManifest.isDefined) output.writeBytes(2, messageManifest.get)
+		output.writeBytes(1, `message`)
+		if (`messageManifest`.isDefined) output.writeBytes(2, `messageManifest`.get)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		size += computeBytesSize(1, message)
-		if (messageManifest.isDefined) size += computeBytesSize(2, messageManifest.get)
+		size += computeBytesSize(1, `message`)
+		if (`messageManifest`.isDefined) size += computeBytesSize(2, `messageManifest`.get)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): MessageProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _message: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
-		var _messageManifest: Option[com.google.protobuf.ByteString] = messageManifest
+		var __message: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
+		var __messageManifest: Option[com.google.protobuf.ByteString] = `messageManifest`
 
-		def _newMerged = MessageProtocol(
-			_message,
-			_messageManifest
+		def __newMerged = MessageProtocol(
+			__message,
+			__messageManifest
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 10 => _message = in.readBytes()
-			case 18 => _messageManifest = in.readBytes()
-			case default => if (!in.skipField(default)) return _newMerged
+			case 0 => return __newMerged
+			case 10 => __message = in.readBytes()
+			case 18 => __messageManifest = in.readBytes()
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: MessageProtocol) = {
 		MessageProtocol(
-			m.message,
-			m.messageManifest.orElse(messageManifest)
+			m.`message`,
+			m.`messageManifest`.orElse(`messageManifest`)
 		)
 	}
 
@@ -754,62 +754,62 @@ object MessageProtocol {
 
 }
 final case class ActorInfoProtocol (
-	uuid: UuidProtocol = UuidProtocol.defaultInstance,
-	timeout: Long = 0L,
-	address: Option[String] = None
+	`uuid`: UuidProtocol = UuidProtocol.defaultInstance,
+	`timeout`: Long = 0L,
+	`address`: Option[String] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[ActorInfoProtocol] {
 
-	def getAddress = address.getOrElse("")
+	def getAddress = `address`.getOrElse("")
 
-	def setAddress(_f: String) = copy(address = _f)
+	def setAddress(_f: String) = copy(`address` = _f)
 
-	def clearUuid = copy(uuid = UuidProtocol.defaultInstance)
-	def clearTimeout = copy(timeout = 0L)
-	def clearAddress = copy(address = None)
+	def clearUuid = copy(`uuid` = UuidProtocol.defaultInstance)
+	def clearTimeout = copy(`timeout` = 0L)
+	def clearAddress = copy(`address` = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, uuid)
-		output.writeUInt64(2, timeout)
-		if (address.isDefined) output.writeString(3, address.get)
+		output.writeMessage(1, `uuid`)
+		output.writeUInt64(2, `timeout`)
+		if (`address`.isDefined) output.writeString(3, `address`.get)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		size += computeMessageSize(1, uuid)
-		size += computeUInt64Size(2, timeout)
-		if (address.isDefined) size += computeStringSize(3, address.get)
+		size += computeMessageSize(1, `uuid`)
+		size += computeUInt64Size(2, `timeout`)
+		if (`address`.isDefined) size += computeStringSize(3, `address`.get)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): ActorInfoProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _uuid: UuidProtocol = UuidProtocol.defaultInstance
-		var _timeout: Long = 0L
-		var _address: Option[String] = address
+		var __uuid: UuidProtocol = UuidProtocol.defaultInstance
+		var __timeout: Long = 0L
+		var __address: Option[String] = `address`
 
-		def _newMerged = ActorInfoProtocol(
-			_uuid,
-			_timeout,
-			_address
+		def __newMerged = ActorInfoProtocol(
+			__uuid,
+			__timeout,
+			__address
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 10 => _uuid = readMessage[UuidProtocol](in, _uuid, _emptyRegistry)
-			case 16 => _timeout = in.readUInt64()
-			case 26 => _address = in.readString()
-			case default => if (!in.skipField(default)) return _newMerged
+			case 0 => return __newMerged
+			case 10 => __uuid = readMessage[UuidProtocol](in, __uuid, _emptyRegistry)
+			case 16 => __timeout = in.readUInt64()
+			case 26 => __address = in.readString()
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: ActorInfoProtocol) = {
 		ActorInfoProtocol(
-			m.uuid,
-			m.timeout,
-			m.address.orElse(address)
+			m.`uuid`,
+			m.`timeout`,
+			m.`address`.orElse(`address`)
 		)
 	}
 
@@ -831,52 +831,52 @@ object ActorInfoProtocol {
 
 }
 final case class UuidProtocol (
-	high: Long = 0L,
-	low: Long = 0L
+	`high`: Long = 0L,
+	`low`: Long = 0L
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[UuidProtocol] {
 
 
 
-	def clearHigh = copy(high = 0L)
-	def clearLow = copy(low = 0L)
+	def clearHigh = copy(`high` = 0L)
+	def clearLow = copy(`low` = 0L)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeUInt64(1, high)
-		output.writeUInt64(2, low)
+		output.writeUInt64(1, `high`)
+		output.writeUInt64(2, `low`)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		size += computeUInt64Size(1, high)
-		size += computeUInt64Size(2, low)
+		size += computeUInt64Size(1, `high`)
+		size += computeUInt64Size(2, `low`)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): UuidProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _high: Long = 0L
-		var _low: Long = 0L
+		var __high: Long = 0L
+		var __low: Long = 0L
 
-		def _newMerged = UuidProtocol(
-			_high,
-			_low
+		def __newMerged = UuidProtocol(
+			__high,
+			__low
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 8 => _high = in.readUInt64()
-			case 16 => _low = in.readUInt64()
-			case default => if (!in.skipField(default)) return _newMerged
+			case 0 => return __newMerged
+			case 8 => __high = in.readUInt64()
+			case 16 => __low = in.readUInt64()
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: UuidProtocol) = {
 		UuidProtocol(
-			m.high,
-			m.low
+			m.`high`,
+			m.`low`
 		)
 	}
 
@@ -897,52 +897,52 @@ object UuidProtocol {
 
 }
 final case class MetadataEntryProtocol (
-	key: String = "",
-	value: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
+	`key`: String = "",
+	`value`: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[MetadataEntryProtocol] {
 
 
 
-	def clearKey = copy(key = "")
-	def clearValue = copy(value = com.google.protobuf.ByteString.EMPTY)
+	def clearKey = copy(`key` = "")
+	def clearValue = copy(`value` = com.google.protobuf.ByteString.EMPTY)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeString(1, key)
-		output.writeBytes(2, value)
+		output.writeString(1, `key`)
+		output.writeBytes(2, `value`)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		size += computeStringSize(1, key)
-		size += computeBytesSize(2, value)
+		size += computeStringSize(1, `key`)
+		size += computeBytesSize(2, `value`)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): MetadataEntryProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _key: String = ""
-		var _value: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
+		var __key: String = ""
+		var __value: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
 
-		def _newMerged = MetadataEntryProtocol(
-			_key,
-			_value
+		def __newMerged = MetadataEntryProtocol(
+			__key,
+			__value
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 10 => _key = in.readString()
-			case 18 => _value = in.readBytes()
-			case default => if (!in.skipField(default)) return _newMerged
+			case 0 => return __newMerged
+			case 10 => __key = in.readString()
+			case 18 => __value = in.readBytes()
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: MetadataEntryProtocol) = {
 		MetadataEntryProtocol(
-			m.key,
-			m.value
+			m.`key`,
+			m.`value`
 		)
 	}
 
@@ -1010,44 +1010,44 @@ object LifeCycleType extends net.sandrogrzicic.scalabuff.Enum {
 	}
 }
 final case class LifeCycleProtocol (
-	lifeCycle: LifeCycleType.EnumVal = LifeCycleType._UNINITIALIZED
+	`lifeCycle`: LifeCycleType.EnumVal = LifeCycleType._UNINITIALIZED
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[LifeCycleProtocol] {
 
 
 
-	def clearLifeCycle = copy(lifeCycle = LifeCycleType._UNINITIALIZED)
+	def clearLifeCycle = copy(`lifeCycle` = LifeCycleType._UNINITIALIZED)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeEnum(1, lifeCycle)
+		output.writeEnum(1, `lifeCycle`)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		size += computeEnumSize(1, lifeCycle)
+		size += computeEnumSize(1, `lifeCycle`)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): LifeCycleProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _lifeCycle: LifeCycleType.EnumVal = LifeCycleType._UNINITIALIZED
+		var __lifeCycle: LifeCycleType.EnumVal = LifeCycleType._UNINITIALIZED
 
-		def _newMerged = LifeCycleProtocol(
-			_lifeCycle
+		def __newMerged = LifeCycleProtocol(
+			__lifeCycle
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 8 => _lifeCycle = LifeCycleType.valueOf(in.readEnum())
-			case default => if (!in.skipField(default)) return _newMerged
+			case 0 => return __newMerged
+			case 8 => __lifeCycle = LifeCycleType.valueOf(in.readEnum())
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: LifeCycleProtocol) = {
 		LifeCycleProtocol(
-			m.lifeCycle
+			m.`lifeCycle`
 		)
 	}
 
@@ -1067,52 +1067,52 @@ object LifeCycleProtocol {
 
 }
 final case class AddressProtocol (
-	hostname: String = "",
-	port: Int = 0
+	`hostname`: String = "",
+	`port`: Int = 0
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[AddressProtocol] {
 
 
 
-	def clearHostname = copy(hostname = "")
-	def clearPort = copy(port = 0)
+	def clearHostname = copy(`hostname` = "")
+	def clearPort = copy(`port` = 0)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeString(1, hostname)
-		output.writeUInt32(2, port)
+		output.writeString(1, `hostname`)
+		output.writeUInt32(2, `port`)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		size += computeStringSize(1, hostname)
-		size += computeUInt32Size(2, port)
+		size += computeStringSize(1, `hostname`)
+		size += computeUInt32Size(2, `port`)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): AddressProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _hostname: String = ""
-		var _port: Int = 0
+		var __hostname: String = ""
+		var __port: Int = 0
 
-		def _newMerged = AddressProtocol(
-			_hostname,
-			_port
+		def __newMerged = AddressProtocol(
+			__hostname,
+			__port
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 10 => _hostname = in.readString()
-			case 16 => _port = in.readUInt32()
-			case default => if (!in.skipField(default)) return _newMerged
+			case 0 => return __newMerged
+			case 10 => __hostname = in.readString()
+			case 16 => __port = in.readUInt32()
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: AddressProtocol) = {
 		AddressProtocol(
-			m.hostname,
-			m.port
+			m.`hostname`,
+			m.`port`
 		)
 	}
 
@@ -1133,52 +1133,52 @@ object AddressProtocol {
 
 }
 final case class ExceptionProtocol (
-	classname: String = "",
-	message: String = ""
+	`classname`: String = "",
+	`message`: String = ""
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[ExceptionProtocol] {
 
 
 
-	def clearClassname = copy(classname = "")
-	def clearMessage = copy(message = "")
+	def clearClassname = copy(`classname` = "")
+	def clearMessage = copy(`message` = "")
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeString(1, classname)
-		output.writeString(2, message)
+		output.writeString(1, `classname`)
+		output.writeString(2, `message`)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
-		size += computeStringSize(1, classname)
-		size += computeStringSize(2, message)
+		size += computeStringSize(1, `classname`)
+		size += computeStringSize(2, `message`)
 
 		size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): ExceptionProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var _classname: String = ""
-		var _message: String = ""
+		var __classname: String = ""
+		var __message: String = ""
 
-		def _newMerged = ExceptionProtocol(
-			_classname,
-			_message
+		def __newMerged = ExceptionProtocol(
+			__classname,
+			__message
 		)
 		while (true) in.readTag match {
-			case 0 => return _newMerged
-			case 10 => _classname = in.readString()
-			case 18 => _message = in.readString()
-			case default => if (!in.skipField(default)) return _newMerged
+			case 0 => return __newMerged
+			case 10 => __classname = in.readString()
+			case 18 => __message = in.readString()
+			case default => if (!in.skipField(default)) return __newMerged
 		}
-		null // compiler needs a return value
+		null
 	}
 
 	def mergeFrom(m: ExceptionProtocol) = {
 		ExceptionProtocol(
-			m.classname,
-			m.message
+			m.`classname`,
+			m.`message`
 		)
 	}
 
