@@ -46,7 +46,7 @@ object UpdateTestResources {
 				parsed = Parser(file)
 			} catch {
 				// in case of a parsing error, write it to the output file
-				case e => output = e.getMessage
+				case e: Throwable => output = e.getMessage
 			}
 			if (parsed != null) output = parsed.toString + "\n"
 			outParsed.write(output)

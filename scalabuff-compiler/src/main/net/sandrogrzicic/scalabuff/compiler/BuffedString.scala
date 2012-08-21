@@ -63,6 +63,11 @@ class BuffedString(str: String) {
 		if (fromPos > toPos) ""
 		str.substring(fromPos, toPos)
 	}
+	
+	/**
+	 * Removes leading and trailing double quotes from this string, if any.
+	 */
+	def stripQuotes() = str.stripPrefix("\"").stripSuffix("\"")
 }
 
 object BuffedString {

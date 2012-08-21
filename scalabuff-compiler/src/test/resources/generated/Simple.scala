@@ -7,28 +7,27 @@ final case class SimpleTest (
 	`requiredField`: Int = 0,
 	`optionalField`: Option[Float] = None,
 	`repeatedField`: Vector[String] = Vector.empty[String],
-	`type`: Int = 0
+	`type`: Option[Int] = Some(100)
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[SimpleTest] {
-
-	def getOptionalField = `optionalField`.getOrElse(0.0f)
 
 	def setOptionalField(_f: Float) = copy(`optionalField` = _f)
 	def setRepeatedField(_i: Int, _v: String) = copy(`repeatedField` = `repeatedField`.updated(_i, _v))
 	def addRepeatedField(_f: String) = copy(`repeatedField` = `repeatedField` :+ _f)
 	def addAllRepeatedField(_f: String*) = copy(`repeatedField` = `repeatedField` ++ _f)
 	def addAllRepeatedField(_f: TraversableOnce[String]) = copy(`repeatedField` = `repeatedField` ++ _f)
+	def setType(_f: Int) = copy(`type` = _f)
 
 	def clearRequiredField = copy(`requiredField` = 0)
 	def clearOptionalField = copy(`optionalField` = None)
 	def clearRepeatedField = copy(`repeatedField` = Vector.empty[String])
-	def clearType = copy(`type` = 0)
+	def clearType = copy(`type` = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
 		output.writeInt32(1, `requiredField`)
 		if (`optionalField`.isDefined) output.writeFloat(2, `optionalField`.get)
 		for (_v <- `repeatedField`) output.writeString(3, _v)
-		output.writeInt32(4, `type`)
+		if (`type`.isDefined) output.writeInt32(4, `type`.get)
 	}
 
 	lazy val getSerializedSize = {
@@ -37,7 +36,7 @@ final case class SimpleTest (
 		size += computeInt32Size(1, `requiredField`)
 		if (`optionalField`.isDefined) size += computeFloatSize(2, `optionalField`.get)
 		for (_v <- `repeatedField`) size += computeStringSize(3, _v)
-		size += computeInt32Size(4, `type`)
+		if (`type`.isDefined) size += computeInt32Size(4, `type`.get)
 
 		size
 	}
@@ -47,7 +46,7 @@ final case class SimpleTest (
 		var __requiredField: Int = 0
 		var __optionalField: Option[Float] = `optionalField`
 		val __repeatedField: collection.mutable.Buffer[String] = `repeatedField`.toBuffer
-		var __type: Int = 0
+		var __type: Option[Int] = `type`
 
 		def __newMerged = SimpleTest(
 			__requiredField,
@@ -71,7 +70,7 @@ final case class SimpleTest (
 			m.`requiredField`,
 			m.`optionalField`.orElse(`optionalField`),
 			`repeatedField` ++ m.`repeatedField`,
-			m.`type`
+			m.`type`.orElse(`type`)
 		)
 	}
 

@@ -25,20 +25,6 @@ final case class DataTypes (
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[DataTypes] {
 
-	def getVarint2 = `varint2`.getOrElse(0L)
-	def getVarint3 = `varint3`.getOrElse(0)
-	def getVarint5 = `varint5`.getOrElse(0)
-	def getVarint6 = `varint6`.getOrElse(0L)
-	def getVarint7 = `varint7`.getOrElse(false)
-	def getF64bit1 = `f64bit1`.getOrElse(0L)
-	def getF64bit2 = `f64bit2`.getOrElse(0L)
-	def getF64bit3 = `f64bit3`.getOrElse(0.0)
-	def getLengthDelim1 = `lengthDelim1`.getOrElse("")
-	def getLengthDelim2 = `lengthDelim2`.getOrElse(com.google.protobuf.ByteString.EMPTY)
-	def getF32bit1 = `f32bit1`.getOrElse(0)
-	def getF32bit2 = `f32bit2`.getOrElse(0)
-	def getF32bit3 = `f32bit3`.getOrElse(0.0f)
-
 	def setVarint2(_f: Long) = copy(`varint2` = _f)
 	def setVarint3(_f: Int) = copy(`varint3` = _f)
 	def setVarint5(_f: Int) = copy(`varint5` = _f)

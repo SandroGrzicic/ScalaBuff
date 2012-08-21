@@ -44,7 +44,7 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 	}
 
 	lazy val packageP: PackratParser[PackageStatement] = "package" ~> (identifier ~ (("." ~ identifier) *)) <~ ";" ^^ {
-		case ident ~ idents => PackageStatement(ident + idents.map(i => i._1 + i._2).mkString)
+		case ident ~ idents => PackageStatement(ident + idents.map(i => i._1 + i._2).mkString.stripQuotes)
 	}
 
 	lazy val option: PackratParser[Option] = "option" ~> optionBody <~ ";"
@@ -58,10 +58,14 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 
 	lazy val field: PackratParser[Field] = label ~ fieldType ~ (identifier <~ "=") ~ integerConstant ~
 		(("[" ~> optionBody ~ (("," ~ optionBody) *) <~ "]") ?) <~ ";" ^^ {
-		case fLabel ~ fType ~ name ~ number ~ options => Field(fLabel, fType, name, number.toInt, options match	{
-			case Some(fOpt ~ fOpts) => List(fOpt) ++ fOpts.map(e => e._2)
-			case None => List[Option]()
-		})
+		case fLabel ~ fType ~ name ~ number ~ options => {
+		  val optionList = options match  {
+        case Some(fOpt ~ fOpts) => List(fOpt) ++ fOpts.map(e => e._2)
+        case None => List[Option]()
+      }
+
+      Field(fLabel, fType, name, number.toInt, optionList)		  
+		}
 	}
 
 	lazy val label: PackratParser[FieldLabels.EnumVal] = ("required" | "optional" | "repeated") ^^ {
@@ -89,7 +93,7 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 		}
 	}
 
-	lazy val constant: PackratParser[String] = identifier | integerConstant | floatConstant | stringConstant | booleanConstant
+	lazy val constant: PackratParser[String] = identifier | integerConstant | floatConstant | quotedStringConstant | stringConstant | booleanConstant
 
 	lazy val identifier: PackratParser[String] = memo("""[A-Za-z_][\w_]*""".r)
 	
@@ -105,9 +109,12 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 	}
 	lazy val floatConstant: PackratParser[String] = memo("""\d+(\.\d+)?([Ee][\+-]?\d+)?""".r)
 	lazy val booleanConstant: PackratParser[String] = "true" | "false"
-	lazy val stringConstant: PackratParser[String] = quotationMarks ~> ((hexEscape | octEscape | charEscape | stringCharacter) *) <~ quotationMarks ^^ {
+	lazy val stringConstant: PackratParser[String] = ((hexEscape | octEscape | charEscape | stringCharacter) *) ^^ {
 		string: List[String] => string.mkString
 	}
+  lazy val quotedStringConstant: PackratParser[String] = quotationMarks ~> ((hexEscape | octEscape | charEscape | stringCharacter) *) <~ quotationMarks ^^ {
+    string: List[String] => "\"" + string.mkString + "\""
+  }
 	lazy val stringCharacter: PackratParser[String] = memo("""[^"\n]""".r)
 	lazy val quotationMarks: PackratParser[String] = memo("""["']""".r)
 	lazy val hexEscape: PackratParser[String] = memo("""\\[Xx][A-Fa-f0-9]{1,2}""".r)

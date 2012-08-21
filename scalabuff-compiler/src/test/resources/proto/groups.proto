@@ -3,7 +3,7 @@ package resources.generated;
 option java_outer_classname = "GroupsTest";
 
 message Groups {
-	repeated group Group = 1 {
-        required string name = 2;
+  repeated group Group = 1 {
+    required string name = 2;
 	}
 }

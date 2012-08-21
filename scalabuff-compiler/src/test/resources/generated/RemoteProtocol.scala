@@ -9,9 +9,6 @@ final case class AkkaRemoteProtocol (
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[AkkaRemoteProtocol] {
 
-	def getMessage = `message`.getOrElse(RemoteMessageProtocol.defaultInstance)
-	def getInstruction = `instruction`.getOrElse(RemoteControlProtocol.defaultInstance)
-
 	def setMessage(_f: RemoteMessageProtocol) = copy(`message` = _f)
 	def setInstruction(_f: RemoteControlProtocol) = copy(`instruction` = _f)
 
@@ -90,11 +87,6 @@ final case class RemoteMessageProtocol (
 	`metadata`: Vector[MetadataEntryProtocol] = Vector.empty[MetadataEntryProtocol]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[RemoteMessageProtocol] {
-
-	def getMessage = `message`.getOrElse(MessageProtocol.defaultInstance)
-	def getException = `exception`.getOrElse(ExceptionProtocol.defaultInstance)
-	def getSupervisorUuid = `supervisorUuid`.getOrElse(UuidProtocol.defaultInstance)
-	def getSender = `sender`.getOrElse(RemoteActorRefProtocol.defaultInstance)
 
 	def setMessage(_f: MessageProtocol) = copy(`message` = _f)
 	def setException(_f: ExceptionProtocol) = copy(`exception` = _f)
@@ -229,8 +221,6 @@ final case class RemoteControlProtocol (
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[RemoteControlProtocol] {
 
-	def getCookie = `cookie`.getOrElse("")
-
 	def setCookie(_f: String) = copy(`cookie` = _f)
 
 	def clearCookie = copy(`cookie` = None)
@@ -358,8 +348,6 @@ final case class RemoteActorRefProtocol (
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[RemoteActorRefProtocol] {
 
-	def getTimeout = `timeout`.getOrElse(0L)
-
 	def setTimeout(_f: Long) = copy(`timeout` = _f)
 
 	def clearAddress = copy(`address` = "")
@@ -444,14 +432,6 @@ final case class SerializedActorRefProtocol (
 	`messages`: Vector[RemoteMessageProtocol] = Vector.empty[RemoteMessageProtocol]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[SerializedActorRefProtocol] {
-
-	def getActorInstance = `actorInstance`.getOrElse(com.google.protobuf.ByteString.EMPTY)
-	def getSerializerClassname = `serializerClassname`.getOrElse("")
-	def getTimeout = `timeout`.getOrElse(0L)
-	def getReceiveTimeout = `receiveTimeout`.getOrElse(0L)
-	def getLifeCycle = `lifeCycle`.getOrElse(LifeCycleProtocol.defaultInstance)
-	def getSupervisor = `supervisor`.getOrElse(RemoteActorRefProtocol.defaultInstance)
-	def getHotswapStack = `hotswapStack`.getOrElse(com.google.protobuf.ByteString.EMPTY)
 
 	def setActorInstance(_f: com.google.protobuf.ByteString) = copy(`actorInstance` = _f)
 	def setSerializerClassname(_f: String) = copy(`serializerClassname` = _f)
@@ -626,7 +606,6 @@ final case class SerializedTypedActorRefProtocol (
 	with net.sandrogrzicic.scalabuff.Message[SerializedTypedActorRefProtocol] {
 
 
-
 	def clearActorRef = copy(`actorRef` = SerializedActorRefProtocol.defaultInstance)
 	def clearInterfaceName = copy(`interfaceName` = "")
 
@@ -690,8 +669,6 @@ final case class MessageProtocol (
 	`messageManifest`: Option[com.google.protobuf.ByteString] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[MessageProtocol] {
-
-	def getMessageManifest = `messageManifest`.getOrElse(com.google.protobuf.ByteString.EMPTY)
 
 	def setMessageManifest(_f: com.google.protobuf.ByteString) = copy(`messageManifest` = _f)
 
@@ -759,8 +736,6 @@ final case class ActorInfoProtocol (
 	`address`: Option[String] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[ActorInfoProtocol] {
-
-	def getAddress = `address`.getOrElse("")
 
 	def setAddress(_f: String) = copy(`address` = _f)
 
@@ -837,7 +812,6 @@ final case class UuidProtocol (
 	with net.sandrogrzicic.scalabuff.Message[UuidProtocol] {
 
 
-
 	def clearHigh = copy(`high` = 0L)
 	def clearLow = copy(`low` = 0L)
 
@@ -901,7 +875,6 @@ final case class MetadataEntryProtocol (
 	`value`: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[MetadataEntryProtocol] {
-
 
 
 	def clearKey = copy(`key` = "")
@@ -1015,7 +988,6 @@ final case class LifeCycleProtocol (
 	with net.sandrogrzicic.scalabuff.Message[LifeCycleProtocol] {
 
 
-
 	def clearLifeCycle = copy(`lifeCycle` = LifeCycleType._UNINITIALIZED)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
@@ -1071,7 +1043,6 @@ final case class AddressProtocol (
 	`port`: Int = 0
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[AddressProtocol] {
-
 
 
 	def clearHostname = copy(`hostname` = "")
@@ -1137,7 +1108,6 @@ final case class ExceptionProtocol (
 	`message`: String = ""
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[ExceptionProtocol] {
-
 
 
 	def clearClassname = copy(`classname` = "")

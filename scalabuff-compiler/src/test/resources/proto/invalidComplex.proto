@@ -7,7 +7,7 @@ message InvalidComplex { // correct
 	optional bool 1invalid_field_name = 7; // invalid field name
 	optional fixed64 invalid_tag_number = f; // invalid tag number
 	optional string missing_tag_number = ; // missing tag number
-	repeated packed invalid_option = 203 [packed-true]; // - instead of =
+	repeated packed invalid_option - 203 [packed-true]; // - instead of =
 	optional float floating floated = 502; // "floated" extra
 
 }

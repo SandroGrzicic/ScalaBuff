@@ -1,6 +1,6 @@
 package resources.generated;
 
-option scala_outer_classname = "ScalaBuffMessageTest";
+option java_outer_classname = "ScalaBuffMessageTest";
 
 option optimize_for = LITE_RUNTIME;
 

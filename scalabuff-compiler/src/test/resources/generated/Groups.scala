@@ -10,7 +10,6 @@ final case class Groups (
 
 
 
-
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
 	}
 

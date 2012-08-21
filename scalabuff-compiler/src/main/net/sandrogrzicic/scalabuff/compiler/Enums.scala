@@ -142,7 +142,7 @@ object FieldTypes extends Enum {
 		fixCustomTypes(tree, enumNames, allProtoFields)
 		prependParentClassNames(tree)
 	}
-
+	
 	/** Return all enum names and custom field types found in the specified tree. */
 	protected def getEnumNames(
 		tree: List[Node],

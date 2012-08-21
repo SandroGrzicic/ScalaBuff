@@ -32,7 +32,7 @@ class ParserTest extends FunSuite with ShouldMatchers {
 			try {
 				parsed = Parser(file).toString + "\n"
 			} catch {
-				case e => parsed = e.getMessage
+				case e: Throwable => parsed = e.getMessage
 			}
 			parsed should equal (output)
 		}

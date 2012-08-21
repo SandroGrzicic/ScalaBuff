@@ -26,8 +26,8 @@ class MessageTest extends FunSuite with ShouldMatchers {
 		val sent = ComplexMessage(first, Some(second), Some(nestedOuter), simpleEnum, repeatedString, repeatedBytes)
 
 		sent.firstField should equal(first)
-		sent.getSecondField should equal(second)
-		sent.getNestedOuterField should equal(nestedOuter)
+		sent.secondField.get should equal(second)
+		sent.nestedOuterField.get should equal(nestedOuter)
 		sent.simpleEnumField should equal (simpleEnum)
 		sent.repeatedStringField should equal (repeatedString)
 		sent.repeatedBytesField should equal (repeatedBytes)
@@ -35,8 +35,8 @@ class MessageTest extends FunSuite with ShouldMatchers {
 		val received = ComplexMessage.defaultInstance.mergeFrom(sent.toByteArray)
 
 		received.firstField should equal(sent.firstField)
-		received.getSecondField should equal(sent.getSecondField)
-		received.getNestedOuterField should equal(sent.getNestedOuterField)
+		received.secondField should equal(sent.secondField)
+		received.nestedOuterField should equal(sent.nestedOuterField)
 		received.simpleEnumField should equal (sent.simpleEnumField)
 		received.repeatedStringField should equal (sent.repeatedStringField)
 		received.repeatedBytesField should equal (sent.repeatedBytesField)

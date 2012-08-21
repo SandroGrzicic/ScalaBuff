@@ -10,7 +10,6 @@ final case class EmptyMessage (
 
 
 
-
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
 	}
 
@@ -55,7 +54,7 @@ object EmptyMessage {
 
 }
 
-object Message {
+object ScalaBuffMessageTest {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 

@@ -113,11 +113,14 @@ class Generator protected(sourceName: String) {
 			out.append(indent0).append("final case class ").append(name).append(" (\n")
 			// constructor
 			fields.foreach { field =>
-				out.append(indent1).append(field.name.toScalaIdent).append(": ")
+			  out.append(indent1).append(field.name.toScalaIdent).append(": ")
 				field.label match {
-					case REQUIRED => out.append(field.fType.scalaType).append(" = ").append(field.fType.defaultValue).append(",\n")
-					case OPTIONAL => out.append("Option[").append(field.fType.scalaType).append("] = None,\n")
-					case REPEATED => out.append("Vector[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
+					case REQUIRED => 
+					  out.append(field.fType.scalaType).append(" = ").append(field.fType.defaultValue).append(",\n")
+					case OPTIONAL => 
+					  out.append("Option[").append(field.fType.scalaType).append("] = ").append(field.defaultValue).append(",\n")
+					case REPEATED => 
+					  out.append("Vector[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
 					case _ => // weird warning - missing combination <local child> ?!
 				}
 			}
@@ -125,14 +128,6 @@ class Generator protected(sourceName: String) {
 			out.append("\n")
 				.append(indent0).append(") extends com.google.protobuf.GeneratedMessageLite\n")
 				.append(indent1).append("with net.sandrogrzicic.scalabuff.Message[").append(name).append("] {\n\n")
-
-			// getOptionalField
-			fields.filter(f => f.label == OPTIONAL && f.fType.isEnum == false).foreach { field =>
-				out.append(indent1)
-					.append("def get").append(field.name.camelCase).append(" = ").append(field.name.toScalaIdent)
-					.append(".getOrElse(").append(field.fType.defaultValue).append(")\n")
-			}
-			out.append("\n")
 
 			// setters
 			fields.foreach { field =>
@@ -364,8 +359,8 @@ class Generator protected(sourceName: String) {
 					case ImportStatement(name) => imports += name
 					case PackageStatement(name) => if (packageName.isEmpty) packageName = name
 					case Option(key, value) => key match {
-						case "java_package" => packageName = value
-						case "java_outer_classname" => className = value
+						case "java_package" => packageName = value.stripQuotes
+						case "java_outer_classname" => className = value.stripQuotes
 						case "optimize_for" => value match {
 							case "SPEED" => optimizeForSpeed = true
 							case "CODE_SIZE" => optimizeForSpeed = false
@@ -382,7 +377,7 @@ class Generator protected(sourceName: String) {
 
 		// make sure custom types such as Enums and Messages are properly recognized
 		FieldTypes.recognizeCustomTypes(tree)
-
+		
 		// traverse the tree, so we can get class/package names, options, etc.
 		val generated = traverse(tree)
 
@@ -421,8 +416,6 @@ object Generator {
 	def apply(tree: List[Node], sourceName: String): ScalaClass = {
 		new Generator(sourceName).generate(tree)
 	}
-	
-	val RESERVED_IDENTIFIERS = Seq("type")
 }
 
 /**

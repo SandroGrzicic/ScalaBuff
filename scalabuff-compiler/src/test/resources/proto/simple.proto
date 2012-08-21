@@ -7,5 +7,5 @@ message SimpleTest {
 	optional float optional_field = 2;
 	repeated string repeated_field = 3;
 	
-	required int32 type = 4;
+	optional int32 type = 4 [default=100];
 }
