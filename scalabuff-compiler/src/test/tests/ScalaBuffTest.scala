@@ -15,9 +15,9 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 	val NEWLINE = System.getProperty("line.separator")
 
 	val parsedExtension = ".txt"
-	val protoDir = "src/test/resources/proto/"
-	val parsedDir = "src/test/resources/parsed/"
-	val generatedDir = "src/test/resources/generated/"
+	val protoDir = "scalabuff-compiler/src/test/resources/proto/"
+	val parsedDir = "scalabuff-compiler/src/test/resources/parsed/"
+	val generatedDir = "scalabuff-compiler/src/test/resources/generated/"
 
 	val testProto = "simple"
 	val testProtoParsed =
@@ -72,7 +72,7 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 	}
 
 	test("main: simple .proto file with a specified output directory") {
-		val outputDirectory = "src/test"
+		val outputDirectory = "scalabuff-compiler/src/test"
 
 		outputStream.reset()
 		val simpleProto = protoDir + testProto + ".proto"
