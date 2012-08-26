@@ -1,0 +1,9 @@
+package resources.generated;
+
+import "simple.proto";
+
+option optimize_for = LITE_RUNTIME;
+
+message UsesImport {
+	required SimpleTest simple_test = 1;
+}

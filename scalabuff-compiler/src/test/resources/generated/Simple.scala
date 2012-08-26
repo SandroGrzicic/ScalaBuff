@@ -7,7 +7,9 @@ final case class SimpleTest (
 	`requiredField`: Int = 0,
 	`optionalField`: Option[Float] = None,
 	`repeatedField`: Vector[String] = Vector.empty[String],
-	`type`: Option[Int] = Some(100)
+	`type`: Option[Int] = Some(100),
+	`int32Default`: Option[Int] = Some(100),
+	`stringDefault`: Option[String] = Some("somestring")
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[SimpleTest] {
 
@@ -17,17 +19,23 @@ final case class SimpleTest (
 	def addAllRepeatedField(_f: String*) = copy(`repeatedField` = `repeatedField` ++ _f)
 	def addAllRepeatedField(_f: TraversableOnce[String]) = copy(`repeatedField` = `repeatedField` ++ _f)
 	def setType(_f: Int) = copy(`type` = _f)
+	def setInt32Default(_f: Int) = copy(`int32Default` = _f)
+	def setStringDefault(_f: String) = copy(`stringDefault` = _f)
 
 	def clearRequiredField = copy(`requiredField` = 0)
 	def clearOptionalField = copy(`optionalField` = None)
 	def clearRepeatedField = copy(`repeatedField` = Vector.empty[String])
 	def clearType = copy(`type` = None)
+	def clearInt32Default = copy(`int32Default` = None)
+	def clearStringDefault = copy(`stringDefault` = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
 		output.writeInt32(1, `requiredField`)
 		if (`optionalField`.isDefined) output.writeFloat(2, `optionalField`.get)
 		for (_v <- `repeatedField`) output.writeString(3, _v)
 		if (`type`.isDefined) output.writeInt32(4, `type`.get)
+		if (`int32Default`.isDefined) output.writeInt32(5, `int32Default`.get)
+		if (`stringDefault`.isDefined) output.writeString(6, `stringDefault`.get)
 	}
 
 	lazy val getSerializedSize = {
@@ -37,6 +45,8 @@ final case class SimpleTest (
 		if (`optionalField`.isDefined) size += computeFloatSize(2, `optionalField`.get)
 		for (_v <- `repeatedField`) size += computeStringSize(3, _v)
 		if (`type`.isDefined) size += computeInt32Size(4, `type`.get)
+		if (`int32Default`.isDefined) size += computeInt32Size(5, `int32Default`.get)
+		if (`stringDefault`.isDefined) size += computeStringSize(6, `stringDefault`.get)
 
 		size
 	}
@@ -47,12 +57,16 @@ final case class SimpleTest (
 		var __optionalField: Option[Float] = `optionalField`
 		val __repeatedField: collection.mutable.Buffer[String] = `repeatedField`.toBuffer
 		var __type: Option[Int] = `type`
+		var __int32Default: Option[Int] = `int32Default`
+		var __stringDefault: Option[String] = `stringDefault`
 
 		def __newMerged = SimpleTest(
 			__requiredField,
 			__optionalField,
 			Vector(__repeatedField: _*),
-			__type
+			__type,
+			__int32Default,
+			__stringDefault
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
@@ -60,6 +74,8 @@ final case class SimpleTest (
 			case 21 => __optionalField = in.readFloat()
 			case 26 => __repeatedField += in.readString()
 			case 32 => __type = in.readInt32()
+			case 40 => __int32Default = in.readInt32()
+			case 50 => __stringDefault = in.readString()
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -70,7 +86,9 @@ final case class SimpleTest (
 			m.`requiredField`,
 			m.`optionalField`.orElse(`optionalField`),
 			`repeatedField` ++ m.`repeatedField`,
-			m.`type`.orElse(`type`)
+			m.`type`.orElse(`type`),
+			m.`int32Default`.orElse(`int32Default`),
+			m.`stringDefault`.orElse(`stringDefault`)
 		)
 	}
 
@@ -90,6 +108,8 @@ object SimpleTest {
 	val OPTIONAL_FIELD_FIELD_NUMBER = 2
 	val REPEATED_FIELD_FIELD_NUMBER = 3
 	val TYPE_FIELD_NUMBER = 4
+	val INT32DEFAULT_FIELD_NUMBER = 5
+	val STRINGDEFAULT_FIELD_NUMBER = 6
 
 }
 
