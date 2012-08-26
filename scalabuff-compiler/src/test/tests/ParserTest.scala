@@ -27,14 +27,15 @@ class ParserTest extends FunSuite with ShouldMatchers {
 	for (file <- protoDir.listFiles(protoFileFilter)) {
 		val fileName = file.getName.stripSuffix(".proto")
 		test(fileName) {
-			val output = io.Source.fromFile(new File(parsedDir + fileName + parsedExtension)).mkString
+			val output = io.Source.fromFile(new File(parsedDir + fileName + parsedExtension))
 			var parsed: String = null
 			try {
 				parsed = Parser(file).toString + "\n"
 			} catch {
 				case e: Throwable => parsed = e.getMessage
 			}
-			parsed should equal (output)
+			parsed should equal (output.mkString)
+			output.close()
 		}
 	}
 
