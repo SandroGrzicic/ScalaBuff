@@ -1,8 +1,5 @@
 package net.sandrogrzicic.scalabuff.compiler
 
-import collection.mutable
-import mutable.{ArrayBuffer, HashSet}
-
 /**
  * Viktor Klang's Enum
  * Source: https://gist.github.com/1057513/
@@ -133,82 +130,6 @@ object FieldTypes extends Enum {
 			} getOrElse	CustomEnumVal(fieldType, fieldType, "null", WIRETYPE_LENGTH_DELIMITED)
 	}
 
-	/**
-	 * Modifies some fields of Message and Enum types so that they can be used properly.
-	 * Discovers whether each field type is a Message or an Enum.
-	 */
-	def recognizeCustomTypes(tree: List[Node]) {
-		val (enumNames, allProtoFields) = getEnumNames(tree)
-		fixCustomTypes(tree, enumNames, allProtoFields)
-		prependParentClassNames(tree)
-	}
-	
-	/** Return all enum names and custom field types found in the specified tree. */
-	protected def getEnumNames(
-		tree: List[Node],
-		enumNames: mutable.HashSet[String] = mutable.HashSet.empty[String],
-		customFieldTypes: mutable.ArrayBuffer[FieldTypes.EnumVal] = mutable.ArrayBuffer.empty[FieldTypes.EnumVal]
-	): (HashSet[String], ArrayBuffer[EnumVal]) = {
 
-		for (node <- tree) {
-			node match {
-				case Message(name, body) =>
-					enumNames ++= body.enums.map(_.name)
-					customFieldTypes ++= body.fields.map(_.fType) collect { case t: CustomEnumVal => t }
-					getEnumNames(body.messages, enumNames, customFieldTypes)
-				case EnumStatement(name, constants, options) => enumNames += name
-				case _ =>
-			}
-		}
-		(enumNames, customFieldTypes)
-	}
-	/** Update fields which have custom types. */
-	protected def fixCustomTypes(tree: List[Node], enumNames: mutable.Set[String], allProtoFields: mutable.Buffer[EnumVal]) {
-		for (fType <- allProtoFields if !fType.isMessage && !fType.isEnum) {
-			if (enumNames.contains(fType.name.dropUntilLast('.'))) {
-				fType.isEnum = true
-				fType.name = "Enum"
-				fType.defaultValue = fType.scalaType + "._UNINITIALIZED"
-				fType.scalaType += ".EnumVal"
-				fType.wireType = WIRETYPE_VARINT
-			} else {
-				fType.isMessage = true
-				fType.name = "Message"
-				fType.defaultValue = fType.scalaType + ".defaultInstance"
-			}
-		}
-	}
-
-	/** Prepend parent class names to all nested custom field types. */
-	protected def prependParentClassNames(tree: List[Node]) {
-		for (node <- tree) {
-			node match {
-				case Message(name, body) =>
-					// prepend parent class names to all nested enums
-					body.enums.foreach {
-						case EnumStatement(eName, eConstants, eOptions) => {
-							body.fields.withFilter(_.fType.isEnum).foreach { field =>
-								val fType = field.fType
-								fType.scalaType = name + "." + fType.scalaType
-								fType.defaultValue = fType.scalaType.replace(".EnumVal", "") + "._UNINITIALIZED"
-							}
-						}
-					}
-					// prepend parent class names to all messages
-					body.messages.foreach {
-						case Message(mName, mBody) => {
-							body.fields.withFilter(_.fType.isMessage).foreach { field =>
-								val fType = field.fType
-								fType.scalaType = name + "." + fType.scalaType
-								fType.defaultValue = name + "." + fType.defaultValue
-							}
-							// recurse for any nested messages
-							prependParentClassNames(mBody.messages)
-						}
-					}
-				case _ =>
-			}
-		}
-	}
 
 }

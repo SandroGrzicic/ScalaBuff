@@ -24,7 +24,7 @@ object ComputerPeripherals extends net.sandrogrzicic.scalabuff.Enum {
 }
 final case class Outer (
 	`innerRequired`: Outer.Inner.EnumVal = Outer.Inner._UNINITIALIZED,
-	`innerOptional`: Option[Outer.Inner.EnumVal] = None,
+	`innerOptional`: Option[Outer.Inner.EnumVal] = Some(Outer.Inner.FIRST),
 	`innerRepeated`: Vector[Outer.Inner.EnumVal] = Vector.empty[Outer.Inner.EnumVal]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[Outer] {
@@ -123,7 +123,7 @@ object Outer {
 }
 final case class OuterDuplicate (
 	`innerRequired`: OuterDuplicate.Inner.EnumVal = OuterDuplicate.Inner._UNINITIALIZED,
-	`innerOptional`: Option[OuterDuplicate.Inner.EnumVal] = None,
+	`innerOptional`: Option[OuterDuplicate.Inner.EnumVal] = Some(OuterDuplicate.Inner.SECOND),
 	`innerRepeated`: Vector[OuterDuplicate.Inner.EnumVal] = Vector.empty[OuterDuplicate.Inner.EnumVal]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with net.sandrogrzicic.scalabuff.Message[OuterDuplicate] {

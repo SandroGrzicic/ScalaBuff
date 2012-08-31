@@ -34,19 +34,9 @@ case class Group(label: FieldLabels.EnumVal, name: String, number: Int, body: Me
 
 case class Field(
     label: FieldLabels.EnumVal, fType: FieldTypes.EnumVal, name: String, 
-    number: Int, options: List[Option]
-) extends Node {
-  val defaultValue = 
-    if (label == FieldLabels.OPTIONAL) {
-      options.find(_.key == "default") match {
-        case Some(option) => "Some(" + option.value + ")"
-        case None         => "None"
-      }
-    } else {
-      fType.defaultValue      
-    }
-}
-    
+    number: Int, options: List[Option], var defaultValue: String = ""
+) extends Node
+
 case class EnumStatement(name: String, constants: List[EnumConstant], options: List[Option]) extends Node
 
 case class EnumConstant(name: String, id: Int) extends Node

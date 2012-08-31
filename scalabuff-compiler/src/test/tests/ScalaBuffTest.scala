@@ -4,6 +4,7 @@ import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
 import net.sandrogrzicic.scalabuff.compiler.{Strings, ScalaBuff}
 import java.io.{PrintStream, ByteArrayOutputStream, File}
+import net.sandrogrzicic.scalabuff.compiler.ScalaClass
 
 /**
  * ScalaBuff CLI runner test.
@@ -32,7 +33,7 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 
 
 	test("apply: simple .proto file") {
-		val scalaClass = ScalaBuff(protoDir + testProto + ".proto")
+		val scalaClass: ScalaClass = ScalaBuff(protoDir + testProto + ".proto")
 		scalaClass.body should equal (testProtoGenerated)
 		scalaClass.file should equal ("Simple")
 		scalaClass.path should equal ("resources/generated/")

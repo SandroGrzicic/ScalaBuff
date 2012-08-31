@@ -3,6 +3,8 @@
 
 package resources.generated
 
+//import "simple.proto"
+
 final case class UsesImport (
 	`simpleTest`: SimpleTest = SimpleTest.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite

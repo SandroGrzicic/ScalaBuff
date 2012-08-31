@@ -11,7 +11,7 @@ message Outer {
 		SECOND = 2;
 	}
 	required Inner inner_required = 1;
-	optional Inner inner_optional = 2;
+	optional Inner inner_optional = 2 [default = FIRST];
 	repeated Inner inner_repeated = 3;
 }
 
@@ -21,6 +21,6 @@ message OuterDuplicate {
 		SECOND = 2;
 	}
 	required Inner inner_required = 1;
-	optional Inner inner_optional = 2;
+	optional Inner inner_optional = 2 [default = SECOND];
 	repeated Inner inner_repeated = 3;
 }
