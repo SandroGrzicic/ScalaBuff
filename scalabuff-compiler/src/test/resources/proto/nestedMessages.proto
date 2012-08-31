@@ -1,0 +1,19 @@
+message Foobar {
+    message Foo {
+        optional uint64 id = 1;
+    }
+    message Bar {
+        optional uint64 id = 1;
+    }
+    message FooBar {
+        optional uint64 id = 1;
+    }     
+    required Foo reqFoo = 1;
+    
+    optional Foo optFoo = 2;
+    optional Bar optBar = 3;
+    
+    repeated Foo repFoo = 4;
+    repeated Bar repBar = 5;
+    repeated FooBar repFooBar = 6;
+}

@@ -380,15 +380,15 @@ class Generator protected (sourceName: String) {
     }
 
     // *****************
-    // additional passes
+    // additional tree passes
     // *****************
     
     recognizeCustomTypes(tree)
     prependParentClassNames(tree)
     setDefaultsForOptionalFields(tree)
 
-    // traverse the tree, so we can get class/package names, options, etc.
-    val generated = traverse(tree)
+    // final tree pass: traverse the tree, so we can get class/package names, options, etc.
+    val generatedOutput = traverse(tree)
 
     val output = StringBuilder.newBuilder
 
@@ -410,12 +410,11 @@ class Generator protected (sourceName: String) {
     imports.clear()
 
     // generated output
-    output.append(generated).append("\n")
+    output.append(generatedOutput).append("\n")
 
-    // begin outer object
-    output.append("object ").append(className).append(" {\n")
-    // finalize outer object
+    // outer object
     output
+      .append("object ").append(className).append(" {\n")
       .append("\tdef registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {\n")
       .append("\t}\n\n")
       .append("}\n")
@@ -437,7 +436,7 @@ object Generator {
    * Modifies some fields of Message and Enum types so that they can be used properly.
    * Discovers whether each field type is a Message or an Enum.
    */
-  def recognizeCustomTypes(tree: List[Node]) {
+  protected def recognizeCustomTypes(tree: List[Node]) {
     val (enumNames, customFieldTypes) = getEnumNames(tree)
     fixCustomTypes(tree, enumNames, customFieldTypes)
   }
@@ -480,6 +479,8 @@ object Generator {
 
   /** Prepend parent class names to all nested custom field types. */
   protected def prependParentClassNames(tree: List[Node]) {
+    val processedFieldTypes = new mutable.HashSet[FieldTypes.EnumVal]()
+    
     for (node <- tree) {
       node match {
         case Message(name, body) =>
@@ -498,8 +499,11 @@ object Generator {
             case Message(mName, mBody) => {
               body.fields.withFilter(_.fType.isMessage).foreach { field =>
                 val fType = field.fType
-                fType.scalaType = name + "." + fType.scalaType
-                fType.defaultValue = name + "." + fType.defaultValue
+                if (!processedFieldTypes(fType)) {
+                  fType.scalaType = name + "." + fType.scalaType
+                  fType.defaultValue = name + "." + fType.defaultValue
+                  processedFieldTypes += fType
+                }
               }
               // recurse for any nested messages
               prependParentClassNames(mBody.messages)

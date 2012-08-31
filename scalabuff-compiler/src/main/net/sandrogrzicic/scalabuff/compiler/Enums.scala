@@ -67,12 +67,12 @@ object FieldTypes extends Enum {
 
 	/**
 	 * Represents a predefined field type.
-	 * @param name the field type name; only modified from inside this class.
-	 * @param scalaType the output field type name; only modified from inside this class.
-	 * @param defaultValue field type default value; only modified from inside this class.
+	 * @param name the field type name
+	 * @param scalaType the output field type name
+	 * @param defaultValue field type default value
 	 * @param wireType the field wire type.
-	 * @param isEnum whether the field is an Enum; only modified from inside this class.
-	 * @param isMessage whether the field is a Message; only modified from inside this class.
+	 * @param isEnum whether the field is an Enum
+	 * @param isMessage whether the field is a Message
 	 */
 	trait EnumVal extends Value {
 		var name: String
