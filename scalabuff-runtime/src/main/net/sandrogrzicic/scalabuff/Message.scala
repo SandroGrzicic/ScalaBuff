@@ -12,7 +12,7 @@ import java.io.{FilterInputStream, InputStream}
  */
 trait Message[MessageType <: MessageLite with MessageLite.Builder] extends MessageLite.Builder {
 
-	implicit def _anyToOption[T](any: T) = Some[T](any)
+	implicit def _anyToOption[T](any: T): Option[T] = Option[T](any)
 
 	implicit def _stringToByteString(string: String) = ByteString.copyFromUtf8(string)
 

@@ -24,7 +24,7 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 		body => parseBody(body)
 	}
 
-	lazy val extension: PackratParser[Extension] = ("extend" ~> userType ~ ("{" ~> (((field <~ ";") | group) *) <~ "}")) ^^ {
+	lazy val extension: PackratParser[Extension] = ("extend" ~> userType ~ ("{" ~> ((field | group) *) <~ "}")) ^^ {
 		case name ~ body => Extension(name, parseBody(body.filter(_.isInstanceOf[Node])))
 	}
 

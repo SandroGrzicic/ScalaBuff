@@ -1,3 +1,11 @@
+message TopLevel {
+  required uint32 id_toplevel = 1;
+
+  message Inner {
+    required uint32 id_inner = 1;
+  }
+}
+
 message Foobar {
     message Foo {
         optional uint64 id = 1;
@@ -15,5 +23,10 @@ message Foobar {
     
     repeated Foo repFoo = 4;
     repeated Bar repBar = 5;
-    repeated FooBar repFooBar = 6;
+    repeated FooBar rep_foo_bar = 6;
+
+    required TopLevel top_level_req = 7;
+    optional TopLevel top_level_opt = 8;
+
+    required TopLevel.Inner top_level_inner_req = 9;
 }

@@ -102,11 +102,15 @@ class Generator protected (sourceName: String) {
 
       val fields = body.fields
 
+      /** Whether this message has any extension ranges defined. */
+      var hasExtensionRanges = false
+
       body.options.foreach {
         case Option(key, value) => // no options here
       }
       body.extensionRanges.foreach {
-        case ExtensionRanges(extensionRanges) => // not supported yet
+        case ExtensionRanges(extensionRanges) =>
+          hasExtensionRanges = true
       }
 
       /** main StringBuilder for the whole message */
@@ -128,9 +132,11 @@ class Generator protected (sourceName: String) {
         }
       }
       if (!fields.isEmpty) out.length -= 2
-      out.append("\n")
-        .append(indent0).append(") extends com.google.protobuf.GeneratedMessageLite\n")
-        .append(indent1).append("with net.sandrogrzicic.scalabuff.Message[").append(name).append("] {\n\n")
+
+      out.append("\n").append(indent0).append(") extends com.google.protobuf.GeneratedMessageLite")
+      if (hasExtensionRanges)
+        out.append(".ExtendableMessageOrBuilder[").append(name).append("]")
+      out.append("\n").append(indent1).append("with net.sandrogrzicic.scalabuff.Message[").append(name).append("] {\n\n")
 
       // setters
       fields.foreach { field =>
@@ -379,12 +385,12 @@ class Generator protected (sourceName: String) {
       }
     }
 
-    // *****************
+    // **********************
     // additional tree passes
-    // *****************
-    
+    // **********************
+
     recognizeCustomTypes(tree)
-    prependParentClassNames(tree)
+    prependParentClassNames(tree, getAllNestedMessageTypes(tree))
     setDefaultsForOptionalFields(tree)
 
     // final tree pass: traverse the tree, so we can get class/package names, options, etc.
@@ -477,60 +483,74 @@ object Generator {
     }
   }
 
+  /** Returns all message types of nested messages. */
+  protected def getAllNestedMessageTypes(tree: List[Node]): Map[Message, List[String]] = {
+    val nestedMessages = new mutable.HashMap[Message, List[String]]
+    for (node <- tree) node match {
+      case m @ Message(name, body) =>
+        for (innerMessage <- body.messages) {
+          nestedMessages.put(m, innerMessage.name :: nestedMessages.getOrElse(m, Nil)) 
+        }
+        nestedMessages ++= getAllNestedMessageTypes(body.messages)
+      case _ => Nil
+    }
+    nestedMessages.toMap
+  }
+  
   /** Prepend parent class names to all nested custom field types. */
-  protected def prependParentClassNames(tree: List[Node]) {
+  protected def prependParentClassNames(tree: List[Node], nestedMessageTypes: Map[Message, List[String]]) {
     val processedFieldTypes = new mutable.HashSet[FieldTypes.EnumVal]()
-    
-    for (node <- tree) {
-      node match {
-        case Message(name, body) =>
-          // prepend parent class names to all nested enums
-          body.enums.foreach {
-            case EnumStatement(eName, eConstants, eOptions) => {
-              body.fields.withFilter(_.fType.isEnum).foreach { field =>
-                val fType = field.fType
-                fType.scalaType = name + "." + fType.scalaType
-                fType.defaultValue = fType.scalaType.replace(".EnumVal", "") + "._UNINITIALIZED"
+
+    for (node <- tree) node match {
+      case parent @ Message(parentName, parentBody) =>
+        // prepend parent class names to messages
+        parentBody.messages.foreach {
+          case Message(_, nestedMessage) => {
+            val filteredFields = parentBody.fields.withFilter(f => f.fType.isMessage && !processedFieldTypes(f.fType))
+            for (field <- filteredFields) {
+              val fType = field.fType
+              // prepend only if the mesage type is a child of the parent message   
+              if (nestedMessageTypes(parent).contains(fType.scalaType)) {
+                fType.scalaType = parentName + "." + fType.scalaType
+                fType.defaultValue = parentName + "." + fType.defaultValue
+                processedFieldTypes += fType
               }
             }
+            // recurse for any nested messages
+            prependParentClassNames(nestedMessage.messages, nestedMessageTypes)
           }
-          // prepend parent class names to all messages
-          body.messages.foreach {
-            case Message(mName, mBody) => {
-              body.fields.withFilter(_.fType.isMessage).foreach { field =>
-                val fType = field.fType
-                if (!processedFieldTypes(fType)) {
-                  fType.scalaType = name + "." + fType.scalaType
-                  fType.defaultValue = name + "." + fType.defaultValue
-                  processedFieldTypes += fType
-                }
-              }
-              // recurse for any nested messages
-              prependParentClassNames(mBody.messages)
+        }
+        // prepend parent class names to all nested enums
+        parentBody.enums.foreach {
+          case EnumStatement(eName, eConstants, eOptions) => {
+            for (field <- parentBody.fields.withFilter(_.fType.isEnum)) {
+              val fType = field.fType
+              fType.scalaType = parentName + "." + fType.scalaType
+              fType.defaultValue = fType.scalaType.replace(".EnumVal", "") + "._UNINITIALIZED"
             }
           }
-        case _ =>
-      }
+        }
+      case _ =>
     }
   }
 
   protected def setDefaultsForOptionalFields(tree: List[Node]) {
     for (node <- tree) node match {
       case Message(_, body) =>
-        body.fields.foreach { f =>
-          f.defaultValue =
-            if (f.label == FieldLabels.OPTIONAL) {
-              f.options.find(_.key == "default") match {
+        for (field <- body.fields) {
+          field.defaultValue =
+            if (field.label == FieldLabels.OPTIONAL) {
+              field.options.find(_.key == "default") match {
                 case Some(option) => "Some(" + {
-                  val qualifiedType = f.fType.scalaType.takeUntilLast('.')
+                  val qualifiedType = field.fType.scalaType.takeUntilLast('.')
                   if (qualifiedType.isEmpty) option.value
                   else qualifiedType + "." + option.value
                 } + ")"
-                
-                case None         => "None"
+
+                case None => "None"
               }
             } else {
-              f.fType.defaultValue
+              field.fType.defaultValue
             }
         }
         // recurse for any nested messages
