@@ -22,7 +22,7 @@ object ScalaBuffBuild extends Build {
 		name := "ScalaBuff",
 		organization := "net.sandrogrzicic",
 		version := "1.1.1",
-		scalaVersion := "2.9.2",
+		scalaVersion := "2.10.0",
 		logLevel := Level.Info
 	)
 
@@ -43,14 +43,13 @@ object ScalaBuffBuild extends Build {
 		),
 		
 		libraryDependencies ++= Seq(
-			//"org.scalatest" %% "scalatest" % "1.8" % "test",
-			//"org.scalatest" % "scalatest_2.10.0-M7" % "1.9-2.10.0-M7-B1" % "test",
+			"org.scalatest" % "scalatest_2.10" % "1.9.1" % "test",
 			"com.google.protobuf" % "protobuf-java" % "2.4.1"
 		),
 
-		crossScalaVersions ++= Seq("2.9.2, 2.10.0-M7"),
+		crossScalaVersions ++= Seq("2.9.2, 2.10.0"),
 
-		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation"),
+		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation", "-feature"),
 		javacOptions ++= Seq("-encoding", "utf8", "-Xlint:unchecked", "-Xlint:deprecation"),
 
 		parallelExecution in GlobalScope := true,
@@ -77,8 +76,8 @@ object ScalaBuffBuild extends Build {
 		base = file("scalabuff-compiler"),
 		dependencies = Seq(runtime % "test->compile"),
 		settings = defaultSettings ++ Seq(
-//			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
-			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.test.UpdateTestResources"),
+			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
+//			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.test.UpdateTestResources"),
 			mainClass in (Compile, packageBin) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
 			fullRunTask(TaskKey[Unit]("update-test-resources"), Compile, "net.sandrogrzicic.scalabuff.test.UpdateTestResources")
 		)
@@ -92,7 +91,7 @@ object ScalaBuffBuild extends Build {
 }
 
 /** 
- * Source:  https://github.com/paulp/scala-improving/blob/master/project/PublishToSonatype.scala
+ * Source:  https://github.com/paulp/scala-improving/blob/master/project/Publishing.scala
  * License: https://github.com/paulp/scala-improving/blob/master/LICENSE.txt
  */
 abstract class PublishToSonatype(build: Build) {
