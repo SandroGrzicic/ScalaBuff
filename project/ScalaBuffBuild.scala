@@ -21,10 +21,16 @@ object ScalaBuffBuild extends Build {
 	lazy val buildSettings = Seq(
 		name := "ScalaBuff",
 		organization := "net.sandrogrzicic",
-		version := "1.0.0",
+		version := "1.1.1",
 		scalaVersion := "2.9.2",
 		logLevel := Level.Info
 	)
+
+	object sonatype extends PublishToSonatype(ScalaBuffBuild) {
+		def projectUrl    = "https://github.com/SandroGrzicic/ScalaBuff"
+		def developerId   = "sandrogrzicic"
+		def developerName = "Sandro Grzicic"
+	}
 
 	override lazy val settings = super.settings ++ buildSettings
 
@@ -32,15 +38,17 @@ object ScalaBuffBuild extends Build {
 
 		resolvers ++= Seq(
 			"Akka Maven Repository" at "http://akka.io/repository",
-			"Typesafe Maven Repository" at "http://repo.typesafe.com/typesafe/releases/"
+			"Typesafe Maven Repository" at "http://repo.typesafe.com/typesafe/releases/",
+			"Sonatype OSS Repository" at "https://oss.sonatype.org/content/groups/public/"
 		),
 		
 		libraryDependencies ++= Seq(
-			"org.scalatest" %% "scalatest" % "1.8" % "test",
+			//"org.scalatest" %% "scalatest" % "1.8" % "test",
+			//"org.scalatest" % "scalatest_2.10.0-M7" % "1.9-2.10.0-M7-B1" % "test",
 			"com.google.protobuf" % "protobuf-java" % "2.4.1"
 		),
 
-		crossScalaVersions ++= Seq("2.10.0-M6"), // doesn't work yet because of no 2.10 ScalaTest
+		crossScalaVersions ++= Seq("2.9.2, 2.10.0-M7"),
 
 		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation"),
 		javacOptions ++= Seq("-encoding", "utf8", "-Xlint:unchecked", "-Xlint:deprecation"),
@@ -58,31 +66,77 @@ object ScalaBuffBuild extends Build {
 
 		docDirectory in Compile <<= baseDirectory(_ / "doc"),
 
-		compileOrder := CompileOrder.JavaThenScala,
+		compileOrder := CompileOrder.Mixed,
 		
 		credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
-//		publishTo <<= (version) { version: String =>
-//			val nexus = "http://nexus.scala-tools.org/content/repositories/"
-//			if (version.trim.endsWith("SNAPSHOT")) Some("snapshots" at nexus + "snapshots/")
-//			else                                   Some("releases"  at nexus + "releases/")
-//		}
-	)
+	) ++ sonatype.settings
+
 
 	lazy val compiler = Project(
-		id = "compiler",
+		id = "scalabuff-compiler",
 		base = file("scalabuff-compiler"),
 		dependencies = Seq(runtime % "test->compile"),
 		settings = defaultSettings ++ Seq(
-			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
+//			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
+			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.test.UpdateTestResources"),
 			mainClass in (Compile, packageBin) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
 			fullRunTask(TaskKey[Unit]("update-test-resources"), Compile, "net.sandrogrzicic.scalabuff.test.UpdateTestResources")
 		)
 	)
 
 	lazy val runtime = Project(
-		id = "runtime",
+		id = "scalabuff-runtime",
 		base = file("scalabuff-runtime"),
 		settings = defaultSettings
 	)
+}
 
+/** 
+ * Source:  https://github.com/paulp/scala-improving/blob/master/project/PublishToSonatype.scala
+ * License: https://github.com/paulp/scala-improving/blob/master/LICENSE.txt
+ */
+abstract class PublishToSonatype(build: Build) {
+  import build._
+
+  val ossSnapshots = "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
+  val ossStaging   = "Sonatype OSS Staging" at "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
+  
+  def projectUrl: String
+  def developerId: String
+  def developerName: String
+  
+  def licenseName         = "Apache"
+  def licenseUrl          = "http://www.apache.org/licenses/LICENSE-2.0"
+  def licenseDistribution = "repo"
+  def scmUrl              = projectUrl
+  def scmConnection       = "scm:git:" + scmUrl
+
+  def generatePomExtra(scalaVersion: String): xml.NodeSeq = {
+    <url>{ projectUrl }</url>
+      <licenses>
+        <license>
+          <name>{ licenseName }</name>
+          <url>{ licenseUrl }</url>
+          <distribution>{ licenseDistribution }</distribution>
+        </license>
+      </licenses>
+    <scm>
+      <url>{ scmUrl }</url>
+      <connection>{ scmConnection }</connection>
+    </scm>
+    <developers>
+      <developer>
+        <id>{ developerId }</id>
+        <name>{ developerName }</name>
+      </developer>
+    </developers>
+  }
+
+  def settings: Seq[Setting[_]] = Seq(
+    publishMavenStyle := true,
+    publishTo <<= version((v: String) => Some( if (v.trim endsWith "SNAPSHOT") ossSnapshots else ossStaging)),
+    publishArtifact in Test := false,
+    pomIncludeRepository := (_ => false),
+    pomExtra <<= (scalaVersion)(generatePomExtra)
+  )
 }
