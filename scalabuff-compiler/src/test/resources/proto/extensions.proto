@@ -1,0 +1,13 @@
+package resources.generated;
+
+option optimize_for = LITE_RUNTIME;
+
+message ExtensionsTest {
+	required int32 foo = 1;
+	
+	extensions 100 to 200;
+}
+
+extend ExtensionsTest {
+  optional int32 fooExtended = 100 [default = 5];
+}
