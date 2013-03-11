@@ -27,6 +27,7 @@ final case class Outer (
 	`innerOptional`: Option[Outer.Inner.EnumVal] = Some(Outer.Inner.FIRST),
 	`innerRepeated`: Vector[Outer.Inner.EnumVal] = Vector.empty[Outer.Inner.EnumVal]
 ) extends com.google.protobuf.GeneratedMessageLite
+	 with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[Outer] {
 
 	def setInnerOptional(_f: Outer.Inner.EnumVal) = copy(`innerOptional` = _f)
@@ -35,7 +36,6 @@ final case class Outer (
 	def addAllInnerRepeated(_f: Outer.Inner.EnumVal*) = copy(`innerRepeated` = `innerRepeated` ++ _f)
 	def addAllInnerRepeated(_f: TraversableOnce[Outer.Inner.EnumVal]) = copy(`innerRepeated` = `innerRepeated` ++ _f)
 
-	def clearInnerRequired = copy(`innerRequired` = Outer.Inner._UNINITIALIZED)
 	def clearInnerOptional = copy(`innerOptional` = None)
 	def clearInnerRepeated = copy(`innerRepeated` = Vector.empty[Outer.Inner.EnumVal])
 
@@ -126,6 +126,7 @@ final case class OuterDuplicate (
 	`innerOptional`: Option[OuterDuplicate.Inner.EnumVal] = Some(OuterDuplicate.Inner.SECOND),
 	`innerRepeated`: Vector[OuterDuplicate.Inner.EnumVal] = Vector.empty[OuterDuplicate.Inner.EnumVal]
 ) extends com.google.protobuf.GeneratedMessageLite
+	 with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[OuterDuplicate] {
 
 	def setInnerOptional(_f: OuterDuplicate.Inner.EnumVal) = copy(`innerOptional` = _f)
@@ -134,7 +135,6 @@ final case class OuterDuplicate (
 	def addAllInnerRepeated(_f: OuterDuplicate.Inner.EnumVal*) = copy(`innerRepeated` = `innerRepeated` ++ _f)
 	def addAllInnerRepeated(_f: TraversableOnce[OuterDuplicate.Inner.EnumVal]) = copy(`innerRepeated` = `innerRepeated` ++ _f)
 
-	def clearInnerRequired = copy(`innerRequired` = OuterDuplicate.Inner._UNINITIALIZED)
 	def clearInnerOptional = copy(`innerOptional` = None)
 	def clearInnerRepeated = copy(`innerRepeated` = Vector.empty[OuterDuplicate.Inner.EnumVal])
 

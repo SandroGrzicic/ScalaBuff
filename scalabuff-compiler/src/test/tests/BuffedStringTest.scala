@@ -13,10 +13,11 @@ class BuffedStringTest extends FunSuite with ShouldMatchers {
 
 	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 
-	val testPath = "root/dots.in.path/file.name.extension"
-	test("camelCase") {
+  test("camelCase") {
 		"very_long_name_in_c_style_001".camelCase should equal ("VeryLongNameInCStyle001")
 	}
+
+  val testPath = "root/dots.in.path/file.name.extension"
 
 	test("dropUntilFirst") {
 		testPath.dropUntilFirst('/') should equal ("dots.in.path/file.name.extension")

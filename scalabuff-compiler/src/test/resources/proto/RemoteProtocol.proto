@@ -1,14 +1,16 @@
 /**
- * Copyright (C) 2009-2011 Scalable Solutions AB <http://scalablesolutions.se>
+ * Copyright (C) 2009-2012 Typesafe Inc. <http://www.typesafe.com>
  */
 
-option java_package = "resources.generated";
+option java_package = "akka.remote";
 option optimize_for = SPEED;
 
 /******************************************
   Compile with:
   cd ./akka-remote/src/main/protocol
   protoc RemoteProtocol.proto --java_out ../java
+  cd ../../../..
+  ./scripts/fix-protobuf.sh
 *******************************************/
 
 message AkkaRemoteProtocol {
@@ -20,22 +22,19 @@ message AkkaRemoteProtocol {
  * Defines a remote message.
  */
 message RemoteMessageProtocol {
-  required UuidProtocol uuid = 1;
-  required ActorInfoProtocol actorInfo = 2;
-  required bool oneWay = 3;
-  optional MessageProtocol message = 4;
-  optional ExceptionProtocol exception = 5;
-  optional UuidProtocol supervisorUuid = 6;
-  optional RemoteActorRefProtocol sender = 7;
-  repeated MetadataEntryProtocol metadata = 8;
+  required ActorRefProtocol recipient = 1;
+  required MessageProtocol message = 2;
+  optional ActorRefProtocol sender = 4;
+  repeated MetadataEntryProtocol metadata = 5;
 }
 
 /**
  * Defines some control messages for the remoting
  */
 message RemoteControlProtocol {
-  optional string cookie = 1;
-  required CommandType commandType = 2;
+  required CommandType commandType = 1;
+  optional string cookie = 2;
+  optional AddressProtocol origin = 3;
 }
 
 /**
@@ -44,64 +43,15 @@ message RemoteControlProtocol {
 enum CommandType {
   CONNECT = 1;
   SHUTDOWN = 2;
-}
-
-/**
- * Defines the type of the ReplicationStorage
- */
-enum ReplicationStorageType {
-  TRANSIENT = 1;
-  TRANSACTION_LOG = 2;
-  DATA_GRID = 3;
-}
-
-/**
- * Defines the type of the ReplicationStrategy
- */
-enum ReplicationStrategyType {
-  WRITE_THROUGH = 1;
-  WRITE_BEHIND = 2;
+  HEARTBEAT = 3;
 }
 
 /**
  * Defines a remote ActorRef that "remembers" and uses its original Actor instance
  * on the original node.
  */
-message RemoteActorRefProtocol {
-  required string address = 1;
-  required bytes inetSocketAddress = 2;
-  optional uint64 timeout = 3;
-}
-
-/**
- * Defines a fully serialized remote ActorRef (with serialized Actor instance)
- * that is about to be instantiated on the remote node. It is fully disconnected
- * from its original host.
- */
-message SerializedActorRefProtocol {
-  required UuidProtocol uuid = 1;
-  required string address = 2;
-  required string actorClassname = 3;
-  optional bytes actorInstance = 4;
-  optional string serializerClassname = 5;
-  optional uint64 timeout = 6;
-  optional uint64 receiveTimeout = 7;
-  optional LifeCycleProtocol lifeCycle = 8;
-  optional RemoteActorRefProtocol supervisor = 9;
-  optional bytes hotswapStack = 10;
-  optional ReplicationStorageType replicationStorage = 11;
-  optional ReplicationStrategyType replicationStrategy = 12;
-  repeated RemoteMessageProtocol messages = 13;
-}
-
-/**
- * Defines a fully serialized remote ActorRef (with serialized typed actor instance)
- * that is about to be instantiated on the remote node. It is fully disconnected
- * from its original host.
- */
-message SerializedTypedActorRefProtocol {
-  required SerializedActorRefProtocol actorRef = 1;
-  required string interfaceName = 2;
+message ActorRefProtocol {
+  required string path = 1;
 }
 
 /**
@@ -109,24 +59,8 @@ message SerializedTypedActorRefProtocol {
  */
 message MessageProtocol {
   required bytes message = 1;
-  optional bytes messageManifest = 2;
-}
-
-/**
- * Defines the actor info.
- */
-message ActorInfoProtocol {
-  required UuidProtocol uuid = 1;
-  required uint64 timeout = 2;
-  optional string address = 3;
-}
-
-/**
- * Defines a UUID.
- */
-message UuidProtocol {
-  required uint64 high = 1;
-  required uint64 low = 2;
+  required int32 serializerId = 2;
+  optional bytes messageManifest = 3;
 }
 
 /**
@@ -138,53 +72,41 @@ message MetadataEntryProtocol {
 }
 
 /**
- * Defines the serialization scheme used to serialize the message and/or Actor instance.
- */
-enum SerializationSchemeType {
-  JAVA = 1;
-  SBINARY = 2;
-  SCALA_JSON = 3;
-  JAVA_JSON = 4;
-  PROTOBUF = 5;
-}
-
-/**
- * Defines the type of the life-cycle of a supervised Actor.
- */
-enum LifeCycleType {
-  PERMANENT = 1;
-  TEMPORARY = 2;
-}
-
-/*
-enum DispatcherType {
-  GLOBAL_EVENT_EXECUTOR_BASED = 1;
-  GLOBAL_REACTOR_SINGLE_THREAD_BASED = 2;
-  GLOBAL_REACTOR_THREAD_POOL_BASED = 3;
-  EVENT_EXECUTOR_BASED = 4;
-  THREAD_BASED = 5;
-}
-*/
-
-/**
- * Defines the life-cycle of a supervised Actor.
- */
-message LifeCycleProtocol {
-  required LifeCycleType lifeCycle = 1;
-}
-
-/**
  * Defines a remote address.
  */
 message AddressProtocol {
-  required string hostname = 1;
-  required uint32 port = 2;
+  required string system = 1;
+  required string hostname = 2;
+  required uint32 port = 3;
 }
 
 /**
- * Defines an exception.
+ * Defines akka.remote.DaemonMsgCreate
  */
-message ExceptionProtocol {
-  required string classname  = 1;
-  required string message = 2;
+message DaemonMsgCreateProtocol {
+  required PropsProtocol props = 1;
+  required DeployProtocol deploy = 2;
+  required string path = 3;
+  required ActorRefProtocol supervisor = 4;
+}
+
+/**
+ * Serialization of akka.actor.Props
+ */
+message PropsProtocol {
+  required string dispatcher = 1;
+  required DeployProtocol deploy = 2;
+  optional string fromClassCreator = 3;
+  optional bytes creator = 4;
+  optional bytes routerConfig = 5;
+}
+
+/**
+ * Serialization of akka.actor.Deploy
+ */
+message DeployProtocol {
+  required string path = 1;
+  optional bytes config = 2;
+  optional bytes routerConfig = 3;
+  optional bytes scope = 4;
 }

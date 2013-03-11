@@ -8,12 +8,12 @@ final case class SimpleRequest (
 	`pageNumber`: Option[Int] = None,
 	`resultsPerPage`: Option[Int] = None
 ) extends com.google.protobuf.GeneratedMessageLite
+	 with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[SimpleRequest] {
 
 	def setPageNumber(_f: Int) = copy(`pageNumber` = _f)
 	def setResultsPerPage(_f: Int) = copy(`resultsPerPage` = _f)
 
-	def clearQuery = copy(`query` = "")
 	def clearPageNumber = copy(`pageNumber` = None)
 	def clearResultsPerPage = copy(`resultsPerPage` = None)
 

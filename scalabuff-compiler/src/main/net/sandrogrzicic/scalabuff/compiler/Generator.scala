@@ -2,7 +2,6 @@ package net.sandrogrzicic.scalabuff.compiler
 
 import annotation.tailrec
 import collection.mutable
-import scala.collection
 import net.sandrogrzicic.scalabuff.compiler.FieldTypes._
 import com.google.protobuf._
 
@@ -119,7 +118,7 @@ class Generator protected (sourceName: String) {
       // *** case class
       out.append(indent0).append("final case class ").append(name).append(" (\n")
       // constructor
-      fields.foreach { field =>
+      for (field <- fields) {
         out.append(indent1).append(field.name.toScalaIdent).append(": ")
         field.label match {
           case REQUIRED =>
@@ -133,13 +132,22 @@ class Generator protected (sourceName: String) {
       }
       if (!fields.isEmpty) out.length -= 2
 
-      out.append("\n").append(indent0).append(") extends com.google.protobuf.GeneratedMessageLite")
-      if (hasExtensionRanges)
-        out.append(".ExtendableMessageOrBuilder[").append(name).append("]")
-      out.append("\n").append(indent1).append("with net.sandrogrzicic.scalabuff.Message[").append(name).append("] {\n\n")
+      out.append("\n").append(indent0).append(") extends com.google.protobuf.")
+      if (!hasExtensionRanges) {
+        // normal message
+        out.append("GeneratedMessageLite")
+        out.append("\n").append(indent1).append(" with com.google.protobuf.MessageLite.Builder")
+        out.append("\n").append(indent1).append("with net.sandrogrzicic.scalabuff.Message[").append(name).append("]")
+      } else {
+        // extendable message
+        out.append("GeneratedMessageLite.ExtendableMessage[").append(name).append("]")
+        out.append("\n").append(indent1).append("with net.sandrogrzicic.scalabuff.ExtendableMessage[").append(name).append("]")
+      }
+      
+      out.append(" {\n\n")
 
       // setters
-      fields.foreach { field =>
+      for (field <- fields) {
         field.label match {
           case OPTIONAL => out.append(indent1)
             .append("def set").append(field.name.camelCase).append("(_f: ").append(field.fType.scalaType)
@@ -159,13 +167,12 @@ class Generator protected (sourceName: String) {
       out.append("\n")
 
       // clearers
-      fields.foreach { field =>
+      for (field <- fields if field.label != REQUIRED) {
         out.append(indent1).append("def clear").append(field.name.camelCase).append(" = copy(").append(field.name.toScalaIdent).append(" = ")
         field.label match {
-          case REQUIRED => out.append(field.fType.defaultValue)
           case OPTIONAL => out.append("None")
           case REPEATED => out.append("Vector.empty[").append(field.fType.scalaType).append("]")
-          case _        => // weird warning - missing combination <local child> ?!
+          case _        => // don't generate a clearer for REQUIRED fields -> would result in an illegal message
         }
         out.append(")\n")
       }
@@ -197,7 +204,7 @@ class Generator protected (sourceName: String) {
       out.append("\n").append(indent1).append("lazy val getSerializedSize = {\n")
         .append(indent2).append("import com.google.protobuf.CodedOutputStream._\n")
         .append(indent2).append("var size = 0\n")
-      fields.foreach { field =>
+      for (field <- fields) {
         field.label match {
           case REQUIRED => out.append(indent2)
             .append("size += compute").append(field.fType.name).append("Size(")
@@ -223,7 +230,7 @@ class Generator protected (sourceName: String) {
         .append(name).append(" = {\n")
         .append(indent2).append("import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}\n")
 
-      fields.foreach { field =>
+      for (field <- fields) {
         field.label match {
           case REQUIRED => out.append(indent2)
             .append("var ").append(field.name.toTemporaryIdent).append(": ").append(field.fType.scalaType)
@@ -251,7 +258,7 @@ class Generator protected (sourceName: String) {
       out.append(indent2).append(")\n")
         .append(indent2).append("while (true) in.readTag match {\n")
         .append(indent3).append("case 0 => return __newMerged\n")
-      fields.foreach { field =>
+      for (field <- fields) {
         out.append(indent3).append("case ").append((field.number << 3) | field.fType.wireType).append(" => ")
         out.append(field.name.toTemporaryIdent).append(" ")
         if (field.label == REPEATED) out.append("+")
@@ -285,7 +292,7 @@ class Generator protected (sourceName: String) {
       out.append("\n").append(indent1)
         .append("def mergeFrom(m: ").append(name).append(") = {\n")
         .append(indent2).append(name).append("(\n")
-      fields.foreach { field =>
+      for (field <- fields) {
         field.label match {
           case REQUIRED => out.append(indent3)
             .append("m.").append(field.name.toScalaIdent).append(",\n")
@@ -308,8 +315,16 @@ class Generator protected (sourceName: String) {
         .append(indent1).append("def isInitialized = true\n")
         .append(indent1).append("def build = this\n")
         .append(indent1).append("def buildPartial = this\n")
-        .append(indent1).append("def newBuilderForType = this\n")
-        .append(indent1).append("def toBuilder = this\n")
+
+      if (!hasExtensionRanges) {
+        out
+          .append(indent1).append("def newBuilderForType = this\n")
+          .append(indent1).append("def toBuilder = this\n")
+      } else {
+        out
+            .append(indent1).append("def newBuilderForType = throw new RuntimeException(\"Method not available.\")\n")
+            .append(indent1).append("def toBuilder = throw new RuntimeException(\"Method not available.\")\n")
+      }
 
       out.append(indent0).append("}\n\n")
 
@@ -320,7 +335,7 @@ class Generator protected (sourceName: String) {
       out.append("\n")
 
       // field number integer constants
-      fields.foreach { field =>
+      for (field <- fields) {
         out.append(indent1)
           .append("val ").append(field.name.toUpperCase)
           .append("_FIELD_NUMBER = ").append(field.number).append("\n")
@@ -329,8 +344,8 @@ class Generator protected (sourceName: String) {
       out.append("\n")
 
       // append any nested enums
-      body.enums.foreach {
-        e => out.append(enum(e, indentLevel + 1)).append("\n")
+      for (e <- body.enums) {
+        out.append(enum(e, indentLevel + 1)).append("\n")
       }
 
       // append any nested groups

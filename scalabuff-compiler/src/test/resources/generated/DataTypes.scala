@@ -23,6 +23,7 @@ final case class DataTypes (
 	`f32bit2`: Option[Int] = None,
 	`f32bit3`: Option[Float] = None
 ) extends com.google.protobuf.GeneratedMessageLite
+	 with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[DataTypes] {
 
 	def setVarint2(_f: Long) = copy(`varint2` = _f)
@@ -48,10 +49,8 @@ final case class DataTypes (
 	def setF32bit2(_f: Int) = copy(`f32bit2` = _f)
 	def setF32bit3(_f: Float) = copy(`f32bit3` = _f)
 
-	def clearVarint1 = copy(`varint1` = 0)
 	def clearVarint2 = copy(`varint2` = None)
 	def clearVarint3 = copy(`varint3` = None)
-	def clearVarint4 = copy(`varint4` = 0L)
 	def clearVarint5 = copy(`varint5` = None)
 	def clearVarint6 = copy(`varint6` = None)
 	def clearVarint7 = copy(`varint7` = None)

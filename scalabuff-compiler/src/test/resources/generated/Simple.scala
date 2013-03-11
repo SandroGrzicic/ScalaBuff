@@ -11,6 +11,7 @@ final case class SimpleTest (
 	`int32Default`: Option[Int] = Some(100),
 	`stringDefault`: Option[String] = Some("somestring")
 ) extends com.google.protobuf.GeneratedMessageLite
+	 with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[SimpleTest] {
 
 	def setOptionalField(_f: Float) = copy(`optionalField` = _f)
@@ -22,7 +23,6 @@ final case class SimpleTest (
 	def setInt32Default(_f: Int) = copy(`int32Default` = _f)
 	def setStringDefault(_f: String) = copy(`stringDefault` = _f)
 
-	def clearRequiredField = copy(`requiredField` = 0)
 	def clearOptionalField = copy(`optionalField` = None)
 	def clearRepeatedField = copy(`repeatedField` = Vector.empty[String])
 	def clearType = copy(`type` = None)

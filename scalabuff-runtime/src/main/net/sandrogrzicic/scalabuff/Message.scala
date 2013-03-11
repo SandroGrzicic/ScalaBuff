@@ -10,15 +10,14 @@ import java.io.{FilterInputStream, InputStream}
  *
  * @author Sandro Gržičić
  */
-trait Message[MessageType <: MessageLite with MessageLite.Builder] extends MessageLite.Builder {
+trait Message[MessageType <: MessageLite with MessageLite.Builder] 
+  extends MessageLite.Builder {
 
-	implicit def _anyToOption[T](any: T): Option[T] = Option[T](any)
+  implicit def _anyToOption[T](any: T): Option[T] = Option[T](any)
 
-	implicit def _stringToByteString(string: String) = ByteString.copyFromUtf8(string)
+	implicit def _stringToByteString(string: String): ByteString = ByteString.copyFromUtf8(string)
 
 	def mergeFrom(message: MessageType): MessageType
-
-	def getDefaultInstanceForType: MessageType
 
 	def isInitialized: Boolean
 
@@ -84,7 +83,7 @@ trait Message[MessageType <: MessageLite with MessageLite.Builder] extends Messa
 		}
 	}
 
-	def mergeDelimitedFrom(input: InputStream) = {
+	def mergeDelimitedFrom(input: InputStream): Boolean = {
 		mergeDelimitedFrom(input, ExtensionRegistryLite.getEmptyRegistry)
 	}
 

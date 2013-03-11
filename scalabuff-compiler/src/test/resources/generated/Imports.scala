@@ -8,10 +8,10 @@ package resources.generated
 final case class UsesImport (
 	`simpleTest`: SimpleTest = SimpleTest.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
+	 with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[UsesImport] {
 
 
-	def clearSimpleTest = copy(`simpleTest` = SimpleTest.defaultInstance)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
 		output.writeMessage(1, `simpleTest`)

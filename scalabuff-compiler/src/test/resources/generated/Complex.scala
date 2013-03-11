@@ -11,6 +11,7 @@ final case class ComplexMessage (
 	`repeatedStringField`: Vector[String] = Vector.empty[String],
 	`repeatedBytesField`: Vector[com.google.protobuf.ByteString] = Vector.empty[com.google.protobuf.ByteString]
 ) extends com.google.protobuf.GeneratedMessageLite
+	 with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[ComplexMessage] {
 
 	def setSecondField(_f: String) = copy(`secondField` = _f)
@@ -28,7 +29,6 @@ final case class ComplexMessage (
 	def addAllRepeatedBytesField(_f: com.google.protobuf.ByteString*) = copy(`repeatedBytesField` = `repeatedBytesField` ++ _f)
 	def addAllRepeatedBytesField(_f: TraversableOnce[com.google.protobuf.ByteString]) = copy(`repeatedBytesField` = `repeatedBytesField` ++ _f)
 
-	def clearFirstField = copy(`firstField` = com.google.protobuf.ByteString.EMPTY)
 	def clearSecondField = copy(`secondField` = None)
 	def clearNestedOuterField = copy(`nestedOuterField` = None)
 	def clearSimpleEnumField = copy(`simpleEnumField` = Vector.empty[ComplexMessage.SimpleEnum.EnumVal])
@@ -141,11 +141,11 @@ object ComplexMessage {
 		`nestedField`: String = "",
 		`nestedEnum`: Option[SimpleEnum.EnumVal] = None
 	) extends com.google.protobuf.GeneratedMessageLite
+		 with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Nested] {
 
 		def setNestedEnum(_f: SimpleEnum.EnumVal) = copy(`nestedEnum` = _f)
 
-		def clearNestedField = copy(`nestedField` = "")
 		def clearNestedEnum = copy(`nestedEnum` = None)
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
@@ -208,11 +208,10 @@ final case class AnotherMessage (
 	`fieldNested`: ComplexMessage.Nested = ComplexMessage.Nested.defaultInstance,
 	`fieldEnum`: ComplexMessage.SimpleEnum.EnumVal = ComplexMessage.SimpleEnum._UNINITIALIZED
 ) extends com.google.protobuf.GeneratedMessageLite
+	 with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[AnotherMessage] {
 
 
-	def clearFieldNested = copy(`fieldNested` = ComplexMessage.Nested.defaultInstance)
-	def clearFieldEnum = copy(`fieldEnum` = ComplexMessage.SimpleEnum._UNINITIALIZED)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
 		output.writeMessage(1, `fieldNested`)
