@@ -43,13 +43,13 @@ object ScalaBuffBuild extends Build {
 		),
 		
 		libraryDependencies ++= Seq(
-			"org.scalatest" % "scalatest_2.10" % "1.9.1" % "test",
+			"org.scalatest" %% "scalatest" % "1.9.1" % "test",
 			"com.google.protobuf" % "protobuf-java" % "2.4.1"
 		),
 
-		crossScalaVersions ++= Seq("2.9.2, 2.10.0"),
+		crossScalaVersions ++= Seq("2.9.3", "2.10.0"),
 
-		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation", "-feature"),
+		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation"),
 		javacOptions ++= Seq("-encoding", "utf8", "-Xlint:unchecked", "-Xlint:deprecation"),
 
 		parallelExecution in GlobalScope := true,
@@ -77,7 +77,6 @@ object ScalaBuffBuild extends Build {
 		dependencies = Seq(runtime % "test->compile"),
 		settings = defaultSettings ++ Seq(
 			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
-//			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.test.UpdateTestResources"),
 			mainClass in (Compile, packageBin) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
 			fullRunTask(TaskKey[Unit]("update-test-resources"), Compile, "net.sandrogrzicic.scalabuff.test.UpdateTestResources")
 		)
