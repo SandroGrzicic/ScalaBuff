@@ -105,7 +105,7 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 		hexStr => Integer.parseInt(hexStr.drop(2), 16).toString
 	}
 	lazy val octalInteger: PackratParser[String] = memo("""0[0-7]+""".r) ^^ {
-		octStr => Integer.parseInt(octStr.drop(2), 8).toString
+		octStr => Integer.parseInt(octStr, 8).toString
 	}
 	lazy val floatConstant: PackratParser[String] = memo("""\d+(\.\d+)?([Ee][\+-]?\d+)?""".r)
 	lazy val booleanConstant: PackratParser[String] = "true" | "false"

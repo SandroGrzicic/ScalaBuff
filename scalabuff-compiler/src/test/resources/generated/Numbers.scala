@@ -4,23 +4,28 @@
 package resources.generated
 
 final case class NumbersTest1 (
-	`someHexNumber`: Option[Int] = Some(430689775)
+	`someHexNumber`: Option[Int] = Some(430689775),
+	`someOctNumber`: Option[Int] = Some(342391)
 ) extends com.google.protobuf.GeneratedMessageLite
 	 with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[NumbersTest1] {
 
 	def setSomeHexNumber(_f: Int) = copy(`someHexNumber` = _f)
+	def setSomeOctNumber(_f: Int) = copy(`someOctNumber` = _f)
 
 	def clearSomeHexNumber = copy(`someHexNumber` = None)
+	def clearSomeOctNumber = copy(`someOctNumber` = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
 		if (`someHexNumber`.isDefined) output.writeInt32(1, `someHexNumber`.get)
+		if (`someOctNumber`.isDefined) output.writeInt32(2, `someOctNumber`.get)
 	}
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var size = 0
 		if (`someHexNumber`.isDefined) size += computeInt32Size(1, `someHexNumber`.get)
+		if (`someOctNumber`.isDefined) size += computeInt32Size(2, `someOctNumber`.get)
 
 		size
 	}
@@ -28,13 +33,16 @@ final case class NumbersTest1 (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): NumbersTest1 = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __someHexNumber: Option[Int] = `someHexNumber`
+		var __someOctNumber: Option[Int] = `someOctNumber`
 
 		def __newMerged = NumbersTest1(
-			__someHexNumber
+			__someHexNumber,
+			__someOctNumber
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
 			case 8 => __someHexNumber = in.readInt32()
+			case 16 => __someOctNumber = in.readInt32()
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -42,7 +50,8 @@ final case class NumbersTest1 (
 
 	def mergeFrom(m: NumbersTest1) = {
 		NumbersTest1(
-			m.`someHexNumber`.orElse(`someHexNumber`)
+			m.`someHexNumber`.orElse(`someHexNumber`),
+			m.`someOctNumber`.orElse(`someOctNumber`)
 		)
 	}
 
@@ -59,6 +68,7 @@ object NumbersTest1 {
 	@reflect.BeanProperty val defaultInstance = new NumbersTest1()
 
 	val SOME_HEX_NUMBER_FIELD_NUMBER = 1
+	val SOME_OCT_NUMBER_FIELD_NUMBER = 2
 
 }
 object NumbersTest2 extends net.sandrogrzicic.scalabuff.Enum {
@@ -66,11 +76,14 @@ object NumbersTest2 extends net.sandrogrzicic.scalabuff.Enum {
 	val _UNINITIALIZED = new EnumVal { val name = "UNINITIALIZED ENUM VALUE"; val id = -1 }
 
 	val SOME_HEX_NUMBER = new EnumVal { val name = "SOME_HEX_NUMBER"; val id = 430689775 }
+	val SOME_OCT_NUMBER = new EnumVal { val name = "SOME_OCT_NUMBER"; val id = 342391 }
 
 	val SOME_HEX_NUMBER_VALUE = 430689775
+	val SOME_OCT_NUMBER_VALUE = 342391
 
 	def valueOf(id: Int) = id match {
 		case 430689775 => SOME_HEX_NUMBER
+		case 342391 => SOME_OCT_NUMBER
 		case _default => throw new net.sandrogrzicic.scalabuff.UnknownEnumException(_default)
 	}
 	val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {
