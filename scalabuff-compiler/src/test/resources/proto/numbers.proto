@@ -1,0 +1,12 @@
+package resources.generated;
+
+option optimize_for = LITE_RUNTIME;
+
+message NumbersTest1 {
+	optional int32 some_hex_number = 1 [default=0x19ABCDEF];
+}
+
+enum NumbersTest2 {
+	SOME_HEX_NUMBER = 0x19ABCDEF;
+}
+
