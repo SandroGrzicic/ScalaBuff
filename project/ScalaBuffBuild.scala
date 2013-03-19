@@ -21,7 +21,7 @@ object ScalaBuffBuild extends Build {
 	lazy val buildSettings = Seq(
 		name := "ScalaBuff",
 		organization := "net.sandrogrzicic",
-		version := "1.1.1",
+		version := "1.2.0-SNAPSHOT",
 		scalaVersion := "2.10.0",
 		logLevel := Level.Info
 	)
