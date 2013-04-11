@@ -60,7 +60,7 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 				ScalaBuff.main(Array(simpleProto))
 				outputStream.toString("utf-8") should be ('empty)
 			})
-			val outputFile = new File("scalabuff-compiler/resources/generated/" + testProto.capitalize + ".scala")
+			val outputFile = new File("resources/generated/" + testProto.capitalize + ".scala")
 			outputFile should be ('exists)
 			outputFile.deleteOnExit()
 			val outputFileSource = io.Source.fromFile(outputFile)
