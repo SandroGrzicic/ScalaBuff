@@ -318,7 +318,7 @@ class Generator protected (sourceName: String) {
 
       if (!hasExtensionRanges) {
         out
-          .append(indent1).append("def newBuilderForType = this\n")
+          .append(indent1).append("def newBuilderForType = getDefaultInstanceForType\n")
           .append(indent1).append("def toBuilder = this\n")
       } else {
         out
@@ -340,6 +340,13 @@ class Generator protected (sourceName: String) {
           .append("val ").append(field.name.toUpperCase)
           .append("_FIELD_NUMBER = ").append(field.number).append("\n")
       }
+
+      out.append("\n")
+
+      // newBuilder
+      out
+          .append(indent1).append("def newBuilder = defaultInstance.newBuilderForType\n")
+          .append(indent1).append("def newBuilder(prototype: ").append(name).append(") = defaultInstance.mergeFrom(prototype)\n")
 
       out.append("\n")
 

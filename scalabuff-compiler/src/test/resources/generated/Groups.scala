@@ -45,13 +45,16 @@ final case class Groups (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
 object Groups {
 	@reflect.BeanProperty val defaultInstance = new Groups()
 
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: Groups) = defaultInstance.mergeFrom(prototype)
 
 }
 

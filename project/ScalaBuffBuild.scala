@@ -22,7 +22,7 @@ object ScalaBuffBuild extends Build {
 		name := "ScalaBuff",
 		organization := "net.sandrogrzicic",
 		version := "1.2.0-SNAPSHOT",
-		scalaVersion := "2.10.0",
+		scalaVersion := "2.10.1",
 		logLevel := Level.Info
 	)
 
@@ -47,9 +47,9 @@ object ScalaBuffBuild extends Build {
 			"com.google.protobuf" % "protobuf-java" % "2.4.1"
 		),
 
-		crossScalaVersions ++= Seq("2.9.3", "2.10.0"),
+		crossScalaVersions ++= Seq("2.9.3", "2.10.1"),
 
-		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation"),
+		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation", "-Xlint"),
 		javacOptions ++= Seq("-encoding", "utf8", "-Xlint:unchecked", "-Xlint:deprecation"),
 
 		parallelExecution in GlobalScope := true,

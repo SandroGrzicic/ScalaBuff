@@ -47,7 +47,7 @@ final case class TopLevel (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -55,6 +55,9 @@ object TopLevel {
 	@reflect.BeanProperty val defaultInstance = new TopLevel()
 
 	val ID_TOPLEVEL_FIELD_NUMBER = 1
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: TopLevel) = defaultInstance.mergeFrom(prototype)
 
 	final case class Inner (
 		`idInner`: Int = 0
@@ -102,7 +105,7 @@ object TopLevel {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
-		def newBuilderForType = this
+		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}
 
@@ -110,6 +113,9 @@ object TopLevel {
 		@reflect.BeanProperty val defaultInstance = new Inner()
 
 		val ID_INNER_FIELD_NUMBER = 1
+
+		def newBuilder = defaultInstance.newBuilderForType
+		def newBuilder(prototype: Inner) = defaultInstance.mergeFrom(prototype)
 
 	}
 }
@@ -245,7 +251,7 @@ final case class Foobar (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -261,6 +267,9 @@ object Foobar {
 	val TOP_LEVEL_REQ_FIELD_NUMBER = 7
 	val TOP_LEVEL_OPT_FIELD_NUMBER = 8
 	val TOP_LEVEL_INNER_REQ_FIELD_NUMBER = 9
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: Foobar) = defaultInstance.mergeFrom(prototype)
 
 	final case class Foo (
 		`id`: Option[Long] = None
@@ -310,7 +319,7 @@ object Foobar {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
-		def newBuilderForType = this
+		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}
 
@@ -318,6 +327,9 @@ object Foobar {
 		@reflect.BeanProperty val defaultInstance = new Foo()
 
 		val ID_FIELD_NUMBER = 1
+
+		def newBuilder = defaultInstance.newBuilderForType
+		def newBuilder(prototype: Foo) = defaultInstance.mergeFrom(prototype)
 
 	}
 	final case class Bar (
@@ -368,7 +380,7 @@ object Foobar {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
-		def newBuilderForType = this
+		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}
 
@@ -376,6 +388,9 @@ object Foobar {
 		@reflect.BeanProperty val defaultInstance = new Bar()
 
 		val ID_FIELD_NUMBER = 1
+
+		def newBuilder = defaultInstance.newBuilderForType
+		def newBuilder(prototype: Bar) = defaultInstance.mergeFrom(prototype)
 
 	}
 	final case class FooBar (
@@ -426,7 +441,7 @@ object Foobar {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
-		def newBuilderForType = this
+		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}
 
@@ -434,6 +449,9 @@ object Foobar {
 		@reflect.BeanProperty val defaultInstance = new FooBar()
 
 		val ID_FIELD_NUMBER = 1
+
+		def newBuilder = defaultInstance.newBuilderForType
+		def newBuilder(prototype: FooBar) = defaultInstance.mergeFrom(prototype)
 
 	}
 }

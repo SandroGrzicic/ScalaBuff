@@ -89,7 +89,7 @@ final case class Outer (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -99,6 +99,9 @@ object Outer {
 	val INNER_REQUIRED_FIELD_NUMBER = 1
 	val INNER_OPTIONAL_FIELD_NUMBER = 2
 	val INNER_REPEATED_FIELD_NUMBER = 3
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: Outer) = defaultInstance.mergeFrom(prototype)
 
 	object Inner extends net.sandrogrzicic.scalabuff.Enum {
 		sealed trait EnumVal extends Value
@@ -188,7 +191,7 @@ final case class OuterDuplicate (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -198,6 +201,9 @@ object OuterDuplicate {
 	val INNER_REQUIRED_FIELD_NUMBER = 1
 	val INNER_OPTIONAL_FIELD_NUMBER = 2
 	val INNER_REPEATED_FIELD_NUMBER = 3
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: OuterDuplicate) = defaultInstance.mergeFrom(prototype)
 
 	object Inner extends net.sandrogrzicic.scalabuff.Enum {
 		sealed trait EnumVal extends Value

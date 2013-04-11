@@ -45,13 +45,16 @@ final case class EmptyMessage (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
 object EmptyMessage {
 	@reflect.BeanProperty val defaultInstance = new EmptyMessage()
 
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: EmptyMessage) = defaultInstance.mergeFrom(prototype)
 
 }
 

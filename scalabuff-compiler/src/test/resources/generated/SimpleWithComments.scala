@@ -67,7 +67,7 @@ final case class SimpleRequest (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -77,6 +77,9 @@ object SimpleRequest {
 	val QUERY_FIELD_NUMBER = 1
 	val PAGE_NUMBER_FIELD_NUMBER = 2
 	val RESULTS_PER_PAGE_FIELD_NUMBER = 3
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: SimpleRequest) = defaultInstance.mergeFrom(prototype)
 
 }
 

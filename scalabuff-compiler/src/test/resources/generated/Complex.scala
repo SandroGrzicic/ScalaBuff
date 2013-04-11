@@ -106,7 +106,7 @@ final case class ComplexMessage (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -119,6 +119,9 @@ object ComplexMessage {
 	val SIMPLE_ENUM_FIELD_FIELD_NUMBER = 4
 	val REPEATED_STRING_FIELD_FIELD_NUMBER = 5
 	val REPEATED_BYTES_FIELD_FIELD_NUMBER = 6
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: ComplexMessage) = defaultInstance.mergeFrom(prototype)
 
 	object SimpleEnum extends net.sandrogrzicic.scalabuff.Enum {
 		sealed trait EnumVal extends Value
@@ -192,7 +195,7 @@ object ComplexMessage {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
-		def newBuilderForType = this
+		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}
 
@@ -201,6 +204,9 @@ object ComplexMessage {
 
 		val NESTED_FIELD_FIELD_NUMBER = 1
 		val NESTED_ENUM_FIELD_NUMBER = 2
+
+		def newBuilder = defaultInstance.newBuilderForType
+		def newBuilder(prototype: Nested) = defaultInstance.mergeFrom(prototype)
 
 	}
 }
@@ -257,7 +263,7 @@ final case class AnotherMessage (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -266,6 +272,9 @@ object AnotherMessage {
 
 	val FIELD_NESTED_FIELD_NUMBER = 1
 	val FIELD_ENUM_FIELD_NUMBER = 2
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: AnotherMessage) = defaultInstance.mergeFrom(prototype)
 
 }
 

@@ -206,7 +206,7 @@ final case class DataTypes (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -231,6 +231,9 @@ object DataTypes {
 	val F32BIT1_FIELD_NUMBER = 500
 	val F32BIT2_FIELD_NUMBER = 501
 	val F32BIT3_FIELD_NUMBER = 502
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: DataTypes) = defaultInstance.mergeFrom(prototype)
 
 	object Varint8Enum extends net.sandrogrzicic.scalabuff.Enum {
 		sealed trait EnumVal extends Value

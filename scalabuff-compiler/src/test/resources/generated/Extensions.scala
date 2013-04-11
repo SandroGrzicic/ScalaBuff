@@ -57,6 +57,9 @@ object ExtensionsTest {
 
 	val FOO_FIELD_NUMBER = 1
 
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: ExtensionsTest) = defaultInstance.mergeFrom(prototype)
+
 }
 
 object Extensions {

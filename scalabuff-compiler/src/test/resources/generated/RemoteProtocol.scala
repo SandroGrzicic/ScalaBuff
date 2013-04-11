@@ -66,7 +66,7 @@ final case class AkkaRemoteProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -75,6 +75,9 @@ object AkkaRemoteProtocol {
 
 	val MESSAGE_FIELD_NUMBER = 1
 	val INSTRUCTION_FIELD_NUMBER = 2
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: AkkaRemoteProtocol) = defaultInstance.mergeFrom(prototype)
 
 }
 final case class RemoteMessageProtocol (
@@ -154,7 +157,7 @@ final case class RemoteMessageProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -165,6 +168,9 @@ object RemoteMessageProtocol {
 	val MESSAGE_FIELD_NUMBER = 2
 	val SENDER_FIELD_NUMBER = 4
 	val METADATA_FIELD_NUMBER = 5
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: RemoteMessageProtocol) = defaultInstance.mergeFrom(prototype)
 
 }
 final case class RemoteControlProtocol (
@@ -234,7 +240,7 @@ final case class RemoteControlProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -244,6 +250,9 @@ object RemoteControlProtocol {
 	val COMMANDTYPE_FIELD_NUMBER = 1
 	val COOKIE_FIELD_NUMBER = 2
 	val ORIGIN_FIELD_NUMBER = 3
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: RemoteControlProtocol) = defaultInstance.mergeFrom(prototype)
 
 }
 object CommandType extends net.sandrogrzicic.scalabuff.Enum {
@@ -314,7 +323,7 @@ final case class ActorRefProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -322,6 +331,9 @@ object ActorRefProtocol {
 	@reflect.BeanProperty val defaultInstance = new ActorRefProtocol()
 
 	val PATH_FIELD_NUMBER = 1
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: ActorRefProtocol) = defaultInstance.mergeFrom(prototype)
 
 }
 final case class MessageProtocol (
@@ -386,7 +398,7 @@ final case class MessageProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -396,6 +408,9 @@ object MessageProtocol {
 	val MESSAGE_FIELD_NUMBER = 1
 	val SERIALIZERID_FIELD_NUMBER = 2
 	val MESSAGEMANIFEST_FIELD_NUMBER = 3
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: MessageProtocol) = defaultInstance.mergeFrom(prototype)
 
 }
 final case class MetadataEntryProtocol (
@@ -451,7 +466,7 @@ final case class MetadataEntryProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -460,6 +475,9 @@ object MetadataEntryProtocol {
 
 	val KEY_FIELD_NUMBER = 1
 	val VALUE_FIELD_NUMBER = 2
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: MetadataEntryProtocol) = defaultInstance.mergeFrom(prototype)
 
 }
 final case class AddressProtocol (
@@ -522,7 +540,7 @@ final case class AddressProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -532,6 +550,9 @@ object AddressProtocol {
 	val SYSTEM_FIELD_NUMBER = 1
 	val HOSTNAME_FIELD_NUMBER = 2
 	val PORT_FIELD_NUMBER = 3
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: AddressProtocol) = defaultInstance.mergeFrom(prototype)
 
 }
 final case class DaemonMsgCreateProtocol (
@@ -601,7 +622,7 @@ final case class DaemonMsgCreateProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -612,6 +633,9 @@ object DaemonMsgCreateProtocol {
 	val DEPLOY_FIELD_NUMBER = 2
 	val PATH_FIELD_NUMBER = 3
 	val SUPERVISOR_FIELD_NUMBER = 4
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: DaemonMsgCreateProtocol) = defaultInstance.mergeFrom(prototype)
 
 }
 final case class PropsProtocol (
@@ -694,7 +718,7 @@ final case class PropsProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -706,6 +730,9 @@ object PropsProtocol {
 	val FROMCLASSCREATOR_FIELD_NUMBER = 3
 	val CREATOR_FIELD_NUMBER = 4
 	val ROUTERCONFIG_FIELD_NUMBER = 5
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: PropsProtocol) = defaultInstance.mergeFrom(prototype)
 
 }
 final case class DeployProtocol (
@@ -781,7 +808,7 @@ final case class DeployProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -792,6 +819,9 @@ object DeployProtocol {
 	val CONFIG_FIELD_NUMBER = 2
 	val ROUTERCONFIG_FIELD_NUMBER = 3
 	val SCOPE_FIELD_NUMBER = 4
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: DeployProtocol) = defaultInstance.mergeFrom(prototype)
 
 }
 

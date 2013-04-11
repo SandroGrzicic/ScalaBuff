@@ -97,7 +97,7 @@ final case class SimpleTest (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -110,6 +110,9 @@ object SimpleTest {
 	val TYPE_FIELD_NUMBER = 4
 	val INT32DEFAULT_FIELD_NUMBER = 5
 	val STRINGDEFAULT_FIELD_NUMBER = 6
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: SimpleTest) = defaultInstance.mergeFrom(prototype)
 
 }
 

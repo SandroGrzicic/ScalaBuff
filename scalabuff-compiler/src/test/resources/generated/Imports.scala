@@ -51,7 +51,7 @@ final case class UsesImport (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -59,6 +59,9 @@ object UsesImport {
 	@reflect.BeanProperty val defaultInstance = new UsesImport()
 
 	val SIMPLE_TEST_FIELD_NUMBER = 1
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: UsesImport) = defaultInstance.mergeFrom(prototype)
 
 }
 

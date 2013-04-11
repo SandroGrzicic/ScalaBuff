@@ -60,7 +60,7 @@ final case class NumbersTest1 (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def newBuilderForType = this
+	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
 
@@ -69,6 +69,9 @@ object NumbersTest1 {
 
 	val SOME_HEX_NUMBER_FIELD_NUMBER = 1
 	val SOME_OCT_NUMBER_FIELD_NUMBER = 2
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: NumbersTest1) = defaultInstance.mergeFrom(prototype)
 
 }
 object NumbersTest2 extends net.sandrogrzicic.scalabuff.Enum {
