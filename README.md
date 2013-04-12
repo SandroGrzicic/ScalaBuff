@@ -1,7 +1,15 @@
-ScalaBuff is a Scala Protocol Buffers (protobuf) compiler. It takes .proto files and outputs valid Scala classes that can be used by your code to receive or send protobuf messages.
+ScalaBuff is a Scala [Protocol Buffers](https://developers.google.com/protocol-buffers/docs/overview) (protobuf) compiler. It takes .proto files and outputs valid Scala classes that can be used by your code to receive or send protobuf messages.
+
+The latest release version is **1.1.2**.
 
 Both the ScalaBuff generator and the generated Scala classes depend on Google's Java runtime for Protocol Buffers, which is provided with ScalaBuff.
 
-The [ScalaBuff Wiki](https://github.com/SandroGrzicic/ScalaBuff/wiki) contains more information. For API documentation, see the project [Scaladoc](http://sandrogrzicic.github.com/ScalaBuff/doc/).
+If you want to utilize ScalaBuff to generate your Scala classes from .proto sources, you'll need to either [download the source](https://github.com/SandroGrzicic/ScalaBuff/archive/master.zip) or download the packaged JAR for your Scala version from the Sonatype OSS repository. If you download the sources, you can easily run it from SBT.
+
+If you just want to use ScalaBuff-generated classes in your SBT-managed project, here's the dependency to add (located on the Sonatype OSS repository): "net.sandrogrzicic" %% "scalabuff-runtime" % "[desired_version]"
 
 If you'd like to use SBT with ScalaBuff to auto-generate Scala protobuf classes from .proto sources, try the [sbt-scalabuff project](https://github.com/sbt/sbt-scalabuff).
+
+The [ScalaBuff Wiki](https://github.com/SandroGrzicic/ScalaBuff/wiki) contains more information. For API documentation, see the project [Scaladoc](http://sandrogrzicic.github.com/ScalaBuff/doc/).
+
+
