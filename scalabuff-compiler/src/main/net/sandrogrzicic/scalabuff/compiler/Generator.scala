@@ -127,7 +127,7 @@ class Generator protected (sourceName: String) {
             out.append("Option[").append(field.fType.scalaType).append("] = ").append(field.defaultValue).append(",\n")
           case REPEATED =>
             out.append("Vector[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
-          case _ => // weird warning - missing combination <local child> ?!
+          case _ => // "missing combination <local child>"
         }
       }
       if (!fields.isEmpty) out.length -= 2
@@ -195,7 +195,7 @@ class Generator protected (sourceName: String) {
               .append(field.name.toScalaIdent).append(") ")
               .append("output.write").append(field.fType.name)
             out.append("(").append(field.number).append(", _v)\n")
-          case _ => // weird warning - missing combination <local child> ?!
+          case _ => // "missing combination <local child>"
         }
       }
       out.append(indent1).append("}\n")
@@ -217,7 +217,7 @@ class Generator protected (sourceName: String) {
             .append(field.name.toScalaIdent).append(") ")
             .append("size += compute").append(field.fType.name).append("Size(")
             .append(field.number).append(", _v)\n")
-          case _ => // weird warning - missing combination <local child> ?!
+          case _ => // "missing combination <local child>"
         }
       }
       out.append("\n").append(indent2).append("size\n")
@@ -241,7 +241,7 @@ class Generator protected (sourceName: String) {
           case REPEATED => out.append(indent2)
             .append("val ").append(field.name.toTemporaryIdent).append(": collection.mutable.Buffer[").append(field.fType.scalaType).append("]")
             .append(" = ").append(field.name.toScalaIdent).append(".toBuffer\n")
-          case _ => // weird warning - missing combination <local child> ?!
+          case _ => // "missing combination <local child>"
         }
       }
       out.append("\n")
@@ -276,7 +276,7 @@ class Generator protected (sourceName: String) {
               .append(indent3).append("}).get")
             case REPEATED => out
               .append(field.fType.defaultValue)
-            case _ => // weird warning - missing combination <local child> ?!
+            case _ => // "missing combination <local child>"
           }
           out.append(", _emptyRegistry)")
         } else out.append("in.read").append(field.fType.name).append("()")
@@ -302,7 +302,7 @@ class Generator protected (sourceName: String) {
           case REPEATED => out.append(indent3)
             .append(field.name.toScalaIdent).append(" ++ ")
             .append("m.").append(field.name.toScalaIdent).append(",\n")
-          case _ => // weird warning - missing combination <local child> ?!
+          case _ => // "missing combination <local child>"
         }
       }
       if (!fields.isEmpty) out.length -= 2
@@ -473,7 +473,8 @@ object Generator {
   protected def getEnumNames(
     tree: List[Node],
     enumNames: mutable.HashSet[String] = mutable.HashSet.empty[String],
-    customFieldTypes: mutable.ArrayBuffer[FieldTypes.EnumVal] = mutable.ArrayBuffer.empty[FieldTypes.EnumVal]): (mutable.HashSet[String], mutable.ArrayBuffer[FieldTypes.EnumVal]) = {
+    customFieldTypes: mutable.ArrayBuffer[FieldTypes.EnumVal] = mutable.ArrayBuffer.empty[FieldTypes.EnumVal]
+  ): (mutable.HashSet[String], mutable.ArrayBuffer[FieldTypes.EnumVal]) = {
 
     for (node <- tree) {
       node match {
@@ -482,7 +483,7 @@ object Generator {
           customFieldTypes ++= body.fields.map(_.fType) collect { case t: CustomEnumVal => t }
           getEnumNames(body.messages, enumNames, customFieldTypes)
         case EnumStatement(name, constants, options) => enumNames += name
-        case _                                       =>
+        case _ =>
       }
     }
     (enumNames, customFieldTypes)
@@ -527,7 +528,7 @@ object Generator {
       case parent @ Message(parentName, parentBody) =>
         // prepend parent class names to messages
         parentBody.messages.foreach {
-          case Message(_, nestedMessage) => {
+          case child @ Message(_, nestedMessage) => {
             val filteredFields = parentBody.fields.withFilter(f => f.fType.isMessage && !processedFieldTypes(f.fType))
             for (field <- filteredFields) {
               val fType = field.fType
@@ -539,7 +540,7 @@ object Generator {
               }
             }
             // recurse for any nested messages
-            prependParentClassNames(nestedMessage.messages, nestedMessageTypes)
+            prependParentClassNames(child :: nestedMessage.messages, nestedMessageTypes)
           }
         }
         // prepend parent class names to all nested enums

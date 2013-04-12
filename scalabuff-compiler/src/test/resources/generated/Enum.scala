@@ -226,6 +226,147 @@ object OuterDuplicate {
 	}
 
 }
+final case class OuterEnumContainer (
+	`innerMessage`: OuterEnumContainer.InnerEnumContainer = OuterEnumContainer.InnerEnumContainer.defaultInstance
+) extends com.google.protobuf.GeneratedMessageLite
+	 with com.google.protobuf.MessageLite.Builder
+	with net.sandrogrzicic.scalabuff.Message[OuterEnumContainer] {
+
+
+
+	def writeTo(output: com.google.protobuf.CodedOutputStream) {
+		output.writeMessage(1, `innerMessage`)
+	}
+
+	lazy val getSerializedSize = {
+		import com.google.protobuf.CodedOutputStream._
+		var size = 0
+		size += computeMessageSize(1, `innerMessage`)
+
+		size
+	}
+
+	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): OuterEnumContainer = {
+		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
+		var __innerMessage: OuterEnumContainer.InnerEnumContainer = OuterEnumContainer.InnerEnumContainer.defaultInstance
+
+		def __newMerged = OuterEnumContainer(
+			__innerMessage
+		)
+		while (true) in.readTag match {
+			case 0 => return __newMerged
+			case 10 => __innerMessage = readMessage[OuterEnumContainer.InnerEnumContainer](in, __innerMessage, _emptyRegistry)
+			case default => if (!in.skipField(default)) return __newMerged
+		}
+		null
+	}
+
+	def mergeFrom(m: OuterEnumContainer) = {
+		OuterEnumContainer(
+			m.`innerMessage`
+		)
+	}
+
+	def getDefaultInstanceForType = OuterEnumContainer.defaultInstance
+	def clear = getDefaultInstanceForType
+	def isInitialized = true
+	def build = this
+	def buildPartial = this
+	def newBuilderForType = getDefaultInstanceForType
+	def toBuilder = this
+}
+
+object OuterEnumContainer {
+	@reflect.BeanProperty val defaultInstance = new OuterEnumContainer()
+
+	val INNER_MESSAGE_FIELD_NUMBER = 1
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: OuterEnumContainer) = defaultInstance.mergeFrom(prototype)
+
+	final case class InnerEnumContainer (
+		`someEnum`: InnerEnumContainer.SomeEnum.EnumVal = InnerEnumContainer.SomeEnum._UNINITIALIZED
+	) extends com.google.protobuf.GeneratedMessageLite
+		 with com.google.protobuf.MessageLite.Builder
+		with net.sandrogrzicic.scalabuff.Message[InnerEnumContainer] {
+
+
+
+		def writeTo(output: com.google.protobuf.CodedOutputStream) {
+			output.writeEnum(1, `someEnum`)
+		}
+
+		lazy val getSerializedSize = {
+			import com.google.protobuf.CodedOutputStream._
+			var size = 0
+			size += computeEnumSize(1, `someEnum`)
+
+			size
+		}
+
+		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): InnerEnumContainer = {
+			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
+			var __someEnum: InnerEnumContainer.SomeEnum.EnumVal = InnerEnumContainer.SomeEnum._UNINITIALIZED
+
+			def __newMerged = InnerEnumContainer(
+				__someEnum
+			)
+			while (true) in.readTag match {
+				case 0 => return __newMerged
+				case 8 => __someEnum = InnerEnumContainer.SomeEnum.valueOf(in.readEnum())
+				case default => if (!in.skipField(default)) return __newMerged
+			}
+			null
+		}
+
+		def mergeFrom(m: InnerEnumContainer) = {
+			InnerEnumContainer(
+				m.`someEnum`
+			)
+		}
+
+		def getDefaultInstanceForType = InnerEnumContainer.defaultInstance
+		def clear = getDefaultInstanceForType
+		def isInitialized = true
+		def build = this
+		def buildPartial = this
+		def newBuilderForType = getDefaultInstanceForType
+		def toBuilder = this
+	}
+
+	object InnerEnumContainer {
+		@reflect.BeanProperty val defaultInstance = new InnerEnumContainer()
+
+		val SOME_ENUM_FIELD_NUMBER = 1
+
+		def newBuilder = defaultInstance.newBuilderForType
+		def newBuilder(prototype: InnerEnumContainer) = defaultInstance.mergeFrom(prototype)
+
+		object SomeEnum extends net.sandrogrzicic.scalabuff.Enum {
+			sealed trait EnumVal extends Value
+			val _UNINITIALIZED = new EnumVal { val name = "UNINITIALIZED ENUM VALUE"; val id = -1 }
+
+			val VALUE_1 = new EnumVal { val name = "VALUE_1"; val id = 0 }
+			val VALUE_2 = new EnumVal { val name = "VALUE_2"; val id = 1 }
+			val VALUE_3 = new EnumVal { val name = "VALUE_3"; val id = 2 }
+
+			val VALUE_1_VALUE = 0
+			val VALUE_2_VALUE = 1
+			val VALUE_3_VALUE = 2
+
+			def valueOf(id: Int) = id match {
+				case 0 => VALUE_1
+				case 1 => VALUE_2
+				case 2 => VALUE_3
+				case _default => throw new net.sandrogrzicic.scalabuff.UnknownEnumException(_default)
+			}
+			val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {
+				def findValueByNumber(id: Int): EnumVal = valueOf(id)
+			}
+		}
+
+	}
+}
 
 object Enum {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
