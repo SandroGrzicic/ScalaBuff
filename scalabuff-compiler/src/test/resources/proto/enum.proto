@@ -1,6 +1,6 @@
 package resources.generated;
 
-// option java_outer_classname = "EnumFailMessage";
+option java_outer_classname = "EnumTest";
 
 enum ComputerPeripherals {
 	MOUSE = 1;

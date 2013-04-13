@@ -368,7 +368,7 @@ object OuterEnumContainer {
 	}
 }
 
-object Enum {
+object EnumTest {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 
