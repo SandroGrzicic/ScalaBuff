@@ -11,4 +11,6 @@ If you'd like to use SBT with ScalaBuff to auto-generate Scala protobuf classes 
 
 The [ScalaBuff Wiki](https://github.com/SandroGrzicic/ScalaBuff/wiki) contains more information. For API documentation, see the project [Scaladoc](http://sandrogrzicic.github.com/ScalaBuff/doc/).
 
+For any questions or general discussion, you can se the [ScalaBuff Google Group](https://groups.google.com/forum/#!forum/scalabuff) but please feel free to [create new issues](https://github.com/SandroGrzicic/ScalaBuff/issues/new) for bug reports or feature requests. Thanks!
+
 
