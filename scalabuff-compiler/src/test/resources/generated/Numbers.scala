@@ -7,7 +7,7 @@ final case class NumbersTest1 (
 	`someHexNumber`: Option[Int] = Some(430689775),
 	`someOctNumber`: Option[Int] = Some(342391)
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[NumbersTest1] {
 
 	def setSomeHexNumber(_f: Int) = copy(`someHexNumber` = _f)

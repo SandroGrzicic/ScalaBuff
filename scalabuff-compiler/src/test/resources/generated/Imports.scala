@@ -8,7 +8,7 @@ package resources.generated
 final case class UsesImport (
 	`simpleTest`: SimpleTest = SimpleTest.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[UsesImport] {
 
 

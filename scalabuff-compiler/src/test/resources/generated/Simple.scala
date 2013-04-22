@@ -6,12 +6,12 @@ package resources.generated
 final case class SimpleTest (
 	`requiredField`: Int = 0,
 	`optionalField`: Option[Float] = None,
-	`repeatedField`: Vector[String] = Vector.empty[String],
+	`repeatedField`: Seq[String] = Vector.empty[String],
 	`type`: Option[Int] = Some(100),
 	`int32Default`: Option[Int] = Some(100),
 	`stringDefault`: Option[String] = Some("somestring")
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[SimpleTest] {
 
 	def setOptionalField(_f: Float) = copy(`optionalField` = _f)

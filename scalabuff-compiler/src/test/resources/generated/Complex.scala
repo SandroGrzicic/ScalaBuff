@@ -7,11 +7,11 @@ final case class ComplexMessage (
 	`firstField`: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY,
 	`secondField`: Option[String] = Some("defaultValueForSecondField"),
 	`nestedOuterField`: Option[ComplexMessage.Nested] = None,
-	`simpleEnumField`: Vector[ComplexMessage.SimpleEnum.EnumVal] = Vector.empty[ComplexMessage.SimpleEnum.EnumVal],
-	`repeatedStringField`: Vector[String] = Vector.empty[String],
-	`repeatedBytesField`: Vector[com.google.protobuf.ByteString] = Vector.empty[com.google.protobuf.ByteString]
+	`simpleEnumField`: Seq[ComplexMessage.SimpleEnum.EnumVal] = Vector.empty[ComplexMessage.SimpleEnum.EnumVal],
+	`repeatedStringField`: Seq[String] = Vector.empty[String],
+	`repeatedBytesField`: Seq[com.google.protobuf.ByteString] = Vector.empty[com.google.protobuf.ByteString]
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[ComplexMessage] {
 
 	def setSecondField(_f: String) = copy(`secondField` = _f)
@@ -144,7 +144,7 @@ object ComplexMessage {
 		`nestedField`: String = "",
 		`nestedEnum`: Option[SimpleEnum.EnumVal] = None
 	) extends com.google.protobuf.GeneratedMessageLite
-		 with com.google.protobuf.MessageLite.Builder
+		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Nested] {
 
 		def setNestedEnum(_f: SimpleEnum.EnumVal) = copy(`nestedEnum` = _f)
@@ -214,7 +214,7 @@ final case class AnotherMessage (
 	`fieldNested`: ComplexMessage.Nested = ComplexMessage.Nested.defaultInstance,
 	`fieldEnum`: ComplexMessage.SimpleEnum.EnumVal = ComplexMessage.SimpleEnum._UNINITIALIZED
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[AnotherMessage] {
 
 

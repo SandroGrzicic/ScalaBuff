@@ -25,9 +25,9 @@ object ComputerPeripherals extends net.sandrogrzicic.scalabuff.Enum {
 final case class Outer (
 	`innerRequired`: Outer.Inner.EnumVal = Outer.Inner._UNINITIALIZED,
 	`innerOptional`: Option[Outer.Inner.EnumVal] = Some(Outer.Inner.FIRST),
-	`innerRepeated`: Vector[Outer.Inner.EnumVal] = Vector.empty[Outer.Inner.EnumVal]
+	`innerRepeated`: Seq[Outer.Inner.EnumVal] = Vector.empty[Outer.Inner.EnumVal]
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[Outer] {
 
 	def setInnerOptional(_f: Outer.Inner.EnumVal) = copy(`innerOptional` = _f)
@@ -127,9 +127,9 @@ object Outer {
 final case class OuterDuplicate (
 	`innerRequired`: OuterDuplicate.Inner.EnumVal = OuterDuplicate.Inner._UNINITIALIZED,
 	`innerOptional`: Option[OuterDuplicate.Inner.EnumVal] = Some(OuterDuplicate.Inner.SECOND),
-	`innerRepeated`: Vector[OuterDuplicate.Inner.EnumVal] = Vector.empty[OuterDuplicate.Inner.EnumVal]
+	`innerRepeated`: Seq[OuterDuplicate.Inner.EnumVal] = Vector.empty[OuterDuplicate.Inner.EnumVal]
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[OuterDuplicate] {
 
 	def setInnerOptional(_f: OuterDuplicate.Inner.EnumVal) = copy(`innerOptional` = _f)
@@ -229,7 +229,7 @@ object OuterDuplicate {
 final case class OuterEnumContainer (
 	`innerMessage`: OuterEnumContainer.InnerEnumContainer = OuterEnumContainer.InnerEnumContainer.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[OuterEnumContainer] {
 
 
@@ -287,7 +287,7 @@ object OuterEnumContainer {
 	final case class InnerEnumContainer (
 		`someEnum`: InnerEnumContainer.SomeEnum.EnumVal = InnerEnumContainer.SomeEnum._UNINITIALIZED
 	) extends com.google.protobuf.GeneratedMessageLite
-		 with com.google.protobuf.MessageLite.Builder
+		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[InnerEnumContainer] {
 
 

@@ -126,7 +126,7 @@ class Generator protected (sourceName: String) {
           case OPTIONAL =>
             out.append("Option[").append(field.fType.scalaType).append("] = ").append(field.defaultValue).append(",\n")
           case REPEATED =>
-            out.append("Vector[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
+            out.append("Seq[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
           case _ => // "missing combination <local child>"
         }
       }
@@ -136,7 +136,7 @@ class Generator protected (sourceName: String) {
       if (!hasExtensionRanges) {
         // normal message
         out.append("GeneratedMessageLite")
-        out.append("\n").append(indent1).append(" with com.google.protobuf.MessageLite.Builder")
+        out.append("\n").append(indent1).append("with com.google.protobuf.MessageLite.Builder")
         out.append("\n").append(indent1).append("with net.sandrogrzicic.scalabuff.Message[").append(name).append("]")
       } else {
         // extendable message

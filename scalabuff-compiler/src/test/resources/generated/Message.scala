@@ -6,7 +6,7 @@ package resources.generated
 final case class EmptyMessage (
 
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[EmptyMessage] {
 
 

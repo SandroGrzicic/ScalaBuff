@@ -17,13 +17,13 @@ final case class DataTypes (
 	`lengthDelim1`: Option[String] = None,
 	`lengthDelim2`: Option[com.google.protobuf.ByteString] = None,
 	`lengthDelim3`: Option[DataTypes.Varint8Enum.EnumVal] = None,
-	`lengthDelim4`: Vector[Int] = Vector.empty[Int],
-	`lengthDelim5`: Vector[Int] = Vector.empty[Int],
+	`lengthDelim4`: Seq[Int] = Vector.empty[Int],
+	`lengthDelim5`: Seq[Int] = Vector.empty[Int],
 	`f32bit1`: Option[Int] = None,
 	`f32bit2`: Option[Int] = None,
 	`f32bit3`: Option[Float] = None
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[DataTypes] {
 
 	def setVarint2(_f: Long) = copy(`varint2` = _f)

@@ -4,7 +4,7 @@
 final case class TopLevel (
 	`idToplevel`: Int = 0
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[TopLevel] {
 
 
@@ -62,7 +62,7 @@ object TopLevel {
 	final case class Inner (
 		`idInner`: Int = 0
 	) extends com.google.protobuf.GeneratedMessageLite
-		 with com.google.protobuf.MessageLite.Builder
+		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Inner] {
 
 
@@ -123,14 +123,14 @@ final case class Foobar (
 	`reqFoo`: Foobar.Foo = Foobar.Foo.defaultInstance,
 	`optFoo`: Option[Foobar.Foo] = None,
 	`optBar`: Option[Foobar.Bar] = None,
-	`repFoo`: Vector[Foobar.Foo] = Vector.empty[Foobar.Foo],
-	`repBar`: Vector[Foobar.Bar] = Vector.empty[Foobar.Bar],
-	`repFooBar`: Vector[Foobar.FooBar] = Vector.empty[Foobar.FooBar],
+	`repFoo`: Seq[Foobar.Foo] = Vector.empty[Foobar.Foo],
+	`repBar`: Seq[Foobar.Bar] = Vector.empty[Foobar.Bar],
+	`repFooBar`: Seq[Foobar.FooBar] = Vector.empty[Foobar.FooBar],
 	`topLevelReq`: TopLevel = TopLevel.defaultInstance,
 	`topLevelOpt`: Option[TopLevel] = None,
 	`topLevelInnerReq`: TopLevel.Inner = TopLevel.Inner.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[Foobar] {
 
 	def setOptFoo(_f: Foobar.Foo) = copy(`optFoo` = _f)
@@ -274,7 +274,7 @@ object Foobar {
 	final case class Foo (
 		`id`: Option[Long] = None
 	) extends com.google.protobuf.GeneratedMessageLite
-		 with com.google.protobuf.MessageLite.Builder
+		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Foo] {
 
 		def setId(_f: Long) = copy(`id` = _f)
@@ -335,7 +335,7 @@ object Foobar {
 	final case class Bar (
 		`id`: Option[Long] = None
 	) extends com.google.protobuf.GeneratedMessageLite
-		 with com.google.protobuf.MessageLite.Builder
+		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Bar] {
 
 		def setId(_f: Long) = copy(`id` = _f)
@@ -396,7 +396,7 @@ object Foobar {
 	final case class FooBar (
 		`id`: Option[Long] = None
 	) extends com.google.protobuf.GeneratedMessageLite
-		 with com.google.protobuf.MessageLite.Builder
+		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[FooBar] {
 
 		def setId(_f: Long) = copy(`id` = _f)

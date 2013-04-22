@@ -7,7 +7,7 @@ final case class AkkaRemoteProtocol (
 	`message`: Option[RemoteMessageProtocol] = None,
 	`instruction`: Option[RemoteControlProtocol] = None
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[AkkaRemoteProtocol] {
 
 	def setMessage(_f: RemoteMessageProtocol) = copy(`message` = _f)
@@ -84,9 +84,9 @@ final case class RemoteMessageProtocol (
 	`recipient`: ActorRefProtocol = ActorRefProtocol.defaultInstance,
 	`message`: MessageProtocol = MessageProtocol.defaultInstance,
 	`sender`: Option[ActorRefProtocol] = None,
-	`metadata`: Vector[MetadataEntryProtocol] = Vector.empty[MetadataEntryProtocol]
+	`metadata`: Seq[MetadataEntryProtocol] = Vector.empty[MetadataEntryProtocol]
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[RemoteMessageProtocol] {
 
 	def setSender(_f: ActorRefProtocol) = copy(`sender` = _f)
@@ -178,7 +178,7 @@ final case class RemoteControlProtocol (
 	`cookie`: Option[String] = None,
 	`origin`: Option[AddressProtocol] = None
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[RemoteControlProtocol] {
 
 	def setCookie(_f: String) = copy(`cookie` = _f)
@@ -280,7 +280,7 @@ object CommandType extends net.sandrogrzicic.scalabuff.Enum {
 final case class ActorRefProtocol (
 	`path`: String = ""
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[ActorRefProtocol] {
 
 
@@ -341,7 +341,7 @@ final case class MessageProtocol (
 	`serializerId`: Int = 0,
 	`messageManifest`: Option[com.google.protobuf.ByteString] = None
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[MessageProtocol] {
 
 	def setMessageManifest(_f: com.google.protobuf.ByteString) = copy(`messageManifest` = _f)
@@ -417,7 +417,7 @@ final case class MetadataEntryProtocol (
 	`key`: String = "",
 	`value`: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[MetadataEntryProtocol] {
 
 
@@ -485,7 +485,7 @@ final case class AddressProtocol (
 	`hostname`: String = "",
 	`port`: Int = 0
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[AddressProtocol] {
 
 
@@ -561,7 +561,7 @@ final case class DaemonMsgCreateProtocol (
 	`path`: String = "",
 	`supervisor`: ActorRefProtocol = ActorRefProtocol.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[DaemonMsgCreateProtocol] {
 
 
@@ -645,7 +645,7 @@ final case class PropsProtocol (
 	`creator`: Option[com.google.protobuf.ByteString] = None,
 	`routerConfig`: Option[com.google.protobuf.ByteString] = None
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[PropsProtocol] {
 
 	def setFromClassCreator(_f: String) = copy(`fromClassCreator` = _f)
@@ -741,7 +741,7 @@ final case class DeployProtocol (
 	`routerConfig`: Option[com.google.protobuf.ByteString] = None,
 	`scope`: Option[com.google.protobuf.ByteString] = None
 ) extends com.google.protobuf.GeneratedMessageLite
-	 with com.google.protobuf.MessageLite.Builder
+	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[DeployProtocol] {
 
 	def setConfig(_f: com.google.protobuf.ByteString) = copy(`config` = _f)
