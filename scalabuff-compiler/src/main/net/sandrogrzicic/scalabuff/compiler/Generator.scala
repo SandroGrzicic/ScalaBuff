@@ -4,6 +4,7 @@ import annotation.tailrec
 import collection.mutable
 import net.sandrogrzicic.scalabuff.compiler.FieldTypes._
 import com.google.protobuf._
+import java.io.File
 
 /**
  * Scala class generator.
@@ -447,7 +448,7 @@ class Generator protected (sourceName: String) {
       .append("\t}\n\n")
       .append("}\n")
 
-    ScalaClass(output.mkString, packageName.replace('.', '/') + '/', className)
+    ScalaClass(output.mkString, packageName.replace('.', File.separatorChar) + File.separatorChar, className)
   }
 
 }
@@ -588,8 +589,8 @@ object Generator {
  * A generated Scala class. The path is relative.
  */
 case class ScalaClass(body: String, path: String, file: String) {
-  assert(path.endsWith("/"), "path must end with a /")
-  assert(!file.contains("/"), "file name must not contain a /")
+  assert(path.endsWith(File.separator), "path must end with a " + File.separator)
+  assert(!file.contains(File.separator), "file name must not contain a " + File.separator)
 }
 
 /**
