@@ -71,7 +71,11 @@ trait Message[MessageType <: MessageLite with MessageLite.Builder]
 		merged
 	}
 
-	def mergeDelimitedFrom(input: InputStream, extensionRegistry: ExtensionRegistryLite) = {
+  /**
+   * NOTE: Due to Java Protocol Buffers library compatibility, this method is useless in most cases.
+   * @see Message#mergeDelimitedFromStream()
+   */
+  def mergeDelimitedFrom(input: InputStream, extensionRegistry: ExtensionRegistryLite) = {
 		val firstByte = input.read
 		if (firstByte != -1) {
 			val size = CodedInputStream.readRawVarint32(firstByte, input)
@@ -83,11 +87,15 @@ trait Message[MessageType <: MessageLite with MessageLite.Builder]
 		}
 	}
 
-	def mergeDelimitedFrom(input: InputStream): Boolean = {
+  /**
+   * NOTE: Due to Java Protocol Buffers library compatibility, this method is useless in most cases.
+   * @see Message#mergeDelimitedFromStream()
+   */
+  def mergeDelimitedFrom(input: InputStream): Boolean = {
 		mergeDelimitedFrom(input, ExtensionRegistryLite.getEmptyRegistry)
 	}
 
-	def mergeDelimitedFromStream(input: InputStream, extensionRegistry: ExtensionRegistryLite): Option[MessageType] = {
+  def mergeDelimitedFromStream(input: InputStream, extensionRegistry: ExtensionRegistryLite): Option[MessageType] = {
 		val firstByte = input.read
 		if (firstByte != -1) {
 			val size = CodedInputStream.readRawVarint32(firstByte, input)
