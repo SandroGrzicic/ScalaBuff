@@ -4,6 +4,7 @@ import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
 import net.sandrogrzicic.scalabuff.compiler.Parser
 import java.io._
+import File.{separator => SEP}
 
 /**
  * ScalaTest Parser test.
@@ -17,8 +18,8 @@ class ParserTest extends FunSuite with ShouldMatchers {
 	}
 
 	val parsedExtension = ".txt"
-	val protoDir = new File("scalabuff-compiler/src/test/resources/proto/")
-	val parsedDir = "scalabuff-compiler/src/test/resources/parsed/"
+	val protoDir = new File("scalabuff-compiler" + SEP + "src" + SEP + "test" + SEP + "resources" + SEP + "proto" + SEP)
+	val parsedDir = "scalabuff-compiler" + SEP + "src" + SEP + "test" + SEP + "resources" + SEP + "parsed" + SEP
 
 	/*
 	 * Iterate over all files with the protoExtension in the protoDir directory and

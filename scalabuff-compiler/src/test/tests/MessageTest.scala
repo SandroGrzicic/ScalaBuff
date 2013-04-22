@@ -4,6 +4,7 @@ import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
 import resources.generated._
 import com.google.protobuf._
+import scala.collection._
 
 /**
  * Tests whether generated Scala classes function correctly.
@@ -19,7 +20,7 @@ class MessageTest extends FunSuite with ShouldMatchers {
 		val first = ByteString.copyFromUtf8("Sandro Gržičić")
 		val second = "Sandro Grzicic"
 		val nestedOuter = ComplexMessage.Nested(nestedNested, Some(nestedEnum))
-		val simpleEnum = Seq(ComplexMessage.SimpleEnum.KEY_NAME)
+		val simpleEnum = immutable.Seq(ComplexMessage.SimpleEnum.KEY_NAME)
     val repeatedString = List("net", "sandrogrzicic", "scalabuff")
 		val repeatedBytes = Vector(ByteString.copyFrom(Array[Byte](1, 2, 3)), ByteString.copyFrom(Array[Byte](4, 5, 6)))
 

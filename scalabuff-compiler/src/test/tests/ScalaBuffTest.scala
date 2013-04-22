@@ -5,6 +5,7 @@ import org.scalatest.matchers.ShouldMatchers
 import net.sandrogrzicic.scalabuff.compiler.{Strings, ScalaBuff}
 import java.io.{PrintStream, ByteArrayOutputStream, File}
 import net.sandrogrzicic.scalabuff.compiler.ScalaClass
+import File.{separator => SEP}
 
 /**
  * ScalaBuff CLI runner test.
@@ -16,9 +17,9 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 	val NEWLINE = System.getProperty("line.separator")
 
 	val parsedExtension = ".txt"
-	val protoDir = "scalabuff-compiler/src/test/resources/proto/"
-	val parsedDir = "scalabuff-compiler/src/test/resources/parsed/"
-	val generatedDir = "scalabuff-compiler/src/test/resources/generated/"
+	val protoDir = "scalabuff-compiler" + SEP + "src" + SEP + "test" + SEP + "resources" + SEP + "proto" + SEP
+	val parsedDir = "scalabuff-compiler" + SEP + "src" + SEP + "test" + SEP + "resources" + SEP + "parsed" + SEP
+	val generatedDir = "scalabuff-compiler" + SEP + "src" + SEP + "test" + SEP + "resources" + SEP + "generated" + SEP
 
 	val testProto = "simple"
 	val testProtoParsed =
@@ -36,7 +37,7 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 		val scalaClass: ScalaClass = ScalaBuff(protoDir + testProto + ".proto")
 		scalaClass.body should equal (testProtoGenerated)
 		scalaClass.file should equal ("Simple")
-		scalaClass.path should equal ("resources/generated/")
+		scalaClass.path should equal ("resources" + SEP + "generated" + SEP)
 	}
 
 	test("main: no arguments") {
@@ -48,8 +49,8 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 	}
 
 	test("main: simple .proto file without a specified output directory") {
-		val resourcesDirectory = new File("scalabuff-compiler/resources")
-		val resourcesGeneratedDirectory = new File("scalabuff-compiler/resources/generated")
+		val resourcesDirectory = new File("scalabuff-compiler" + SEP + "resources")
+		val resourcesGeneratedDirectory = new File("scalabuff-compiler" + SEP + "resources" + SEP + "generated")
 		// don't attempt to modify an existing root folder
 		if (!(resourcesDirectory.exists() && resourcesDirectory.isDirectory ||
 			resourcesGeneratedDirectory.exists() && resourcesGeneratedDirectory.isDirectory)
@@ -60,7 +61,7 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 				ScalaBuff.main(Array(simpleProto))
 				outputStream.toString("utf-8") should be ('empty)
 			})
-			val outputFile = new File("resources/generated/" + testProto.capitalize + ".scala")
+			val outputFile = new File("resources" + SEP + "generated" + SEP + "" + testProto.capitalize + ".scala")
 			outputFile should be ('exists)
 			outputFile.deleteOnExit()
 			val outputFileSource = io.Source.fromFile(outputFile)
@@ -73,7 +74,7 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 	}
 
 	test("main: simple .proto file with a specified output directory") {
-		val outputDirectory = "scalabuff-compiler/src/test"
+		val outputDirectory = "scalabuff-compiler" + SEP + "src" + SEP + "test"
 
 		outputStream.reset()
 		val simpleProto = protoDir + testProto + ".proto"
@@ -81,7 +82,7 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 			ScalaBuff.main(Array("--scala_out=" + outputDirectory, simpleProto))
 			outputStream.toString("utf-8") should be ('empty)
 		})
-		val outputFile = new File(outputDirectory + "/resources/generated/" + testProto.capitalize + ".scala")
+		val outputFile = new File(outputDirectory + "" + SEP + "resources" + SEP + "generated" + SEP + "" + testProto.capitalize + ".scala")
 		outputFile should be ('exists)
 		val outputFileSource = io.Source.fromFile(outputFile)
 		outputFileSource.mkString should equal (testProtoGenerated)
