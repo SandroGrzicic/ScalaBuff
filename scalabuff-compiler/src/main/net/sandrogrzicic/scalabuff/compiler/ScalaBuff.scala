@@ -32,7 +32,7 @@ object ScalaBuff {
 	def fromResourcePath(resourcePath: String, encoding: Charset = defaultCharset): ScalaClass = {
 		val reader = read(resourcePath, encoding)
 		try {
-			Generator(Parser(reader), resourcePath.dropUntilLast('/'))
+			Generator(Parser(reader), resourcePath.dropUntilLast(File.separatorChar))
 		} finally {
 			reader.close()
 		}
