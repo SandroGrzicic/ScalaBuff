@@ -123,9 +123,9 @@ final case class Foobar (
 	`reqFoo`: Foobar.Foo = Foobar.Foo.defaultInstance,
 	`optFoo`: Option[Foobar.Foo] = None,
 	`optBar`: Option[Foobar.Bar] = None,
-	`repFoo`: Seq[Foobar.Foo] = Vector.empty[Foobar.Foo],
-	`repBar`: Seq[Foobar.Bar] = Vector.empty[Foobar.Bar],
-	`repFooBar`: Seq[Foobar.FooBar] = Vector.empty[Foobar.FooBar],
+	`repFoo`: collection.immutable.Seq[Foobar.Foo] = Vector.empty[Foobar.Foo],
+	`repBar`: collection.immutable.Seq[Foobar.Bar] = Vector.empty[Foobar.Bar],
+	`repFooBar`: collection.immutable.Seq[Foobar.FooBar] = Vector.empty[Foobar.FooBar],
 	`topLevelReq`: TopLevel = TopLevel.defaultInstance,
 	`topLevelOpt`: Option[TopLevel] = None,
 	`topLevelInnerReq`: TopLevel.Inner = TopLevel.Inner.defaultInstance

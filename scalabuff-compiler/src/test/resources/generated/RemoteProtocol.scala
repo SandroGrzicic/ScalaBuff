@@ -84,7 +84,7 @@ final case class RemoteMessageProtocol (
 	`recipient`: ActorRefProtocol = ActorRefProtocol.defaultInstance,
 	`message`: MessageProtocol = MessageProtocol.defaultInstance,
 	`sender`: Option[ActorRefProtocol] = None,
-	`metadata`: Seq[MetadataEntryProtocol] = Vector.empty[MetadataEntryProtocol]
+	`metadata`: collection.immutable.Seq[MetadataEntryProtocol] = Vector.empty[MetadataEntryProtocol]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[RemoteMessageProtocol] {

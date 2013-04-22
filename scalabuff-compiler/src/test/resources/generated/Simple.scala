@@ -6,7 +6,7 @@ package resources.generated
 final case class SimpleTest (
 	`requiredField`: Int = 0,
 	`optionalField`: Option[Float] = None,
-	`repeatedField`: Seq[String] = Vector.empty[String],
+	`repeatedField`: collection.immutable.Seq[String] = Vector.empty[String],
 	`type`: Option[Int] = Some(100),
 	`int32Default`: Option[Int] = Some(100),
 	`stringDefault`: Option[String] = Some("somestring")

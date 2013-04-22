@@ -7,9 +7,9 @@ final case class ComplexMessage (
 	`firstField`: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY,
 	`secondField`: Option[String] = Some("defaultValueForSecondField"),
 	`nestedOuterField`: Option[ComplexMessage.Nested] = None,
-	`simpleEnumField`: Seq[ComplexMessage.SimpleEnum.EnumVal] = Vector.empty[ComplexMessage.SimpleEnum.EnumVal],
-	`repeatedStringField`: Seq[String] = Vector.empty[String],
-	`repeatedBytesField`: Seq[com.google.protobuf.ByteString] = Vector.empty[com.google.protobuf.ByteString]
+	`simpleEnumField`: collection.immutable.Seq[ComplexMessage.SimpleEnum.EnumVal] = Vector.empty[ComplexMessage.SimpleEnum.EnumVal],
+	`repeatedStringField`: collection.immutable.Seq[String] = Vector.empty[String],
+	`repeatedBytesField`: collection.immutable.Seq[com.google.protobuf.ByteString] = Vector.empty[com.google.protobuf.ByteString]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[ComplexMessage] {

@@ -127,7 +127,7 @@ class Generator protected (sourceName: String) {
           case OPTIONAL =>
             out.append("Option[").append(field.fType.scalaType).append("] = ").append(field.defaultValue).append(",\n")
           case REPEATED =>
-            out.append("Seq[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
+            out.append("collection.immutable.Seq[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
           case _ => // "missing combination <local child>"
         }
       }

@@ -17,8 +17,8 @@ final case class DataTypes (
 	`lengthDelim1`: Option[String] = None,
 	`lengthDelim2`: Option[com.google.protobuf.ByteString] = None,
 	`lengthDelim3`: Option[DataTypes.Varint8Enum.EnumVal] = None,
-	`lengthDelim4`: Seq[Int] = Vector.empty[Int],
-	`lengthDelim5`: Seq[Int] = Vector.empty[Int],
+	`lengthDelim4`: collection.immutable.Seq[Int] = Vector.empty[Int],
+	`lengthDelim5`: collection.immutable.Seq[Int] = Vector.empty[Int],
 	`f32bit1`: Option[Int] = None,
 	`f32bit2`: Option[Int] = None,
 	`f32bit3`: Option[Float] = None
