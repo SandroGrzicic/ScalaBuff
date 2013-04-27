@@ -524,6 +524,7 @@ object Generator {
   /** Prepend parent class names to all nested custom field types. */
   protected def prependParentClassNames(tree: List[Node], nestedMessageTypes: Map[Message, List[String]]) {
     val processedFieldTypes = new mutable.HashSet[FieldTypes.EnumVal]()
+    val processedEnums = new mutable.HashSet[FieldTypes.EnumVal]()
 
     for (node <- tree) node match {
       case parent @ Message(parentName, parentBody) =>
@@ -547,10 +548,11 @@ object Generator {
         // prepend parent class names to all nested enums
         parentBody.enums.foreach {
           case EnumStatement(eName, eConstants, eOptions) => {
-            for (field <- parentBody.fields.withFilter(_.fType.isEnum)) {
+            for (field <- parentBody.fields.withFilter( f => f.fType.isEnum && !processedEnums(f.fType))) {
               val fType = field.fType
               fType.scalaType = parentName + "." + fType.scalaType
               fType.defaultValue = fType.scalaType.replace(".EnumVal", "") + "._UNINITIALIZED"
+              processedEnums += fType
             }
           }
         }
