@@ -21,8 +21,8 @@ object ScalaBuffBuild extends Build {
 	lazy val buildSettings = Seq(
 		name := "ScalaBuff",
 		organization := "net.sandrogrzicic",
-		version := "1.2.0-SNAPSHOT",
-		scalaVersion := "2.10.1",
+		version := "1.2.1-SNAPSHOT",
+		scalaVersion := "2.10.0",
 		logLevel := Level.Info
 	)
 
@@ -44,10 +44,10 @@ object ScalaBuffBuild extends Build {
 		
 		libraryDependencies ++= Seq(
 			"org.scalatest" %% "scalatest" % "1.9.1" % "test",
-			"com.google.protobuf" % "protobuf-java" % "2.4.1"
+			"com.google.protobuf" % "protobuf-java" % "2.5.0"
 		),
 
-		crossScalaVersions ++= Seq("2.9.3", "2.10.1"),
+		crossScalaVersions ++= Seq("2.9.1", "2.9.2", "2.9.3", "2.10.0"),
 
 		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation", "-Xlint"),
 		javacOptions ++= Seq("-encoding", "utf8", "-Xlint:unchecked", "-Xlint:deprecation"),
