@@ -21,7 +21,7 @@ object ScalaBuffBuild extends Build {
 	lazy val buildSettings = Seq(
 		name := "ScalaBuff",
 		organization := "net.sandrogrzicic",
-		version := "1.2.0-SNAPSHOT",
+		version := "1.2.1-SNAPSHOT",
 		scalaVersion := "2.10.1",
 		logLevel := Level.Info
 	)
@@ -98,7 +98,7 @@ abstract class PublishToSonatype(build: Build) {
 
   val ossSnapshots = "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
   val ossStaging   = "Sonatype OSS Staging" at "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
-  
+
   def projectUrl: String
   def developerId: String
   def developerName: String
