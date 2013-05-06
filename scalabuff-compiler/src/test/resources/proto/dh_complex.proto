@@ -1,3 +1,8 @@
+/**
+ * author: David Harcombe
+ * https://github.com/mDialog/ScalaBuff/commit/bbb648d6ac1773199b0ae96e45846f3ad1328f3e
+ */
+
 package resources.generated;
 
 message Response {
