@@ -1,0 +1,49 @@
+package resources.generated;
+
+message Response {
+  message Rendition {
+    message Property {
+      enum Key {
+        UNDEFINED = 0;
+        BANDWIDTH = 1;
+        RESOLUTION = 2;
+        CODECS = 3;
+      }
+
+      required Key key = 1;
+      required string value = 2;
+    }
+
+    optional string profile_key = 1;
+    optional string data = 2;
+    repeated Property property = 3;
+  }
+
+  message Video {
+    optional string identifier = 1;
+    optional string asset_key = 2;
+    optional float duration = 3;
+    repeated Rendition renditions = 4;
+  }
+
+  message VideoFailure {
+    enum Cause {
+      UNEXPECTED = 1;
+      ASSET_NOT_FOUND = 2;
+      UNKNOWN_ACCOUNT = 3;
+      TIMEOUT = 4;
+      DATABASE_ERROR = 5;
+    }
+
+    optional string asset_key = 1;
+    repeated string reason = 2;
+    optional Cause cause = 3;
+  }
+
+  message VideoResult {
+    optional Video success = 1;
+    optional VideoFailure failure = 2;
+  }
+
+  repeated VideoResult response = 1;
+}

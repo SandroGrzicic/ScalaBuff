@@ -1,0 +1,8 @@
+project/target
+scalabuff-compiler/bin
+scalabuff-runtime/target
+scalabuff-runtime/doc
+scalabuff-runtime/bin
+scalabuff-compiler/target
+scalabuff-compiler/doc
+.cache
