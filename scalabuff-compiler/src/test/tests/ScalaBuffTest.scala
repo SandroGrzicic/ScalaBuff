@@ -18,6 +18,7 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 
 	val parsedExtension = ".txt"
 	val protoDir = "scalabuff-compiler" + SEP + "src" + SEP + "test" + SEP + "resources" + SEP + "proto" + SEP
+	val multiProtoDir = "scalabuff-compiler" + SEP + "src" + SEP + "test" + SEP + "resources" + SEP + "multipleprototests" + SEP
 	val parsedDir = "scalabuff-compiler" + SEP + "src" + SEP + "test" + SEP + "resources" + SEP + "parsed" + SEP
 	val generatedDir = "scalabuff-compiler" + SEP + "src" + SEP + "test" + SEP + "resources" + SEP + "generated" + SEP
 
@@ -86,6 +87,49 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 		outputFile should be ('exists)
 		val outputFileSource = io.Source.fromFile(outputFile)
 		outputFileSource.mkString should equal (testProtoGenerated)
+		outputFileSource.close()
+	}
+
+	test("main: input directory only") {
+		val outputDirectory = "scalabuff-compiler" + SEP + "src" + SEP + "test"
+		val protoFiles = Seq("one", "two")
+
+		outputStream.reset()
+		Console.withOut(printStream)({
+			ScalaBuff.main(Array("--scala_out=" + outputDirectory, "--proto_path=" + multiProtoDir, "--verbose"))
+			outputStream.toString("utf-8").split("\n").size should be (2)
+		})
+
+		for(proto <- protoFiles) {
+			val outputFile = new File(outputDirectory + "" + SEP + "resources" + SEP + "generated" + SEP + proto.capitalize + ".scala")
+			outputFile should be ('exists)
+			val outputFileSource = io.Source.fromFile(outputFile)
+			val exampleProtoGenerated =
+				io.Source.fromFile(new File(generatedDir + proto.capitalize + ".scala")).mkString
+			outputFileSource.mkString should equal (exampleProtoGenerated)
+			outputFileSource.close()
+		}
+	}
+
+	test("main: multiple input directories, with file") {
+		val outputDirectory = "scalabuff-compiler" + SEP + "src" + SEP + "test"
+
+		outputStream.reset()
+		Console.withOut(printStream)({
+			ScalaBuff.main(Array("--scala_out=" + outputDirectory, 
+				"--proto_path=" + parsedDir, // I know there's no proto files here, but we want to make sure one.proto is found 
+				"--proto_path=" + multiProtoDir, 
+				"--verbose",
+				"one.proto"))
+			outputStream.toString("utf-8").split("\n").size should be (1)
+		})
+
+		val outputFile = new File(outputDirectory + "" + SEP + "resources" + SEP + "generated" + SEP + "one".capitalize + ".scala")
+		outputFile should be ('exists)
+		val outputFileSource = io.Source.fromFile(outputFile)
+		val exampleProtoGenerated =
+			io.Source.fromFile(new File(generatedDir + "one".capitalize + ".scala")).mkString
+		outputFileSource.mkString should equal (exampleProtoGenerated)
 		outputFileSource.close()
 	}
 
