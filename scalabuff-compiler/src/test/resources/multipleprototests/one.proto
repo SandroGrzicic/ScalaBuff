@@ -1,0 +1,6 @@
+package resources.generated;
+
+option optimize_for = LITE_RUNTIME;
+
+message MutiMessageOne {
+}
