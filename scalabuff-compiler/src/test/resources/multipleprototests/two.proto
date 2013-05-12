@@ -1,0 +1,13 @@
+package resources.generated;
+
+option optimize_for = LITE_RUNTIME;
+
+message MultiMessageTwo {
+	required int32 required_field = 1;
+	optional float optional_field = 2;
+	repeated string repeated_field = 3;
+	
+	optional int32 type = 4 [default=100];
+	optional int32 int32Default = 5 [default=100];
+	optional string stringDefault = 6 [default="some string"];
+}
