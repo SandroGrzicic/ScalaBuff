@@ -67,7 +67,7 @@ class BuffedString(str: String) {
 	/**
 	 * Removes leading and trailing double quotes from this string, if any.
 	 */
-	def stripQuotes() = str.stripPrefix("\"").stripSuffix("\"")
+	def stripQuotes = str.stripPrefix("\"").stripSuffix("\"")
 }
 
 object BuffedString {
