@@ -5,6 +5,7 @@ scalaVersion := "2.10.1"
 // bundle plugin
 bundleSettings := com.mdialog.bundle_plugin.BundleSettings(
   runInForeground = true,
+  startupScriptTemplate = Some("scalabuff-compiler/scripts/scalabuff-compiler"),
   generateInitScript = false
 )
 
