@@ -1,0 +1,40 @@
+#!/bin/sh
+
+TARGET_FILE=$0
+
+cd `dirname $TARGET_FILE`
+TARGET_FILE=`basename $TARGET_FILE`
+
+# Iterate down a (possible) chain of symlinks
+while [ -L "$TARGET_FILE" ]
+do
+    TARGET_FILE=`readlink $TARGET_FILE`
+    cd `dirname $TARGET_FILE`
+    TARGET_FILE=`basename $TARGET_FILE`
+done
+
+# Compute the canonicalized name by finding the physical path 
+# for the directory we're in and appending the target file.
+PHYS_DIR=`pwd -P`
+BASE=$PHYS_DIR
+
+ENV_FULL_PATH=@ENV_LOC@/@ENV_FILE@
+
+# Look for environment file
+if [ -f $ENV_FULL_PATH ]; then
+  source $ENV_FULL_PATH
+else
+  JAVA_OPTS="${JAVA_OPTS:-} @EXTRA_JAVA@"
+fi
+
+# If JAVA_OPTS has been provided, use it.
+JAVA_OPTS="${JAVA_OPTS:-}"
+
+MAIN_CLASS=@MAIN_CLASS@
+JAR=$BASE/@BASE_JAR@.jar
+LIBS=`find $BASE/lib -name \*.jar | tr '\n' ':'`
+
+JAVA_CMD="java $JAVA_OPTS -cp $BASE:$JAR:$LIBS $MAIN_CLASS"
+
+# Invoke main: pass "$@" to preserve embedded spaces
+$JAVA_CMD "$@"
