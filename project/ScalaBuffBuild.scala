@@ -48,7 +48,7 @@ object ScalaBuffBuild extends Build {
 			"com.google.protobuf" % "protobuf-java" % "2.5.0"
 		),
 
-//		crossScalaVersions ++= Seq("2.10.1"),
+		crossScalaVersions ++= Seq("2.10.1", "2.9.1"),
 
 		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation", "-Xlint"),
 		javacOptions ++= Seq("-encoding", "utf8", "-Xlint:unchecked", "-Xlint:deprecation"),
