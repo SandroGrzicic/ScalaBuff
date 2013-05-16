@@ -1,6 +1,7 @@
 import sbt._
 import Keys._
 import java.io.File
+import com.mdialog.bundle_plugin._
 
 /**
  * ScalaBuff SBT build file.
@@ -21,7 +22,7 @@ object ScalaBuffBuild extends Build {
 	lazy val buildSettings = Seq(
 		name := "ScalaBuff",
 		organization := "net.sandrogrzicic",
-		version := "1.2.0",
+		version := "1.2.1-SNAPSHOT",
 		scalaVersion := "2.10.1",
 		logLevel := Level.Info
 	)
@@ -44,10 +45,10 @@ object ScalaBuffBuild extends Build {
 		
 		libraryDependencies ++= Seq(
 			"org.scalatest" %% "scalatest" % "1.9.1" % "test",
-			"com.google.protobuf" % "protobuf-java" % "2.4.1"
+			"com.google.protobuf" % "protobuf-java" % "2.5.0"
 		),
 
-		crossScalaVersions ++= Seq("2.9.3", "2.10.1"),
+		crossScalaVersions ++= Seq("2.10.1", "2.9.1"),
 
 		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation", "-Xlint"),
 		javacOptions ++= Seq("-encoding", "utf8", "-Xlint:unchecked", "-Xlint:deprecation"),
@@ -99,6 +100,9 @@ abstract class PublishToSonatype(build: Build) {
   val ossSnapshots = "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots/"
   val ossStaging   = "Sonatype OSS Staging" at "https://oss.sonatype.org/service/local/staging/deploy/maven2/"
 
+  val mDialogSnapshots = "mDialog Snapshots" at "http://artifactory.mdialog.com/artifactory/snapshots"
+  val mDialogReleases = "mDialog Releases" at "http://artifactory.mdialog.com/artifactory/releases"
+
   def projectUrl: String
   def developerId: String
   def developerName: String
@@ -132,7 +136,7 @@ abstract class PublishToSonatype(build: Build) {
 
   def settings: Seq[Setting[_]] = Seq(
     publishMavenStyle := true,
-    publishTo <<= version((v: String) => Some( if (v.trim endsWith "SNAPSHOT") ossSnapshots else ossStaging)),
+    publishTo <<= version((v: String) => Some( if (v.trim endsWith "SNAPSHOT") mDialogSnapshots else mDialogReleases)),
     publishArtifact in Test := false,
     pomIncludeRepository := (_ => false),
     pomExtra <<= (scalaVersion)(generatePomExtra)
