@@ -9,6 +9,9 @@ final case class SimpleTest (
 	`repeatedField`: collection.immutable.Seq[String] = Vector.empty[String],
 	`type`: Option[Int] = Some(100),
 	`int32Default`: Option[Int] = Some(100),
+	`int32Negative`: Option[Int] = Some(-1),
+	`floatDefault`: Option[Float] = Some(1.0),
+	`floatNegative`: Option[Float] = Some(-1.0),
 	`stringDefault`: Option[String] = Some("somestring")
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
@@ -21,12 +24,18 @@ final case class SimpleTest (
 	def addAllRepeatedField(_f: TraversableOnce[String]) = copy(`repeatedField` = `repeatedField` ++ _f)
 	def setType(_f: Int) = copy(`type` = _f)
 	def setInt32Default(_f: Int) = copy(`int32Default` = _f)
+	def setInt32Negative(_f: Int) = copy(`int32Negative` = _f)
+	def setFloatDefault(_f: Float) = copy(`floatDefault` = _f)
+	def setFloatNegative(_f: Float) = copy(`floatNegative` = _f)
 	def setStringDefault(_f: String) = copy(`stringDefault` = _f)
 
 	def clearOptionalField = copy(`optionalField` = None)
 	def clearRepeatedField = copy(`repeatedField` = Vector.empty[String])
 	def clearType = copy(`type` = None)
 	def clearInt32Default = copy(`int32Default` = None)
+	def clearInt32Negative = copy(`int32Negative` = None)
+	def clearFloatDefault = copy(`floatDefault` = None)
+	def clearFloatNegative = copy(`floatNegative` = None)
 	def clearStringDefault = copy(`stringDefault` = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
@@ -35,7 +44,10 @@ final case class SimpleTest (
 		for (_v <- `repeatedField`) output.writeString(3, _v)
 		if (`type`.isDefined) output.writeInt32(4, `type`.get)
 		if (`int32Default`.isDefined) output.writeInt32(5, `int32Default`.get)
-		if (`stringDefault`.isDefined) output.writeString(6, `stringDefault`.get)
+		if (`int32Negative`.isDefined) output.writeInt32(6, `int32Negative`.get)
+		if (`floatDefault`.isDefined) output.writeFloat(6, `floatDefault`.get)
+		if (`floatNegative`.isDefined) output.writeFloat(6, `floatNegative`.get)
+		if (`stringDefault`.isDefined) output.writeString(7, `stringDefault`.get)
 	}
 
 	lazy val getSerializedSize = {
@@ -46,7 +58,10 @@ final case class SimpleTest (
 		for (_v <- `repeatedField`) size += computeStringSize(3, _v)
 		if (`type`.isDefined) size += computeInt32Size(4, `type`.get)
 		if (`int32Default`.isDefined) size += computeInt32Size(5, `int32Default`.get)
-		if (`stringDefault`.isDefined) size += computeStringSize(6, `stringDefault`.get)
+		if (`int32Negative`.isDefined) size += computeInt32Size(6, `int32Negative`.get)
+		if (`floatDefault`.isDefined) size += computeFloatSize(6, `floatDefault`.get)
+		if (`floatNegative`.isDefined) size += computeFloatSize(6, `floatNegative`.get)
+		if (`stringDefault`.isDefined) size += computeStringSize(7, `stringDefault`.get)
 
 		size
 	}
@@ -58,6 +73,9 @@ final case class SimpleTest (
 		val __repeatedField: collection.mutable.Buffer[String] = `repeatedField`.toBuffer
 		var __type: Option[Int] = `type`
 		var __int32Default: Option[Int] = `int32Default`
+		var __int32Negative: Option[Int] = `int32Negative`
+		var __floatDefault: Option[Float] = `floatDefault`
+		var __floatNegative: Option[Float] = `floatNegative`
 		var __stringDefault: Option[String] = `stringDefault`
 
 		def __newMerged = SimpleTest(
@@ -66,6 +84,9 @@ final case class SimpleTest (
 			Vector(__repeatedField: _*),
 			__type,
 			__int32Default,
+			__int32Negative,
+			__floatDefault,
+			__floatNegative,
 			__stringDefault
 		)
 		while (true) in.readTag match {
@@ -75,7 +96,10 @@ final case class SimpleTest (
 			case 26 => __repeatedField += in.readString()
 			case 32 => __type = in.readInt32()
 			case 40 => __int32Default = in.readInt32()
-			case 50 => __stringDefault = in.readString()
+			case 48 => __int32Negative = in.readInt32()
+			case 53 => __floatDefault = in.readFloat()
+			case 53 => __floatNegative = in.readFloat()
+			case 58 => __stringDefault = in.readString()
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -88,6 +112,9 @@ final case class SimpleTest (
 			`repeatedField` ++ m.`repeatedField`,
 			m.`type`.orElse(`type`),
 			m.`int32Default`.orElse(`int32Default`),
+			m.`int32Negative`.orElse(`int32Negative`),
+			m.`floatDefault`.orElse(`floatDefault`),
+			m.`floatNegative`.orElse(`floatNegative`),
 			m.`stringDefault`.orElse(`stringDefault`)
 		)
 	}
@@ -109,7 +136,10 @@ object SimpleTest {
 	val REPEATED_FIELD_FIELD_NUMBER = 3
 	val TYPE_FIELD_NUMBER = 4
 	val INT32DEFAULT_FIELD_NUMBER = 5
-	val STRINGDEFAULT_FIELD_NUMBER = 6
+	val INT32NEGATIVE_FIELD_NUMBER = 6
+	val FLOATDEFAULT_FIELD_NUMBER = 6
+	val FLOATNEGATIVE_FIELD_NUMBER = 6
+	val STRINGDEFAULT_FIELD_NUMBER = 7
 
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: SimpleTest) = defaultInstance.mergeFrom(prototype)
