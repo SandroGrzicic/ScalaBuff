@@ -1,7 +1,7 @@
 package net.sandrogrzicic.scalabuff.compiler
 
 import util.parsing.combinator._
-import util.parsing.input.{PagedSeqReader, CharSequenceReader}
+import util.parsing.input.{ PagedSeqReader, CharSequenceReader }
 import collection.immutable.PagedSeq
 import collection.mutable.ListBuffer
 
@@ -28,7 +28,7 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 		case name ~ body => Extension(name, parseBody(body.filter(_.isInstanceOf[Node])))
 	}
 
-	lazy val enumP: PackratParser[EnumStatement] = ("enum" ~> identifier <~ "{" ) ~ ((option | enumField | ";") *) <~ "}" <~ (";" ?) ^^ {
+	lazy val enumP: PackratParser[EnumStatement] = ("enum" ~> identifier <~ "{") ~ ((option | enumField | ";") *) <~ "}" <~ (";" ?) ^^ {
 		case name ~ values => {
 			val constants = values.view.collect { case constant: EnumConstant => constant }
 			val options = values.view.collect { case option: Option => option }
@@ -56,17 +56,17 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 		case gLabel ~ name ~ number ~ body => Group(gLabel, name, number.toInt, body)
 	}
 
-	lazy val field: PackratParser[Field] = label ~ fieldType ~ (identifier <~ "=") ~ integerConstant ~
+	lazy val field: PackratParser[Field] = label ~ fieldType ~ (identifier <~ "=") ~ fieldId ~
 		(("[" ~> optionBody ~ (("," ~ optionBody) *) <~ "]") ?) <~ ";" ^^ {
-		case fLabel ~ fType ~ name ~ number ~ options => {
-		  val optionList = options match  {
-        case Some(fOpt ~ fOpts) => List(fOpt) ++ fOpts.map(e => e._2)
-        case None => List[Option]()
-      }
+			case fLabel ~ fType ~ name ~ number ~ options => {
+				val optionList = options match {
+					case Some(fOpt ~ fOpts) => List(fOpt) ++ fOpts.map(e => e._2)
+					case None => List[Option]()
+				}
 
-      Field(fLabel, fType, name, number.toInt, optionList)		  
+				Field(fLabel, fType, name, number.toInt, optionList)
+			}
 		}
-	}
 
 	lazy val label: PackratParser[FieldLabels.EnumVal] = ("required" | "optional" | "repeated") ^^ {
 		fLabel => FieldLabels(fLabel)
@@ -96,25 +96,27 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 	lazy val constant: PackratParser[String] = identifier | integerConstant | floatConstant | quotedStringConstant | stringConstant | booleanConstant
 
 	lazy val identifier: PackratParser[String] = memo("""[A-Za-z_][\w_]*""".r)
-	
+
 	lazy val camelCaseIdentifier: PackratParser[String] = memo("""[A-Z][\w_]*""".r)
 
+	lazy val fieldId: PackratParser[String] = memo("""\d+""".r)
+
 	lazy val integerConstant: PackratParser[String] = hexadecimalInteger | octalInteger | decimalInteger
-	lazy val decimalInteger: PackratParser[String] = memo("""[0-9]\d*""".r)
-	lazy val hexadecimalInteger: PackratParser[String] = memo("""0[xX]([A-Fa-f0-9])+""".r) ^^ {
+	lazy val decimalInteger: PackratParser[String] = memo("""-?\d+""".r)
+	lazy val hexadecimalInteger: PackratParser[String] = memo("""0[xX][A-Fa-f0-9]+""".r) ^^ {
 		hexStr => Integer.parseInt(hexStr.drop(2), 16).toString
 	}
 	lazy val octalInteger: PackratParser[String] = memo("""0[0-7]+""".r) ^^ {
 		octStr => Integer.parseInt(octStr, 8).toString
 	}
-	lazy val floatConstant: PackratParser[String] = memo("""\d+(\.\d+)?([Ee][\+-]?\d+)?""".r)
+	lazy val floatConstant: PackratParser[String] = memo("""-?\d+(\.\d+)?([Ee][+-]?\d+)?""".r)
 	lazy val booleanConstant: PackratParser[String] = "true" | "false"
 	lazy val stringConstant: PackratParser[String] = ((hexEscape | octEscape | charEscape | stringCharacter) *) ^^ {
 		string: List[String] => string.mkString
 	}
-  lazy val quotedStringConstant: PackratParser[String] = quotationMarks ~> ((hexEscape | octEscape | charEscape | stringCharacter) *) <~ quotationMarks ^^ {
-    string: List[String] => "\"" + string.mkString + "\""
-  }
+	lazy val quotedStringConstant: PackratParser[String] = quotationMarks ~> ((hexEscape | octEscape | charEscape | stringCharacter) *) <~ quotationMarks ^^ {
+		string: List[String] => "\"" + string.mkString + "\""
+	}
 	lazy val stringCharacter: PackratParser[String] = memo("""[^"\n]""".r)
 	lazy val quotationMarks: PackratParser[String] = memo("""["']""".r)
 	lazy val hexEscape: PackratParser[String] = memo("""\\[Xx][A-Fa-f0-9]{1,2}""".r)
@@ -208,7 +210,7 @@ object Parser {
 	 */
 	def apply(input: String, name: String): List[Node] =
 		new Parser(name).protoParse(new CharSequenceReader(input))
-	
+
 	/**
 	 * Parse the given String input as a .proto file and return the resulting parse tree.
 	 */
