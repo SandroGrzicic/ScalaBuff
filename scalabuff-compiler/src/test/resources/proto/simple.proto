@@ -9,5 +9,6 @@ message SimpleTest {
 	
 	optional int32 type = 4 [default=100];
 	optional int32 int32Default = 5 [default=100];
-	optional string stringDefault = 6 [default="some string"];
+	optional int32 int32Negative = 6 [default=-1];
+	optional string stringDefault = 7 [default="some string"];
 }
