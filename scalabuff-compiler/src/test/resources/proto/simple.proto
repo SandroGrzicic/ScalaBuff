@@ -12,5 +12,5 @@ message SimpleTest {
 	optional int32 int32Negative = 6 [default=-1];
 	optional string stringDefault = 7 [default="some string"];
 	optional float floatDefault = 8 [default=1.0];
-	optional float floatNegative = 8 [default=-1.0];
+	optional float floatNegative = 9 [default=-1.0];
 }

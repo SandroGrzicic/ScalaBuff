@@ -563,20 +563,24 @@ object Generator {
     for (node <- tree) node match {
       case Message(_, body) =>
         for (field <- body.fields) {
-          field.defaultValue =
+          field.defaultValue = {
             if (field.label == FieldLabels.OPTIONAL) {
               field.options.find(_.key == "default") match {
                 case Some(option) => "Some(" + {
                   val qualifiedType = field.fType.scalaType.takeUntilLast('.')
                   if (qualifiedType.isEmpty) option.value
                   else qualifiedType + "." + option.value
-                } + ")"
+                } + {
+                  if (field.fType.scalaType == "Float") "f" else ""
+                } +
+                ")"
 
                 case None => "None"
               }
             } else {
               field.fType.defaultValue
             }
+          }
         }
         // recurse for any nested messages
         setDefaultsForOptionalFields(body.messages)

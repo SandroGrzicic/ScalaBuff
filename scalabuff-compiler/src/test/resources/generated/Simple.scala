@@ -11,8 +11,8 @@ final case class SimpleTest (
 	`int32Default`: Option[Int] = Some(100),
 	`int32Negative`: Option[Int] = Some(-1),
 	`stringDefault`: Option[String] = Some("somestring"),
-	`floatDefault`: Option[Float] = Some(1.0),
-	`floatNegative`: Option[Float] = Some(-1.0)
+	`floatDefault`: Option[Float] = Some(1.0f),
+	`floatNegative`: Option[Float] = Some(-1.0f)
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[SimpleTest] {
@@ -47,7 +47,7 @@ final case class SimpleTest (
 		if (`int32Negative`.isDefined) output.writeInt32(6, `int32Negative`.get)
 		if (`stringDefault`.isDefined) output.writeString(7, `stringDefault`.get)
 		if (`floatDefault`.isDefined) output.writeFloat(8, `floatDefault`.get)
-		if (`floatNegative`.isDefined) output.writeFloat(8, `floatNegative`.get)
+		if (`floatNegative`.isDefined) output.writeFloat(9, `floatNegative`.get)
 	}
 
 	lazy val getSerializedSize = {
@@ -61,7 +61,7 @@ final case class SimpleTest (
 		if (`int32Negative`.isDefined) size += computeInt32Size(6, `int32Negative`.get)
 		if (`stringDefault`.isDefined) size += computeStringSize(7, `stringDefault`.get)
 		if (`floatDefault`.isDefined) size += computeFloatSize(8, `floatDefault`.get)
-		if (`floatNegative`.isDefined) size += computeFloatSize(8, `floatNegative`.get)
+		if (`floatNegative`.isDefined) size += computeFloatSize(9, `floatNegative`.get)
 
 		size
 	}
@@ -99,7 +99,7 @@ final case class SimpleTest (
 			case 48 => __int32Negative = in.readInt32()
 			case 58 => __stringDefault = in.readString()
 			case 69 => __floatDefault = in.readFloat()
-			case 69 => __floatNegative = in.readFloat()
+			case 77 => __floatNegative = in.readFloat()
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -139,7 +139,7 @@ object SimpleTest {
 	val INT32NEGATIVE_FIELD_NUMBER = 6
 	val STRINGDEFAULT_FIELD_NUMBER = 7
 	val FLOATDEFAULT_FIELD_NUMBER = 8
-	val FLOATNEGATIVE_FIELD_NUMBER = 8
+	val FLOATNEGATIVE_FIELD_NUMBER = 9
 
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: SimpleTest) = defaultInstance.mergeFrom(prototype)
