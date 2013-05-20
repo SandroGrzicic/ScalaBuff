@@ -54,6 +54,7 @@ object ScalaBuff {
   def findFiles(startAt: File): Seq[File] = {
     def recurse(src: File, seq: Seq[File] = Seq[File]()): Seq[File] = {
       src match {
+        case e if !e.exists() => println(Strings.INVALID_IMPORT_DIRECTORY + e); seq
         case f if f.isFile => seq :+ src
         case d => seq ++ src.listFiles(protoFileFilter).toSeq.map(recurse(_)).foldLeft(Seq[File]())(_ ++ _)
       }
