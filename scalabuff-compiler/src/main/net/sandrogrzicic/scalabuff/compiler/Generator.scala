@@ -144,7 +144,7 @@ class Generator protected (sourceName: String) {
         out.append("GeneratedMessageLite.ExtendableMessage[").append(name).append("]")
         out.append("\n").append(indent1).append("with net.sandrogrzicic.scalabuff.ExtendableMessage[").append(name).append("]")
       }
-      
+
       out.append(" {\n\n")
 
       // setters
@@ -152,7 +152,7 @@ class Generator protected (sourceName: String) {
         field.label match {
           case OPTIONAL => out.append(indent1)
             .append("def set").append(field.name.camelCase).append("(_f: ").append(field.fType.scalaType)
-            .append(") = copy(").append(field.name.toScalaIdent).append(" = _f)\n")
+            .append(") = copy(").append(field.name.toScalaIdent).append(" = Some(_f))\n")
           case REPEATED => out
             .append(indent1).append("def set").append(field.name.camelCase).append("(_i: Int, _v: ").append(field.fType.scalaType)
             .append(") = copy(").append(field.name.toScalaIdent).append(" = ").append(field.name.toScalaIdent).append(".updated(_i, _v))\n")
@@ -259,14 +259,22 @@ class Generator protected (sourceName: String) {
       out.append(indent2).append(")\n")
         .append(indent2).append("while (true) in.readTag match {\n")
         .append(indent3).append("case 0 => return __newMerged\n")
+      var isOptional=false
       for (field <- fields) {
+        isOptional=field.label match {
+          case OPTIONAL=>true
+          case _=>false
+        }
         out.append(indent3).append("case ").append((field.number << 3) | field.fType.wireType).append(" => ")
         out.append(field.name.toTemporaryIdent).append(" ")
+
         if (field.label == REPEATED) out.append("+")
         out.append("= ")
+        if(isOptional)out.append("Some(")
         if (field.fType == WIRETYPE_LENGTH_DELIMITED) out.append("in.readBytes()")
         else if (field.fType.isEnum) out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
         else if (field.fType.isMessage) {
+
           out.append("readMessage[").append(field.fType.scalaType).append("](in, ")
           field.label match {
             case REQUIRED => out.append(field.name.toTemporaryIdent)
@@ -280,7 +288,9 @@ class Generator protected (sourceName: String) {
             case _ => // "missing combination <local child>"
           }
           out.append(", _emptyRegistry)")
+
         } else out.append("in.read").append(field.fType.name).append("()")
+        if(isOptional) out.append(")")
         out.append("\n")
       }
       out.append(indent3).append("case default => if (!in.skipField(default)) return __newMerged\n")
@@ -323,8 +333,8 @@ class Generator protected (sourceName: String) {
           .append(indent1).append("def toBuilder = this\n")
       } else {
         out
-            .append(indent1).append("def newBuilderForType = throw new RuntimeException(\"Method not available.\")\n")
-            .append(indent1).append("def toBuilder = throw new RuntimeException(\"Method not available.\")\n")
+          .append(indent1).append("def newBuilderForType = throw new RuntimeException(\"Method not available.\")\n")
+          .append(indent1).append("def toBuilder = throw new RuntimeException(\"Method not available.\")\n")
       }
 
       out.append(indent0).append("}\n\n")
@@ -346,8 +356,8 @@ class Generator protected (sourceName: String) {
 
       // newBuilder
       out
-          .append(indent1).append("def newBuilder = defaultInstance.newBuilderForType\n")
-          .append(indent1).append("def newBuilder(prototype: ").append(name).append(") = defaultInstance.mergeFrom(prototype)\n")
+        .append(indent1).append("def newBuilder = defaultInstance.newBuilderForType\n")
+        .append(indent1).append("def newBuilder(prototype: ").append(name).append(") = defaultInstance.mergeFrom(prototype)\n")
 
       out.append("\n")
 
@@ -472,10 +482,10 @@ object Generator {
 
   /** Return all enum names and custom field types found in the specified tree. */
   protected def getEnumNames(
-    tree: List[Node],
-    enumNames: mutable.HashSet[String] = mutable.HashSet.empty[String],
-    customFieldTypes: mutable.ArrayBuffer[FieldTypes.EnumVal] = mutable.ArrayBuffer.empty[FieldTypes.EnumVal]
-  ): (mutable.HashSet[String], mutable.ArrayBuffer[FieldTypes.EnumVal]) = {
+                              tree: List[Node],
+                              enumNames: mutable.HashSet[String] = mutable.HashSet.empty[String],
+                              customFieldTypes: mutable.ArrayBuffer[FieldTypes.EnumVal] = mutable.ArrayBuffer.empty[FieldTypes.EnumVal]
+                              ): (mutable.HashSet[String], mutable.ArrayBuffer[FieldTypes.EnumVal]) = {
 
     for (node <- tree) {
       node match {
@@ -513,14 +523,14 @@ object Generator {
     for (node <- tree) node match {
       case m @ Message(name, body) =>
         for (innerMessage <- body.messages) {
-          nestedMessages.put(m, innerMessage.name :: nestedMessages.getOrElse(m, Nil)) 
+          nestedMessages.put(m, innerMessage.name :: nestedMessages.getOrElse(m, Nil))
         }
         nestedMessages ++= getAllNestedMessageTypes(body.messages)
       case _ => Nil
     }
     nestedMessages.toMap
   }
-  
+
   /** Prepend parent class names to all nested custom field types. */
   val processedFieldTypes = new mutable.HashSet[FieldTypes.EnumVal]()
   val processedEnums = new mutable.HashSet[FieldTypes.EnumVal]()
@@ -573,7 +583,7 @@ object Generator {
                 } + {
                   if (field.fType.scalaType == "Float") "f" else ""
                 } +
-                ")"
+                  ")"
 
                 case None => "None"
               }
