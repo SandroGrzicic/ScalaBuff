@@ -139,13 +139,13 @@ object ScalaBuff {
         val dir = s.substring("-I".length)
         val importDir = new File(dir)
         if (!importDir.isDirectory) Strings.INVALID_IMPORT_DIRECTORY + dir
-        settings.copy(importDirectories = settings.importDirectories :+ importDir)
+        else settings.copy(importDirectories = settings.importDirectories :+ importDir)
 
       case s if s startsWith "--proto_path=" =>
         val dir = s.substring("--proto_path=".length)
         val importDir = new File(dir)
         if (!importDir.isDirectory) Strings.INVALID_IMPORT_DIRECTORY + dir
-        settings.copy(importDirectories = settings.importDirectories :+ importDir)
+        else settings.copy(importDirectories = settings.importDirectories :+ importDir)
 
       case s if s startsWith "--scala_out=" =>
         val dir = s.substring("--scala_out=".length)
