@@ -120,6 +120,9 @@ object ComplexMessage {
 	val REPEATED_STRING_FIELD_FIELD_NUMBER = 5
 	val REPEATED_BYTES_FIELD_FIELD_NUMBER = 6
 
+	def apply(message: Array[Byte]): ComplexMessage = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): ComplexMessage = defaultInstance.mergeFrom(message)
+
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: ComplexMessage) = defaultInstance.mergeFrom(prototype)
 
@@ -205,6 +208,9 @@ object ComplexMessage {
 		val NESTED_FIELD_FIELD_NUMBER = 1
 		val NESTED_ENUM_FIELD_NUMBER = 2
 
+		def apply(message: Array[Byte]): Nested = defaultInstance.mergeFrom(message)
+		def apply(message: com.google.protobuf.ByteString): Nested = defaultInstance.mergeFrom(message)
+
 		def newBuilder = defaultInstance.newBuilderForType
 		def newBuilder(prototype: Nested) = defaultInstance.mergeFrom(prototype)
 
@@ -272,6 +278,9 @@ object AnotherMessage {
 
 	val FIELD_NESTED_FIELD_NUMBER = 1
 	val FIELD_ENUM_FIELD_NUMBER = 2
+
+	def apply(message: Array[Byte]): AnotherMessage = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): AnotherMessage = defaultInstance.mergeFrom(message)
 
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: AnotherMessage) = defaultInstance.mergeFrom(prototype)

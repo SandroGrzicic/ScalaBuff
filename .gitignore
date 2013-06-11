@@ -6,3 +6,7 @@ scalabuff-runtime/bin
 scalabuff-compiler/target
 scalabuff-compiler/doc
 .cache
+project/project
+scalabuff-compiler/project/target
+.idea
+.idea_modules

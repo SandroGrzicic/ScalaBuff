@@ -63,6 +63,9 @@ object Response {
 
 	val RESPONSE_FIELD_NUMBER = 1
 
+	def apply(message: Array[Byte]): Response = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): Response = defaultInstance.mergeFrom(message)
+
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: Response) = defaultInstance.mergeFrom(prototype)
 
@@ -146,6 +149,9 @@ object Response {
 		val DATA_FIELD_NUMBER = 2
 		val PROPERTY_FIELD_NUMBER = 3
 
+		def apply(message: Array[Byte]): Rendition = defaultInstance.mergeFrom(message)
+		def apply(message: com.google.protobuf.ByteString): Rendition = defaultInstance.mergeFrom(message)
+
 		def newBuilder = defaultInstance.newBuilderForType
 		def newBuilder(prototype: Rendition) = defaultInstance.mergeFrom(prototype)
 
@@ -211,6 +217,9 @@ object Response {
 
 			val KEY_FIELD_NUMBER = 1
 			val VALUE_FIELD_NUMBER = 2
+
+			def apply(message: Array[Byte]): Property = defaultInstance.mergeFrom(message)
+			def apply(message: com.google.protobuf.ByteString): Property = defaultInstance.mergeFrom(message)
 
 			def newBuilder = defaultInstance.newBuilderForType
 			def newBuilder(prototype: Property) = defaultInstance.mergeFrom(prototype)
@@ -333,6 +342,9 @@ object Response {
 		val DURATION_FIELD_NUMBER = 3
 		val RENDITIONS_FIELD_NUMBER = 4
 
+		def apply(message: Array[Byte]): Video = defaultInstance.mergeFrom(message)
+		def apply(message: com.google.protobuf.ByteString): Video = defaultInstance.mergeFrom(message)
+
 		def newBuilder = defaultInstance.newBuilderForType
 		def newBuilder(prototype: Video) = defaultInstance.mergeFrom(prototype)
 
@@ -416,6 +428,9 @@ object Response {
 		val ASSET_KEY_FIELD_NUMBER = 1
 		val REASON_FIELD_NUMBER = 2
 		val CAUSE_FIELD_NUMBER = 3
+
+		def apply(message: Array[Byte]): VideoFailure = defaultInstance.mergeFrom(message)
+		def apply(message: com.google.protobuf.ByteString): VideoFailure = defaultInstance.mergeFrom(message)
 
 		def newBuilder = defaultInstance.newBuilderForType
 		def newBuilder(prototype: VideoFailure) = defaultInstance.mergeFrom(prototype)
@@ -522,6 +537,9 @@ object Response {
 
 		val SUCCESS_FIELD_NUMBER = 1
 		val FAILURE_FIELD_NUMBER = 2
+
+		def apply(message: Array[Byte]): VideoResult = defaultInstance.mergeFrom(message)
+		def apply(message: com.google.protobuf.ByteString): VideoResult = defaultInstance.mergeFrom(message)
 
 		def newBuilder = defaultInstance.newBuilderForType
 		def newBuilder(prototype: VideoResult) = defaultInstance.mergeFrom(prototype)
