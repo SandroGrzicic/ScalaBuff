@@ -53,6 +53,9 @@ object Groups {
 	@reflect.BeanProperty val defaultInstance = new Groups()
 
 
+	def apply(message: Array[Byte]): Groups = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): Groups = defaultInstance.mergeFrom(message)
+
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: Groups) = defaultInstance.mergeFrom(prototype)
 

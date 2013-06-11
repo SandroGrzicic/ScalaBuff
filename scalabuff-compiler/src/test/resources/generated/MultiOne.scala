@@ -53,6 +53,9 @@ object MutiMessageOne {
 	@reflect.BeanProperty val defaultInstance = new MutiMessageOne()
 
 
+	def apply(message: Array[Byte]): MutiMessageOne = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): MutiMessageOne = defaultInstance.mergeFrom(message)
+
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: MutiMessageOne) = defaultInstance.mergeFrom(prototype)
 

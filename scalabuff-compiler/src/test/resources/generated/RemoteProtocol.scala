@@ -76,6 +76,9 @@ object AkkaRemoteProtocol {
 	val MESSAGE_FIELD_NUMBER = 1
 	val INSTRUCTION_FIELD_NUMBER = 2
 
+	def apply(message: Array[Byte]): AkkaRemoteProtocol = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): AkkaRemoteProtocol = defaultInstance.mergeFrom(message)
+
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: AkkaRemoteProtocol) = defaultInstance.mergeFrom(prototype)
 
@@ -169,6 +172,9 @@ object RemoteMessageProtocol {
 	val SENDER_FIELD_NUMBER = 4
 	val METADATA_FIELD_NUMBER = 5
 
+	def apply(message: Array[Byte]): RemoteMessageProtocol = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): RemoteMessageProtocol = defaultInstance.mergeFrom(message)
+
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: RemoteMessageProtocol) = defaultInstance.mergeFrom(prototype)
 
@@ -251,6 +257,9 @@ object RemoteControlProtocol {
 	val COOKIE_FIELD_NUMBER = 2
 	val ORIGIN_FIELD_NUMBER = 3
 
+	def apply(message: Array[Byte]): RemoteControlProtocol = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): RemoteControlProtocol = defaultInstance.mergeFrom(message)
+
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: RemoteControlProtocol) = defaultInstance.mergeFrom(prototype)
 
@@ -332,6 +341,9 @@ object ActorRefProtocol {
 
 	val PATH_FIELD_NUMBER = 1
 
+	def apply(message: Array[Byte]): ActorRefProtocol = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): ActorRefProtocol = defaultInstance.mergeFrom(message)
+
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: ActorRefProtocol) = defaultInstance.mergeFrom(prototype)
 
@@ -409,6 +421,9 @@ object MessageProtocol {
 	val SERIALIZERID_FIELD_NUMBER = 2
 	val MESSAGEMANIFEST_FIELD_NUMBER = 3
 
+	def apply(message: Array[Byte]): MessageProtocol = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): MessageProtocol = defaultInstance.mergeFrom(message)
+
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: MessageProtocol) = defaultInstance.mergeFrom(prototype)
 
@@ -475,6 +490,9 @@ object MetadataEntryProtocol {
 
 	val KEY_FIELD_NUMBER = 1
 	val VALUE_FIELD_NUMBER = 2
+
+	def apply(message: Array[Byte]): MetadataEntryProtocol = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): MetadataEntryProtocol = defaultInstance.mergeFrom(message)
 
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: MetadataEntryProtocol) = defaultInstance.mergeFrom(prototype)
@@ -550,6 +568,9 @@ object AddressProtocol {
 	val SYSTEM_FIELD_NUMBER = 1
 	val HOSTNAME_FIELD_NUMBER = 2
 	val PORT_FIELD_NUMBER = 3
+
+	def apply(message: Array[Byte]): AddressProtocol = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): AddressProtocol = defaultInstance.mergeFrom(message)
 
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: AddressProtocol) = defaultInstance.mergeFrom(prototype)
@@ -633,6 +654,9 @@ object DaemonMsgCreateProtocol {
 	val DEPLOY_FIELD_NUMBER = 2
 	val PATH_FIELD_NUMBER = 3
 	val SUPERVISOR_FIELD_NUMBER = 4
+
+	def apply(message: Array[Byte]): DaemonMsgCreateProtocol = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): DaemonMsgCreateProtocol = defaultInstance.mergeFrom(message)
 
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: DaemonMsgCreateProtocol) = defaultInstance.mergeFrom(prototype)
@@ -731,6 +755,9 @@ object PropsProtocol {
 	val CREATOR_FIELD_NUMBER = 4
 	val ROUTERCONFIG_FIELD_NUMBER = 5
 
+	def apply(message: Array[Byte]): PropsProtocol = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): PropsProtocol = defaultInstance.mergeFrom(message)
+
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: PropsProtocol) = defaultInstance.mergeFrom(prototype)
 
@@ -819,6 +846,9 @@ object DeployProtocol {
 	val CONFIG_FIELD_NUMBER = 2
 	val ROUTERCONFIG_FIELD_NUMBER = 3
 	val SCOPE_FIELD_NUMBER = 4
+
+	def apply(message: Array[Byte]): DeployProtocol = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): DeployProtocol = defaultInstance.mergeFrom(message)
 
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: DeployProtocol) = defaultInstance.mergeFrom(prototype)

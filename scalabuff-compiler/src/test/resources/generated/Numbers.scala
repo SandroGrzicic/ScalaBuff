@@ -70,6 +70,9 @@ object NumbersTest1 {
 	val SOME_HEX_NUMBER_FIELD_NUMBER = 1
 	val SOME_OCT_NUMBER_FIELD_NUMBER = 2
 
+	def apply(message: Array[Byte]): NumbersTest1 = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): NumbersTest1 = defaultInstance.mergeFrom(message)
+
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: NumbersTest1) = defaultInstance.mergeFrom(prototype)
 

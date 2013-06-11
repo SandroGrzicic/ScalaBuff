@@ -111,6 +111,9 @@ object MultiMessageTwo {
 	val INT32DEFAULT_FIELD_NUMBER = 5
 	val STRINGDEFAULT_FIELD_NUMBER = 6
 
+	def apply(message: Array[Byte]): MultiMessageTwo = defaultInstance.mergeFrom(message)
+	def apply(message: com.google.protobuf.ByteString): MultiMessageTwo = defaultInstance.mergeFrom(message)
+
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: MultiMessageTwo) = defaultInstance.mergeFrom(prototype)
 

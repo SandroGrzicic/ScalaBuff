@@ -344,6 +344,13 @@ class Generator protected (sourceName: String) {
 
       out.append("\n")
 
+      // apply
+      out
+          .append(indent1).append("def apply(message: Array[Byte]): ").append(name).append(" = defaultInstance.mergeFrom(message)\n")
+          .append(indent1).append("def apply(message: com.google.protobuf.ByteString): ").append(name).append(" = defaultInstance.mergeFrom(message)\n")
+
+      out.append("\n")
+
       // newBuilder
       out
           .append(indent1).append("def newBuilder = defaultInstance.newBuilderForType\n")

@@ -33,7 +33,7 @@ class MessageTest extends FunSuite with ShouldMatchers {
 		sent.repeatedStringField should equal (repeatedString)
 		sent.repeatedBytesField should equal (repeatedBytes)
 
-		val received = ComplexMessage.defaultInstance.mergeFrom(sent.toByteArray)
+		val received = ComplexMessage(sent.toByteArray)
 
 		received.firstField should equal(sent.firstField)
 		received.secondField should equal(sent.secondField)
