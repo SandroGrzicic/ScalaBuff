@@ -1,1 +1,1 @@
-List(PackageStatement(resources.generated), ImportStatement("simple.proto"), Option(optimize_for,LITE_RUNTIME), Message(UsesImport,MessageBody(List(Field(required,SimpleTest,simple_test,1,List(),)),List(),List(),List(),List(),List(),List())))
+List(PackageStatement(resources.generated), ImportStatement("simple.proto"), OptionValue(optimize_for,LITE_RUNTIME), Message(UsesImport,MessageBody(List(Field(required,SimpleTest,simple_test,1,List(),)),List(),List(),List(),List(),List(),List())))
