@@ -31,7 +31,7 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
   lazy val enumP: PackratParser[EnumStatement] = ("enum" ~> identifier <~ "{") ~ ((option | enumField | ";") *) <~ "}" <~ (";" ?) ^^ {
 		case name ~ values => {
 			val constants = values.view.collect { case constant: EnumConstant => constant }
-			val options = values.view.collect { case option: Option => option }
+			val options = values.view.collect { case option: OptionValue => option }
       EnumStatement(name, constants.toList, options.toList)
     }
   }
@@ -47,9 +47,9 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 		case ident ~ idents => PackageStatement(ident + idents.map(i => i._1 + i._2).mkString.stripQuotes)
   }
 
-  lazy val option: PackratParser[Option] = "option" ~> optionBody <~ ";"
-  lazy val optionBody: PackratParser[Option] = (("(" ?) ~> identifier ~ (("." ~ identifier) *) <~ (")" ?)) ~ ("=" ~> constant) ^^ {
-		case ident ~ idents ~ value => Option(ident + idents.map(i => i._1 + i._2).mkString, value)
+  lazy val option: PackratParser[OptionValue] = "option" ~> optionBody <~ ";"
+  lazy val optionBody: PackratParser[OptionValue] = (("(" ?) ~> identifier ~ (("." ~ identifier) *) <~ (")" ?)) ~ ("=" ~> constant) ^^ {
+		case ident ~ idents ~ value => OptionValue(ident + idents.map(i => i._1 + i._2).mkString, value)
   }
 
 	lazy val group: PackratParser[Group] = (label <~ "group") ~ (camelCaseIdentifier <~ "=") ~ integerConstant ~ messageBody ^^ {
@@ -61,7 +61,7 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 			case fLabel ~ fType ~ name ~ number ~ options => {
         val optionList = options match {
 					case Some(fOpt ~ fOpts) => List(fOpt) ++ fOpts.map(e => e._2)
-					case None => List[Option]()
+					case None => List[OptionValue]()
         }
 
         Field(fLabel, fType, name, number.toInt, optionList)
@@ -135,7 +135,7 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
     val messages = ListBuffer[Message]()
     val groups = ListBuffer[Group]()
     val extensionRanges = ListBuffer[ExtensionRanges]()
-    val options = ListBuffer[Option]()
+    val options = ListBuffer[OptionValue]()
     val extensions = ListBuffer[Extension]()
 
 		for (node <- body) node match {
@@ -145,7 +145,7 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
 			case n: ExtensionRanges => extensionRanges += n
 			case n: Extension => extensions += n
 			case n: Group => groups += n
-			case n: Option => options += n
+			case n: OptionValue => options += n
 			case _ => require(false, "Impossible node type found.")
     }
 
