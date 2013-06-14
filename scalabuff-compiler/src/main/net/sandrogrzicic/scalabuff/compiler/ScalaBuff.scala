@@ -54,10 +54,10 @@ object ScalaBuff {
    */
   def processImportSymbols(tree: List[Node])(implicit settings: Settings = defaultSettings): Map[String, ImportedSymbol] = {
     def dig(name: String) = {
-      val tree = parse(searchPath(name).getOrElse { throw new IOException(s"Unable to import: $name") })
-      val packageName = tree.collect {
+      val tree = parse(searchPath(name).getOrElse { throw new IOException("Unable to import: " + name) })
+      val packageName = tree.collectFirst {
         case OptionValue(key, value) if key == "java_package" => value.stripQuotes
-      }.headOption.getOrElse("")
+      }.getOrElse("")
       tree.collect {
         case Message(name, _) => (name, false)
         case EnumStatement(name, _, _) => (name, true)
