@@ -504,7 +504,7 @@ object Generator {
   /** Update fields which have custom types. */
   protected def fixCustomTypes(tree: List[Node], enumNames: mutable.Set[String], customFieldTypes: mutable.Buffer[EnumVal], importedSymbols: Map[String, ImportedSymbol]) {
     for (fType <- customFieldTypes if !fType.isMessage && !fType.isEnum) {
-      if (enumNames.contains(fType.name.dropUntilLast('.')) || importedSymbols.get(fType.scalaType).map(_.isEnum).getOrElse(false)) {
+      if (enumNames.contains(fType.name.dropUntilLast('.')) || importedSymbols.get(fType.scalaType).exists(_.isEnum)) {
         fType.isEnum = true
         fType.name = "Enum"
         fType.defaultValue = fType.scalaType + "._UNINITIALIZED"
