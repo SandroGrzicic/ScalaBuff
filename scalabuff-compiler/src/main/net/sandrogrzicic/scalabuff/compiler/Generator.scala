@@ -106,7 +106,7 @@ class Generator protected (sourceName: String) {
       var hasExtensionRanges = false
 
       body.options.foreach {
-        case Option(key, value) => // no options here
+        case OptionValue(key, value) => // no options here
       }
       body.extensionRanges.foreach {
         case ExtensionRanges(extensionRanges) =>
@@ -401,7 +401,7 @@ class Generator protected (sourceName: String) {
             case e: EnumStatement       => output.append(enum(e))
             case ImportStatement(name)  => imports += name
             case PackageStatement(name) => if (packageName.isEmpty) packageName = name
-            case Option(key, value) => key match {
+            case OptionValue(key, value) => key match {
               case "java_package"         => packageName = value.stripQuotes
               case "java_outer_classname" => className = value.stripQuotes
               case "optimize_for" => value match {

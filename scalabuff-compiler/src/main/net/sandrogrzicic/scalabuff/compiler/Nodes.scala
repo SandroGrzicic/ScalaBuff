@@ -14,12 +14,12 @@ case class ImportStatement(packageName: String) extends Node
 
 case class PackageStatement(packageName: String) extends Node
 
-case class Option(key: String, value: String) extends Node
+case class OptionValue(key: String, value: String) extends Node
 
 case class MessageBody(
 		fields: List[Field], enums: List[EnumStatement], messages: List[Message],
 		extensionRanges: List[ExtensionRanges], extensions: List[Extension],
- 		groups: List[Group], options: List[Option]
+ 		groups: List[Group], options: List[OptionValue]
 )
 
 case class Message(name: String, body: MessageBody) extends Node
@@ -34,10 +34,10 @@ case class Group(label: FieldLabels.EnumVal, name: String, number: Int, body: Me
 
 case class Field(
     label: FieldLabels.EnumVal, fType: FieldTypes.EnumVal, name: String, 
-    number: Int, options: List[Option], var defaultValue: String = ""
+    number: Int, options: List[OptionValue], var defaultValue: String = ""
 ) extends Node
 
-case class EnumStatement(name: String, constants: List[EnumConstant], options: List[Option]) extends Node
+case class EnumStatement(name: String, constants: List[EnumConstant], options: List[OptionValue]) extends Node
 
 case class EnumConstant(name: String, id: Int) extends Node
 
