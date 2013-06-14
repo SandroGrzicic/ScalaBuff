@@ -37,7 +37,7 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 
 
 	test("apply: simple .proto file") {
-		val scalaClass: ScalaClass = ScalaBuff(protoDir + testProto + ".proto")
+		val scalaClass: ScalaClass = ScalaBuff(new File(protoDir + testProto + ".proto"))
 		scalaClass.body should equal (testProtoGenerated)
 		scalaClass.file should equal ("Simple")
 		scalaClass.path should equal ("resources" + SEP + "generated" + SEP)

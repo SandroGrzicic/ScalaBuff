@@ -1,1 +1,1 @@
-List(PackageStatement(resources.generated), Option(java_outer_classname,"EmptyMessageTest"), Option(optimize_for,LITE_RUNTIME))
+List(PackageStatement(resources.generated), OptionValue(java_outer_classname,"EmptyMessageTest"), OptionValue(optimize_for,LITE_RUNTIME))
