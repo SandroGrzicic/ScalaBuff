@@ -11,7 +11,7 @@ import java.io.File
  * @author Sandro Gržičić
  */
 
-class Generator protected (sourceName: String) {
+class Generator protected (sourceName: String, importedSymbols: Map[String, ImportedSymbol]) {
   import Generator._
 
   protected val imports = mutable.ListBuffer[String]()
@@ -467,8 +467,8 @@ object Generator {
   /**
    * Returns a valid Scala class.
    */
-  def apply(tree: List[Node], sourceName: String): ScalaClass = {
-    new Generator(sourceName).generate(tree)
+  def apply(tree: List[Node], sourceName: String, importedSymbols: Map[String, ImportedSymbol]): ScalaClass = {
+    new Generator(sourceName, importedSymbols).generate(tree)
   }
 
   /**
@@ -599,6 +599,8 @@ object Generator {
   }
 
 }
+
+case class ImportedSymbol(packageName: String, isEnum: Boolean)
 
 /**
  * A generated Scala class. The path is relative.
