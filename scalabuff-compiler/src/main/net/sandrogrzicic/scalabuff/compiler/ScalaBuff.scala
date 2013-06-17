@@ -59,9 +59,9 @@ object ScalaBuff {
         case OptionValue(key, value) if key == "java_package" => value.stripQuotes
       }.getOrElse("")
       tree.collect {
-        case Message(name, _) => (name, false)
-        case EnumStatement(name, _, _) => (name, true)
-      }.map { case (name, isEnum) => (name, ImportedSymbol(packageName, isEnum)) }
+        case Message(name, _) => (name, ImportedSymbol(packageName, false))
+        case EnumStatement(name, _, _) => (name, ImportedSymbol(packageName, true))
+      }
     }
     tree.collect {
       case ImportStatement(name) => dig(name.stripQuotes)
@@ -88,8 +88,7 @@ object ScalaBuff {
 
   def searchPath(filename: String)(implicit settings: Settings = defaultSettings): Option[File] = {
     if (filename startsWith "/") {
-      val f = new File(filename)
-      if (f.exists) Some(f) else None
+      Option(new File(filename)).filter(_.exists)
     } else {
       settings.importDirectories.map { folder =>
         new File(folder, filename)
