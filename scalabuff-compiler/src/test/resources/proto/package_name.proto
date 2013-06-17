@@ -1,0 +1,7 @@
+package resources.generated.nested;
+
+option java_package = "resources.generated.nested";
+
+message PackageTest {
+  required int32 required_field = 1;
+}

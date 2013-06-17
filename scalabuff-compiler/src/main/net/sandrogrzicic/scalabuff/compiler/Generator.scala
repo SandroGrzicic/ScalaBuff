@@ -11,7 +11,7 @@ import java.io.File
  * @author Sandro Gržičić
  */
 
-class Generator protected (sourceName: String) {
+class Generator protected (sourceName: String, importedSymbols: Map[String, ImportedSymbol]) {
   import Generator._
 
   protected val imports = mutable.ListBuffer[String]()
@@ -422,9 +422,10 @@ class Generator protected (sourceName: String) {
     // additional tree passes
     // **********************
 
-    recognizeCustomTypes(tree)
+    recognizeCustomTypes(tree, importedSymbols)
     prependParentClassNames(tree, getAllNestedMessageTypes(tree))
     setDefaultsForOptionalFields(tree)
+    fullySpecifyImportedSymbols(tree, importedSymbols)
 
     // final tree pass: traverse the tree, so we can get class/package names, options, etc.
     val generatedOutput = traverse(tree)
@@ -467,17 +468,17 @@ object Generator {
   /**
    * Returns a valid Scala class.
    */
-  def apply(tree: List[Node], sourceName: String): ScalaClass = {
-    new Generator(sourceName).generate(tree)
+  def apply(tree: List[Node], sourceName: String, importedSymbols: Map[String, ImportedSymbol]): ScalaClass = {
+    new Generator(sourceName, importedSymbols).generate(tree)
   }
 
   /**
    * Modifies some fields of Message and Enum types so that they can be used properly.
    * Discovers whether each field type is a Message or an Enum.
    */
-  protected def recognizeCustomTypes(tree: List[Node]) {
+  protected def recognizeCustomTypes(tree: List[Node], importedSymbols: Map[String, ImportedSymbol]) {
     val (enumNames, customFieldTypes) = getEnumNames(tree)
-    fixCustomTypes(tree, enumNames, customFieldTypes)
+    fixCustomTypes(tree, enumNames, customFieldTypes, importedSymbols)
   }
 
   /** Return all enum names and custom field types found in the specified tree. */
@@ -501,9 +502,9 @@ object Generator {
   }
 
   /** Update fields which have custom types. */
-  protected def fixCustomTypes(tree: List[Node], enumNames: mutable.Set[String], customFieldTypes: mutable.Buffer[EnumVal]) {
+  protected def fixCustomTypes(tree: List[Node], enumNames: mutable.Set[String], customFieldTypes: mutable.Buffer[EnumVal], importedSymbols: Map[String, ImportedSymbol]) {
     for (fType <- customFieldTypes if !fType.isMessage && !fType.isEnum) {
-      if (enumNames.contains(fType.name.dropUntilLast('.'))) {
+      if (enumNames.contains(fType.name.dropUntilLast('.')) || importedSymbols.get(fType.scalaType).exists(_.isEnum)) {
         fType.isEnum = true
         fType.name = "Enum"
         fType.defaultValue = fType.scalaType + "._UNINITIALIZED"
@@ -598,7 +599,26 @@ object Generator {
     }
   }
 
+  protected def fullySpecifyImportedSymbols(tree: List[Node], importedSymbols: Map[String, ImportedSymbol]) {
+    def apply(node: Node) {
+      node match {
+        case Message(_, body) =>
+          body.messages.foreach(apply)
+          body.fields.foreach { field =>
+            val scalaType = if (field.fType.scalaType endsWith ".EnumVal") field.fType.scalaType.split("\\.")(0) else field.fType.scalaType
+            importedSymbols.get(scalaType).foreach { symbol =>
+              field.fType.scalaType = symbol.packageName + "." + field.fType.scalaType
+              field.fType.defaultValue = symbol.packageName + "." + field.fType.defaultValue
+            }
+          }
+        case _ =>
+      }
+    }
+    tree.foreach(apply)
+  }
 }
+
+case class ImportedSymbol(packageName: String, isEnum: Boolean)
 
 /**
  * A generated Scala class. The path is relative.
