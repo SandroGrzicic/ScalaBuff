@@ -135,6 +135,34 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 		outputFileSource.close()
 	}
 
+	test("main: import across packages") {
+		val outputDirectory = "scalabuff-compiler" + SEP + "src" + SEP + "test"
+
+		def compile(filename: String, subFolder: Option[String]) {
+			val protoFile = filename + ".proto"
+			val scalaFile = filename.camelCase + ".scala"
+			outputStream.reset()
+			Console.withOut(printStream)({
+				ScalaBuff.main(Array("--scala_out=" + outputDirectory, 
+					"--proto_path=" + protoDir, 
+					"--verbose",
+					protoFile))
+				outputStream.toString("utf-8").split("\n").size should be (1)
+			})
+
+			val outputFile = new File(outputDirectory + "" + SEP + "resources" + SEP + "generated" + SEP + subFolder.map(_ + SEP).getOrElse("") + scalaFile)
+			outputFile should be ('exists)
+			val outputFileSource = io.Source.fromFile(outputFile)
+			val exampleProtoGenerated =
+				io.Source.fromFile(new File(generatedDir + subFolder.map(_ + SEP).getOrElse("") + scalaFile)).mkString
+			outputFileSource.mkString should equal (exampleProtoGenerated)
+			outputFileSource.close()
+		}
+
+		compile("package_name", Some("nested"))
+		compile("import_packages", None)
+	}
+
 	test("main: unknown option") {
 		outputStream.reset()
 		Console.withOut(printStream)({

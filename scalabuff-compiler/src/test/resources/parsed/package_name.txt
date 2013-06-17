@@ -1,0 +1,1 @@
+List(PackageStatement(resources.generated.nested), OptionValue(java_package,"resources.generated.nested"), Message(PackageTest,MessageBody(List(Field(required,Int32,required_field,1,List(),)),List(),List(),List(),List(),List(),List())))

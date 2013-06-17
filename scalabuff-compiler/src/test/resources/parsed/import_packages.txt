@@ -1,0 +1,1 @@
+List(PackageStatement(resources.generated), ImportStatement("package_name.proto"), OptionValue(optimize_for,LITE_RUNTIME), Message(UsesImportPackage,MessageBody(List(Field(required,PackageTest,package_test,1,List(),)),List(),List(),List(),List(),List(),List())))
