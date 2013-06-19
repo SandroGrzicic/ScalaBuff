@@ -74,8 +74,8 @@ object Response {
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Rendition] {
 
-		def setProfileKey(_f: String) = copy(`profileKey` = _f)
-		def setData(_f: String) = copy(`data` = _f)
+		def setProfileKey(_f: String) = copy(`profileKey` = Some(_f))
+		def setData(_f: String) = copy(`data` = Some(_f))
 		def setProperty(_i: Int, _v: Rendition.Property) = copy(`property` = `property`.updated(_i, _v))
 		def addProperty(_f: Rendition.Property) = copy(`property` = `property` :+ _f)
 		def addAllProperty(_f: Rendition.Property*) = copy(`property` = `property` ++ _f)
@@ -114,8 +114,8 @@ object Response {
 			)
 			while (true) in.readTag match {
 				case 0 => return __newMerged
-				case 10 => __profileKey = in.readString()
-				case 18 => __data = in.readString()
+				case 10 => __profileKey = Some(in.readString())
+				case 18 => __data = Some(in.readString())
 				case 26 => __property += readMessage[Rendition.Property](in, Rendition.Property.defaultInstance, _emptyRegistry)
 				case default => if (!in.skipField(default)) return __newMerged
 			}
@@ -252,9 +252,9 @@ object Response {
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Video] {
 
-		def setIdentifier(_f: String) = copy(`identifier` = _f)
-		def setAssetKey(_f: String) = copy(`assetKey` = _f)
-		def setDuration(_f: Float) = copy(`duration` = _f)
+		def setIdentifier(_f: String) = copy(`identifier` = Some(_f))
+		def setAssetKey(_f: String) = copy(`assetKey` = Some(_f))
+		def setDuration(_f: Float) = copy(`duration` = Some(_f))
 		def setRenditions(_i: Int, _v: Rendition) = copy(`renditions` = `renditions`.updated(_i, _v))
 		def addRenditions(_f: Rendition) = copy(`renditions` = `renditions` :+ _f)
 		def addAllRenditions(_f: Rendition*) = copy(`renditions` = `renditions` ++ _f)
@@ -298,9 +298,9 @@ object Response {
 			)
 			while (true) in.readTag match {
 				case 0 => return __newMerged
-				case 10 => __identifier = in.readString()
-				case 18 => __assetKey = in.readString()
-				case 29 => __duration = in.readFloat()
+				case 10 => __identifier = Some(in.readString())
+				case 18 => __assetKey = Some(in.readString())
+				case 29 => __duration = Some(in.readFloat())
 				case 34 => __renditions += readMessage[Rendition](in, Rendition.defaultInstance, _emptyRegistry)
 				case default => if (!in.skipField(default)) return __newMerged
 			}
@@ -345,12 +345,12 @@ object Response {
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[VideoFailure] {
 
-		def setAssetKey(_f: String) = copy(`assetKey` = _f)
+		def setAssetKey(_f: String) = copy(`assetKey` = Some(_f))
 		def setReason(_i: Int, _v: String) = copy(`reason` = `reason`.updated(_i, _v))
 		def addReason(_f: String) = copy(`reason` = `reason` :+ _f)
 		def addAllReason(_f: String*) = copy(`reason` = `reason` ++ _f)
 		def addAllReason(_f: TraversableOnce[String]) = copy(`reason` = `reason` ++ _f)
-		def setCause(_f: VideoFailure.Cause.EnumVal) = copy(`cause` = _f)
+		def setCause(_f: VideoFailure.Cause.EnumVal) = copy(`cause` = Some(_f))
 
 		def clearAssetKey = copy(`assetKey` = None)
 		def clearReason = copy(`reason` = Vector.empty[String])
@@ -385,9 +385,9 @@ object Response {
 			)
 			while (true) in.readTag match {
 				case 0 => return __newMerged
-				case 10 => __assetKey = in.readString()
+				case 10 => __assetKey = Some(in.readString())
 				case 18 => __reason += in.readString()
-				case 24 => __cause = VideoFailure.Cause.valueOf(in.readEnum())
+				case 24 => __cause = Some(VideoFailure.Cause.valueOf(in.readEnum()))
 				case default => if (!in.skipField(default)) return __newMerged
 			}
 			null
@@ -457,8 +457,8 @@ object Response {
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[VideoResult] {
 
-		def setSuccess(_f: Video) = copy(`success` = _f)
-		def setFailure(_f: VideoFailure) = copy(`failure` = _f)
+		def setSuccess(_f: Video) = copy(`success` = Some(_f))
+		def setFailure(_f: VideoFailure) = copy(`failure` = Some(_f))
 
 		def clearSuccess = copy(`success` = None)
 		def clearFailure = copy(`failure` = None)
@@ -488,14 +488,14 @@ object Response {
 			)
 			while (true) in.readTag match {
 				case 0 => return __newMerged
-				case 10 => __success = readMessage[Video](in, __success.orElse({
+				case 10 => __success = Some(readMessage[Video](in, __success.orElse({
 					__success = Video.defaultInstance
 					__success
-				}).get, _emptyRegistry)
-				case 18 => __failure = readMessage[VideoFailure](in, __failure.orElse({
+				}).get, _emptyRegistry))
+				case 18 => __failure = Some(readMessage[VideoFailure](in, __failure.orElse({
 					__failure = VideoFailure.defaultInstance
 					__failure
-				}).get, _emptyRegistry)
+				}).get, _emptyRegistry))
 				case default => if (!in.skipField(default)) return __newMerged
 			}
 			null

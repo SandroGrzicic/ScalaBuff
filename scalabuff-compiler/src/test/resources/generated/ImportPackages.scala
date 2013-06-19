@@ -3,10 +3,12 @@
 
 package resources.generated
 
+import resources.generated.nested.PackageTest
+
 //import "package_name.proto"
 
 final case class UsesImportPackage (
-	`packageTest`: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
+	`packageTest`: PackageTest = PackageTest.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[UsesImportPackage] {
@@ -27,14 +29,14 @@ final case class UsesImportPackage (
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): UsesImportPackage = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __packageTest: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
+		var __packageTest: PackageTest = PackageTest.defaultInstance
 
 		def __newMerged = UsesImportPackage(
 			__packageTest
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
-			case 10 => __packageTest = readMessage[resources.generated.nested.PackageTest](in, __packageTest, _emptyRegistry)
+			case 10 => __packageTest = readMessage[PackageTest](in, __packageTest, _emptyRegistry)
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null

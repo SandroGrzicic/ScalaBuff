@@ -30,7 +30,7 @@ final case class Outer (
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[Outer] {
 
-	def setInnerOptional(_f: Outer.Inner.EnumVal) = copy(`innerOptional` = _f)
+	def setInnerOptional(_f: Outer.Inner.EnumVal) = copy(`innerOptional` = Some(_f))
 	def setInnerRepeated(_i: Int, _v: Outer.Inner.EnumVal) = copy(`innerRepeated` = `innerRepeated`.updated(_i, _v))
 	def addInnerRepeated(_f: Outer.Inner.EnumVal) = copy(`innerRepeated` = `innerRepeated` :+ _f)
 	def addAllInnerRepeated(_f: Outer.Inner.EnumVal*) = copy(`innerRepeated` = `innerRepeated` ++ _f)
@@ -69,7 +69,7 @@ final case class Outer (
 		while (true) in.readTag match {
 			case 0 => return __newMerged
 			case 8 => __innerRequired = Outer.Inner.valueOf(in.readEnum())
-			case 16 => __innerOptional = Outer.Inner.valueOf(in.readEnum())
+			case 16 => __innerOptional = Some(Outer.Inner.valueOf(in.readEnum()))
 			case 24 => __innerRepeated += Outer.Inner.valueOf(in.readEnum())
 			case default => if (!in.skipField(default)) return __newMerged
 		}
@@ -132,7 +132,7 @@ final case class OuterDuplicate (
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[OuterDuplicate] {
 
-	def setInnerOptional(_f: OuterDuplicate.Inner.EnumVal) = copy(`innerOptional` = _f)
+	def setInnerOptional(_f: OuterDuplicate.Inner.EnumVal) = copy(`innerOptional` = Some(_f))
 	def setInnerRepeated(_i: Int, _v: OuterDuplicate.Inner.EnumVal) = copy(`innerRepeated` = `innerRepeated`.updated(_i, _v))
 	def addInnerRepeated(_f: OuterDuplicate.Inner.EnumVal) = copy(`innerRepeated` = `innerRepeated` :+ _f)
 	def addAllInnerRepeated(_f: OuterDuplicate.Inner.EnumVal*) = copy(`innerRepeated` = `innerRepeated` ++ _f)
@@ -171,7 +171,7 @@ final case class OuterDuplicate (
 		while (true) in.readTag match {
 			case 0 => return __newMerged
 			case 8 => __innerRequired = OuterDuplicate.Inner.valueOf(in.readEnum())
-			case 16 => __innerOptional = OuterDuplicate.Inner.valueOf(in.readEnum())
+			case 16 => __innerOptional = Some(OuterDuplicate.Inner.valueOf(in.readEnum()))
 			case 24 => __innerRepeated += OuterDuplicate.Inner.valueOf(in.readEnum())
 			case default => if (!in.skipField(default)) return __newMerged
 		}

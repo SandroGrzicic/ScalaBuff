@@ -14,8 +14,8 @@ final case class ComplexMessage (
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[ComplexMessage] {
 
-	def setSecondField(_f: String) = copy(`secondField` = _f)
-	def setNestedOuterField(_f: ComplexMessage.Nested) = copy(`nestedOuterField` = _f)
+	def setSecondField(_f: String) = copy(`secondField` = Some(_f))
+	def setNestedOuterField(_f: ComplexMessage.Nested) = copy(`nestedOuterField` = Some(_f))
 	def setSimpleEnumField(_i: Int, _v: ComplexMessage.SimpleEnum.EnumVal) = copy(`simpleEnumField` = `simpleEnumField`.updated(_i, _v))
 	def addSimpleEnumField(_f: ComplexMessage.SimpleEnum.EnumVal) = copy(`simpleEnumField` = `simpleEnumField` :+ _f)
 	def addAllSimpleEnumField(_f: ComplexMessage.SimpleEnum.EnumVal*) = copy(`simpleEnumField` = `simpleEnumField` ++ _f)
@@ -77,11 +77,11 @@ final case class ComplexMessage (
 		while (true) in.readTag match {
 			case 0 => return __newMerged
 			case 10 => __firstField = in.readBytes()
-			case 18 => __secondField = in.readString()
-			case 26 => __nestedOuterField = readMessage[ComplexMessage.Nested](in, __nestedOuterField.orElse({
+			case 18 => __secondField = Some(in.readString())
+			case 26 => __nestedOuterField = Some(readMessage[ComplexMessage.Nested](in, __nestedOuterField.orElse({
 				__nestedOuterField = ComplexMessage.Nested.defaultInstance
 				__nestedOuterField
-			}).get, _emptyRegistry)
+			}).get, _emptyRegistry))
 			case 32 => __simpleEnumField += ComplexMessage.SimpleEnum.valueOf(in.readEnum())
 			case 42 => __repeatedStringField += in.readString()
 			case 50 => __repeatedBytesField += in.readBytes()
@@ -147,7 +147,7 @@ object ComplexMessage {
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Nested] {
 
-		def setNestedEnum(_f: SimpleEnum.EnumVal) = copy(`nestedEnum` = _f)
+		def setNestedEnum(_f: SimpleEnum.EnumVal) = copy(`nestedEnum` = Some(_f))
 
 		def clearNestedEnum = copy(`nestedEnum` = None)
 
@@ -177,7 +177,7 @@ object ComplexMessage {
 			while (true) in.readTag match {
 				case 0 => return __newMerged
 				case 10 => __nestedField = in.readString()
-				case 16 => __nestedEnum = SimpleEnum.valueOf(in.readEnum())
+				case 16 => __nestedEnum = Some(SimpleEnum.valueOf(in.readEnum()))
 				case default => if (!in.skipField(default)) return __newMerged
 			}
 			null

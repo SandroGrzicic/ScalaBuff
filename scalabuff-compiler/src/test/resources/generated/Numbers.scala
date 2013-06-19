@@ -10,8 +10,8 @@ final case class NumbersTest1 (
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[NumbersTest1] {
 
-	def setSomeHexNumber(_f: Int) = copy(`someHexNumber` = _f)
-	def setSomeOctNumber(_f: Int) = copy(`someOctNumber` = _f)
+	def setSomeHexNumber(_f: Int) = copy(`someHexNumber` = Some(_f))
+	def setSomeOctNumber(_f: Int) = copy(`someOctNumber` = Some(_f))
 
 	def clearSomeHexNumber = copy(`someHexNumber` = None)
 	def clearSomeOctNumber = copy(`someOctNumber` = None)
@@ -41,8 +41,8 @@ final case class NumbersTest1 (
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
-			case 8 => __someHexNumber = in.readInt32()
-			case 16 => __someOctNumber = in.readInt32()
+			case 8 => __someHexNumber = Some(in.readInt32())
+			case 16 => __someOctNumber = Some(in.readInt32())
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null

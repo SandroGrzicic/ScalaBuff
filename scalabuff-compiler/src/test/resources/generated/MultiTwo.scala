@@ -14,14 +14,14 @@ final case class MultiMessageTwo (
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[MultiMessageTwo] {
 
-	def setOptionalField(_f: Float) = copy(`optionalField` = _f)
+	def setOptionalField(_f: Float) = copy(`optionalField` = Some(_f))
 	def setRepeatedField(_i: Int, _v: String) = copy(`repeatedField` = `repeatedField`.updated(_i, _v))
 	def addRepeatedField(_f: String) = copy(`repeatedField` = `repeatedField` :+ _f)
 	def addAllRepeatedField(_f: String*) = copy(`repeatedField` = `repeatedField` ++ _f)
 	def addAllRepeatedField(_f: TraversableOnce[String]) = copy(`repeatedField` = `repeatedField` ++ _f)
-	def setType(_f: Int) = copy(`type` = _f)
-	def setInt32Default(_f: Int) = copy(`int32Default` = _f)
-	def setStringDefault(_f: String) = copy(`stringDefault` = _f)
+	def setType(_f: Int) = copy(`type` = Some(_f))
+	def setInt32Default(_f: Int) = copy(`int32Default` = Some(_f))
+	def setStringDefault(_f: String) = copy(`stringDefault` = Some(_f))
 
 	def clearOptionalField = copy(`optionalField` = None)
 	def clearRepeatedField = copy(`repeatedField` = Vector.empty[String])
@@ -71,11 +71,11 @@ final case class MultiMessageTwo (
 		while (true) in.readTag match {
 			case 0 => return __newMerged
 			case 8 => __requiredField = in.readInt32()
-			case 21 => __optionalField = in.readFloat()
+			case 21 => __optionalField = Some(in.readFloat())
 			case 26 => __repeatedField += in.readString()
-			case 32 => __type = in.readInt32()
-			case 40 => __int32Default = in.readInt32()
-			case 50 => __stringDefault = in.readString()
+			case 32 => __type = Some(in.readInt32())
+			case 40 => __int32Default = Some(in.readInt32())
+			case 50 => __stringDefault = Some(in.readString())
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null

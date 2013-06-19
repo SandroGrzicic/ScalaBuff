@@ -2,7 +2,7 @@ package tests
 
 import org.scalatest.FunSuite
 import org.scalatest.matchers.ShouldMatchers
-import net.sandrogrzicic.scalabuff.compiler.Parser
+import net.sandrogrzicic.scalabuff.compiler.{Parser, buffString}
 import java.io._
 import File.{separator => SEP}
 
@@ -26,7 +26,7 @@ class ParserTest extends FunSuite with ShouldMatchers {
 	 * make sure the Parser output equals the corresponding output file in the parsedDir directory.
 	 */
 	for (file <- protoDir.listFiles(protoFileFilter)) {
-		val fileName = file.getName.stripSuffix(".proto")
+		val fileName = file.getName.stripSuffix(".proto").camelCase
 		test(fileName) {
 			val output = io.Source.fromFile(new File(parsedDir + fileName + parsedExtension))
 			var parsed: String = null

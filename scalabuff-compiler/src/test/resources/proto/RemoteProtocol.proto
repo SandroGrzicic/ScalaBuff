@@ -2,7 +2,7 @@
  * Copyright (C) 2009-2012 Typesafe Inc. <http://www.typesafe.com>
  */
 
-option java_package = "akka.remote";
+option java_package = "resources.generated";
 option optimize_for = SPEED;
 
 /******************************************

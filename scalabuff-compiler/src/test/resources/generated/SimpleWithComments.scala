@@ -11,8 +11,8 @@ final case class SimpleRequest (
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[SimpleRequest] {
 
-	def setPageNumber(_f: Int) = copy(`pageNumber` = _f)
-	def setResultsPerPage(_f: Int) = copy(`resultsPerPage` = _f)
+	def setPageNumber(_f: Int) = copy(`pageNumber` = Some(_f))
+	def setResultsPerPage(_f: Int) = copy(`resultsPerPage` = Some(_f))
 
 	def clearPageNumber = copy(`pageNumber` = None)
 	def clearResultsPerPage = copy(`resultsPerPage` = None)
@@ -47,8 +47,8 @@ final case class SimpleRequest (
 		while (true) in.readTag match {
 			case 0 => return __newMerged
 			case 10 => __query = in.readString()
-			case 16 => __pageNumber = in.readInt32()
-			case 24 => __resultsPerPage = in.readInt32()
+			case 16 => __pageNumber = Some(in.readInt32())
+			case 24 => __resultsPerPage = Some(in.readInt32())
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
