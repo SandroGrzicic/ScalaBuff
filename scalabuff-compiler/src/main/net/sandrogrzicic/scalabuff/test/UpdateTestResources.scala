@@ -1,19 +1,17 @@
 package net.sandrogrzicic.scalabuff.test
 
-/**
- * @author Sandro Gržičić
- */
-
-import net.sandrogrzicic.scalabuff.compiler.{Generator, Parser, Node}
-
+import net.sandrogrzicic.scalabuff.compiler.{Generator, Parser, Node, buffString}
+import java.io.File.{separator => SEP}
 import java.io._
 
 /**
- * A small program which updates the test resources (ScalaBuff outputs). Should be run sparingly.
+ * A small program which updates the test resources (ScalaBuff outputs).
  * @author Sandro Gržičić
  */
 
-object UpdateTestResources {
+object UpdateTestResources extends App {
+
+  update()
 
 	/**
 	 * Update the output test resources.
@@ -26,48 +24,51 @@ object UpdateTestResources {
 			def accept(filtered: File) = filtered.getName.endsWith(protoExtension)
 		}
 
-		val protoDir = new File("scalabuff-compiler/src/test/resources/proto/")
+    val testDir = "scalabuff-compiler" + SEP +  "src" + SEP + "test" + SEP
 
-		val parsedDir = "scalabuff-compiler/src/test/resources/parsed/"
-		val generatedDir = "scalabuff-compiler/src/test/resources/generated/"
+    val parsedDir = testDir + "resources" + SEP + "parsed" + SEP
 
-		for (file <- protoDir.listFiles(protoFileFilter)) {
-			val fileName = file.getName.dropRight(protoExtension.length)
-			val oldFileParsed = new File(parsedDir + fileName + parsedExtension)
-			oldFileParsed.delete()
-			val oldFileGenerated = new File(generatedDir + fileName.capitalize + ".scala")
-			oldFileGenerated.delete()
+    val protoDirFile = new File(testDir + "resources" + SEP + "proto" + SEP)
 
-			val outParsed = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(oldFileParsed), "utf-8"))
+		for (file <- protoDirFile.listFiles(protoFileFilter)) {
+			val fileName = file.getName.dropRight(protoExtension.length).camelCase
+			val generatedParsedFile = new File(parsedDir + fileName + parsedExtension)
+			generatedParsedFile.delete()
 
-			var parsed: List[Node] = null
+			val generatedParsed = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(generatedParsedFile), "utf-8"))
+
+			var parsedOption: Option[List[Node]] = None
 			var output: String = null
+
 			try {
-				parsed = Parser(file)
+				parsedOption = Some(Parser(file))
 			} catch {
 				// in case of a parsing error, write it to the output file
 				case e: Throwable => output = e.getMessage
 			}
-			if (parsed != null) output = parsed.toString + "\n"
-			outParsed.write(output)
-			outParsed.close()
+			try {
+        generatedParsed.write(parsedOption.fold(output)(_.toString + "\n"))
+      } finally {
+        generatedParsed.close()
+      }
 
-			if (parsed != null) {
-				// if we have a valid parsing tree, generate a scala class too
-				val outGenerated = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(oldFileGenerated), "utf-8"))
+			parsedOption.foreach { parsed =>
+				// if we have a valid parsing tree, generate a Scala proto class.
+        val generated = Generator(parsed, file.getName, Map())
+				val generatedPath = testDir + generated.path + generated.file + ".scala"
+
+        new File(testDir + generated.path).mkdirs()
+
+        val generatedClass = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(generatedPath), "utf-8"))
 				try {
-					// ignore package file path
-					outGenerated.write(Generator(parsed, file.getName, Map()).body)
+          new File(generatedPath).delete()
+					generatedClass.write(generated.body)
 				} finally {
-					outGenerated.close()
+					generatedClass.close()
 				}
 			}
 			println(fileName)
 		}
-	}
-
-	def main(args: Array[String]) {
-		update()
 	}
 
 }
