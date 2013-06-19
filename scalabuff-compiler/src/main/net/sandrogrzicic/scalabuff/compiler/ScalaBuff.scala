@@ -13,7 +13,7 @@ object ScalaBuff {
 
   case class Settings(
                          outputDirectory: File = new File("." + File.separatorChar),
-                         importDirectories: Seq[File] = Nil,
+                         importDirectories: Seq[File] = List(new File(".")),
                          stdout: Boolean = false,
                          inputEncoding: Charset = defaultCharset,
                          outputEncoding: Charset = defaultCharset,
@@ -22,28 +22,51 @@ object ScalaBuff {
   val defaultSettings = Settings()
 
   /**
-   * Runs ScalaBuff on the specified resource path (file path or URL) and returns the resulting Scala class.
+   * Runs ScalaBuff on the specified file and returns the resulting Scala class.
    * If the encoding is not specified, it defaults to either UTF-8 (if available) or the platform default charset.
    */
-  def apply(resourcePath: String)(implicit settings: Settings = defaultSettings) = fromResourcePath(resourcePath)
+  def apply(file: File)(implicit settings: Settings = defaultSettings) = {
+    val tree = parse(file)
+    val symbols = processImportSymbols(tree)
+    Generator(tree, file.getName, symbols)
+  }
+ 
+  /**
+   * Runs ScalaBuff on the specified input String and returns the output Scala class.
+   */
+  def fromString(input: String) = Generator(Parser(input), "", Map())
 
   /**
-   * Runs ScalaBuff on the specified resource path (file path or URL) and returns the resulting Scala class.
-   * If the encoding is not specified, it defaults to either UTF-8 (if available) or the platform default charset.
+   * Parse a protobuf file into Nodes.
    */
-  def fromResourcePath(resourcePath: String)(implicit settings: Settings = defaultSettings): ScalaClass = {
-    val reader = read(resourcePath)
+  def parse(file: File)(implicit settings: Settings = defaultSettings): List[Node] = {
+    val reader = read(file)
     try {
-      Generator(Parser(reader), resourcePath.dropUntilLast(File.separatorChar))
+      Parser(reader)
     } finally {
       reader.close()
     }
   }
 
   /**
-   * Runs ScalaBuff on the specified input String and returns the output Scala class.
+   * Process "import" statements in a protobuf AST by scanning the imported
+   * files and building a map of their exported symbols.
    */
-  def fromString(input: String) = Generator(Parser(input), "")
+  def processImportSymbols(tree: List[Node])(implicit settings: Settings = defaultSettings): Map[String, ImportedSymbol] = {
+    def dig(name: String) = {
+      val tree = parse(searchPath(name).getOrElse { throw new IOException("Unable to import: " + name) })
+      val packageName = tree.collectFirst {
+        case OptionValue(key, value) if key == "java_package" => value.stripQuotes
+      }.getOrElse("")
+      tree.collect {
+        case Message(name, _) => (name, ImportedSymbol(packageName, false))
+        case EnumStatement(name, _, _) => (name, ImportedSymbol(packageName, true))
+      }
+    }
+    tree.collect {
+      case ImportStatement(name) => dig(name.stripQuotes)
+    }.flatten.toMap
+  }
 
   val protoExtension = ".proto"
 
@@ -61,6 +84,16 @@ object ScalaBuff {
     }
 
     recurse(startAt)
+  }
+
+  def searchPath(filename: String)(implicit settings: Settings = defaultSettings): Option[File] = {
+    if (filename startsWith "/") {
+      Option(new File(filename)).filter(_.exists)
+    } else {
+      settings.importDirectories.map { folder =>
+        new File(folder, filename)
+      }.find(_.exists)
+    }
   }
 
   def verbosePrintln(msg: String)(implicit settings: Settings) { if (settings.verbose) println(msg) }
@@ -86,32 +119,19 @@ object ScalaBuff {
         /*
          * Find all protobuf files under directory if none specified
          */
-        val protoFiles: Seq[String] = paths match {
+        val protoFiles: Seq[File] = paths match {
           case empty if empty.isEmpty =>
             parsedSettings.importDirectories.foldLeft(Seq[File]()) {
               case (seq, dir) => seq ++ findFiles(dir)
-            } map(_.getAbsolutePath)
+            }
           case files =>
-            files map {
-              f: String =>
-                def findProto(inputDir: File, remainder: Seq[File]): scala.Option[String] = {
-                  new File(inputDir, f) match {
-                    case good if good.exists => Some(good.getAbsolutePath)
-                    case bad if !remainder.isEmpty => findProto(remainder.head, remainder.tail)
-                    case ugly => None
-                  }
-                }
-                parsedSettings.importDirectories match {
-                  case empty if empty.isEmpty => Some(f)
-                  case nonEmpty => findProto(parsedSettings.importDirectories.head, parsedSettings.importDirectories.tail)
-                }
-            } filter (_.isDefined) map (_.get)
+            files.flatMap(searchPath)
         }
 
-        for (path <- protoFiles) {
-          verbosePrintln("Processing: " + path)
+        for (file <- protoFiles) {
+          verbosePrintln("Processing: " + file.getAbsolutePath)
           try {
-            val scalaClass = apply(path)
+            val scalaClass = apply(file)
             try {
               write(scalaClass)
             } catch {
@@ -121,7 +141,7 @@ object ScalaBuff {
           } catch {
             // just print the error and continue processing
             case pf: ParsingFailureException => println(pf.getMessage)
-            case io: IOException => println(Strings.CANNOT_ACCESS_RESOURCE + path)
+            case io: IOException => println(Strings.CANNOT_ACCESS_RESOURCE + file.getAbsolutePath)
           }
         }
     }
@@ -187,14 +207,10 @@ object ScalaBuff {
     }
 
   /**
-   * Returns a new Reader based on the specified resource path, which is either a File or an URL.
+   * Returns a new Reader based on the specified File and Charset.
    */
-  protected def read(resourcePath: String)(implicit settings: Settings): Reader =
-    new BufferedReader(new InputStreamReader((try {
-      new FileInputStream(resourcePath)
-    } catch {
-      case fnf: FileNotFoundException => new java.net.URL(resourcePath).openStream
-    }), settings.inputEncoding))
+  protected def read(file: File)(implicit settings: Settings = defaultSettings): Reader =
+    new BufferedReader(new InputStreamReader(new FileInputStream(file), defaultSettings.inputEncoding))
 
   /**
    * Write the specified ScalaClass to a file, or to stdout, depending on the Settings.
