@@ -345,6 +345,17 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
 
       out.append("\n")
 
+      // parseFrom()
+      out.append(indent1).append("def parseFrom(data: Array[Byte]): ").append(name)
+        .append(" = defaultInstance.mergeFrom(data)\n")
+      out.append(indent1).append("def parseFrom(data: Array[Byte], offset: Int, length: Int): ").append(name)
+        .append(" = defaultInstance.mergeFrom(data, offset, length)\n")
+      out.append(indent1).append("def parseFrom(byteString: com.google.protobuf.ByteString): ").append(name)
+        .append(" = defaultInstance.mergeFrom(byteString)\n")
+      out.append(indent1).append("def parseFrom(stream: java.io.InputStream): ").append(name)
+        .append(" = defaultInstance.mergeFrom(stream)\n")
+      out.append("\n")
+
       // field number integer constants
       for (field <- fields) {
         out.append(indent1)
