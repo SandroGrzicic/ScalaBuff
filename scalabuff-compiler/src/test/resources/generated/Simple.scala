@@ -131,6 +131,11 @@ final case class SimpleTest (
 object SimpleTest {
 	@reflect.BeanProperty val defaultInstance = new SimpleTest()
 
+	def parseFrom(data: Array[Byte]): SimpleTest = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): SimpleTest = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): SimpleTest = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): SimpleTest = defaultInstance.mergeFrom(stream)
+
 	val REQUIRED_FIELD_FIELD_NUMBER = 1
 	val OPTIONAL_FIELD_FIELD_NUMBER = 2
 	val REPEATED_FIELD_FIELD_NUMBER = 3
