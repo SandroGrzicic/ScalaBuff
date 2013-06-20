@@ -49,7 +49,7 @@ object UpdateTestResources extends App {
 				case e: Throwable => output = e.getMessage
 			}
 			try {
-        generatedParsed.write(parsedOption.fold(output)(_.toString + "\n"))
+        generatedParsed.write(parsedOption.map(_.toString + "\n").getOrElse(output))
       } finally {
         generatedParsed.close()
       }

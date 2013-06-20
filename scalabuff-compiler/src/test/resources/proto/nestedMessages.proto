@@ -1,3 +1,5 @@
+package resources.generated;
+
 message TopLevel {
   required uint32 id_toplevel = 1;
 

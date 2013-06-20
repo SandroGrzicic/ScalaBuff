@@ -1,7 +1,6 @@
 package net.sandrogrzicic.scalabuff
 
 import com.google.protobuf._
-import java.io.{FilterInputStream, InputStream}
 
 /**
  * Message trait for messages generated with ScalaBuff.
