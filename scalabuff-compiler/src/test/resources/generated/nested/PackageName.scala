@@ -56,6 +56,11 @@ final case class PackageTest (
 object PackageTest {
 	@reflect.BeanProperty val defaultInstance = new PackageTest()
 
+	def parseFrom(data: Array[Byte]): PackageTest = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): PackageTest = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): PackageTest = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): PackageTest = defaultInstance.mergeFrom(stream)
+
 	val REQUIRED_FIELD_FIELD_NUMBER = 1
 
 	def newBuilder = defaultInstance.newBuilderForType
