@@ -46,7 +46,7 @@ object ScalaBuffBuild extends Build {
 		
 		libraryDependencies ++= Seq(
 			"org.scalatest" %% "scalatest" % "1.9.1" % "test",
-			"com.google.protobuf" % "protobuf-java" % "2.4.1"
+			"com.google.protobuf" % "protobuf-java" % "2.5.0"
 		),
 
 		crossScalaVersions ++= Seq("2.9.3", "2.10.1"),

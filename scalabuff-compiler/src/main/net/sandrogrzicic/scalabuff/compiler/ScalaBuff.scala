@@ -128,6 +128,7 @@ object ScalaBuff {
             files.flatMap(searchPath)
         }
 
+        var errors = 0
         for (file <- protoFiles) {
           verbosePrintln("Processing: " + file.getAbsolutePath)
           try {
@@ -136,14 +137,21 @@ object ScalaBuff {
               write(scalaClass)
             } catch {
               // just print the error and continue processing
-              case io: IOException => println(Strings.CANNOT_WRITE_FILE + scalaClass.path + scalaClass.file + ".scala")
+              case io: IOException =>
+                errors += 1
+                println(Strings.CANNOT_WRITE_FILE + scalaClass.path + scalaClass.file + ".scala")
             }
           } catch {
             // just print the error and continue processing
-            case pf: ParsingFailureException => println(pf.getMessage)
-            case io: IOException => println(Strings.CANNOT_ACCESS_RESOURCE + file.getAbsolutePath)
+            case pf: ParsingFailureException =>
+              errors += 1
+              println(pf.getMessage)
+            case io: IOException =>
+              errors += 1
+              println(Strings.CANNOT_ACCESS_RESOURCE + file.getAbsolutePath)
           }
         }
+        if (errors > 0) System.exit(1)
     }
   }
 
