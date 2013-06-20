@@ -135,6 +135,7 @@ object SimpleTest {
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): SimpleTest = defaultInstance.mergeFrom(data, offset, length)
 	def parseFrom(byteString: com.google.protobuf.ByteString): SimpleTest = defaultInstance.mergeFrom(byteString)
 	def parseFrom(stream: java.io.InputStream): SimpleTest = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[SimpleTest] = defaultInstance.mergeDelimitedFromStream(stream)
 
 	val REQUIRED_FIELD_FIELD_NUMBER = 1
 	val OPTIONAL_FIELD_FIELD_NUMBER = 2

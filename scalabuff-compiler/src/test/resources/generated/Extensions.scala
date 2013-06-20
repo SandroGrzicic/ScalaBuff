@@ -55,6 +55,12 @@ final case class ExtensionsTest (
 object ExtensionsTest {
 	@reflect.BeanProperty val defaultInstance = new ExtensionsTest()
 
+	def parseFrom(data: Array[Byte]): ExtensionsTest = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): ExtensionsTest = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): ExtensionsTest = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): ExtensionsTest = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[ExtensionsTest] = defaultInstance.mergeDelimitedFromStream(stream)
+
 	val FOO_FIELD_NUMBER = 1
 
 	def newBuilder = defaultInstance.newBuilderForType

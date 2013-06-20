@@ -113,6 +113,12 @@ final case class ComplexMessage (
 object ComplexMessage {
 	@reflect.BeanProperty val defaultInstance = new ComplexMessage()
 
+	def parseFrom(data: Array[Byte]): ComplexMessage = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): ComplexMessage = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): ComplexMessage = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): ComplexMessage = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[ComplexMessage] = defaultInstance.mergeDelimitedFromStream(stream)
+
 	val FIRST_FIELD_FIELD_NUMBER = 1
 	val SECOND_FIELD_FIELD_NUMBER = 2
 	val NESTED_OUTER_FIELD_FIELD_NUMBER = 3
@@ -202,6 +208,12 @@ object ComplexMessage {
 	object Nested {
 		@reflect.BeanProperty val defaultInstance = new Nested()
 
+		def parseFrom(data: Array[Byte]): Nested = defaultInstance.mergeFrom(data)
+		def parseFrom(data: Array[Byte], offset: Int, length: Int): Nested = defaultInstance.mergeFrom(data, offset, length)
+		def parseFrom(byteString: com.google.protobuf.ByteString): Nested = defaultInstance.mergeFrom(byteString)
+		def parseFrom(stream: java.io.InputStream): Nested = defaultInstance.mergeFrom(stream)
+		def parseDelimitedFrom(stream: java.io.InputStream): Option[Nested] = defaultInstance.mergeDelimitedFromStream(stream)
+
 		val NESTED_FIELD_FIELD_NUMBER = 1
 		val NESTED_ENUM_FIELD_NUMBER = 2
 
@@ -269,6 +281,12 @@ final case class AnotherMessage (
 
 object AnotherMessage {
 	@reflect.BeanProperty val defaultInstance = new AnotherMessage()
+
+	def parseFrom(data: Array[Byte]): AnotherMessage = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): AnotherMessage = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): AnotherMessage = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): AnotherMessage = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[AnotherMessage] = defaultInstance.mergeDelimitedFromStream(stream)
 
 	val FIELD_NESTED_FIELD_NUMBER = 1
 	val FIELD_ENUM_FIELD_NUMBER = 2

@@ -52,6 +52,12 @@ final case class Groups (
 object Groups {
 	@reflect.BeanProperty val defaultInstance = new Groups()
 
+	def parseFrom(data: Array[Byte]): Groups = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): Groups = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): Groups = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): Groups = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[Groups] = defaultInstance.mergeDelimitedFromStream(stream)
+
 
 	def newBuilder = defaultInstance.newBuilderForType
 	def newBuilder(prototype: Groups) = defaultInstance.mergeFrom(prototype)

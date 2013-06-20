@@ -60,6 +60,7 @@ object PackageTest {
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): PackageTest = defaultInstance.mergeFrom(data, offset, length)
 	def parseFrom(byteString: com.google.protobuf.ByteString): PackageTest = defaultInstance.mergeFrom(byteString)
 	def parseFrom(stream: java.io.InputStream): PackageTest = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[PackageTest] = defaultInstance.mergeDelimitedFromStream(stream)
 
 	val REQUIRED_FIELD_FIELD_NUMBER = 1
 

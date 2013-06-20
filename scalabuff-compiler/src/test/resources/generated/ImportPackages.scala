@@ -62,6 +62,7 @@ object UsesImportPackage {
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): UsesImportPackage = defaultInstance.mergeFrom(data, offset, length)
 	def parseFrom(byteString: com.google.protobuf.ByteString): UsesImportPackage = defaultInstance.mergeFrom(byteString)
 	def parseFrom(stream: java.io.InputStream): UsesImportPackage = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[UsesImportPackage] = defaultInstance.mergeDelimitedFromStream(stream)
 
 	val PACKAGE_TEST_FIELD_NUMBER = 1
 

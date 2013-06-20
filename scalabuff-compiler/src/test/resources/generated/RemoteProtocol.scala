@@ -73,6 +73,12 @@ final case class AkkaRemoteProtocol (
 object AkkaRemoteProtocol {
 	@reflect.BeanProperty val defaultInstance = new AkkaRemoteProtocol()
 
+	def parseFrom(data: Array[Byte]): AkkaRemoteProtocol = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): AkkaRemoteProtocol = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): AkkaRemoteProtocol = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): AkkaRemoteProtocol = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[AkkaRemoteProtocol] = defaultInstance.mergeDelimitedFromStream(stream)
+
 	val MESSAGE_FIELD_NUMBER = 1
 	val INSTRUCTION_FIELD_NUMBER = 2
 
@@ -164,6 +170,12 @@ final case class RemoteMessageProtocol (
 object RemoteMessageProtocol {
 	@reflect.BeanProperty val defaultInstance = new RemoteMessageProtocol()
 
+	def parseFrom(data: Array[Byte]): RemoteMessageProtocol = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): RemoteMessageProtocol = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): RemoteMessageProtocol = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): RemoteMessageProtocol = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[RemoteMessageProtocol] = defaultInstance.mergeDelimitedFromStream(stream)
+
 	val RECIPIENT_FIELD_NUMBER = 1
 	val MESSAGE_FIELD_NUMBER = 2
 	val SENDER_FIELD_NUMBER = 4
@@ -246,6 +258,12 @@ final case class RemoteControlProtocol (
 
 object RemoteControlProtocol {
 	@reflect.BeanProperty val defaultInstance = new RemoteControlProtocol()
+
+	def parseFrom(data: Array[Byte]): RemoteControlProtocol = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): RemoteControlProtocol = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): RemoteControlProtocol = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): RemoteControlProtocol = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[RemoteControlProtocol] = defaultInstance.mergeDelimitedFromStream(stream)
 
 	val COMMANDTYPE_FIELD_NUMBER = 1
 	val COOKIE_FIELD_NUMBER = 2
@@ -330,6 +348,12 @@ final case class ActorRefProtocol (
 object ActorRefProtocol {
 	@reflect.BeanProperty val defaultInstance = new ActorRefProtocol()
 
+	def parseFrom(data: Array[Byte]): ActorRefProtocol = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): ActorRefProtocol = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): ActorRefProtocol = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): ActorRefProtocol = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[ActorRefProtocol] = defaultInstance.mergeDelimitedFromStream(stream)
+
 	val PATH_FIELD_NUMBER = 1
 
 	def newBuilder = defaultInstance.newBuilderForType
@@ -405,6 +429,12 @@ final case class MessageProtocol (
 object MessageProtocol {
 	@reflect.BeanProperty val defaultInstance = new MessageProtocol()
 
+	def parseFrom(data: Array[Byte]): MessageProtocol = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): MessageProtocol = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): MessageProtocol = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): MessageProtocol = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[MessageProtocol] = defaultInstance.mergeDelimitedFromStream(stream)
+
 	val MESSAGE_FIELD_NUMBER = 1
 	val SERIALIZERID_FIELD_NUMBER = 2
 	val MESSAGEMANIFEST_FIELD_NUMBER = 3
@@ -472,6 +502,12 @@ final case class MetadataEntryProtocol (
 
 object MetadataEntryProtocol {
 	@reflect.BeanProperty val defaultInstance = new MetadataEntryProtocol()
+
+	def parseFrom(data: Array[Byte]): MetadataEntryProtocol = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): MetadataEntryProtocol = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): MetadataEntryProtocol = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): MetadataEntryProtocol = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[MetadataEntryProtocol] = defaultInstance.mergeDelimitedFromStream(stream)
 
 	val KEY_FIELD_NUMBER = 1
 	val VALUE_FIELD_NUMBER = 2
@@ -546,6 +582,12 @@ final case class AddressProtocol (
 
 object AddressProtocol {
 	@reflect.BeanProperty val defaultInstance = new AddressProtocol()
+
+	def parseFrom(data: Array[Byte]): AddressProtocol = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): AddressProtocol = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): AddressProtocol = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): AddressProtocol = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[AddressProtocol] = defaultInstance.mergeDelimitedFromStream(stream)
 
 	val SYSTEM_FIELD_NUMBER = 1
 	val HOSTNAME_FIELD_NUMBER = 2
@@ -628,6 +670,12 @@ final case class DaemonMsgCreateProtocol (
 
 object DaemonMsgCreateProtocol {
 	@reflect.BeanProperty val defaultInstance = new DaemonMsgCreateProtocol()
+
+	def parseFrom(data: Array[Byte]): DaemonMsgCreateProtocol = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): DaemonMsgCreateProtocol = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): DaemonMsgCreateProtocol = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): DaemonMsgCreateProtocol = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[DaemonMsgCreateProtocol] = defaultInstance.mergeDelimitedFromStream(stream)
 
 	val PROPS_FIELD_NUMBER = 1
 	val DEPLOY_FIELD_NUMBER = 2
@@ -725,6 +773,12 @@ final case class PropsProtocol (
 object PropsProtocol {
 	@reflect.BeanProperty val defaultInstance = new PropsProtocol()
 
+	def parseFrom(data: Array[Byte]): PropsProtocol = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): PropsProtocol = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): PropsProtocol = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): PropsProtocol = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[PropsProtocol] = defaultInstance.mergeDelimitedFromStream(stream)
+
 	val DISPATCHER_FIELD_NUMBER = 1
 	val DEPLOY_FIELD_NUMBER = 2
 	val FROMCLASSCREATOR_FIELD_NUMBER = 3
@@ -814,6 +868,12 @@ final case class DeployProtocol (
 
 object DeployProtocol {
 	@reflect.BeanProperty val defaultInstance = new DeployProtocol()
+
+	def parseFrom(data: Array[Byte]): DeployProtocol = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): DeployProtocol = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): DeployProtocol = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): DeployProtocol = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[DeployProtocol] = defaultInstance.mergeDelimitedFromStream(stream)
 
 	val PATH_FIELD_NUMBER = 1
 	val CONFIG_FIELD_NUMBER = 2

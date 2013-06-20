@@ -61,6 +61,12 @@ final case class Response (
 object Response {
 	@reflect.BeanProperty val defaultInstance = new Response()
 
+	def parseFrom(data: Array[Byte]): Response = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): Response = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): Response = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): Response = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[Response] = defaultInstance.mergeDelimitedFromStream(stream)
+
 	val RESPONSE_FIELD_NUMBER = 1
 
 	def newBuilder = defaultInstance.newBuilderForType
@@ -142,6 +148,12 @@ object Response {
 	object Rendition {
 		@reflect.BeanProperty val defaultInstance = new Rendition()
 
+		def parseFrom(data: Array[Byte]): Rendition = defaultInstance.mergeFrom(data)
+		def parseFrom(data: Array[Byte], offset: Int, length: Int): Rendition = defaultInstance.mergeFrom(data, offset, length)
+		def parseFrom(byteString: com.google.protobuf.ByteString): Rendition = defaultInstance.mergeFrom(byteString)
+		def parseFrom(stream: java.io.InputStream): Rendition = defaultInstance.mergeFrom(stream)
+		def parseDelimitedFrom(stream: java.io.InputStream): Option[Rendition] = defaultInstance.mergeDelimitedFromStream(stream)
+
 		val PROFILE_KEY_FIELD_NUMBER = 1
 		val DATA_FIELD_NUMBER = 2
 		val PROPERTY_FIELD_NUMBER = 3
@@ -208,6 +220,12 @@ object Response {
 
 		object Property {
 			@reflect.BeanProperty val defaultInstance = new Property()
+
+			def parseFrom(data: Array[Byte]): Property = defaultInstance.mergeFrom(data)
+			def parseFrom(data: Array[Byte], offset: Int, length: Int): Property = defaultInstance.mergeFrom(data, offset, length)
+			def parseFrom(byteString: com.google.protobuf.ByteString): Property = defaultInstance.mergeFrom(byteString)
+			def parseFrom(stream: java.io.InputStream): Property = defaultInstance.mergeFrom(stream)
+			def parseDelimitedFrom(stream: java.io.InputStream): Option[Property] = defaultInstance.mergeDelimitedFromStream(stream)
 
 			val KEY_FIELD_NUMBER = 1
 			val VALUE_FIELD_NUMBER = 2
@@ -328,6 +346,12 @@ object Response {
 	object Video {
 		@reflect.BeanProperty val defaultInstance = new Video()
 
+		def parseFrom(data: Array[Byte]): Video = defaultInstance.mergeFrom(data)
+		def parseFrom(data: Array[Byte], offset: Int, length: Int): Video = defaultInstance.mergeFrom(data, offset, length)
+		def parseFrom(byteString: com.google.protobuf.ByteString): Video = defaultInstance.mergeFrom(byteString)
+		def parseFrom(stream: java.io.InputStream): Video = defaultInstance.mergeFrom(stream)
+		def parseDelimitedFrom(stream: java.io.InputStream): Option[Video] = defaultInstance.mergeDelimitedFromStream(stream)
+
 		val IDENTIFIER_FIELD_NUMBER = 1
 		val ASSET_KEY_FIELD_NUMBER = 2
 		val DURATION_FIELD_NUMBER = 3
@@ -412,6 +436,12 @@ object Response {
 
 	object VideoFailure {
 		@reflect.BeanProperty val defaultInstance = new VideoFailure()
+
+		def parseFrom(data: Array[Byte]): VideoFailure = defaultInstance.mergeFrom(data)
+		def parseFrom(data: Array[Byte], offset: Int, length: Int): VideoFailure = defaultInstance.mergeFrom(data, offset, length)
+		def parseFrom(byteString: com.google.protobuf.ByteString): VideoFailure = defaultInstance.mergeFrom(byteString)
+		def parseFrom(stream: java.io.InputStream): VideoFailure = defaultInstance.mergeFrom(stream)
+		def parseDelimitedFrom(stream: java.io.InputStream): Option[VideoFailure] = defaultInstance.mergeDelimitedFromStream(stream)
 
 		val ASSET_KEY_FIELD_NUMBER = 1
 		val REASON_FIELD_NUMBER = 2
@@ -519,6 +549,12 @@ object Response {
 
 	object VideoResult {
 		@reflect.BeanProperty val defaultInstance = new VideoResult()
+
+		def parseFrom(data: Array[Byte]): VideoResult = defaultInstance.mergeFrom(data)
+		def parseFrom(data: Array[Byte], offset: Int, length: Int): VideoResult = defaultInstance.mergeFrom(data, offset, length)
+		def parseFrom(byteString: com.google.protobuf.ByteString): VideoResult = defaultInstance.mergeFrom(byteString)
+		def parseFrom(stream: java.io.InputStream): VideoResult = defaultInstance.mergeFrom(stream)
+		def parseDelimitedFrom(stream: java.io.InputStream): Option[VideoResult] = defaultInstance.mergeDelimitedFromStream(stream)
 
 		val SUCCESS_FIELD_NUMBER = 1
 		val FAILURE_FIELD_NUMBER = 2

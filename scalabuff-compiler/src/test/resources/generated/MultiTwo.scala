@@ -108,6 +108,7 @@ object MultiMessageTwo {
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): MultiMessageTwo = defaultInstance.mergeFrom(data, offset, length)
 	def parseFrom(byteString: com.google.protobuf.ByteString): MultiMessageTwo = defaultInstance.mergeFrom(byteString)
 	def parseFrom(stream: java.io.InputStream): MultiMessageTwo = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[MultiMessageTwo] = defaultInstance.mergeDelimitedFromStream(stream)
 
 	val REQUIRED_FIELD_FIELD_NUMBER = 1
 	val OPTIONAL_FIELD_FIELD_NUMBER = 2

@@ -354,6 +354,8 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
         .append(" = defaultInstance.mergeFrom(byteString)\n")
       out.append(indent1).append("def parseFrom(stream: java.io.InputStream): ").append(name)
         .append(" = defaultInstance.mergeFrom(stream)\n")
+      out.append(indent1).append("def parseDelimitedFrom(stream: java.io.InputStream): Option[").append(name)
+        .append("] = defaultInstance.mergeDelimitedFromStream(stream)\n")
       out.append("\n")
 
       // field number integer constants

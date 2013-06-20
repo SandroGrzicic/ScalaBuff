@@ -74,6 +74,12 @@ final case class SimpleRequest (
 object SimpleRequest {
 	@reflect.BeanProperty val defaultInstance = new SimpleRequest()
 
+	def parseFrom(data: Array[Byte]): SimpleRequest = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): SimpleRequest = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): SimpleRequest = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): SimpleRequest = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[SimpleRequest] = defaultInstance.mergeDelimitedFromStream(stream)
+
 	val QUERY_FIELD_NUMBER = 1
 	val PAGE_NUMBER_FIELD_NUMBER = 2
 	val RESULTS_PER_PAGE_FIELD_NUMBER = 3

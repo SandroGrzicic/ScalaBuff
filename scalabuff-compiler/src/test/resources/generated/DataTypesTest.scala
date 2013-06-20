@@ -213,6 +213,12 @@ final case class DataTypes (
 object DataTypes {
 	@reflect.BeanProperty val defaultInstance = new DataTypes()
 
+	def parseFrom(data: Array[Byte]): DataTypes = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): DataTypes = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): DataTypes = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): DataTypes = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[DataTypes] = defaultInstance.mergeDelimitedFromStream(stream)
+
 	val VARINT1_FIELD_NUMBER = 1
 	val VARINT2_FIELD_NUMBER = 2
 	val VARINT3_FIELD_NUMBER = 3

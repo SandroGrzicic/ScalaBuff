@@ -58,6 +58,12 @@ final case class UsesImport (
 object UsesImport {
 	@reflect.BeanProperty val defaultInstance = new UsesImport()
 
+	def parseFrom(data: Array[Byte]): UsesImport = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): UsesImport = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): UsesImport = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): UsesImport = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[UsesImport] = defaultInstance.mergeDelimitedFromStream(stream)
+
 	val SIMPLE_TEST_FIELD_NUMBER = 1
 
 	def newBuilder = defaultInstance.newBuilderForType

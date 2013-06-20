@@ -56,6 +56,7 @@ object MutiMessageOne {
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): MutiMessageOne = defaultInstance.mergeFrom(data, offset, length)
 	def parseFrom(byteString: com.google.protobuf.ByteString): MutiMessageOne = defaultInstance.mergeFrom(byteString)
 	def parseFrom(stream: java.io.InputStream): MutiMessageOne = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[MutiMessageOne] = defaultInstance.mergeDelimitedFromStream(stream)
 
 
 	def newBuilder = defaultInstance.newBuilderForType
