@@ -76,7 +76,7 @@ object ScalaBuffBuild extends Build {
 	lazy val compiler = Project(
 		id = "scalabuff-compiler",
 		base = file("scalabuff-compiler"),
-		dependencies = Seq(runtime % "test->compile"),
+		dependencies = Seq(runtime),
 		settings = defaultSettings ++ Seq(
 			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
 			mainClass in (Compile, packageBin) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
