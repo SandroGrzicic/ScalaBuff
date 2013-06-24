@@ -21,7 +21,7 @@ object ScalaBuffBuild extends Build {
 	lazy val buildSettings = Seq(
 		name := "ScalaBuff",
 		organization := "net.sandrogrzicic",
-		version := "1.3.1-SNAPSHOT",
+		version := "1.3.1",
 		scalaVersion := "2.10.2",
 		//scalaVersion := "2.11.0-M3",
 		//scalaBinaryVersion := "2.11.0-M3",
@@ -61,9 +61,6 @@ object ScalaBuffBuild extends Build {
 
 		javaSource in Compile <<= baseDirectory(_ / "src/main"),
 		javaSource in Test <<= baseDirectory(_ / "src/test"),
-
-		classDirectory in Compile <<= baseDirectory(_ / "bin/main"),
-		classDirectory in Test <<= baseDirectory(_ / "bin/test"),
 
 		docDirectory in Compile <<= baseDirectory(_ / "doc"),
 
