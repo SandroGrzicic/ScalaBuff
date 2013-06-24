@@ -38,7 +38,7 @@ trait Enum {
 		// proto enum name
 		val name: String
 
-		lazy val getNumber = id
+		def getNumber = id
 
 		override def toString = name
 		/**
