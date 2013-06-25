@@ -54,7 +54,7 @@ class PerformanceTest extends FunSuite with ShouldMatchers {
     }
     val time = (System.currentTimeMillis() - start) / REPEAT_COUNT.toDouble
 
-    info(s"Time per run: $time ms")
+    info("Time per run: " + time + " ms")
   }
 }
 
