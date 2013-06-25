@@ -14,7 +14,7 @@ import File.{separator => SEP}
 class PerformanceTest extends FunSuite with ShouldMatchers {
 
   val WARMUP_COUNT = 50
-  val REPEAT_COUNT = 100
+  val REPEAT_COUNT = 50
 
   val protoDir = "scalabuff-compiler" + SEP + "src" + SEP + "test" + SEP + "resources" + SEP + "proto" + SEP
   val protoDirFile = new File(protoDir)
@@ -28,13 +28,14 @@ class PerformanceTest extends FunSuite with ShouldMatchers {
 
   test("performance test") {
 
+    val inputFiles = protoDirFile.listFiles(protoFileFilter).map(_.getName)
+    val scalaBuffArguments = Array("--stdout", "--verbose", "--proto_path=" + protoDir) ++ inputFiles
+
     def doRun() {
       outputStream.reset()
-      Console.withOut(printStream)({
-        for (file <- protoDirFile.listFiles(protoFileFilter)) {
-          ScalaBuff.main(Array("--stdout", "--verbose", "--proto_path=" + protoDir, file.getName))
-        }
-      })
+      Console.withOut(printStream) {
+        ScalaBuff.run(scalaBuffArguments)
+      }
     }
 
     // JVM warmup

@@ -2,6 +2,7 @@ package net.sandrogrzicic.scalabuff.compiler
 
 import java.io._
 import java.nio.charset.Charset
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  * ScalaBuff runtime.
@@ -98,12 +99,26 @@ object ScalaBuff {
 
   def verbosePrintln(msg: String)(implicit settings: Settings) { if (settings.verbose) println(msg) }
 
+
   /**
-   * Runner: Runs ScalaBuff on the specified resource path(s).
+   * ScalaBuff entry point. If any errors occur, calls System.exit(1).
    */
   def main(args: Array[String]) {
+    val success = run(args)
+
+    if (!success) {
+      System.exit(1)
+    }
+  }
+
+  /**
+   * Runner: Runs ScalaBuff on the specified resource path(s).
+   *
+   * @return success: if true, no errors were encountered.
+   */
+  def run(args: Array[String]): Boolean = {
     args match {
-      case noArguments if noArguments.isEmpty => println(Strings.HELP)
+      case noArguments if noArguments.isEmpty => println(Strings.HELP); true
 
       case arguments =>
         val (rawSettings, paths) = arguments.partition(_.startsWith("-"))
@@ -128,8 +143,9 @@ object ScalaBuff {
             files.flatMap(searchPath)
         }
 
-        var errors = 0
-        for (file <- protoFiles) {
+        val success = new AtomicBoolean(true)
+
+        for (file <- protoFiles.par) {
           verbosePrintln("Processing: " + file.getAbsolutePath)
           try {
             val scalaClass = apply(file)
@@ -138,20 +154,20 @@ object ScalaBuff {
             } catch {
               // just print the error and continue processing
               case io: IOException =>
-                errors += 1
+                success.set(false)
                 println(Strings.CANNOT_WRITE_FILE + scalaClass.path + scalaClass.file + ".scala")
             }
           } catch {
             // just print the error and continue processing
             case pf: ParsingFailureException =>
-              errors += 1
+              success.set(false)
               println(pf.getMessage)
             case io: IOException =>
-              errors += 1
+              success.set(false)
               println(Strings.CANNOT_ACCESS_RESOURCE + file.getAbsolutePath)
           }
         }
-        if (errors > 0) System.exit(1)
+        success.get()
     }
   }
 
