@@ -1,6 +1,7 @@
 import sbt._
 import Keys._
 import java.io.File
+import com.typesafe.sbt.osgi.SbtOsgi._
 
 /**
  * ScalaBuff SBT build file.
@@ -78,7 +79,7 @@ object ScalaBuffBuild extends Build {
 			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
 			mainClass in (Compile, packageBin) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
 			fullRunTask(TaskKey[Unit]("update-test-resources"), Compile, "net.sandrogrzicic.scalabuff.test.UpdateTestResources")
-		)
+		) ++ osgiSettings
 	)
 
 	lazy val runtime = Project(
