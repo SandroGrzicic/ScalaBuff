@@ -48,8 +48,9 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
   }
 
   lazy val option: PackratParser[OptionValue] = "option" ~> optionBody <~ ";"
-  lazy val optionBody: PackratParser[OptionValue] = (("(" ?) ~> identifier ~> (")" ?) ~ (("." ~ identifier) *)) ~ ("=" ~> constant) ^^ {
-		case ident ~ idents ~ value => OptionValue(ident + idents.map(i => i._1 + i._2).mkString, value)
+
+  lazy val optionBody: PackratParser[OptionValue] = (("(" ?) ~> (identifier <~ (")" ?)) ~ (("." ~ identifier) *)) ~ ("=" ~> constant) ^^ {
+    case ident ~ idents ~ value => OptionValue(ident + idents.map(i => i._1 + i._2).mkString, value)
   }
 
 	lazy val group: PackratParser[Group] = (label <~ "group") ~ (camelCaseIdentifier <~ "=") ~ integerConstant ~ messageBody ^^ {
