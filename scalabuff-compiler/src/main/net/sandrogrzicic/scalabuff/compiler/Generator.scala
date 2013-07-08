@@ -620,8 +620,11 @@ object Generator {
           body.fields.foreach { field =>
             val scalaType = if (field.fType.scalaType endsWith ".EnumVal") field.fType.scalaType.split("\\.")(0) else field.fType.scalaType
             importedSymbols.get(scalaType).foreach { symbol =>
-              field.fType.scalaType = symbol.packageName + "." + field.fType.scalaType
-              field.fType.defaultValue = symbol.packageName + "." + field.fType.defaultValue
+	      // Namespaces might be empty for imported message types
+	      val namespacePrefix = if(symbol.packageName.isEmpty) "" else symbol.packageName + "."
+
+              field.fType.scalaType = namespacePrefix + field.fType.scalaType
+              field.fType.defaultValue = namespacePrefix + field.fType.defaultValue
             }
           }
         case _ =>
