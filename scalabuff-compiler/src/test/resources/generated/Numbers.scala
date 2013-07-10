@@ -23,11 +23,11 @@ final case class NumbersTest1 (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		if (`someHexNumber`.isDefined) size += computeInt32Size(1, `someHexNumber`.get)
-		if (`someOctNumber`.isDefined) size += computeInt32Size(2, `someOctNumber`.get)
+		var __size = 0
+		if (`someHexNumber`.isDefined) __size += computeInt32Size(1, `someHexNumber`.get)
+		if (`someOctNumber`.isDefined) __size += computeInt32Size(2, `someOctNumber`.get)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): NumbersTest1 = {

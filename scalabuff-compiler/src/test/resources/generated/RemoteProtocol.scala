@@ -23,11 +23,11 @@ final case class AkkaRemoteProtocol (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		if (`message`.isDefined) size += computeMessageSize(1, `message`.get)
-		if (`instruction`.isDefined) size += computeMessageSize(2, `instruction`.get)
+		var __size = 0
+		if (`message`.isDefined) __size += computeMessageSize(1, `message`.get)
+		if (`instruction`.isDefined) __size += computeMessageSize(2, `instruction`.get)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): AkkaRemoteProtocol = {
@@ -113,13 +113,13 @@ final case class RemoteMessageProtocol (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeMessageSize(1, `recipient`)
-		size += computeMessageSize(2, `message`)
-		if (`sender`.isDefined) size += computeMessageSize(4, `sender`.get)
-		for (_v <- `metadata`) size += computeMessageSize(5, _v)
+		var __size = 0
+		__size += computeMessageSize(1, `recipient`)
+		__size += computeMessageSize(2, `message`)
+		if (`sender`.isDefined) __size += computeMessageSize(4, `sender`.get)
+		for (_v <- `metadata`) __size += computeMessageSize(5, _v)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): RemoteMessageProtocol = {
@@ -207,12 +207,12 @@ final case class RemoteControlProtocol (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeEnumSize(1, `commandType`)
-		if (`cookie`.isDefined) size += computeStringSize(2, `cookie`.get)
-		if (`origin`.isDefined) size += computeMessageSize(3, `origin`.get)
+		var __size = 0
+		__size += computeEnumSize(1, `commandType`)
+		if (`cookie`.isDefined) __size += computeStringSize(2, `cookie`.get)
+		if (`origin`.isDefined) __size += computeMessageSize(3, `origin`.get)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): RemoteControlProtocol = {
@@ -309,10 +309,10 @@ final case class ActorRefProtocol (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeStringSize(1, `path`)
+		var __size = 0
+		__size += computeStringSize(1, `path`)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): ActorRefProtocol = {
@@ -380,12 +380,12 @@ final case class MessageProtocol (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeBytesSize(1, `message`)
-		size += computeInt32Size(2, `serializerId`)
-		if (`messageManifest`.isDefined) size += computeBytesSize(3, `messageManifest`.get)
+		var __size = 0
+		__size += computeBytesSize(1, `message`)
+		__size += computeInt32Size(2, `serializerId`)
+		if (`messageManifest`.isDefined) __size += computeBytesSize(3, `messageManifest`.get)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): MessageProtocol = {
@@ -459,11 +459,11 @@ final case class MetadataEntryProtocol (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeStringSize(1, `key`)
-		size += computeBytesSize(2, `value`)
+		var __size = 0
+		__size += computeStringSize(1, `key`)
+		__size += computeBytesSize(2, `value`)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): MetadataEntryProtocol = {
@@ -534,12 +534,12 @@ final case class AddressProtocol (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeStringSize(1, `system`)
-		size += computeStringSize(2, `hostname`)
-		size += computeUInt32Size(3, `port`)
+		var __size = 0
+		__size += computeStringSize(1, `system`)
+		__size += computeStringSize(2, `hostname`)
+		__size += computeUInt32Size(3, `port`)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): AddressProtocol = {
@@ -617,13 +617,13 @@ final case class DaemonMsgCreateProtocol (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeMessageSize(1, `props`)
-		size += computeMessageSize(2, `deploy`)
-		size += computeStringSize(3, `path`)
-		size += computeMessageSize(4, `supervisor`)
+		var __size = 0
+		__size += computeMessageSize(1, `props`)
+		__size += computeMessageSize(2, `deploy`)
+		__size += computeStringSize(3, `path`)
+		__size += computeMessageSize(4, `supervisor`)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): DaemonMsgCreateProtocol = {
@@ -714,14 +714,14 @@ final case class PropsProtocol (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeStringSize(1, `dispatcher`)
-		size += computeMessageSize(2, `deploy`)
-		if (`fromClassCreator`.isDefined) size += computeStringSize(3, `fromClassCreator`.get)
-		if (`creator`.isDefined) size += computeBytesSize(4, `creator`.get)
-		if (`routerConfig`.isDefined) size += computeBytesSize(5, `routerConfig`.get)
+		var __size = 0
+		__size += computeStringSize(1, `dispatcher`)
+		__size += computeMessageSize(2, `deploy`)
+		if (`fromClassCreator`.isDefined) __size += computeStringSize(3, `fromClassCreator`.get)
+		if (`creator`.isDefined) __size += computeBytesSize(4, `creator`.get)
+		if (`routerConfig`.isDefined) __size += computeBytesSize(5, `routerConfig`.get)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): PropsProtocol = {
@@ -815,13 +815,13 @@ final case class DeployProtocol (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeStringSize(1, `path`)
-		if (`config`.isDefined) size += computeBytesSize(2, `config`.get)
-		if (`routerConfig`.isDefined) size += computeBytesSize(3, `routerConfig`.get)
-		if (`scope`.isDefined) size += computeBytesSize(4, `scope`.get)
+		var __size = 0
+		__size += computeStringSize(1, `path`)
+		if (`config`.isDefined) __size += computeBytesSize(2, `config`.get)
+		if (`routerConfig`.isDefined) __size += computeBytesSize(3, `routerConfig`.get)
+		if (`scope`.isDefined) __size += computeBytesSize(4, `scope`.get)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): DeployProtocol = {
