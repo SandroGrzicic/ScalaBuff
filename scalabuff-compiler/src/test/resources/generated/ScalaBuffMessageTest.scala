@@ -16,9 +16,9 @@ final case class EmptyMessage (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
+		var __size = 0
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): EmptyMessage = {

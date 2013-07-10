@@ -47,12 +47,12 @@ final case class Outer (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeEnumSize(1, `innerRequired`)
-		if (`innerOptional`.isDefined) size += computeEnumSize(2, `innerOptional`.get)
-		for (_v <- `innerRepeated`) size += computeEnumSize(3, _v)
+		var __size = 0
+		__size += computeEnumSize(1, `innerRequired`)
+		if (`innerOptional`.isDefined) __size += computeEnumSize(2, `innerOptional`.get)
+		for (_v <- `innerRepeated`) __size += computeEnumSize(3, _v)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Outer = {
@@ -155,12 +155,12 @@ final case class OuterDuplicate (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeEnumSize(1, `innerRequired`)
-		if (`innerOptional`.isDefined) size += computeEnumSize(2, `innerOptional`.get)
-		for (_v <- `innerRepeated`) size += computeEnumSize(3, _v)
+		var __size = 0
+		__size += computeEnumSize(1, `innerRequired`)
+		if (`innerOptional`.isDefined) __size += computeEnumSize(2, `innerOptional`.get)
+		for (_v <- `innerRepeated`) __size += computeEnumSize(3, _v)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): OuterDuplicate = {
@@ -252,10 +252,10 @@ final case class OuterEnumContainer (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeMessageSize(1, `innerMessage`)
+		var __size = 0
+		__size += computeMessageSize(1, `innerMessage`)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): OuterEnumContainer = {
@@ -316,10 +316,10 @@ object OuterEnumContainer {
 
 		lazy val getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
-			var size = 0
-			size += computeEnumSize(1, `someEnum`)
+			var __size = 0
+			__size += computeEnumSize(1, `someEnum`)
 
-			size
+			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): InnerEnumContainer = {

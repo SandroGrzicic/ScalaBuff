@@ -25,12 +25,12 @@ final case class SimpleRequest (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeStringSize(1, `query`)
-		if (`pageNumber`.isDefined) size += computeInt32Size(2, `pageNumber`.get)
-		if (`resultsPerPage`.isDefined) size += computeInt32Size(3, `resultsPerPage`.get)
+		var __size = 0
+		__size += computeStringSize(1, `query`)
+		if (`pageNumber`.isDefined) __size += computeInt32Size(2, `pageNumber`.get)
+		if (`resultsPerPage`.isDefined) __size += computeInt32Size(3, `resultsPerPage`.get)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SimpleRequest = {

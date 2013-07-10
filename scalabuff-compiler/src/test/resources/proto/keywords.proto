@@ -1,0 +1,7 @@
+package resources.generated;
+
+option optimize_for = LITE_RUNTIME;
+
+message KeywordsTest {
+  required int64 size = 1;
+}

@@ -1,0 +1,1 @@
+List(PackageStatement(resources.generated), OptionValue(optimize_for,LITE_RUNTIME), Message(KeywordsTest,MessageBody(List(Field(required,Int64,size,1,List(),)),List(),List(),List(),List(),List(),List())))

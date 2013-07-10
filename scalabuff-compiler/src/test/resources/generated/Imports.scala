@@ -19,10 +19,10 @@ final case class UsesImport (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeMessageSize(1, `simpleTest`)
+		var __size = 0
+		__size += computeMessageSize(1, `simpleTest`)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): UsesImport = {

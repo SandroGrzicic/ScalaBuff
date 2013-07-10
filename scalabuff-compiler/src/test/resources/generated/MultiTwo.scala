@@ -40,15 +40,15 @@ final case class MultiMessageTwo (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeInt32Size(1, `requiredField`)
-		if (`optionalField`.isDefined) size += computeFloatSize(2, `optionalField`.get)
-		for (_v <- `repeatedField`) size += computeStringSize(3, _v)
-		if (`type`.isDefined) size += computeInt32Size(4, `type`.get)
-		if (`int32Default`.isDefined) size += computeInt32Size(5, `int32Default`.get)
-		if (`stringDefault`.isDefined) size += computeStringSize(6, `stringDefault`.get)
+		var __size = 0
+		__size += computeInt32Size(1, `requiredField`)
+		if (`optionalField`.isDefined) __size += computeFloatSize(2, `optionalField`.get)
+		for (_v <- `repeatedField`) __size += computeStringSize(3, _v)
+		if (`type`.isDefined) __size += computeInt32Size(4, `type`.get)
+		if (`int32Default`.isDefined) __size += computeInt32Size(5, `int32Default`.get)
+		if (`stringDefault`.isDefined) __size += computeStringSize(6, `stringDefault`.get)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): MultiMessageTwo = {

@@ -16,10 +16,10 @@ final case class ExtensionsTest (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeInt32Size(1, `foo`)
+		var __size = 0
+		__size += computeInt32Size(1, `foo`)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): ExtensionsTest = {

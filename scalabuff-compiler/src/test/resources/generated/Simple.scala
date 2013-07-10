@@ -52,18 +52,18 @@ final case class SimpleTest (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeInt32Size(1, `requiredField`)
-		if (`optionalField`.isDefined) size += computeFloatSize(2, `optionalField`.get)
-		for (_v <- `repeatedField`) size += computeStringSize(3, _v)
-		if (`type`.isDefined) size += computeInt32Size(4, `type`.get)
-		if (`int32Default`.isDefined) size += computeInt32Size(5, `int32Default`.get)
-		if (`int32Negative`.isDefined) size += computeInt32Size(6, `int32Negative`.get)
-		if (`stringDefault`.isDefined) size += computeStringSize(7, `stringDefault`.get)
-		if (`floatDefault`.isDefined) size += computeFloatSize(8, `floatDefault`.get)
-		if (`floatNegative`.isDefined) size += computeFloatSize(9, `floatNegative`.get)
+		var __size = 0
+		__size += computeInt32Size(1, `requiredField`)
+		if (`optionalField`.isDefined) __size += computeFloatSize(2, `optionalField`.get)
+		for (_v <- `repeatedField`) __size += computeStringSize(3, _v)
+		if (`type`.isDefined) __size += computeInt32Size(4, `type`.get)
+		if (`int32Default`.isDefined) __size += computeInt32Size(5, `int32Default`.get)
+		if (`int32Negative`.isDefined) __size += computeInt32Size(6, `int32Negative`.get)
+		if (`stringDefault`.isDefined) __size += computeStringSize(7, `stringDefault`.get)
+		if (`floatDefault`.isDefined) __size += computeFloatSize(8, `floatDefault`.get)
+		if (`floatNegative`.isDefined) __size += computeFloatSize(9, `floatNegative`.get)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SimpleTest = {
