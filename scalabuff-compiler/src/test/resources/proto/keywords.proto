@@ -4,4 +4,12 @@ option optimize_for = LITE_RUNTIME;
 
 message KeywordsTest {
   required int64 size = 1;
+  required int32 case = 2;
+  required int32 val = 3;
+  required int32 var = 4;
+  required int32 def = 5;
+  required int32 object = 6;
+  required int32 class = 7;
+  required int32 lazy = 8;
+  required int32 type = 9;
 }
