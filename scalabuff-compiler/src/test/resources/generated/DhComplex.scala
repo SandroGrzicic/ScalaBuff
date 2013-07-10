@@ -22,10 +22,10 @@ final case class Response (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		for (_v <- `response`) size += computeMessageSize(1, _v)
+		var __size = 0
+		for (_v <- `response`) __size += computeMessageSize(1, _v)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Response = {
@@ -99,12 +99,12 @@ object Response {
 
 		lazy val getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
-			var size = 0
-			if (`profileKey`.isDefined) size += computeStringSize(1, `profileKey`.get)
-			if (`data`.isDefined) size += computeStringSize(2, `data`.get)
-			for (_v <- `property`) size += computeMessageSize(3, _v)
+			var __size = 0
+			if (`profileKey`.isDefined) __size += computeStringSize(1, `profileKey`.get)
+			if (`data`.isDefined) __size += computeStringSize(2, `data`.get)
+			for (_v <- `property`) __size += computeMessageSize(3, _v)
 
-			size
+			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Rendition = {
@@ -177,11 +177,11 @@ object Response {
 
 			lazy val getSerializedSize = {
 				import com.google.protobuf.CodedOutputStream._
-				var size = 0
-				size += computeEnumSize(1, `key`)
-				size += computeStringSize(2, `value`)
+				var __size = 0
+				__size += computeEnumSize(1, `key`)
+				__size += computeStringSize(2, `value`)
 
-				size
+				__size
 			}
 
 			def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Property = {
@@ -292,13 +292,13 @@ object Response {
 
 		lazy val getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
-			var size = 0
-			if (`identifier`.isDefined) size += computeStringSize(1, `identifier`.get)
-			if (`assetKey`.isDefined) size += computeStringSize(2, `assetKey`.get)
-			if (`duration`.isDefined) size += computeFloatSize(3, `duration`.get)
-			for (_v <- `renditions`) size += computeMessageSize(4, _v)
+			var __size = 0
+			if (`identifier`.isDefined) __size += computeStringSize(1, `identifier`.get)
+			if (`assetKey`.isDefined) __size += computeStringSize(2, `assetKey`.get)
+			if (`duration`.isDefined) __size += computeFloatSize(3, `duration`.get)
+			for (_v <- `renditions`) __size += computeMessageSize(4, _v)
 
-			size
+			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Video = {
@@ -388,12 +388,12 @@ object Response {
 
 		lazy val getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
-			var size = 0
-			if (`assetKey`.isDefined) size += computeStringSize(1, `assetKey`.get)
-			for (_v <- `reason`) size += computeStringSize(2, _v)
-			if (`cause`.isDefined) size += computeEnumSize(3, `cause`.get)
+			var __size = 0
+			if (`assetKey`.isDefined) __size += computeStringSize(1, `assetKey`.get)
+			for (_v <- `reason`) __size += computeStringSize(2, _v)
+			if (`cause`.isDefined) __size += computeEnumSize(3, `cause`.get)
 
-			size
+			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): VideoFailure = {
@@ -500,11 +500,11 @@ object Response {
 
 		lazy val getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
-			var size = 0
-			if (`success`.isDefined) size += computeMessageSize(1, `success`.get)
-			if (`failure`.isDefined) size += computeMessageSize(2, `failure`.get)
+			var __size = 0
+			if (`success`.isDefined) __size += computeMessageSize(1, `success`.get)
+			if (`failure`.isDefined) __size += computeMessageSize(2, `failure`.get)
 
-			size
+			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): VideoResult = {

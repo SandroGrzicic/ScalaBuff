@@ -55,4 +55,9 @@ class MessageTest extends FunSuite with ShouldMatchers {
 
     ComplexMessage.parseFrom(new ByteArrayInputStream(os.toByteArray)) should equal (message)
   }
+
+  test("Keywords") {
+    val message = KeywordsTest(123456789L)
+    message.toByteArray.size should equal (5)
+  }
 }

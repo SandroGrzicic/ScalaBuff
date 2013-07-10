@@ -89,27 +89,27 @@ final case class DataTypes (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeInt32Size(1, `varint1`)
-		if (`varint2`.isDefined) size += computeInt64Size(2, `varint2`.get)
-		if (`varint3`.isDefined) size += computeUInt32Size(3, `varint3`.get)
-		size += computeUInt64Size(4, `varint4`)
-		if (`varint5`.isDefined) size += computeSInt32Size(5, `varint5`.get)
-		if (`varint6`.isDefined) size += computeSInt64Size(6, `varint6`.get)
-		if (`varint7`.isDefined) size += computeBoolSize(7, `varint7`.get)
-		if (`f64bit1`.isDefined) size += computeFixed64Size(100, `f64bit1`.get)
-		if (`f64bit2`.isDefined) size += computeSFixed64Size(101, `f64bit2`.get)
-		if (`f64bit3`.isDefined) size += computeDoubleSize(102, `f64bit3`.get)
-		if (`lengthDelim1`.isDefined) size += computeStringSize(200, `lengthDelim1`.get)
-		if (`lengthDelim2`.isDefined) size += computeBytesSize(201, `lengthDelim2`.get)
-		if (`lengthDelim3`.isDefined) size += computeEnumSize(202, `lengthDelim3`.get)
-		for (_v <- `lengthDelim4`) size += computeInt32Size(204, _v)
-		for (_v <- `lengthDelim5`) size += computeInt32Size(203, _v)
-		if (`f32bit1`.isDefined) size += computeFixed32Size(500, `f32bit1`.get)
-		if (`f32bit2`.isDefined) size += computeSFixed32Size(501, `f32bit2`.get)
-		if (`f32bit3`.isDefined) size += computeFloatSize(502, `f32bit3`.get)
+		var __size = 0
+		__size += computeInt32Size(1, `varint1`)
+		if (`varint2`.isDefined) __size += computeInt64Size(2, `varint2`.get)
+		if (`varint3`.isDefined) __size += computeUInt32Size(3, `varint3`.get)
+		__size += computeUInt64Size(4, `varint4`)
+		if (`varint5`.isDefined) __size += computeSInt32Size(5, `varint5`.get)
+		if (`varint6`.isDefined) __size += computeSInt64Size(6, `varint6`.get)
+		if (`varint7`.isDefined) __size += computeBoolSize(7, `varint7`.get)
+		if (`f64bit1`.isDefined) __size += computeFixed64Size(100, `f64bit1`.get)
+		if (`f64bit2`.isDefined) __size += computeSFixed64Size(101, `f64bit2`.get)
+		if (`f64bit3`.isDefined) __size += computeDoubleSize(102, `f64bit3`.get)
+		if (`lengthDelim1`.isDefined) __size += computeStringSize(200, `lengthDelim1`.get)
+		if (`lengthDelim2`.isDefined) __size += computeBytesSize(201, `lengthDelim2`.get)
+		if (`lengthDelim3`.isDefined) __size += computeEnumSize(202, `lengthDelim3`.get)
+		for (_v <- `lengthDelim4`) __size += computeInt32Size(204, _v)
+		for (_v <- `lengthDelim5`) __size += computeInt32Size(203, _v)
+		if (`f32bit1`.isDefined) __size += computeFixed32Size(500, `f32bit1`.get)
+		if (`f32bit2`.isDefined) __size += computeSFixed32Size(501, `f32bit2`.get)
+		if (`f32bit3`.isDefined) __size += computeFloatSize(502, `f32bit3`.get)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): DataTypes = {

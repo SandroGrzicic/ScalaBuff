@@ -46,15 +46,15 @@ final case class ComplexMessage (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeBytesSize(1, `firstField`)
-		if (`secondField`.isDefined) size += computeStringSize(2, `secondField`.get)
-		if (`nestedOuterField`.isDefined) size += computeMessageSize(3, `nestedOuterField`.get)
-		for (_v <- `simpleEnumField`) size += computeEnumSize(4, _v)
-		for (_v <- `repeatedStringField`) size += computeStringSize(5, _v)
-		for (_v <- `repeatedBytesField`) size += computeBytesSize(6, _v)
+		var __size = 0
+		__size += computeBytesSize(1, `firstField`)
+		if (`secondField`.isDefined) __size += computeStringSize(2, `secondField`.get)
+		if (`nestedOuterField`.isDefined) __size += computeMessageSize(3, `nestedOuterField`.get)
+		for (_v <- `simpleEnumField`) __size += computeEnumSize(4, _v)
+		for (_v <- `repeatedStringField`) __size += computeStringSize(5, _v)
+		for (_v <- `repeatedBytesField`) __size += computeBytesSize(6, _v)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): ComplexMessage = {
@@ -164,11 +164,11 @@ object ComplexMessage {
 
 		lazy val getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
-			var size = 0
-			size += computeStringSize(1, `nestedField`)
-			if (`nestedEnum`.isDefined) size += computeEnumSize(2, `nestedEnum`.get)
+			var __size = 0
+			__size += computeStringSize(1, `nestedField`)
+			if (`nestedEnum`.isDefined) __size += computeEnumSize(2, `nestedEnum`.get)
 
-			size
+			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Nested = {
@@ -238,11 +238,11 @@ final case class AnotherMessage (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeMessageSize(1, `fieldNested`)
-		size += computeEnumSize(2, `fieldEnum`)
+		var __size = 0
+		__size += computeMessageSize(1, `fieldNested`)
+		__size += computeEnumSize(2, `fieldEnum`)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): AnotherMessage = {

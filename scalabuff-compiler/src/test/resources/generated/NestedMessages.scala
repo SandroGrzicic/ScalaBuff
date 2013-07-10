@@ -17,10 +17,10 @@ final case class TopLevel (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeUInt32Size(1, `idToplevel`)
+		var __size = 0
+		__size += computeUInt32Size(1, `idToplevel`)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): TopLevel = {
@@ -81,10 +81,10 @@ object TopLevel {
 
 		lazy val getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
-			var size = 0
-			size += computeUInt32Size(1, `idInner`)
+			var __size = 0
+			__size += computeUInt32Size(1, `idInner`)
 
-			size
+			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Inner = {
@@ -184,18 +184,18 @@ final case class Foobar (
 
 	lazy val getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
-		var size = 0
-		size += computeMessageSize(1, `reqFoo`)
-		if (`optFoo`.isDefined) size += computeMessageSize(2, `optFoo`.get)
-		if (`optBar`.isDefined) size += computeMessageSize(3, `optBar`.get)
-		for (_v <- `repFoo`) size += computeMessageSize(4, _v)
-		for (_v <- `repBar`) size += computeMessageSize(5, _v)
-		for (_v <- `repFooBar`) size += computeMessageSize(6, _v)
-		size += computeMessageSize(7, `topLevelReq`)
-		if (`topLevelOpt`.isDefined) size += computeMessageSize(8, `topLevelOpt`.get)
-		size += computeMessageSize(9, `topLevelInnerReq`)
+		var __size = 0
+		__size += computeMessageSize(1, `reqFoo`)
+		if (`optFoo`.isDefined) __size += computeMessageSize(2, `optFoo`.get)
+		if (`optBar`.isDefined) __size += computeMessageSize(3, `optBar`.get)
+		for (_v <- `repFoo`) __size += computeMessageSize(4, _v)
+		for (_v <- `repBar`) __size += computeMessageSize(5, _v)
+		for (_v <- `repFooBar`) __size += computeMessageSize(6, _v)
+		__size += computeMessageSize(7, `topLevelReq`)
+		if (`topLevelOpt`.isDefined) __size += computeMessageSize(8, `topLevelOpt`.get)
+		__size += computeMessageSize(9, `topLevelInnerReq`)
 
-		size
+		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Foobar = {
@@ -307,10 +307,10 @@ object Foobar {
 
 		lazy val getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
-			var size = 0
-			if (`id`.isDefined) size += computeUInt64Size(1, `id`.get)
+			var __size = 0
+			if (`id`.isDefined) __size += computeUInt64Size(1, `id`.get)
 
-			size
+			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Foo = {
@@ -374,10 +374,10 @@ object Foobar {
 
 		lazy val getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
-			var size = 0
-			if (`id`.isDefined) size += computeUInt64Size(1, `id`.get)
+			var __size = 0
+			if (`id`.isDefined) __size += computeUInt64Size(1, `id`.get)
 
-			size
+			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Bar = {
@@ -441,10 +441,10 @@ object Foobar {
 
 		lazy val getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
-			var size = 0
-			if (`id`.isDefined) size += computeUInt64Size(1, `id`.get)
+			var __size = 0
+			if (`id`.isDefined) __size += computeUInt64Size(1, `id`.get)
 
-			size
+			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): FooBar = {

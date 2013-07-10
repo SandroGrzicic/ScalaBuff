@@ -204,24 +204,24 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       // getSerializedSize
       out.append("\n").append(indent1).append("lazy val getSerializedSize = {\n")
         .append(indent2).append("import com.google.protobuf.CodedOutputStream._\n")
-        .append(indent2).append("var size = 0\n")
+        .append(indent2).append("var __size = 0\n")
       for (field <- fields) {
         field.label match {
           case REQUIRED => out.append(indent2)
-            .append("size += compute").append(field.fType.name).append("Size(")
+            .append("__size += compute").append(field.fType.name).append("Size(")
             .append(field.number).append(", ").append(field.name.toScalaIdent).append(")\n")
           case OPTIONAL => out.append(indent2).append("if (")
             .append(field.name.toScalaIdent).append(".isDefined) ")
-            .append("size += compute").append(field.fType.name).append("Size(")
+            .append("__size += compute").append(field.fType.name).append("Size(")
             .append(field.number).append(", ").append(field.name.toScalaIdent).append(".get)\n")
           case REPEATED => out.append(indent2).append("for (_v <- ")
             .append(field.name.toScalaIdent).append(") ")
-            .append("size += compute").append(field.fType.name).append("Size(")
+            .append("__size += compute").append(field.fType.name).append("Size(")
             .append(field.number).append(", _v)\n")
           case _ => // "missing combination <local child>"
         }
       }
-      out.append("\n").append(indent2).append("size\n")
+      out.append("\n").append(indent2).append("__size\n")
         .append(indent1).append("}\n")
 
       // mergeFrom(CodedInputStream, ExtensionRegistryLite)
