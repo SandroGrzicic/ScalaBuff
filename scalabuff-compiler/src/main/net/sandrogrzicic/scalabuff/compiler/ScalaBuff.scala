@@ -18,7 +18,8 @@ object ScalaBuff {
                          stdout: Boolean = false,
                          inputEncoding: Charset = defaultCharset,
                          outputEncoding: Charset = defaultCharset,
-                         verbose: Boolean = false)
+                         verbose: Boolean = false,
+                         extraVerbose: Boolean = false)
 
   val defaultSettings = Settings()
 
@@ -86,8 +87,10 @@ object ScalaBuff {
   }
 
   def searchPath(filename: String)(implicit settings: Settings = defaultSettings): Option[File] = {
-    if (filename startsWith "/") {
-      Option(new File(filename)).filter(_.exists)
+    val file = new File(filename)
+
+    if (file.isAbsolute) {
+      Option(file).filter(_.exists)
     } else {
       settings.importDirectories.map { folder =>
         new File(folder, filename)
@@ -120,15 +123,19 @@ object ScalaBuff {
     args match {
       case noArguments if noArguments.isEmpty => println(Strings.HELP); true
 
-      case arguments =>
-        val (rawSettings, paths) = arguments.partition(_.startsWith("-"))
+      case arguments: Array[String] =>
+        val (rawSettings: Array[String], paths: Array[String]) = arguments.partition(_.startsWith("-"))
 
         implicit val parsedSettings = rawSettings.foldLeft(Settings()) {
           case (settings, setting) => parseSetting(setting, settings) match {
-            case Left(message) =>
-              println(message); settings //If parseSetting returned a message, print it and return the old settings
+            case Left(message)      => println(message); settings
             case Right(newSettings) => newSettings
           }
+        }
+
+        if (parsedSettings.extraVerbose) {
+          println("Parameters: " + rawSettings.mkString(" "))
+          println("Paths: " + paths.mkString(" "))
         }
 
         /*
@@ -200,11 +207,11 @@ object ScalaBuff {
       case "--stdout" =>
         settings.copy(stdout = true)
 
-      case "-v" =>
+      case "-v" | "--verbose" if !settings.verbose =>
         settings.copy(verbose = true)
 
-      case "--verbose" =>
-        settings.copy(verbose = true)
+      case "-v" | "--verbose" if settings.verbose =>
+        settings.copy(extraVerbose = true)
 
       case s if s startsWith "--proto_encoding=" =>
         val inputEncoding = s.substring("--proto_encoding=".length)
