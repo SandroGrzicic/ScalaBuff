@@ -69,10 +69,8 @@ object ScalaBuff {
     }.flatten.toMap
   }
 
-  val protoExtension = ".proto"
-
   val protoFileFilter = new FileFilter {
-    def accept(filtered: File) = filtered.getName.endsWith(protoExtension)
+    def accept(filtered: File) = filtered.getName.endsWith(".proto")
   }
 
   def findFiles(startAt: File): Seq[File] = {
@@ -108,6 +106,8 @@ object ScalaBuff {
 
     if (!success) {
       System.exit(1)
+    } else {
+      System.exit(0)
     }
   }
 
