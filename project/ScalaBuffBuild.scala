@@ -22,7 +22,7 @@ object ScalaBuffBuild extends Build {
 	lazy val buildSettings = Seq(
 		name := "ScalaBuff",
 		organization := "net.sandrogrzicic",
-		version := "1.3.3-SNAPSHOT",
+		version := "1.3.3",
 		scalaVersion := "2.10.2",
 		//scalaVersion := "2.11.0-M3",
 		//scalaBinaryVersion := "2.11.0-M3",
@@ -53,7 +53,7 @@ object ScalaBuffBuild extends Build {
 		crossScalaVersions ++= Seq("2.9.3"),
 
 		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation", "-explaintypes", "-Xlint", "-Ywarn-all"),
-		// 2.10 only
+		// 2.10+ only
 		// scalacOptions ++= Seq("-Xlog-reflective-calls"),
 
 		javacOptions ++= Seq("-encoding", "utf8", "-Xlint:unchecked", "-Xlint:deprecation"),

@@ -58,6 +58,6 @@ class MessageTest extends FunSuite with ShouldMatchers {
 
   test("Keywords") {
     val message = KeywordsTest(123456789L)
-    message.toByteArray.size should equal (5)
+    message.toByteArray.size should equal (21)
   }
 }
