@@ -8,7 +8,8 @@ final case class AkkaRemoteProtocol (
 	`instruction`: Option[RemoteControlProtocol] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[AkkaRemoteProtocol] {
+	with net.sandrogrzicic.scalabuff.Message[AkkaRemoteProtocol]
+	with net.sandrogrzicic.scalabuff.Parser[AkkaRemoteProtocol] {
 
 	def setMessage(_f: RemoteMessageProtocol) = copy(`message` = Some(_f))
 	def setInstruction(_f: RemoteControlProtocol) = copy(`instruction` = Some(_f))
@@ -66,6 +67,8 @@ final case class AkkaRemoteProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -93,7 +96,8 @@ final case class RemoteMessageProtocol (
 	`metadata`: collection.immutable.Seq[MetadataEntryProtocol] = Vector.empty[MetadataEntryProtocol]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[RemoteMessageProtocol] {
+	with net.sandrogrzicic.scalabuff.Message[RemoteMessageProtocol]
+	with net.sandrogrzicic.scalabuff.Parser[RemoteMessageProtocol] {
 
 	def setSender(_f: ActorRefProtocol) = copy(`sender` = Some(_f))
 	def setMetadata(_i: Int, _v: MetadataEntryProtocol) = copy(`metadata` = `metadata`.updated(_i, _v))
@@ -163,6 +167,8 @@ final case class RemoteMessageProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -191,7 +197,8 @@ final case class RemoteControlProtocol (
 	`origin`: Option[AddressProtocol] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[RemoteControlProtocol] {
+	with net.sandrogrzicic.scalabuff.Message[RemoteControlProtocol]
+	with net.sandrogrzicic.scalabuff.Parser[RemoteControlProtocol] {
 
 	def setCookie(_f: String) = copy(`cookie` = Some(_f))
 	def setOrigin(_f: AddressProtocol) = copy(`origin` = Some(_f))
@@ -252,6 +259,8 @@ final case class RemoteControlProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -299,7 +308,8 @@ final case class ActorRefProtocol (
 	`path`: String = ""
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[ActorRefProtocol] {
+	with net.sandrogrzicic.scalabuff.Message[ActorRefProtocol]
+	with net.sandrogrzicic.scalabuff.Parser[ActorRefProtocol] {
 
 
 
@@ -341,6 +351,8 @@ final case class ActorRefProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -366,7 +378,8 @@ final case class MessageProtocol (
 	`messageManifest`: Option[com.google.protobuf.ByteString] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[MessageProtocol] {
+	with net.sandrogrzicic.scalabuff.Message[MessageProtocol]
+	with net.sandrogrzicic.scalabuff.Parser[MessageProtocol] {
 
 	def setMessageManifest(_f: com.google.protobuf.ByteString) = copy(`messageManifest` = Some(_f))
 
@@ -422,6 +435,8 @@ final case class MessageProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -448,7 +463,8 @@ final case class MetadataEntryProtocol (
 	`value`: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[MetadataEntryProtocol] {
+	with net.sandrogrzicic.scalabuff.Message[MetadataEntryProtocol]
+	with net.sandrogrzicic.scalabuff.Parser[MetadataEntryProtocol] {
 
 
 
@@ -496,6 +512,8 @@ final case class MetadataEntryProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -522,7 +540,8 @@ final case class AddressProtocol (
 	`port`: Int = 0
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[AddressProtocol] {
+	with net.sandrogrzicic.scalabuff.Message[AddressProtocol]
+	with net.sandrogrzicic.scalabuff.Parser[AddressProtocol] {
 
 
 
@@ -576,6 +595,8 @@ final case class AddressProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -604,7 +625,8 @@ final case class DaemonMsgCreateProtocol (
 	`supervisor`: ActorRefProtocol = ActorRefProtocol.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[DaemonMsgCreateProtocol] {
+	with net.sandrogrzicic.scalabuff.Message[DaemonMsgCreateProtocol]
+	with net.sandrogrzicic.scalabuff.Parser[DaemonMsgCreateProtocol] {
 
 
 
@@ -664,6 +686,8 @@ final case class DaemonMsgCreateProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -694,7 +718,8 @@ final case class PropsProtocol (
 	`routerConfig`: Option[com.google.protobuf.ByteString] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[PropsProtocol] {
+	with net.sandrogrzicic.scalabuff.Message[PropsProtocol]
+	with net.sandrogrzicic.scalabuff.Parser[PropsProtocol] {
 
 	def setFromClassCreator(_f: String) = copy(`fromClassCreator` = Some(_f))
 	def setCreator(_f: com.google.protobuf.ByteString) = copy(`creator` = Some(_f))
@@ -766,6 +791,8 @@ final case class PropsProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -796,7 +823,8 @@ final case class DeployProtocol (
 	`scope`: Option[com.google.protobuf.ByteString] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[DeployProtocol] {
+	with net.sandrogrzicic.scalabuff.Message[DeployProtocol]
+	with net.sandrogrzicic.scalabuff.Parser[DeployProtocol] {
 
 	def setConfig(_f: com.google.protobuf.ByteString) = copy(`config` = Some(_f))
 	def setRouterConfig(_f: com.google.protobuf.ByteString) = copy(`routerConfig` = Some(_f))
@@ -862,6 +890,8 @@ final case class DeployProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }

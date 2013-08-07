@@ -15,7 +15,8 @@ final case class SimpleTest (
 	`floatNegative`: Option[Float] = Some(-1.0f)
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[SimpleTest] {
+	with net.sandrogrzicic.scalabuff.Message[SimpleTest]
+	with net.sandrogrzicic.scalabuff.Parser[SimpleTest] {
 
 	def setOptionalField(_f: Float) = copy(`optionalField` = Some(_f))
 	def setRepeatedField(_i: Int, _v: String) = copy(`repeatedField` = `repeatedField`.updated(_i, _v))
@@ -124,6 +125,8 @@ final case class SimpleTest (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }

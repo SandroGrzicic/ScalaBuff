@@ -28,7 +28,8 @@ final case class Outer (
 	`innerRepeated`: collection.immutable.Seq[Outer.Inner.EnumVal] = Vector.empty[Outer.Inner.EnumVal]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[Outer] {
+	with net.sandrogrzicic.scalabuff.Message[Outer]
+	with net.sandrogrzicic.scalabuff.Parser[Outer] {
 
 	def setInnerOptional(_f: Outer.Inner.EnumVal) = copy(`innerOptional` = Some(_f))
 	def setInnerRepeated(_i: Int, _v: Outer.Inner.EnumVal) = copy(`innerRepeated` = `innerRepeated`.updated(_i, _v))
@@ -89,6 +90,8 @@ final case class Outer (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -136,7 +139,8 @@ final case class OuterDuplicate (
 	`innerRepeated`: collection.immutable.Seq[OuterDuplicate.Inner.EnumVal] = Vector.empty[OuterDuplicate.Inner.EnumVal]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[OuterDuplicate] {
+	with net.sandrogrzicic.scalabuff.Message[OuterDuplicate]
+	with net.sandrogrzicic.scalabuff.Parser[OuterDuplicate] {
 
 	def setInnerOptional(_f: OuterDuplicate.Inner.EnumVal) = copy(`innerOptional` = Some(_f))
 	def setInnerRepeated(_i: Int, _v: OuterDuplicate.Inner.EnumVal) = copy(`innerRepeated` = `innerRepeated`.updated(_i, _v))
@@ -197,6 +201,8 @@ final case class OuterDuplicate (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -242,7 +248,8 @@ final case class OuterEnumContainer (
 	`innerMessage`: OuterEnumContainer.InnerEnumContainer = OuterEnumContainer.InnerEnumContainer.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[OuterEnumContainer] {
+	with net.sandrogrzicic.scalabuff.Message[OuterEnumContainer]
+	with net.sandrogrzicic.scalabuff.Parser[OuterEnumContainer] {
 
 
 
@@ -284,6 +291,8 @@ final case class OuterEnumContainer (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -306,7 +315,8 @@ object OuterEnumContainer {
 		`someEnum`: InnerEnumContainer.SomeEnum.EnumVal = InnerEnumContainer.SomeEnum._UNINITIALIZED
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
-		with net.sandrogrzicic.scalabuff.Message[InnerEnumContainer] {
+		with net.sandrogrzicic.scalabuff.Message[InnerEnumContainer]
+		with net.sandrogrzicic.scalabuff.Parser[InnerEnumContainer] {
 
 
 
@@ -348,6 +358,8 @@ object OuterEnumContainer {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}

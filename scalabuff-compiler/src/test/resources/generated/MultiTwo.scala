@@ -12,7 +12,8 @@ final case class MultiMessageTwo (
 	`stringDefault`: Option[String] = Some("somestring")
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[MultiMessageTwo] {
+	with net.sandrogrzicic.scalabuff.Message[MultiMessageTwo]
+	with net.sandrogrzicic.scalabuff.Parser[MultiMessageTwo] {
 
 	def setOptionalField(_f: Float) = copy(`optionalField` = Some(_f))
 	def setRepeatedField(_i: Int, _v: String) = copy(`repeatedField` = `repeatedField`.updated(_i, _v))
@@ -97,6 +98,8 @@ final case class MultiMessageTwo (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }

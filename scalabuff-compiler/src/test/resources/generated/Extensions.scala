@@ -6,7 +6,8 @@ package resources.generated
 final case class ExtensionsTest (
 	`foo`: Int = 0
 ) extends com.google.protobuf.GeneratedMessageLite.ExtendableMessage[ExtensionsTest]
-	with net.sandrogrzicic.scalabuff.ExtendableMessage[ExtensionsTest] {
+	with net.sandrogrzicic.scalabuff.ExtendableMessage[ExtensionsTest]
+	with net.sandrogrzicic.scalabuff.Parser[ExtensionsTest] {
 
 
 
@@ -48,6 +49,8 @@ final case class ExtensionsTest (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = throw new RuntimeException("Method not available.")
 	def toBuilder = throw new RuntimeException("Method not available.")
 }

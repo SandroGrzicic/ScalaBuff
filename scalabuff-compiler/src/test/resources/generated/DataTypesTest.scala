@@ -24,7 +24,8 @@ final case class DataTypes (
 	`f32bit3`: Option[Float] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[DataTypes] {
+	with net.sandrogrzicic.scalabuff.Message[DataTypes]
+	with net.sandrogrzicic.scalabuff.Parser[DataTypes] {
 
 	def setVarint2(_f: Long) = copy(`varint2` = Some(_f))
 	def setVarint3(_f: Int) = copy(`varint3` = Some(_f))
@@ -206,6 +207,8 @@ final case class DataTypes (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }

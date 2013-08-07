@@ -8,7 +8,8 @@ final case class NumbersTest1 (
 	`someOctNumber`: Option[Int] = Some(342391)
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[NumbersTest1] {
+	with net.sandrogrzicic.scalabuff.Message[NumbersTest1]
+	with net.sandrogrzicic.scalabuff.Parser[NumbersTest1] {
 
 	def setSomeHexNumber(_f: Int) = copy(`someHexNumber` = Some(_f))
 	def setSomeOctNumber(_f: Int) = copy(`someOctNumber` = Some(_f))
@@ -60,6 +61,8 @@ final case class NumbersTest1 (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }

@@ -12,7 +12,8 @@ final case class ComplexMessage (
 	`repeatedBytesField`: collection.immutable.Seq[com.google.protobuf.ByteString] = Vector.empty[com.google.protobuf.ByteString]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[ComplexMessage] {
+	with net.sandrogrzicic.scalabuff.Message[ComplexMessage]
+	with net.sandrogrzicic.scalabuff.Parser[ComplexMessage] {
 
 	def setSecondField(_f: String) = copy(`secondField` = Some(_f))
 	def setNestedOuterField(_f: ComplexMessage.Nested) = copy(`nestedOuterField` = Some(_f))
@@ -106,6 +107,8 @@ final case class ComplexMessage (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -151,7 +154,8 @@ object ComplexMessage {
 		`nestedEnum`: Option[SimpleEnum.EnumVal] = None
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
-		with net.sandrogrzicic.scalabuff.Message[Nested] {
+		with net.sandrogrzicic.scalabuff.Message[Nested]
+		with net.sandrogrzicic.scalabuff.Parser[Nested] {
 
 		def setNestedEnum(_f: SimpleEnum.EnumVal) = copy(`nestedEnum` = Some(_f))
 
@@ -201,6 +205,8 @@ object ComplexMessage {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}
@@ -227,7 +233,8 @@ final case class AnotherMessage (
 	`fieldEnum`: ComplexMessage.SimpleEnum.EnumVal = ComplexMessage.SimpleEnum._UNINITIALIZED
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[AnotherMessage] {
+	with net.sandrogrzicic.scalabuff.Message[AnotherMessage]
+	with net.sandrogrzicic.scalabuff.Parser[AnotherMessage] {
 
 
 
@@ -275,6 +282,8 @@ final case class AnotherMessage (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }

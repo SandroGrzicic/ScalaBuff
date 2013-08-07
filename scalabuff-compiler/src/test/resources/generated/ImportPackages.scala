@@ -9,7 +9,8 @@ final case class UsesImportPackage (
 	`packageTest`: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[UsesImportPackage] {
+	with net.sandrogrzicic.scalabuff.Message[UsesImportPackage]
+	with net.sandrogrzicic.scalabuff.Parser[UsesImportPackage] {
 
 
 
@@ -51,6 +52,8 @@ final case class UsesImportPackage (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }

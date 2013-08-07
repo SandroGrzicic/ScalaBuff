@@ -7,7 +7,8 @@ final case class Response (
 	`response`: collection.immutable.Seq[Response.VideoResult] = Vector.empty[Response.VideoResult]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[Response] {
+	with net.sandrogrzicic.scalabuff.Message[Response]
+	with net.sandrogrzicic.scalabuff.Parser[Response] {
 
 	def setResponse(_i: Int, _v: Response.VideoResult) = copy(`response` = `response`.updated(_i, _v))
 	def addResponse(_f: Response.VideoResult) = copy(`response` = `response` :+ _f)
@@ -54,6 +55,8 @@ final case class Response (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -78,7 +81,8 @@ object Response {
 		`property`: collection.immutable.Seq[Rendition.Property] = Vector.empty[Rendition.Property]
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
-		with net.sandrogrzicic.scalabuff.Message[Rendition] {
+		with net.sandrogrzicic.scalabuff.Message[Rendition]
+		with net.sandrogrzicic.scalabuff.Parser[Rendition] {
 
 		def setProfileKey(_f: String) = copy(`profileKey` = Some(_f))
 		def setData(_f: String) = copy(`data` = Some(_f))
@@ -141,6 +145,8 @@ object Response {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}
@@ -166,7 +172,8 @@ object Response {
 			`value`: String = ""
 		) extends com.google.protobuf.GeneratedMessageLite
 			with com.google.protobuf.MessageLite.Builder
-			with net.sandrogrzicic.scalabuff.Message[Property] {
+			with net.sandrogrzicic.scalabuff.Message[Property]
+			with net.sandrogrzicic.scalabuff.Parser[Property] {
 
 
 
@@ -214,6 +221,8 @@ object Response {
 			def isInitialized = true
 			def build = this
 			def buildPartial = this
+			def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+			override def getParserForType = this
 			def newBuilderForType = getDefaultInstanceForType
 			def toBuilder = this
 		}
@@ -268,7 +277,8 @@ object Response {
 		`renditions`: collection.immutable.Seq[Rendition] = Vector.empty[Rendition]
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
-		with net.sandrogrzicic.scalabuff.Message[Video] {
+		with net.sandrogrzicic.scalabuff.Message[Video]
+		with net.sandrogrzicic.scalabuff.Parser[Video] {
 
 		def setIdentifier(_f: String) = copy(`identifier` = Some(_f))
 		def setAssetKey(_f: String) = copy(`assetKey` = Some(_f))
@@ -339,6 +349,8 @@ object Response {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}
@@ -367,7 +379,8 @@ object Response {
 		`cause`: Option[VideoFailure.Cause.EnumVal] = None
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
-		with net.sandrogrzicic.scalabuff.Message[VideoFailure] {
+		with net.sandrogrzicic.scalabuff.Message[VideoFailure]
+		with net.sandrogrzicic.scalabuff.Parser[VideoFailure] {
 
 		def setAssetKey(_f: String) = copy(`assetKey` = Some(_f))
 		def setReason(_i: Int, _v: String) = copy(`reason` = `reason`.updated(_i, _v))
@@ -430,6 +443,8 @@ object Response {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}
@@ -485,7 +500,8 @@ object Response {
 		`failure`: Option[VideoFailure] = None
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
-		with net.sandrogrzicic.scalabuff.Message[VideoResult] {
+		with net.sandrogrzicic.scalabuff.Message[VideoResult]
+		with net.sandrogrzicic.scalabuff.Parser[VideoResult] {
 
 		def setSuccess(_f: Video) = copy(`success` = Some(_f))
 		def setFailure(_f: VideoFailure) = copy(`failure` = Some(_f))
@@ -543,6 +559,8 @@ object Response {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}

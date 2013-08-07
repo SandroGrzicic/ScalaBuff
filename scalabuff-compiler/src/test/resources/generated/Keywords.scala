@@ -15,7 +15,8 @@ final case class KeywordsTest (
 	`type`: Int = 0
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[KeywordsTest] {
+	with net.sandrogrzicic.scalabuff.Message[KeywordsTest]
+	with net.sandrogrzicic.scalabuff.Parser[KeywordsTest] {
 
 
 
@@ -105,6 +106,8 @@ final case class KeywordsTest (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }

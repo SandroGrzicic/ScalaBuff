@@ -9,7 +9,8 @@ final case class SimpleRequest (
 	`resultsPerPage`: Option[Int] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[SimpleRequest] {
+	with net.sandrogrzicic.scalabuff.Message[SimpleRequest]
+	with net.sandrogrzicic.scalabuff.Parser[SimpleRequest] {
 
 	def setPageNumber(_f: Int) = copy(`pageNumber` = Some(_f))
 	def setResultsPerPage(_f: Int) = copy(`resultsPerPage` = Some(_f))
@@ -67,6 +68,8 @@ final case class SimpleRequest (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }

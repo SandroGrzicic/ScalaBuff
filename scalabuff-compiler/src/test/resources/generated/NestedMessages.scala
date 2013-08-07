@@ -7,7 +7,8 @@ final case class TopLevel (
 	`idToplevel`: Int = 0
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[TopLevel] {
+	with net.sandrogrzicic.scalabuff.Message[TopLevel]
+	with net.sandrogrzicic.scalabuff.Parser[TopLevel] {
 
 
 
@@ -49,6 +50,8 @@ final case class TopLevel (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -71,7 +74,8 @@ object TopLevel {
 		`idInner`: Int = 0
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
-		with net.sandrogrzicic.scalabuff.Message[Inner] {
+		with net.sandrogrzicic.scalabuff.Message[Inner]
+		with net.sandrogrzicic.scalabuff.Parser[Inner] {
 
 
 
@@ -113,6 +117,8 @@ object TopLevel {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}
@@ -145,7 +151,8 @@ final case class Foobar (
 	`topLevelInnerReq`: TopLevel.Inner = TopLevel.Inner.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
-	with net.sandrogrzicic.scalabuff.Message[Foobar] {
+	with net.sandrogrzicic.scalabuff.Message[Foobar]
+	with net.sandrogrzicic.scalabuff.Parser[Foobar] {
 
 	def setOptFoo(_f: Foobar.Foo) = copy(`optFoo` = Some(_f))
 	def setOptBar(_f: Foobar.Bar) = copy(`optBar` = Some(_f))
@@ -265,6 +272,8 @@ final case class Foobar (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
 }
@@ -295,7 +304,8 @@ object Foobar {
 		`id`: Option[Long] = None
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
-		with net.sandrogrzicic.scalabuff.Message[Foo] {
+		with net.sandrogrzicic.scalabuff.Message[Foo]
+		with net.sandrogrzicic.scalabuff.Parser[Foo] {
 
 		def setId(_f: Long) = copy(`id` = Some(_f))
 
@@ -339,6 +349,8 @@ object Foobar {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}
@@ -362,7 +374,8 @@ object Foobar {
 		`id`: Option[Long] = None
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
-		with net.sandrogrzicic.scalabuff.Message[Bar] {
+		with net.sandrogrzicic.scalabuff.Message[Bar]
+		with net.sandrogrzicic.scalabuff.Parser[Bar] {
 
 		def setId(_f: Long) = copy(`id` = Some(_f))
 
@@ -406,6 +419,8 @@ object Foobar {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}
@@ -429,7 +444,8 @@ object Foobar {
 		`id`: Option[Long] = None
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
-		with net.sandrogrzicic.scalabuff.Message[FooBar] {
+		with net.sandrogrzicic.scalabuff.Message[FooBar]
+		with net.sandrogrzicic.scalabuff.Parser[FooBar] {
 
 		def setId(_f: Long) = copy(`id` = Some(_f))
 
@@ -473,6 +489,8 @@ object Foobar {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
 	}

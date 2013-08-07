@@ -133,17 +133,18 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       }
       if (!fields.isEmpty) out.length -= 2
 
-      out.append("\n").append(indent0).append(") extends com.google.protobuf.")
+      out.append('\n').append(indent0).append(") extends com.google.protobuf.")
       if (!hasExtensionRanges) {
         // normal message
         out.append("GeneratedMessageLite")
-        out.append("\n").append(indent1).append("with com.google.protobuf.MessageLite.Builder")
-        out.append("\n").append(indent1).append("with net.sandrogrzicic.scalabuff.Message[").append(name).append("]")
+        out.append('\n').append(indent1).append("with com.google.protobuf.MessageLite.Builder")
+        out.append('\n').append(indent1).append("with net.sandrogrzicic.scalabuff.Message[").append(name).append("]")
       } else {
         // extendable message
         out.append("GeneratedMessageLite.ExtendableMessage[").append(name).append("]")
-        out.append("\n").append(indent1).append("with net.sandrogrzicic.scalabuff.ExtendableMessage[").append(name).append("]")
+        out.append('\n').append(indent1).append("with net.sandrogrzicic.scalabuff.ExtendableMessage[").append(name).append("]")
       }
+      out.append('\n').append(indent1).append("with net.sandrogrzicic.scalabuff.Parser[").append(name).append("]")
 
       out.append(" {\n\n")
 
@@ -259,11 +260,11 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       out.append(indent2).append(")\n")
         .append(indent2).append("while (true) in.readTag match {\n")
         .append(indent3).append("case 0 => return __newMerged\n")
-      var isOptional=false
+      var isOptional = false
       for (field <- fields) {
-        isOptional=field.label match {
-          case OPTIONAL=>true
-          case _=>false
+        isOptional = field.label match {
+          case OPTIONAL => true
+          case _        => false
         }
         out.append(indent3).append("case ").append((field.number << 3) | field.fType.wireType).append(" => ")
         out.append(field.name.toTemporaryIdent).append(" ")
@@ -326,6 +327,12 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
         .append(indent1).append("def isInitialized = true\n")
         .append(indent1).append("def build = this\n")
         .append(indent1).append("def buildPartial = this\n")
+
+      out.append(indent1)
+        .append("def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = ")
+        .append("parseFrom(cis, er)\n")
+
+      out.append(indent1).append("override def getParserForType = this\n")
 
       if (!hasExtensionRanges) {
         out
