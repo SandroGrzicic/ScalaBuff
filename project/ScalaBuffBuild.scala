@@ -22,7 +22,7 @@ object ScalaBuffBuild extends Build {
 	lazy val buildSettings = Seq(
 		name := "ScalaBuff",
 		organization := "net.sandrogrzicic",
-		version := "1.3.4-SNAPSHOT",
+		version := "1.3.4",
 		scalaVersion := "2.10.2",
 		//scalaVersion := "2.11.0-M3",
 		//scalaBinaryVersion := "2.11.0-M3",
@@ -82,7 +82,7 @@ object ScalaBuffBuild extends Build {
 			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
 			mainClass in (Compile, packageBin) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
 			fullRunTask(TaskKey[Unit]("update-test-resources"), Compile, "net.sandrogrzicic.scalabuff.test.UpdateTestResources")
-		) ++ osgiSettings
+		) // ++ osgiSettings
 	)
 
 	lazy val runtime = Project(
