@@ -330,7 +330,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
 
       out.append(indent1)
         .append("def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = ")
-        .append("parseFrom(cis, er)\n")
+        .append("mergeFrom(cis, er)\n")
 
       out.append(indent1).append("override def getParserForType = this\n")
 
@@ -343,7 +343,6 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
           .append(indent1).append("def newBuilderForType = throw new RuntimeException(\"Method not available.\")\n")
           .append(indent1).append("def toBuilder = throw new RuntimeException(\"Method not available.\")\n")
       }
-
       out.append(indent0).append("}\n\n")
 
       // *** companion object

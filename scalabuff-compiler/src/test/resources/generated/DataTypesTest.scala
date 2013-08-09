@@ -207,7 +207,7 @@ final case class DataTypes (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this

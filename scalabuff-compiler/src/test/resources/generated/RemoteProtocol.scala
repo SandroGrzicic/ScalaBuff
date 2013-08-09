@@ -67,7 +67,7 @@ final case class AkkaRemoteProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -167,7 +167,7 @@ final case class RemoteMessageProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -259,7 +259,7 @@ final case class RemoteControlProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -351,7 +351,7 @@ final case class ActorRefProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -435,7 +435,7 @@ final case class MessageProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -512,7 +512,7 @@ final case class MetadataEntryProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -595,7 +595,7 @@ final case class AddressProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -686,7 +686,7 @@ final case class DaemonMsgCreateProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -791,7 +791,7 @@ final case class PropsProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -890,7 +890,7 @@ final case class DeployProtocol (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this

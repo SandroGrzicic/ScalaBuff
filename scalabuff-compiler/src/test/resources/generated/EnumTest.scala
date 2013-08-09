@@ -90,7 +90,7 @@ final case class Outer (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -201,7 +201,7 @@ final case class OuterDuplicate (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -291,7 +291,7 @@ final case class OuterEnumContainer (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -358,7 +358,7 @@ object OuterEnumContainer {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
-		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this

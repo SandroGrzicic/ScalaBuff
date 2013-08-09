@@ -1,7 +1,7 @@
 package net.sandrogrzicic.scalabuff
 
 import com.google.protobuf.{ExtensionRegistryLite, CodedInputStream, ByteString}
-import java.io.{FilterInputStream, InputStream}
+import java.io.InputStream
 
 /**
  * Message trait for messages generated with ScalaBuff.
@@ -11,7 +11,7 @@ import java.io.{FilterInputStream, InputStream}
  * @author Sandro Gržičić
  */
 
-trait MessageBuilder[MessageType]{
+trait MessageBuilder[MessageType] {
   implicit def _anyToOption[T](any: T): Option[T] = Option[T](any)
 
   implicit def _stringToByteString(string: String): ByteString = ByteString.copyFromUtf8(string)
@@ -127,5 +127,10 @@ trait MessageBuilder[MessageType]{
 
     newMessage
   }
+
+  def toByteArray(): Array[Byte]
+
+  def toByteBuffer = java.nio.ByteBuffer.wrap(toByteArray())
+
 
 }

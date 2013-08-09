@@ -49,7 +49,7 @@ final case class ExtensionsTest (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = throw new RuntimeException("Method not available.")
 	def toBuilder = throw new RuntimeException("Method not available.")

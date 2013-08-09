@@ -50,7 +50,7 @@ final case class TopLevel (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -117,7 +117,7 @@ object TopLevel {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
-		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
@@ -272,7 +272,7 @@ final case class Foobar (
 	def isInitialized = true
 	def build = this
 	def buildPartial = this
-	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
@@ -349,7 +349,7 @@ object Foobar {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
-		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
@@ -419,7 +419,7 @@ object Foobar {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
-		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
@@ -489,7 +489,7 @@ object Foobar {
 		def isInitialized = true
 		def build = this
 		def buildPartial = this
-		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = parseFrom(cis, er)
+		def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
