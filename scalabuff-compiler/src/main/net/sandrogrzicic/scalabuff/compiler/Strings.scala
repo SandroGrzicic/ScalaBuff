@@ -24,10 +24,11 @@ Parse protocol buffer files and generate output based on the options given:
                               (if not specified, current directory is used).
   --stdout                    Output all results to stdout, do not write any
                               files.
+  --generate_json_method      Generate a toJson method for each case class.
   --proto_encoding=ENC        Use ENC as the encoding of the input files.
   --out_encoding=ENC          Use ENC as the encoding of the output files.
   -h, --help                  Show this help text and exit.
-"""
+             """
 
 	val UNKNOWN_INPUT = "<unknown>"
 

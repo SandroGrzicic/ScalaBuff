@@ -61,9 +61,24 @@ class BuffedString(str: String) {
 		if (fromPos < 0) fromPos = 0
 		if (toPos < 0) toPos = str.length
 		if (fromPos > toPos) ""
-		str.substring(fromPos, toPos)
+		else str.substring(fromPos, toPos)
 	}
-	
+
+  /**
+   * Returns the substring between the specified characters.
+   * If any of the characters isn't found, the returned string is returned fully from the start and/or
+   * to the end of the original string.
+   * If the end position is lower than the start position, an empty string is returned.
+   */
+  def between(from: Char, to: Char) = {
+    var fromPos = str.indexOf(from) + 1
+    var toPos = str.lastIndexOf(to, from)
+    if (fromPos < 0) fromPos = 0
+    if (toPos < 0) toPos = str.length
+    if (fromPos > toPos) ""
+    else str.substring(fromPos, toPos)
+  }
+
 	/**
 	 * Removes leading and trailing double quotes from this string, if any.
 	 */

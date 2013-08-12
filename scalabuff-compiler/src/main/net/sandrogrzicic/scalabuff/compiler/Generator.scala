@@ -11,7 +11,7 @@ import java.io.File
  * @author Sandro Gržičić
  */
 
-class Generator protected (sourceName: String, importedSymbols: Map[String, ImportedSymbol]) {
+class Generator protected (sourceName: String, importedSymbols: Map[String, ImportedSymbol], generateJsonMethod: Boolean) {
   import Generator._
 
   protected val imports = mutable.ListBuffer[String]()
@@ -343,6 +343,51 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
           .append(indent1).append("def newBuilderForType = throw new RuntimeException(\"Method not available.\")\n")
           .append(indent1).append("def toBuilder = throw new RuntimeException(\"Method not available.\")\n")
       }
+
+      // toJson
+      if (generateJsonMethod) {
+        out
+        .append(indent1).append("def toJson(indent: Int = 0): String = {\n")
+          .append(indent2).append("val indent0 = \"\\n\" + (\"\\t\" * indent)\n")
+          .append(indent2).append("val (indent1, indent2) = (indent0 + \"\\t\", indent0 + \"\\t\\t\")\n")
+          .append(indent2).append("val sb = StringBuilder.newBuilder\n")
+          .append(indent2).append("sb\n")
+          .append(indent3).append(".append(\"{\")\n")
+
+          for (field <- fields) {
+            val name = field.name.lowerCamelCase
+            val (quotesStart, quotesEnd) = if (!field.fType.isMessage) (".append(\"\\\"\")", ".append(\"\\\"\")") else ("", "")
+            val mapQuotes = if (!field.fType.isMessage) ".map(\"\\\"\" + _ + \"\\\"\")" else ""
+            val toJson = if (field.fType.isMessage) ".toJson(indent + 1)" else ""
+            val mapToJson = if (field.fType.isMessage) ".map(_.toJson(indent + 1))" else ""
+
+            field.label match {
+              case REQUIRED =>
+                out.append(indent3).append("sb.append(indent1).append(\"\\\"").append(name)
+                     .append("\\\": \")").append(quotesStart).append(".append(`").append(name)
+                     .append("`").append(toJson).append(")").append(quotesEnd).append(".append(',')").append('\n')
+              case OPTIONAL =>
+                out.append(indent3)
+                     .append(s"if (`$name`.isDefined) { ").append("sb.append(indent1).append(\"\\\"").append(name)
+                     .append("\\\": \")").append(quotesStart).append(".append(`").append(name)
+                     .append(s"`.get$toJson)").append(quotesEnd).append(".append(',') }").append('\n')
+              case REPEATED =>
+                out.append(indent3).append("sb.append(indent1).append(\"\\\"").append(name).append("\\\": [\")")
+                     .append(".append(indent2).append(`").append(name).append("`").append(mapToJson).append(mapQuotes)
+                     .append(".mkString(\", \" + indent2)).append(indent1).append(']').append(',')").append('\n')
+              case _ =>
+            }
+          }
+        out.append(indent2).append("sb.length -= 1\n")
+        out.append(indent2).append("sb.append(indent0).append(\"}\")\n")
+
+        out.append(indent2).append("sb.toString()\n")
+        out.append(indent1).append("}\n\n")
+
+      } else {
+        out.append(indent1).append("def toJson(indent: Int = 0): String = \"ScalaBuff JSON generation not enabled. Use --generate_json_method to enable.\"\n")
+      }
+
       out.append(indent0).append("}\n\n")
 
       // *** companion object
@@ -487,8 +532,8 @@ object Generator {
   /**
    * Returns a valid Scala class.
    */
-  def apply(tree: List[Node], sourceName: String, importedSymbols: Map[String, ImportedSymbol]): ScalaClass = {
-    new Generator(sourceName, importedSymbols).generate(tree)
+  def apply(tree: List[Node], sourceName: String, importedSymbols: Map[String, ImportedSymbol], generateJsonMethod: Boolean): ScalaClass = {
+    new Generator(sourceName, importedSymbols, generateJsonMethod).generate(tree)
   }
 
   /**

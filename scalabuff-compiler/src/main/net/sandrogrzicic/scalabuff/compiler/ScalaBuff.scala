@@ -19,7 +19,8 @@ object ScalaBuff {
                          inputEncoding: Charset = defaultCharset,
                          outputEncoding: Charset = defaultCharset,
                          verbose: Boolean = false,
-                         extraVerbose: Boolean = false)
+                         extraVerbose: Boolean = false,
+                         generateJsonMethod: Boolean = false)
 
   val defaultSettings = Settings()
 
@@ -30,13 +31,15 @@ object ScalaBuff {
   def apply(file: File)(implicit settings: Settings = defaultSettings) = {
     val tree = parse(file)
     val symbols = processImportSymbols(tree)
-    Generator(tree, file.getName, symbols)
+    Generator(tree, file.getName, symbols, settings.generateJsonMethod)
   }
  
   /**
    * Runs ScalaBuff on the specified input String and returns the output Scala class.
    */
-  def fromString(input: String) = Generator(Parser(input), "", Map())
+  def fromString(input: String, generateJsonMethod: Boolean = false) = {
+    Generator(Parser(input), "", Map(), generateJsonMethod)
+  }
 
   /**
    * Parse a protobuf file into Nodes.
@@ -228,6 +231,9 @@ object ScalaBuff {
         } catch {
           case ue: UnsupportedEncodingException => Strings.UNSUPPORTED_OUTPUT_ENCODING + outputEncoding
         }
+
+      case "--generate_json_method" =>
+        settings.copy(generateJsonMethod = true)
 
       case unknown =>
         Strings.UNKNOWN_ARGUMENT + unknown
