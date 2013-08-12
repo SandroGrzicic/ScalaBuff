@@ -368,9 +368,9 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
                      .append("`").append(toJson).append(")").append(quotesEnd).append(".append(',')").append('\n')
               case OPTIONAL =>
                 out.append(indent3)
-                     .append(s"if (`$name`.isDefined) { ").append("sb.append(indent1).append(\"\\\"").append(name)
+                     .append("if (`").append(name).append("`.isDefined) { ").append("sb.append(indent1).append(\"\\\"").append(name)
                      .append("\\\": \")").append(quotesStart).append(".append(`").append(name)
-                     .append(s"`.get$toJson)").append(quotesEnd).append(".append(',') }").append('\n')
+                     .append("`.get").append(toJson).append(")\"").append(quotesEnd).append(".append(',') }").append('\n')
               case REPEATED =>
                 out.append(indent3).append("sb.append(indent1).append(\"\\\"").append(name).append("\\\": [\")")
                      .append(".append(indent2).append(`").append(name).append("`").append(mapToJson).append(mapQuotes)
