@@ -494,6 +494,18 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
     // final tree pass: traverse the tree, so we can get class/package names, options, etc.
     val generatedOutput = traverse(tree)
 
+    // Now that we have processed all of the options, make sure that the class name doesn't
+    // match one of the top level type names.
+    val matchingTypeName = tree.exists {
+      case msg: Message => msg.name == className
+      case e: EnumStatement => e.name == className
+      case _ => false
+    }
+
+    if (matchingTypeName) {
+      throw new GenerationFailureException("Cannot generate valid Scala output because the class name, '%s' for the extension registry class matches the name of one of the messages or enums declared in the .proto.  Please either rename the type or use the java_outer_classname option to specify a different class name for the .proto file.".format(className));
+      }
+
     val output = StringBuilder.newBuilder
 
     // header
