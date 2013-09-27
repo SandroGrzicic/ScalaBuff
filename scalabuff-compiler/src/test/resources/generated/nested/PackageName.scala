@@ -54,6 +54,7 @@ final case class PackageTest (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = "ScalaBuff JSON generation not enabled. Use --generate_json_method to enable."
 }
 
 object PackageTest {
