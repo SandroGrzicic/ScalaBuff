@@ -66,7 +66,7 @@ object ScalaBuffBuild extends Build {
 		javaSource in Compile <<= baseDirectory(_ / "src/main"),
 		javaSource in Test <<= baseDirectory(_ / "src/test"),
 
-		docDirectory in Compile <<= baseDirectory(_ / "doc"),
+		target in Compile in doc <<= baseDirectory(_ / "doc"),
 
 		compileOrder := CompileOrder.Mixed,
 		
