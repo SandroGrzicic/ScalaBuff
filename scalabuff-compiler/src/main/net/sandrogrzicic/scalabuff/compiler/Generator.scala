@@ -203,7 +203,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       out.append(indent1).append("}\n")
 
       // getSerializedSize
-      out.append("\n").append(indent1).append("lazy val getSerializedSize = {\n")
+      out.append("\n").append(indent1).append("def getSerializedSize = {\n")
         .append(indent2).append("import com.google.protobuf.CodedOutputStream._\n")
         .append(indent2).append("var __size = 0\n")
       for (field <- fields) {
