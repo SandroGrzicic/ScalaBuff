@@ -127,7 +127,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
           case OPTIONAL =>
             out.append("Option[").append(field.fType.scalaType).append("] = ").append(field.defaultValue).append(",\n")
           case REPEATED =>
-            out.append("collection.immutable.Seq[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
+            out.append("scala.collection.immutable.Seq[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
           case _ => // "missing combination <local child>"
         }
       }
@@ -241,7 +241,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
             .append("var ").append(field.name.toTemporaryIdent).append(": Option[").append(field.fType.scalaType).append("]")
             .append(" = ").append(field.name.toScalaIdent).append("\n")
           case REPEATED => out.append(indent2)
-            .append("val ").append(field.name.toTemporaryIdent).append(": collection.mutable.Buffer[").append(field.fType.scalaType).append("]")
+            .append("val ").append(field.name.toTemporaryIdent).append(": scala.collection.mutable.Buffer[").append(field.fType.scalaType).append("]")
             .append(" = ").append(field.name.toScalaIdent).append(".toBuffer\n")
           case _ => // "missing combination <local child>"
         }
