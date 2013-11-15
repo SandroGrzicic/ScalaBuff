@@ -98,7 +98,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       import WireFormat.{ WIRETYPE_VARINT, WIRETYPE_FIXED32, WIRETYPE_FIXED64, WIRETYPE_LENGTH_DELIMITED, WIRETYPE_START_GROUP, WIRETYPE_END_GROUP }
 
       val indent0 = BuffedString.indent(indentLevel)
-      val (indent1, indent2, indent3) = (indent0 + "\t", indent0 + "\t\t", indent0 + "\t\t\t")
+      val (indent1, indent2, indent3, indent4) = (indent0 + "\t", indent0 + "\t\t", indent0 + "\t\t\t", indent0 + "\t\t\t\t")
 
       val fields = body.fields
 
@@ -293,6 +293,17 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
         } else out.append("in.read").append(field.fType.name).append("()")
         if(isOptional) out.append(")")
         out.append("\n")
+        
+        if (field.fType.packable && field.label == REPEATED) {
+           out.append(indent3).append("case ").append((field.number << 3) | WIRETYPE_LENGTH_DELIMITED).append(" => ")
+           out.append(field.name.toTemporaryIdent)
+              .append(" ++= ").append("(in.readRawVarint32() match {\n")
+              .append(indent4).append("case 0 => scala.collection.immutable.Seq.empty\n")
+              .append(indent4).append("case length => for(idx <- 1 to length) yield {")
+              .append("in.read").append(field.fType.name).append("()")
+              .append("}\n")
+              .append(indent3).append("})\n")
+        }
       }
       out.append(indent3).append("case default => if (!in.skipField(default)) return __newMerged\n")
       out

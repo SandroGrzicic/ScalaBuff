@@ -75,12 +75,16 @@ object FieldTypes extends Enum {
 	 * @param isMessage whether the field is a Message
 	 */
 	trait EnumVal extends Value {
+	    import com.google.protobuf.WireFormat._
 		var name: String
 		var scalaType: String
 		var defaultValue: String
 		var wireType: Int
 		var isEnum: Boolean = false
 		var isMessage: Boolean = false
+		// TODO enum should be packable
+		def packable: Boolean = !isMessage && !isEnum && 
+		  (wireType == WIRETYPE_VARINT || wireType == WIRETYPE_FIXED64 || wireType == WIRETYPE_FIXED32)
 	}
 
 	/**
