@@ -297,15 +297,13 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
         if (field.fType.packable && field.label == REPEATED) {
            out.append(indent3).append("case ").append((field.number << 3) | WIRETYPE_LENGTH_DELIMITED).append(" => ")
            out.append(field.name.toTemporaryIdent)
-              .append(" ++= ").append("(in.readRawVarint32() match {\n")
-              .append(indent4).append("case length if (length > 0) => for(idx <- 1 to length) yield {")
-           if (field.fType.isEnum)  
+              .append(" ++= ")
+              .append("(for (idx <- 1 to in.readRawVarint32()) yield {")
+            if (field.fType.isEnum)
               out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
-           else
-             out.append("in.read").append(field.fType.name).append("()")
-           out.append("}\n")
-              .append(indent4).append("case _ => scala.collection.immutable.Seq.empty\n")
-              .append(indent3).append("})\n")
+            else
+              out.append("in.read").append(field.fType.name).append("()")
+            out.append("})\n")
         }
       }
       out.append(indent3).append("case default => if (!in.skipField(default)) return __newMerged\n")
