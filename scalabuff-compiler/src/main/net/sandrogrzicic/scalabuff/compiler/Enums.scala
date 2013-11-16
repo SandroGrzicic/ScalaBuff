@@ -82,9 +82,8 @@ object FieldTypes extends Enum {
 		var wireType: Int
 		var isEnum: Boolean = false
 		var isMessage: Boolean = false
-		// TODO enum should be packable
-		def packable: Boolean = !isMessage && !isEnum && 
-		  (wireType == WIRETYPE_VARINT || wireType == WIRETYPE_FIXED64 || wireType == WIRETYPE_FIXED32)
+		def packable: Boolean = !isMessage && 
+		  (isEnum || wireType == WIRETYPE_VARINT || wireType == WIRETYPE_FIXED64 || wireType == WIRETYPE_FIXED32)
 	}
 
 	/**
