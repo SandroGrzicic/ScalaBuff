@@ -295,15 +295,18 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
         out.append("\n")
         
         if (field.fType.packable && field.label == REPEATED) {
-           out.append(indent3).append("case ").append((field.number << 3) | WIRETYPE_LENGTH_DELIMITED).append(" => ")
-           out.append(field.name.toTemporaryIdent)
-              .append(" ++= ")
-              .append("(for (idx <- 1 to in.readRawVarint32()) yield {")
-            if (field.fType.isEnum)
-              out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
-            else
-              out.append("in.read").append(field.fType.name).append("()")
-            out.append("})\n")
+          out.append(indent3).append("case ").append((field.number << 3) | WIRETYPE_LENGTH_DELIMITED).append(" => ")
+          out.append("\n")
+            .append(indent4).append("val length = in.readRawVarint32()\n")
+            .append(indent4).append("val limit = in.pushLimit(length)\n")
+            .append(indent4).append("while (in.getBytesUntilLimit() > 0) {\n")
+            .append(indent1).append(indent4).append(field.name.toTemporaryIdent).append(" += ")
+          if (field.fType.isEnum)
+            out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
+          else
+            out.append("in.read").append(field.fType.name).append("()")
+          out.append("\n").append(indent4).append("}\n")
+          out.append(indent4).append("in.popLimit(limit)\n")
         }
       }
       out.append(indent3).append("case default => if (!in.skipField(default)) return __newMerged\n")
