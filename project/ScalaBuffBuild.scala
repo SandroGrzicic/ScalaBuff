@@ -22,10 +22,10 @@ object ScalaBuffBuild extends Build {
 	lazy val buildSettings = Seq(
 		name := "ScalaBuff",
 		organization := "net.sandrogrzicic",
-		version := "1.3.7-SNAPSHOT",
-		scalaVersion := "2.10.2",
-		//scalaVersion := "2.11.0-M3",
-		//scalaBinaryVersion := "2.11.0-M3",
+		version := "1.3.7",
+		scalaVersion := "2.10.3",
+		//scalaVersion := "2.11.0-M7",
+		//scalaBinaryVersion := "2.11.0-M7",
 		logLevel := Level.Info
 	)
 
@@ -46,7 +46,7 @@ object ScalaBuffBuild extends Build {
 		),
 		
 		libraryDependencies ++= Seq(
-			"org.scalatest" %% "scalatest" % "1.9.1" % "test",
+			"org.scalatest" %% "scalatest" % "2.0" % "test",
 			"com.google.protobuf" % "protobuf-java" % "2.5.0"
 		),
 
@@ -66,18 +66,15 @@ object ScalaBuffBuild extends Build {
 		javaSource in Compile <<= baseDirectory(_ / "src/main"),
 		javaSource in Test <<= baseDirectory(_ / "src/test"),
 
-		docDirectory in Compile <<= baseDirectory(_ / "doc"),
-
 		compileOrder := CompileOrder.Mixed,
 		
 		credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 	) ++ sonatype.settings
 
-
-	lazy val compiler = Project(
+	lazy val compilerProject = Project(
 		id = "scalabuff-compiler",
 		base = file("scalabuff-compiler"),
-		dependencies = Seq(runtime % "test->compile"),
+		dependencies = Seq(runtimeProject % "test->compile"),
 		settings = defaultSettings ++ Seq(
 			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
 			mainClass in (Compile, packageBin) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
@@ -85,11 +82,13 @@ object ScalaBuffBuild extends Build {
 		) // ++ osgiSettings
 	)
 
-	lazy val runtime = Project(
+	lazy val runtimeProject = Project(
 		id = "scalabuff-runtime",
 		base = file("scalabuff-runtime"),
 		settings = defaultSettings
 	)
+
+  override val rootProject = Option(compilerProject)
 }
 
 /** 

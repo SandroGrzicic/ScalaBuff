@@ -112,8 +112,6 @@ object ScalaBuff {
 
     if (!success) {
       System.exit(1)
-    } else {
-      System.exit(0)
     }
   }
 

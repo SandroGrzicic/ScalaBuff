@@ -60,7 +60,7 @@ object UpdateTestResources extends App {
         // for now, this is hard-coded.
         val importedSymbols = Map("PackageTest" -> ImportedSymbol("nested", isEnum = false))
 
-        val generated = Generator(parsed, file.getName, importedSymbols, generateJsonMethod = false)
+        val generated = Generator(parsed, file.getName, importedSymbols, generateJsonMethod = true)
 				val generatedPath = testDir + generated.path + generated.file + ".scala"
 
         new File(testDir + generated.path).mkdirs()
