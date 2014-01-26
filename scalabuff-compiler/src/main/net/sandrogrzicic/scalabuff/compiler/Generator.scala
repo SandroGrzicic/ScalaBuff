@@ -98,7 +98,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       import WireFormat.{ WIRETYPE_VARINT, WIRETYPE_FIXED32, WIRETYPE_FIXED64, WIRETYPE_LENGTH_DELIMITED, WIRETYPE_START_GROUP, WIRETYPE_END_GROUP }
 
       val indent0 = BuffedString.indent(indentLevel)
-      val (indent1, indent2, indent3) = (indent0 + "\t", indent0 + "\t\t", indent0 + "\t\t\t")
+      val (indent1, indent2, indent3, indent4) = (indent0 + "\t", indent0 + "\t\t", indent0 + "\t\t\t", indent0 + "\t\t\t\t")
 
       val fields = body.fields
 
@@ -127,7 +127,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
           case OPTIONAL =>
             out.append("Option[").append(field.fType.scalaType).append("] = ").append(field.defaultValue).append(",\n")
           case REPEATED =>
-            out.append("collection.immutable.Seq[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
+            out.append("scala.collection.immutable.Seq[").append(field.fType.scalaType).append("] = Vector.empty[").append(field.fType.scalaType).append("],\n")
           case _ => // "missing combination <local child>"
         }
       }
@@ -203,7 +203,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       out.append(indent1).append("}\n")
 
       // getSerializedSize
-      out.append("\n").append(indent1).append("lazy val getSerializedSize = {\n")
+      out.append("\n").append(indent1).append("def getSerializedSize = {\n")
         .append(indent2).append("import com.google.protobuf.CodedOutputStream._\n")
         .append(indent2).append("var __size = 0\n")
       for (field <- fields) {
@@ -241,7 +241,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
             .append("var ").append(field.name.toTemporaryIdent).append(": Option[").append(field.fType.scalaType).append("]")
             .append(" = ").append(field.name.toScalaIdent).append("\n")
           case REPEATED => out.append(indent2)
-            .append("val ").append(field.name.toTemporaryIdent).append(": collection.mutable.Buffer[").append(field.fType.scalaType).append("]")
+            .append("val ").append(field.name.toTemporaryIdent).append(": scala.collection.mutable.Buffer[").append(field.fType.scalaType).append("]")
             .append(" = ").append(field.name.toScalaIdent).append(".toBuffer\n")
           case _ => // "missing combination <local child>"
         }
@@ -293,6 +293,21 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
         } else out.append("in.read").append(field.fType.name).append("()")
         if(isOptional) out.append(")")
         out.append("\n")
+        
+        if (field.fType.packable && field.label == REPEATED) {
+          out.append(indent3).append("case ").append((field.number << 3) | WIRETYPE_LENGTH_DELIMITED).append(" => ")
+          out.append("\n")
+            .append(indent4).append("val length = in.readRawVarint32()\n")
+            .append(indent4).append("val limit = in.pushLimit(length)\n")
+            .append(indent4).append("while (in.getBytesUntilLimit() > 0) {\n")
+            .append(indent1).append(indent4).append(field.name.toTemporaryIdent).append(" += ")
+          if (field.fType.isEnum)
+            out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
+          else
+            out.append("in.read").append(field.fType.name).append("()")
+          out.append("\n").append(indent4).append("}\n")
+          out.append(indent4).append("in.popLimit(limit)\n")
+        }
       }
       out.append(indent3).append("case default => if (!in.skipField(default)) return __newMerged\n")
       out
@@ -493,6 +508,18 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
 
     // final tree pass: traverse the tree, so we can get class/package names, options, etc.
     val generatedOutput = traverse(tree)
+
+    // Now that we have processed all of the options, make sure that the class name doesn't
+    // match one of the top level type names.
+    val matchingTypeName = tree.exists {
+      case msg: Message => msg.name == className
+      case e: EnumStatement => e.name == className
+      case _ => false
+    }
+
+    if (matchingTypeName) {
+      throw new GenerationFailureException("Cannot generate valid Scala output because the class name, '%s' for the extension registry class matches the name of one of the messages or enums declared in the .proto.  Please either rename the type or use the java_outer_classname option to specify a different class name for the .proto file.".format(className));
+      }
 
     val output = StringBuilder.newBuilder
 

@@ -6,7 +6,7 @@ package resources.generated
 final case class SimpleTest (
 	`requiredField`: Int = 0,
 	`optionalField`: Option[Float] = None,
-	`repeatedField`: collection.immutable.Seq[String] = Vector.empty[String],
+	`repeatedField`: scala.collection.immutable.Seq[String] = Vector.empty[String],
 	`type`: Option[Int] = Some(100),
 	`int32Default`: Option[Int] = Some(100),
 	`int32Negative`: Option[Int] = Some(-1),
@@ -71,7 +71,7 @@ final case class SimpleTest (
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __requiredField: Int = 0
 		var __optionalField: Option[Float] = `optionalField`
-		val __repeatedField: collection.mutable.Buffer[String] = `repeatedField`.toBuffer
+		val __repeatedField: scala.collection.mutable.Buffer[String] = `repeatedField`.toBuffer
 		var __type: Option[Int] = `type`
 		var __int32Default: Option[Int] = `int32Default`
 		var __int32Negative: Option[Int] = `int32Negative`
@@ -129,6 +129,7 @@ final case class SimpleTest (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = "ScalaBuff JSON generation not enabled. Use --generate_json_method to enable."
 }
 
 object SimpleTest {

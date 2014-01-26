@@ -10,8 +10,8 @@ import java.io.InputStream
  * @author Sandro Gržičić
  */
 trait Parser[MessageType <: MessageLite] extends com.google.protobuf.Parser[MessageType] {
-  final val EMPTY_REGISTRY = ExtensionRegistryLite.getEmptyRegistry
-
+  import Parser.EMPTY_REGISTRY
+  
   private def checkMessageInitialized(message: MessageType): MessageType = {
     if (message != null && !message.isInitialized) {
       throw new UninitializedMessageException(message)
@@ -157,3 +157,6 @@ trait Parser[MessageType <: MessageLite] extends com.google.protobuf.Parser[Mess
   }
 }
 
+object Parser {
+  final val EMPTY_REGISTRY = ExtensionRegistryLite.getEmptyRegistry
+}
