@@ -5,7 +5,7 @@ Both the ScalaBuff generator and the generated Scala classes depend on Google's 
 If you want to utilize ScalaBuff to generate your Scala classes from .proto sources, you'll need to either [download the source](https://github.com/SandroGrzicic/ScalaBuff/archive/master.zip) or download the packaged JAR for your Scala version from the Sonatype OSS repository. If you download the sources, you can easily run it from SBT.
 
 If you just want to use ScalaBuff-generated classes in your SBT-managed project, here's the dependency to add (located on the Sonatype OSS repository): `"net.sandrogrzicic" %% "scalabuff-runtime" % "[desired_version]"`
-The latest release is **1.3.6** with support for Scala 2.9.3, 2.10 and 2.11.0-M3.
+The latest release is **1.3.7** with support for Scala 2.9.3, 2.10 and 2.11.0-M7.
 
 If you'd like to use SBT with ScalaBuff to auto-generate Scala protobuf classes from .proto sources, try the [sbt-scalabuff project](https://github.com/sbt/sbt-scalabuff).
 
