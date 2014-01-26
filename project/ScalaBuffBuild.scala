@@ -46,7 +46,7 @@ object ScalaBuffBuild extends Build {
 		),
 		
 		libraryDependencies ++= Seq(
-			"org.scalatest" %% "scalatest" % "1.9.1" % "test",
+			"org.scalatest" %% "scalatest" % "2.0" % "test",
 			"com.google.protobuf" % "protobuf-java" % "2.5.0"
 		),
 
@@ -74,10 +74,10 @@ object ScalaBuffBuild extends Build {
 	) ++ sonatype.settings
 
 
-	lazy val compiler = Project(
+	lazy val compilerProject = Project(
 		id = "scalabuff-compiler",
 		base = file("scalabuff-compiler"),
-		dependencies = Seq(runtime % "test->compile"),
+		dependencies = Seq(runtimeProject % "test->compile"),
 		settings = defaultSettings ++ Seq(
 			mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
 			mainClass in (Compile, packageBin) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff"),
@@ -85,11 +85,14 @@ object ScalaBuffBuild extends Build {
 		) // ++ osgiSettings
 	)
 
-	lazy val runtime = Project(
+	lazy val runtimeProject = Project(
 		id = "scalabuff-runtime",
 		base = file("scalabuff-runtime"),
 		settings = defaultSettings
 	)
+
+  override val rootProject = Option(compilerProject)
+
 }
 
 /** 
