@@ -22,10 +22,8 @@ object ScalaBuffBuild extends Build {
 	lazy val buildSettings = Seq(
 		name := "ScalaBuff",
 		organization := "net.sandrogrzicic",
-		version := "1.3.8-SNAPSHOT",
-		scalaVersion := "2.10.3",
-		//scalaVersion := "2.11.0-M7",
-		//scalaBinaryVersion := "2.11.0-M7",
+		version := "1.3.8",
+		scalaVersion := "2.10.4",
 		logLevel := Level.Info
 	)
 
@@ -46,15 +44,28 @@ object ScalaBuffBuild extends Build {
 		),
 		
 		libraryDependencies ++= Seq(
-			"org.scalatest" %% "scalatest" % "2.0" % "test",
 			"com.google.protobuf" % "protobuf-java" % "2.5.0"
-		),
+		) ++ (CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, scalaMajor)) if scalaMajor >= 10 =>
+        Seq("org.scalatest" %% "scalatest" % "2.1.5" % "test") ++ (
+          if (scalaMajor >= 11) Seq("org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.1") else Seq()
+        )
+      case Some((2, scalaMajor)) if scalaMajor == 9 =>
+        Seq("org.scalatest" %% "scalatest" % "1.9.2" % "test")
+      case _ =>
+        Seq()
+    }),
 
-		crossScalaVersions ++= Seq("2.9.3"),
-
-		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation", "-Xlint", "-Ywarn-all"),
-		// 2.10+ only
-		// scalacOptions ++= Seq("-Xlog-reflective-calls"),
+		crossScalaVersions ++= Seq("2.9.3", "2.10.4", "2.11.0"),
+		
+		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation", "-Xlint"),
+		scalacOptions ++=
+		  (CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, scalaMajor)) if scalaMajor >= 10 =>
+          Seq("-Xlog-reflective-calls")
+        case _ =>
+         Seq()
+       }),
 
 		javacOptions ++= Seq("-encoding", "utf8", "-Xlint:unchecked", "-Xlint:deprecation"),
 
@@ -70,7 +81,6 @@ object ScalaBuffBuild extends Build {
 		
 		credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 	) ++ sonatype.settings
-
 
 	lazy val compilerProject = Project(
 		id = "scalabuff-compiler",
