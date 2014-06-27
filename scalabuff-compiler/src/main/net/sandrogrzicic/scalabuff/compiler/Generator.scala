@@ -540,8 +540,6 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
     if (imports.size > 0) output.append("\n")
     imports.clear()
 
-//    output.append(hintMapOutput).append("\n")
-
     // generated output
     output.append(generatedOutput).append("\n")
 
