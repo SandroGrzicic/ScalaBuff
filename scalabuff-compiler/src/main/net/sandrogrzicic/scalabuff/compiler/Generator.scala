@@ -540,14 +540,30 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
     if (imports.size > 0) output.append("\n")
     imports.clear()
 
+//    output.append(hintMapOutput).append("\n")
+
     // generated output
     output.append(generatedOutput).append("\n")
 
+    val messageNames = tree.collect { case m:Message => m }.map(_.name)
     // outer object
     output
       .append("object ").append(className).append(" {\n")
       .append("\tdef registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {\n")
       .append("\t}\n\n")
+
+      .append("\tprivate val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](").append("\n")
+      .append(messageNames.map { m => "\t\t" + s""" "$m" -> (bytes ⇒ $m.parseFrom(bytes))""" } mkString(",\n"))
+      .append("\n\t)").append("\n")
+
+      .append("\n")
+      .append("\tdef deserializePayload(payload: Array[Byte], payloadType: String): com.google.protobuf.GeneratedMessageLite = {").append("\n")
+      .append("\t\tfromBinaryHintMap.get(payloadType) match {").append("\n")
+      .append("\t\t\tcase Some(f) ⇒ f(payload)").append("\n")
+      .append("\t\t\tcase None    ⇒ throw new IllegalArgumentException(s\"unimplemented deserialization of message payload of type [${payloadType}]\")").append("\n")
+      .append("\t\t}").append("\n")
+      .append("\t}").append("\n")
+
       .append("}\n")
 
     ScalaClass(output.mkString, packageName.replace('.', File.separatorChar) + File.separatorChar, className)
