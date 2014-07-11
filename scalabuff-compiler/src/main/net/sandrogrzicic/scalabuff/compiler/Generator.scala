@@ -413,7 +413,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       val ge210 = targetScalaVersion.exists {
         version =>
           val values = version.split("\\.")
-          if (values.length >= 2 && values(0).toInt >= 2 && values(1).toInt >= 10) true
+          if (values.length >= 2 && (values(0).toInt > 2 || (values(0).toInt == 2 && values(1).toInt >= 10))) true
           else false
       }
 
