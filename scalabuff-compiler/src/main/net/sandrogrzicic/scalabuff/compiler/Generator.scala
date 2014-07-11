@@ -11,7 +11,8 @@ import java.io.File
  * @author Sandro Gržičić
  */
 
-class Generator protected (sourceName: String, importedSymbols: Map[String, ImportedSymbol], generateJsonMethod: Boolean) {
+class Generator protected (sourceName: String, importedSymbols: Map[String, ImportedSymbol], generateJsonMethod: Boolean,
+                           targetScalaVersion: Option[String]) {
   import Generator._
 
   protected val imports = mutable.ListBuffer[String]()
@@ -407,9 +408,21 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
 
       // *** companion object
       out.append(indent0).append("object ").append(name).append(" {\n")
-        .append(indent1).append("@reflect.BeanProperty val defaultInstance = new ").append(name).append("()\n")
+        .append(indent1)
 
-      out.append("\n")
+      val ge210 = targetScalaVersion.exists {
+        version =>
+          val values = version.split("\\.")
+          if (values.length >= 2 && values(0).toInt >= 2 && values(1).toInt >= 10) true
+          else false
+      }
+
+      if (ge210)
+        out.append("@beans.BeanProperty val defaultInstance = new ")
+      else
+        out.append("@reflect.BeanProperty val defaultInstance = new ")
+
+      out.append(name).append("()\n").append("\n")
 
       // parseFrom()
       out.append(indent1).append("def parseFrom(data: Array[Byte]): ").append(name)
@@ -559,8 +572,9 @@ object Generator {
   /**
    * Returns a valid Scala class.
    */
-  def apply(tree: List[Node], sourceName: String, importedSymbols: Map[String, ImportedSymbol], generateJsonMethod: Boolean): ScalaClass = {
-    new Generator(sourceName, importedSymbols, generateJsonMethod).generate(tree)
+  def apply(tree: List[Node], sourceName: String, importedSymbols: Map[String, ImportedSymbol], generateJsonMethod: Boolean,
+            targetScalaVersion: Option[String]): ScalaClass = {
+    new Generator(sourceName, importedSymbols, generateJsonMethod, targetScalaVersion).generate(tree)
   }
 
   /**
