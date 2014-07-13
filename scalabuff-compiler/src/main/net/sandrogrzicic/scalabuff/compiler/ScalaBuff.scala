@@ -20,7 +20,9 @@ object ScalaBuff {
                          outputEncoding: Charset = defaultCharset,
                          verbose: Boolean = false,
                          extraVerbose: Boolean = false,
-                         generateJsonMethod: Boolean = false)
+                         generateJsonMethod: Boolean = false,
+                         targetScalaVersion: Option[String] = None
+                       )
 
   val defaultSettings = Settings()
 
@@ -31,14 +33,14 @@ object ScalaBuff {
   def apply(file: File)(implicit settings: Settings = defaultSettings) = {
     val tree = parse(file)
     val symbols = processImportSymbols(tree)
-    Generator(tree, file.getName, symbols, settings.generateJsonMethod)
+    Generator(tree, file.getName, symbols, settings.generateJsonMethod, settings.targetScalaVersion)
   }
- 
+
   /**
    * Runs ScalaBuff on the specified input String and returns the output Scala class.
    */
-  def fromString(input: String, generateJsonMethod: Boolean = false) = {
-    Generator(Parser(input), "", Map(), generateJsonMethod)
+  def fromString(input: String, generateJsonMethod: Boolean = false, targetScalaVersion: Option[String] = None) = {
+    Generator(Parser(input), "", Map(), generateJsonMethod, targetScalaVersion)
   }
 
   /**
@@ -229,6 +231,10 @@ object ScalaBuff {
         } catch {
           case ue: UnsupportedEncodingException => Strings.UNSUPPORTED_OUTPUT_ENCODING + outputEncoding
         }
+
+      case s if s startsWith "--target=" =>
+        val targetVersion = s.substring("--target=".length)
+        settings.copy(targetScalaVersion = Some(targetVersion))
 
       case "--generate_json_method" =>
         settings.copy(generateJsonMethod = true)
