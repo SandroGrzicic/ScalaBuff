@@ -32,6 +32,8 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
 
   val testProtoMulti = "multi_one"
 
+  val testProtoPacked = "packed"
+
   test("apply: simple .proto file") {
     val settings = ScalaBuff.Settings(generateJsonMethod = true)
     val scalaClass: ScalaClass = ScalaBuff(new File(protoDir + testProto + ".proto"))(settings)
@@ -173,5 +175,12 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
     }
   }
 
+  test("apply: packed .proto file") {
 
+    val settings = ScalaBuff.Settings(generateJsonMethod = true)
+    val scalaClass: ScalaClass = ScalaBuff(new File(protoDir + testProtoPacked + ".proto"))(settings)
+    // TODO matches
+    println(scalaClass)
+
+  }
 }
