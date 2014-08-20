@@ -180,7 +180,6 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
     val settings = ScalaBuff.Settings(generateJsonMethod = true)
     val scalaClass: ScalaClass = ScalaBuff(new File(protoDir + testProtoPacked + ".proto"))(settings)
     // TODO matches
-    println(scalaClass)
-
+   //  println(scalaClass)
   }
 }
