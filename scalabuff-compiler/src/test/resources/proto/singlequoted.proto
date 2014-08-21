@@ -1,0 +1,7 @@
+package resources.generated;
+
+option optimize_for = LITE_RUNTIME;
+
+message SingleQuote {
+	optional string single_quoted_field = 1 [default = 'NA'];
+}
