@@ -119,7 +119,7 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
   lazy val quotedStringConstant: PackratParser[String] = quotationMarks ~> ((hexEscape | octEscape | charEscape | stringCharacter) *) <~ quotationMarks ^^ {
     string: List[String] => "\"" + string.mkString + "\""
   }
-  lazy val stringCharacter: PackratParser[String] = memo("""[^"\n]""".r)
+  lazy val stringCharacter: PackratParser[String] = memo("""[^"\n']""".r)
   lazy val quotationMarks: PackratParser[String] = memo("""["']""".r)
   lazy val hexEscape: PackratParser[String] = memo("""\\0[Xx][A-Fa-f0-9]{1,2}""".r)
   lazy val octEscape: PackratParser[String] = memo("""\\0?[0-7]{1,3}""".r)
