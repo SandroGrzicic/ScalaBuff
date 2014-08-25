@@ -1,0 +1,1 @@
+List(PackageStatement(resources.generated), OptionValue(optimize_for,LITE_RUNTIME), Message(SingleQuote,MessageBody(List(Field(optional,String,single_quoted_field,1,List(OptionValue(default,"NA")),)),List(),List(),List(),List(),List(),List())))
