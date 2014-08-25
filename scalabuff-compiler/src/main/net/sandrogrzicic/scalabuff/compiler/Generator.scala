@@ -242,7 +242,9 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
                 out.append(indent3).append("val dataSize = ").append(field.name.toScalaIdent)
                   .append(".map(compute").append(field.fType.name).append("SizeNoTag(_)).sum")
                   .append(" \n")
-                out.append(indent3).append("__size += 1 + computeInt32SizeNoTag(dataSize) + dataSize\n")
+
+                val tagSize = CodedOutputStream.computeTagSize(field.number)
+                out.append(indent3).append(s"__size += $tagSize + computeInt32SizeNoTag(dataSize) + dataSize\n")
                 out.append(indent2).append("}\n")
               case _            =>
                 out.append(indent2).append("for (_v <- ")
