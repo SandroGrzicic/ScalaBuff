@@ -394,7 +394,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
               case _ =>
             }
           }
-        out.append(indent2).append("sb.length -= 1\n")
+        out.append(indent2).append("if(!sb.isEmpty && sb.charAt(sb.length - 1) == ',') sb.length -= 1\n")
         out.append(indent2).append("sb.append(indent0).append(\"}\")\n")
 
         out.append(indent2).append("sb.toString()\n")
