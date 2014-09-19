@@ -18,7 +18,7 @@ final case class UsesImportPackage (
 		output.writeMessage(1, `packageTest`)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeMessageSize(1, `packageTest`)
@@ -79,4 +79,14 @@ object ImportPackages {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 
+	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
+		 "UsesImportPackage" -> (bytes ⇒ UsesImportPackage.parseFrom(bytes))
+	)
+
+	def deserializePayload(payload: Array[Byte], payloadType: String): com.google.protobuf.GeneratedMessageLite = {
+		fromBinaryHintMap.get(payloadType) match {
+			case Some(f) ⇒ f(payload)
+			case None    ⇒ throw new IllegalArgumentException(s"unimplemented deserialization of message payload of type [${payloadType}]")
+		}
+	}
 }
