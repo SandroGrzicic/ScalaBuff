@@ -728,11 +728,17 @@ object Generator {
                 field.fType.scalaType.split("\\.")(0)
               else
                 field.fType.scalaType
-            importedSymbols.get(scalaType).foreach { symbol =>
-	            // namespaces might be empty for imported message types
-	            val namespacePrefix = if (symbol.packageName.isEmpty) "" else symbol.packageName + "."
-              field.fType.scalaType = namespacePrefix + field.fType.scalaType
-              field.fType.defaultValue = namespacePrefix + field.fType.defaultValue
+            importedSymbols.filter {
+              case (name, symbol) =>
+                val shortName = scalaType.stripPrefix(symbol.protoPackage + ".")
+                name == shortName || shortName.startsWith(name + ".")
+            }.foreach {
+              case (name, symbol) =>
+	              // namespaces might be empty for imported message types
+	              val namespacePrefix = if (symbol.packageName.isEmpty) "" else symbol.packageName + "."
+                val protoPkgPrefix = if (symbol.protoPackage.isEmpty) "" else symbol.protoPackage + "."
+                field.fType.scalaType = namespacePrefix + field.fType.scalaType.stripPrefix(protoPkgPrefix)
+                field.fType.defaultValue = namespacePrefix + field.fType.defaultValue.stripPrefix(protoPkgPrefix)
             }
           }
         case _ =>
@@ -742,7 +748,7 @@ object Generator {
   }
 }
 
-case class ImportedSymbol(packageName: String, isEnum: Boolean)
+case class ImportedSymbol(packageName: String, isEnum: Boolean, protoPackage: String = "")
 
 /**
  * A generated Scala class. The path is relative.

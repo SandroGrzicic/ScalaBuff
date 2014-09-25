@@ -1,0 +1,9 @@
+package resources.generated;
+
+import "package_name.proto";
+
+option optimize_for = LITE_RUNTIME;
+
+message UseFullImportedName {
+  required resources.generated.nested.PackageTest fullname_test = 1;
+}
