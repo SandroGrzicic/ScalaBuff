@@ -1,7 +1,6 @@
 package tests
 
-import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{FunSuite, Matchers}
 import net.sandrogrzicic.scalabuff.compiler.BuffedString
 
 /**
@@ -9,7 +8,7 @@ import net.sandrogrzicic.scalabuff.compiler.BuffedString
  * @author Sandro Gržičić
  */
 
-class BuffedStringTest extends FunSuite with ShouldMatchers {
+class BuffedStringTest extends FunSuite with Matchers {
 
 	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 

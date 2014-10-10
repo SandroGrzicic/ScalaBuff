@@ -1,7 +1,6 @@
 package tests
 
-import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{FunSuite, Matchers}
 import net.sandrogrzicic.scalabuff.compiler.{Parser, buffString}
 import java.io._
 import File.{separator => SEP}
@@ -11,7 +10,7 @@ import File.{separator => SEP}
  * @author Sandro Gržičić
  */
 
-class ParserTest extends FunSuite with ShouldMatchers {
+class ParserTest extends FunSuite with Matchers {
 
 	val protoFileFilter = new FileFilter {
 		def accept(filtered: File) = filtered.getName.endsWith(".proto")

@@ -1,7 +1,6 @@
 package tests
 
-import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{FunSuite, Matchers}
 import net.sandrogrzicic.scalabuff.compiler._
 import net.sandrogrzicic.scalabuff.compiler.{Strings, ScalaBuff, ScalaClass}
 import java.io.{PrintStream, ByteArrayOutputStream, File}
@@ -12,7 +11,7 @@ import File.{separator => SEP}
  * @author Sandro Gržičić
  */
 
-class ScalaBuffTest extends FunSuite with ShouldMatchers {
+class ScalaBuffTest extends FunSuite with Matchers {
 
   val NEWLINE = System.getProperty("line.separator")
 
@@ -79,8 +78,8 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
     Console.withOut(new PrintStream(outputStream)) {
       ScalaBuff.run(Array("-v", "-v", "--generate_json_method", "--scala_out=" + outputDir, simpleProto))
       val output = outputStream.toString.split("\r\n")
-      output.length should be (3)
-      output(1) should startWith("Processing: ")
+      output.length should be (1)
+      output(0) should startWith("Parameters: ")
     }
     val outputFile = new File(outputDir + SEP + resourcesGeneratedDir + testProto.camelCase + ".scala")
     outputFile should be('exists)

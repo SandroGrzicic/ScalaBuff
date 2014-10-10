@@ -3,8 +3,13 @@ package resources.generated;
 option java_outer_classname = "EnumTest";
 
 enum ComputerPeripherals {
-	MOUSE = 1;
-	KEYBOARD = 2;
+	KEYBOARD = 1;
+	MOUSE = 2;
+}
+
+message MyPeripherals {
+	optional ComputerPeripherals primary_peripheral = 1 [default = KEYBOARD];
+	optional ComputerPeripherals secondary_peripheral = 2;
 }
 
 message Outer {

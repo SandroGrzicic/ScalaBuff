@@ -24,7 +24,7 @@ final case class SimpleRequest (
 		if (`resultsPerPage`.isDefined) output.writeInt32(3, `resultsPerPage`.get)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeStringSize(1, `query`)
@@ -72,6 +72,20 @@ final case class SimpleRequest (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"query\": ").append("\"").append(`query`).append("\"").append(',')
+			if (`pageNumber`.isDefined) { sb.append(indent1).append("\"pageNumber\": ").append("\"").append(`pageNumber`.get).append("\"").append(',') }
+			if (`resultsPerPage`.isDefined) { sb.append(indent1).append("\"resultsPerPage\": ").append("\"").append(`resultsPerPage`.get).append("\"").append(',') }
+		sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object SimpleRequest {
@@ -96,4 +110,14 @@ object SimpleWithComments {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 
+	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
+		 "SimpleRequest" -> (bytes ⇒ SimpleRequest.parseFrom(bytes))
+	)
+
+	def deserializePayload(payload: Array[Byte], payloadType: String): com.google.protobuf.GeneratedMessageLite = {
+		fromBinaryHintMap.get(payloadType) match {
+			case Some(f) ⇒ f(payload)
+			case None    ⇒ throw new IllegalArgumentException(s"unimplemented deserialization of message payload of type [${payloadType}]")
+		}
+	}
 }
