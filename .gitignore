@@ -8,3 +8,6 @@ scalabuff-compiler/target
 scalabuff-runtime/bin
 scalabuff-runtime/doc
 scalabuff-runtime/target
+.idea
+.idea_modules
+

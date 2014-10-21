@@ -13,8 +13,8 @@ import com.typesafe.sbt.osgi.SbtOsgi._
  *      package                     Generates the main ScalaBuff compiler .JAR.
  *      update-test-resources       Regenerates the test resources using ScalaBuff.
  *
- *      project compiler            Switches to the compiler project (default).
- *      project runtime             Switches to the runtime project.
+ *      project scalabuff-compiler            Switches to the compiler project (default).
+ *      project scalabuff-runtime             Switches to the runtime project.
  *
  */
 object ScalaBuffBuild extends Build {
