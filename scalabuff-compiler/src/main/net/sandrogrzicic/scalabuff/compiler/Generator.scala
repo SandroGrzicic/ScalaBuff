@@ -410,17 +410,8 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       out.append(indent0).append("object ").append(name).append(" {\n")
         .append(indent1)
 
-      val ge210 = targetScalaVersion.exists {
-        version =>
-          val values = version.split("\\.")
-          if (values.length >= 2 && (values(0).toInt > 2 || (values(0).toInt == 2 && values(1).toInt >= 10))) true
-          else false
-      }
 
-      if (ge210)
-        out.append("@beans.BeanProperty val defaultInstance = new ")
-      else
-        out.append("@reflect.BeanProperty val defaultInstance = new ")
+      out.append("@beans.BeanProperty val defaultInstance = new ")
 
       out.append(name).append("()\n").append("\n")
 
