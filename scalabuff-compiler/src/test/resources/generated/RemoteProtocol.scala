@@ -74,7 +74,7 @@ final case class AkkaRemoteProtocol (
 }
 
 object AkkaRemoteProtocol {
-	@reflect.BeanProperty val defaultInstance = new AkkaRemoteProtocol()
+	@beans.BeanProperty val defaultInstance = new AkkaRemoteProtocol()
 
 	def parseFrom(data: Array[Byte]): AkkaRemoteProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): AkkaRemoteProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -174,7 +174,7 @@ final case class RemoteMessageProtocol (
 }
 
 object RemoteMessageProtocol {
-	@reflect.BeanProperty val defaultInstance = new RemoteMessageProtocol()
+	@beans.BeanProperty val defaultInstance = new RemoteMessageProtocol()
 
 	def parseFrom(data: Array[Byte]): RemoteMessageProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): RemoteMessageProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -266,7 +266,7 @@ final case class RemoteControlProtocol (
 }
 
 object RemoteControlProtocol {
-	@reflect.BeanProperty val defaultInstance = new RemoteControlProtocol()
+	@beans.BeanProperty val defaultInstance = new RemoteControlProtocol()
 
 	def parseFrom(data: Array[Byte]): RemoteControlProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): RemoteControlProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -358,7 +358,7 @@ final case class ActorRefProtocol (
 }
 
 object ActorRefProtocol {
-	@reflect.BeanProperty val defaultInstance = new ActorRefProtocol()
+	@beans.BeanProperty val defaultInstance = new ActorRefProtocol()
 
 	def parseFrom(data: Array[Byte]): ActorRefProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): ActorRefProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -442,7 +442,7 @@ final case class MessageProtocol (
 }
 
 object MessageProtocol {
-	@reflect.BeanProperty val defaultInstance = new MessageProtocol()
+	@beans.BeanProperty val defaultInstance = new MessageProtocol()
 
 	def parseFrom(data: Array[Byte]): MessageProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): MessageProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -519,7 +519,7 @@ final case class MetadataEntryProtocol (
 }
 
 object MetadataEntryProtocol {
-	@reflect.BeanProperty val defaultInstance = new MetadataEntryProtocol()
+	@beans.BeanProperty val defaultInstance = new MetadataEntryProtocol()
 
 	def parseFrom(data: Array[Byte]): MetadataEntryProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): MetadataEntryProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -602,7 +602,7 @@ final case class AddressProtocol (
 }
 
 object AddressProtocol {
-	@reflect.BeanProperty val defaultInstance = new AddressProtocol()
+	@beans.BeanProperty val defaultInstance = new AddressProtocol()
 
 	def parseFrom(data: Array[Byte]): AddressProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): AddressProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -693,7 +693,7 @@ final case class DaemonMsgCreateProtocol (
 }
 
 object DaemonMsgCreateProtocol {
-	@reflect.BeanProperty val defaultInstance = new DaemonMsgCreateProtocol()
+	@beans.BeanProperty val defaultInstance = new DaemonMsgCreateProtocol()
 
 	def parseFrom(data: Array[Byte]): DaemonMsgCreateProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): DaemonMsgCreateProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -798,7 +798,7 @@ final case class PropsProtocol (
 }
 
 object PropsProtocol {
-	@reflect.BeanProperty val defaultInstance = new PropsProtocol()
+	@beans.BeanProperty val defaultInstance = new PropsProtocol()
 
 	def parseFrom(data: Array[Byte]): PropsProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): PropsProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -897,7 +897,7 @@ final case class DeployProtocol (
 }
 
 object DeployProtocol {
-	@reflect.BeanProperty val defaultInstance = new DeployProtocol()
+	@beans.BeanProperty val defaultInstance = new DeployProtocol()
 
 	def parseFrom(data: Array[Byte]): DeployProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): DeployProtocol = defaultInstance.mergeFrom(data, offset, length)

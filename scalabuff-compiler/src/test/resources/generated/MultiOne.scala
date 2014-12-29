@@ -54,7 +54,7 @@ final case class MutiMessageOne (
 }
 
 object MutiMessageOne {
-	@reflect.BeanProperty val defaultInstance = new MutiMessageOne()
+	@beans.BeanProperty val defaultInstance = new MutiMessageOne()
 
 	def parseFrom(data: Array[Byte]): MutiMessageOne = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): MutiMessageOne = defaultInstance.mergeFrom(data, offset, length)

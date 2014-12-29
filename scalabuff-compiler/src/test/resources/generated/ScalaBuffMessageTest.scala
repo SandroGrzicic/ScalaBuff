@@ -53,7 +53,7 @@ final case class EmptyMessage (
 }
 
 object EmptyMessage {
-	@reflect.BeanProperty val defaultInstance = new EmptyMessage()
+	@beans.BeanProperty val defaultInstance = new EmptyMessage()
 
 	def parseFrom(data: Array[Byte]): EmptyMessage = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): EmptyMessage = defaultInstance.mergeFrom(data, offset, length)

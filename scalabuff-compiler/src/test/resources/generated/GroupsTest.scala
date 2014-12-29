@@ -53,7 +53,7 @@ final case class Groups (
 }
 
 object Groups {
-	@reflect.BeanProperty val defaultInstance = new Groups()
+	@beans.BeanProperty val defaultInstance = new Groups()
 
 	def parseFrom(data: Array[Byte]): Groups = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): Groups = defaultInstance.mergeFrom(data, offset, length)

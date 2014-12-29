@@ -214,7 +214,7 @@ final case class DataTypes (
 }
 
 object DataTypes {
-	@reflect.BeanProperty val defaultInstance = new DataTypes()
+	@beans.BeanProperty val defaultInstance = new DataTypes()
 
 	def parseFrom(data: Array[Byte]): DataTypes = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): DataTypes = defaultInstance.mergeFrom(data, offset, length)

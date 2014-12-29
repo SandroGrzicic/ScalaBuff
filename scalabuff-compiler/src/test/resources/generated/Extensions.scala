@@ -56,7 +56,7 @@ final case class ExtensionsTest (
 }
 
 object ExtensionsTest {
-	@reflect.BeanProperty val defaultInstance = new ExtensionsTest()
+	@beans.BeanProperty val defaultInstance = new ExtensionsTest()
 
 	def parseFrom(data: Array[Byte]): ExtensionsTest = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): ExtensionsTest = defaultInstance.mergeFrom(data, offset, length)

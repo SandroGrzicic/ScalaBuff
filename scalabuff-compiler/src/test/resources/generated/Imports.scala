@@ -59,7 +59,7 @@ final case class UsesImport (
 }
 
 object UsesImport {
-	@reflect.BeanProperty val defaultInstance = new UsesImport()
+	@beans.BeanProperty val defaultInstance = new UsesImport()
 
 	def parseFrom(data: Array[Byte]): UsesImport = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): UsesImport = defaultInstance.mergeFrom(data, offset, length)

@@ -57,7 +57,7 @@ final case class TopLevel (
 }
 
 object TopLevel {
-	@reflect.BeanProperty val defaultInstance = new TopLevel()
+	@beans.BeanProperty val defaultInstance = new TopLevel()
 
 	def parseFrom(data: Array[Byte]): TopLevel = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): TopLevel = defaultInstance.mergeFrom(data, offset, length)
@@ -124,7 +124,7 @@ object TopLevel {
 	}
 
 	object Inner {
-		@reflect.BeanProperty val defaultInstance = new Inner()
+		@beans.BeanProperty val defaultInstance = new Inner()
 
 		def parseFrom(data: Array[Byte]): Inner = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Inner = defaultInstance.mergeFrom(data, offset, length)
@@ -279,7 +279,7 @@ final case class Foobar (
 }
 
 object Foobar {
-	@reflect.BeanProperty val defaultInstance = new Foobar()
+	@beans.BeanProperty val defaultInstance = new Foobar()
 
 	def parseFrom(data: Array[Byte]): Foobar = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): Foobar = defaultInstance.mergeFrom(data, offset, length)
@@ -356,7 +356,7 @@ object Foobar {
 	}
 
 	object Foo {
-		@reflect.BeanProperty val defaultInstance = new Foo()
+		@beans.BeanProperty val defaultInstance = new Foo()
 
 		def parseFrom(data: Array[Byte]): Foo = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Foo = defaultInstance.mergeFrom(data, offset, length)
@@ -426,7 +426,7 @@ object Foobar {
 	}
 
 	object Bar {
-		@reflect.BeanProperty val defaultInstance = new Bar()
+		@beans.BeanProperty val defaultInstance = new Bar()
 
 		def parseFrom(data: Array[Byte]): Bar = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Bar = defaultInstance.mergeFrom(data, offset, length)
@@ -496,7 +496,7 @@ object Foobar {
 	}
 
 	object FooBar {
-		@reflect.BeanProperty val defaultInstance = new FooBar()
+		@beans.BeanProperty val defaultInstance = new FooBar()
 
 		def parseFrom(data: Array[Byte]): FooBar = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): FooBar = defaultInstance.mergeFrom(data, offset, length)

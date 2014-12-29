@@ -106,7 +106,7 @@ final case class MultiMessageTwo (
 }
 
 object MultiMessageTwo {
-	@reflect.BeanProperty val defaultInstance = new MultiMessageTwo()
+	@beans.BeanProperty val defaultInstance = new MultiMessageTwo()
 
 	def parseFrom(data: Array[Byte]): MultiMessageTwo = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): MultiMessageTwo = defaultInstance.mergeFrom(data, offset, length)
