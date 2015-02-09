@@ -1,0 +1,1 @@
+List(PackageStatement(resources.generated), OptionValue(optimize_for,LITE_RUNTIME), Message(PackedTest,MessageBody(List(Field(required,Int32,required_field,1,List(),), Field(optional,Float,optional_field,2,List(),), Field(repeated,Int32,repeated_packed_field,3,List(OptionValue(packed,true)),)),List(),List(),List(),List(),List(),List())))

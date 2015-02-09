@@ -1,0 +1,11 @@
+package resources.generated;
+
+option optimize_for = LITE_RUNTIME;
+
+message PackedTest {
+	required int32 required_field = 1;
+	optional float optional_field = 2;
+	repeated int32 repeated_packed_field = 3 [packed=true] ;
+    // has data size 2
+	// repeated int32 repeated_packed_field_33 = 33 [packed=true] ;
+}

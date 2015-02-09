@@ -194,10 +194,28 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
             .append("output.write").append(field.fType.name).append("(")
             .append(field.number).append(", ").append(field.name.toScalaIdent).append(".get)\n")
           case REPEATED =>
-            out.append(indent2).append("for (_v <- ")
-              .append(field.name.toScalaIdent).append(") ")
-              .append("output.write").append(field.fType.name)
-            out.append("(").append(field.number).append(", _v)\n")
+            (field.fType.packable, field.options.filter(value => value.key == "packed" && value.value == "true").headOption) match {
+              case (true, Some(option)) =>
+                out.append(indent2).append(s"// write field ${field.name} packed \n")
+                out.append(indent2).append("if (!").append(field.name.toScalaIdent).append(".isEmpty) {\n")
+                out.append(indent3).append("import com.google.protobuf.CodedOutputStream._\n")
+                out.append(indent3).append("val dataSize = ").append(field.name.toScalaIdent)
+                  .append(".map(compute").append(field.fType.name).append("SizeNoTag(_)).sum")
+                  .append(" \n")
+                out.append(indent3).append("output.writeRawVarint32(")
+                  .append((field.number << 3) | WIRETYPE_LENGTH_DELIMITED).append(")").append("\n")
+                out.append(indent3).append("output.writeRawVarint32(dataSize)").append("\n")
+                out.append(indent3).append("for (_v <- ")
+                  .append(field.name.toScalaIdent).append(") ")
+                  .append("output.write").append(field.fType.name).append("NoTag")
+                  .append("(_v)\n")
+                out.append(indent2).append("}\n")
+              case _ =>
+                out.append(indent2).append("for (_v <- ")
+                  .append(field.name.toScalaIdent).append(") ")
+                  .append("output.write").append(field.fType.name)
+                out.append("(").append(field.number).append(", _v)\n")
+            }
           case _ => // "missing combination <local child>"
         }
       }
@@ -216,10 +234,24 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
             .append(field.name.toScalaIdent).append(".isDefined) ")
             .append("__size += compute").append(field.fType.name).append("Size(")
             .append(field.number).append(", ").append(field.name.toScalaIdent).append(".get)\n")
-          case REPEATED => out.append(indent2).append("for (_v <- ")
-            .append(field.name.toScalaIdent).append(") ")
-            .append("__size += compute").append(field.fType.name).append("Size(")
-            .append(field.number).append(", _v)\n")
+          case REPEATED =>
+            // TODO make this nicer currently code is generated 2 times
+            (field.fType.packable, field.options.filter(value => value.key == "packed" && value.value == "true").headOption) match {
+              case (true, Some(option)) =>
+                out.append(indent2).append("if (!").append(field.name.toScalaIdent).append(".isEmpty) {\n")
+                out.append(indent3).append("val dataSize = ").append(field.name.toScalaIdent)
+                  .append(".map(compute").append(field.fType.name).append("SizeNoTag(_)).sum")
+                  .append(" \n")
+
+                val tagSize = CodedOutputStream.computeTagSize(field.number)
+                out.append(indent3).append(s"__size += $tagSize + computeInt32SizeNoTag(dataSize) + dataSize\n")
+                out.append(indent2).append("}\n")
+              case _            =>
+                out.append(indent2).append("for (_v <- ")
+                  .append(field.name.toScalaIdent).append(") ")
+                  .append("__size += compute").append(field.fType.name).append("Size(")
+                  .append(field.number).append(", _v)\n")
+            }
           case _ => // "missing combination <local child>"
         }
       }
