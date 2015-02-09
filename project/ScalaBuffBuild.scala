@@ -99,7 +99,7 @@ object ScalaBuffBuild extends Build {
 		settings = defaultSettings
 	)
 
-  override val rootProject = Option(compilerProject)
+  val root = project.in(file(".")) settings (publish := {}) aggregate(compilerProject, runtimeProject)
 
 }
 
