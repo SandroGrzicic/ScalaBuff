@@ -133,7 +133,7 @@ final case class SimpleTest (
 }
 
 object SimpleTest {
-	@reflect.BeanProperty val defaultInstance = new SimpleTest()
+	@beans.BeanProperty val defaultInstance = new SimpleTest()
 
 	def parseFrom(data: Array[Byte]): SimpleTest = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): SimpleTest = defaultInstance.mergeFrom(data, offset, length)

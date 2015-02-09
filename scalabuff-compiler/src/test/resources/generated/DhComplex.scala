@@ -62,7 +62,7 @@ final case class Response (
 }
 
 object Response {
-	@reflect.BeanProperty val defaultInstance = new Response()
+	@beans.BeanProperty val defaultInstance = new Response()
 
 	def parseFrom(data: Array[Byte]): Response = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): Response = defaultInstance.mergeFrom(data, offset, length)
@@ -152,7 +152,7 @@ object Response {
 	}
 
 	object Rendition {
-		@reflect.BeanProperty val defaultInstance = new Rendition()
+		@beans.BeanProperty val defaultInstance = new Rendition()
 
 		def parseFrom(data: Array[Byte]): Rendition = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Rendition = defaultInstance.mergeFrom(data, offset, length)
@@ -228,7 +228,7 @@ object Response {
 		}
 
 		object Property {
-			@reflect.BeanProperty val defaultInstance = new Property()
+			@beans.BeanProperty val defaultInstance = new Property()
 
 			def parseFrom(data: Array[Byte]): Property = defaultInstance.mergeFrom(data)
 			def parseFrom(data: Array[Byte], offset: Int, length: Int): Property = defaultInstance.mergeFrom(data, offset, length)
@@ -356,7 +356,7 @@ object Response {
 	}
 
 	object Video {
-		@reflect.BeanProperty val defaultInstance = new Video()
+		@beans.BeanProperty val defaultInstance = new Video()
 
 		def parseFrom(data: Array[Byte]): Video = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Video = defaultInstance.mergeFrom(data, offset, length)
@@ -450,7 +450,7 @@ object Response {
 	}
 
 	object VideoFailure {
-		@reflect.BeanProperty val defaultInstance = new VideoFailure()
+		@beans.BeanProperty val defaultInstance = new VideoFailure()
 
 		def parseFrom(data: Array[Byte]): VideoFailure = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): VideoFailure = defaultInstance.mergeFrom(data, offset, length)
@@ -566,7 +566,7 @@ object Response {
 	}
 
 	object VideoResult {
-		@reflect.BeanProperty val defaultInstance = new VideoResult()
+		@beans.BeanProperty val defaultInstance = new VideoResult()
 
 		def parseFrom(data: Array[Byte]): VideoResult = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): VideoResult = defaultInstance.mergeFrom(data, offset, length)

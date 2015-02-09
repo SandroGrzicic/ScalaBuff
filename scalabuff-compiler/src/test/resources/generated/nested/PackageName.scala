@@ -58,7 +58,7 @@ final case class PackageTest (
 }
 
 object PackageTest {
-	@reflect.BeanProperty val defaultInstance = new PackageTest()
+	@beans.BeanProperty val defaultInstance = new PackageTest()
 
 	def parseFrom(data: Array[Byte]): PackageTest = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): PackageTest = defaultInstance.mergeFrom(data, offset, length)

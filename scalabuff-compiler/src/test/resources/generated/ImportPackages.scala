@@ -60,7 +60,7 @@ final case class UsesImportPackage (
 }
 
 object UsesImportPackage {
-	@reflect.BeanProperty val defaultInstance = new UsesImportPackage()
+	@beans.BeanProperty val defaultInstance = new UsesImportPackage()
 
 	def parseFrom(data: Array[Byte]): UsesImportPackage = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): UsesImportPackage = defaultInstance.mergeFrom(data, offset, length)

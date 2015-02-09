@@ -97,7 +97,7 @@ final case class Outer (
 }
 
 object Outer {
-	@reflect.BeanProperty val defaultInstance = new Outer()
+	@beans.BeanProperty val defaultInstance = new Outer()
 
 	def parseFrom(data: Array[Byte]): Outer = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): Outer = defaultInstance.mergeFrom(data, offset, length)
@@ -208,7 +208,7 @@ final case class OuterDuplicate (
 }
 
 object OuterDuplicate {
-	@reflect.BeanProperty val defaultInstance = new OuterDuplicate()
+	@beans.BeanProperty val defaultInstance = new OuterDuplicate()
 
 	def parseFrom(data: Array[Byte]): OuterDuplicate = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): OuterDuplicate = defaultInstance.mergeFrom(data, offset, length)
@@ -298,7 +298,7 @@ final case class OuterEnumContainer (
 }
 
 object OuterEnumContainer {
-	@reflect.BeanProperty val defaultInstance = new OuterEnumContainer()
+	@beans.BeanProperty val defaultInstance = new OuterEnumContainer()
 
 	def parseFrom(data: Array[Byte]): OuterEnumContainer = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): OuterEnumContainer = defaultInstance.mergeFrom(data, offset, length)
@@ -365,7 +365,7 @@ object OuterEnumContainer {
 	}
 
 	object InnerEnumContainer {
-		@reflect.BeanProperty val defaultInstance = new InnerEnumContainer()
+		@beans.BeanProperty val defaultInstance = new InnerEnumContainer()
 
 		def parseFrom(data: Array[Byte]): InnerEnumContainer = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): InnerEnumContainer = defaultInstance.mergeFrom(data, offset, length)

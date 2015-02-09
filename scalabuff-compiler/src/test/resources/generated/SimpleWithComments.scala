@@ -75,7 +75,7 @@ final case class SimpleRequest (
 }
 
 object SimpleRequest {
-	@reflect.BeanProperty val defaultInstance = new SimpleRequest()
+	@beans.BeanProperty val defaultInstance = new SimpleRequest()
 
 	def parseFrom(data: Array[Byte]): SimpleRequest = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): SimpleRequest = defaultInstance.mergeFrom(data, offset, length)

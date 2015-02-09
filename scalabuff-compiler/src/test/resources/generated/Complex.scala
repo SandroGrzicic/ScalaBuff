@@ -114,7 +114,7 @@ final case class ComplexMessage (
 }
 
 object ComplexMessage {
-	@reflect.BeanProperty val defaultInstance = new ComplexMessage()
+	@beans.BeanProperty val defaultInstance = new ComplexMessage()
 
 	def parseFrom(data: Array[Byte]): ComplexMessage = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): ComplexMessage = defaultInstance.mergeFrom(data, offset, length)
@@ -212,7 +212,7 @@ object ComplexMessage {
 	}
 
 	object Nested {
-		@reflect.BeanProperty val defaultInstance = new Nested()
+		@beans.BeanProperty val defaultInstance = new Nested()
 
 		def parseFrom(data: Array[Byte]): Nested = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Nested = defaultInstance.mergeFrom(data, offset, length)
@@ -289,7 +289,7 @@ final case class AnotherMessage (
 }
 
 object AnotherMessage {
-	@reflect.BeanProperty val defaultInstance = new AnotherMessage()
+	@beans.BeanProperty val defaultInstance = new AnotherMessage()
 
 	def parseFrom(data: Array[Byte]): AnotherMessage = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): AnotherMessage = defaultInstance.mergeFrom(data, offset, length)

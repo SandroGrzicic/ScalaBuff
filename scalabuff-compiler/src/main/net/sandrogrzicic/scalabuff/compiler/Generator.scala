@@ -420,7 +420,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       if (ge210)
         out.append("@beans.BeanProperty val defaultInstance = new ")
       else
-        out.append("@reflect.BeanProperty val defaultInstance = new ")
+        out.append("@beans.BeanProperty val defaultInstance = new ")
 
       out.append(name).append("()\n").append("\n")
 
