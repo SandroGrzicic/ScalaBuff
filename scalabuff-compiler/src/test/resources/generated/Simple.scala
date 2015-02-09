@@ -51,7 +51,7 @@ final case class SimpleTest (
 		if (`floatNegative`.isDefined) output.writeFloat(9, `floatNegative`.get)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeInt32Size(1, `requiredField`)
@@ -129,7 +129,26 @@ final case class SimpleTest (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
-	def toJson(indent: Int = 0): String = "ScalaBuff JSON generation not enabled. Use --generate_json_method to enable."
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"requiredField\": ").append("\"").append(`requiredField`).append("\"").append(',')
+			if (`optionalField`.isDefined) { sb.append(indent1).append("\"optionalField\": ").append("\"").append(`optionalField`.get).append("\"").append(',') }
+			sb.append(indent1).append("\"repeatedField\": [").append(indent2).append(`repeatedField`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
+			if (`type`.isDefined) { sb.append(indent1).append("\"type\": ").append("\"").append(`type`.get).append("\"").append(',') }
+			if (`int32Default`.isDefined) { sb.append(indent1).append("\"int32Default\": ").append("\"").append(`int32Default`.get).append("\"").append(',') }
+			if (`int32Negative`.isDefined) { sb.append(indent1).append("\"int32Negative\": ").append("\"").append(`int32Negative`.get).append("\"").append(',') }
+			if (`stringDefault`.isDefined) { sb.append(indent1).append("\"stringDefault\": ").append("\"").append(`stringDefault`.get).append("\"").append(',') }
+			if (`floatDefault`.isDefined) { sb.append(indent1).append("\"floatDefault\": ").append("\"").append(`floatDefault`.get).append("\"").append(',') }
+			if (`floatNegative`.isDefined) { sb.append(indent1).append("\"floatNegative\": ").append("\"").append(`floatNegative`.get).append("\"").append(',') }
+		sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object SimpleTest {
@@ -160,4 +179,14 @@ object Simple {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 
+	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
+		 "SimpleTest" -> (bytes ⇒ SimpleTest.parseFrom(bytes))
+	)
+
+	def deserializePayload(payload: Array[Byte], payloadType: String): com.google.protobuf.GeneratedMessageLite = {
+		fromBinaryHintMap.get(payloadType) match {
+			case Some(f) ⇒ f(payload)
+			case None    ⇒ throw new IllegalArgumentException(s"unimplemented deserialization of message payload of type [${payloadType}]")
+		}
+	}
 }
