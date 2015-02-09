@@ -15,7 +15,7 @@ final case class ExtensionsTest (
 		output.writeInt32(1, `foo`)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeInt32Size(1, `foo`)
@@ -53,6 +53,18 @@ final case class ExtensionsTest (
 	override def getParserForType = this
 	def newBuilderForType = throw new RuntimeException("Method not available.")
 	def toBuilder = throw new RuntimeException("Method not available.")
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"foo\": ").append("\"").append(`foo`).append("\"").append(',')
+		sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object ExtensionsTest {
@@ -75,4 +87,14 @@ object Extensions {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 
+	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
+		 "ExtensionsTest" -> (bytes ⇒ ExtensionsTest.parseFrom(bytes))
+	)
+
+	def deserializePayload(payload: Array[Byte], payloadType: String): com.google.protobuf.GeneratedMessageLite = {
+		fromBinaryHintMap.get(payloadType) match {
+			case Some(f) ⇒ f(payload)
+			case None    ⇒ throw new IllegalArgumentException(s"unimplemented deserialization of message payload of type [${payloadType}]")
+		}
+	}
 }

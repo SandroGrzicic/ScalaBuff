@@ -1,7 +1,6 @@
 package tests
 
-import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{FunSuite, Matchers}
 import resources.generated._
 
 /**
@@ -9,7 +8,7 @@ import resources.generated._
  * @author Sandro Gržičić
  */
 
-class ExtendedMessageTest extends FunSuite with ShouldMatchers {
+class ExtendedMessageTest extends FunSuite with Matchers {
 
 	test("ExtendableMessage") {
     val foo = 0

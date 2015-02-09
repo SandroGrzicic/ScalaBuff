@@ -1,7 +1,6 @@
 package tests
 
-import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{FunSuite, Matchers}
 import net.sandrogrzicic.scalabuff.compiler._
 import java.io.{FileFilter, PrintStream, ByteArrayOutputStream, File}
 import File.{separator => SEP}
@@ -11,7 +10,7 @@ import File.{separator => SEP}
  * @author Sandro Gržičić
  */
 
-class PerformanceTest extends FunSuite with ShouldMatchers {
+class PerformanceTest extends FunSuite with Matchers {
 
   val WARMUP_COUNT = 50
   val REPEAT_COUNT = 50

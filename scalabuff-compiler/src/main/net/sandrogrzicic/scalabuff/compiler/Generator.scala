@@ -306,8 +306,19 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
         out.append("= ")
         if(isOptional)out.append("Some(")
         if (field.fType == WIRETYPE_LENGTH_DELIMITED) out.append("in.readBytes()")
-        else if (field.fType.isEnum) out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
-        else if (field.fType.isMessage) {
+        else if (field.fType.isEnum) {
+          // IFF this is an optional field, AND it has a default (i.e. is not
+          // None), then fall back to using that default if an exception is
+          // thrown.
+          if (isOptional && field.defaultValue != "None") {
+            out.append("try { ")
+            out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
+            out.append(" } catch { case e: Exception => ").append(field.defaultValue).append(".get }")
+
+          } else {
+            out.append(field.fType.scalaType.takeUntilLast('.')).append(".valueOf(in.readEnum())")
+          }
+        } else if (field.fType.isMessage) {
 
           out.append("readMessage[").append(field.fType.scalaType).append("](in, ")
           field.label match {

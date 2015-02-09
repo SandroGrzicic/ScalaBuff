@@ -22,7 +22,7 @@ final case class NumbersTest1 (
 		if (`someOctNumber`.isDefined) output.writeInt32(2, `someOctNumber`.get)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		if (`someHexNumber`.isDefined) __size += computeInt32Size(1, `someHexNumber`.get)
@@ -65,6 +65,19 @@ final case class NumbersTest1 (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			if (`someHexNumber`.isDefined) { sb.append(indent1).append("\"someHexNumber\": ").append("\"").append(`someHexNumber`.get).append("\"").append(',') }
+			if (`someOctNumber`.isDefined) { sb.append(indent1).append("\"someOctNumber\": ").append("\"").append(`someOctNumber`.get).append("\"").append(',') }
+		sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object NumbersTest1 {
@@ -107,4 +120,14 @@ object Numbers {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 
+	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
+		 "NumbersTest1" -> (bytes ⇒ NumbersTest1.parseFrom(bytes))
+	)
+
+	def deserializePayload(payload: Array[Byte], payloadType: String): com.google.protobuf.GeneratedMessageLite = {
+		fromBinaryHintMap.get(payloadType) match {
+			case Some(f) ⇒ f(payload)
+			case None    ⇒ throw new IllegalArgumentException(s"unimplemented deserialization of message payload of type [${payloadType}]")
+		}
+	}
 }

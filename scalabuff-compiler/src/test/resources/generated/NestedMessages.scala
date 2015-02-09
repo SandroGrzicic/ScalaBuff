@@ -16,7 +16,7 @@ final case class TopLevel (
 		output.writeUInt32(1, `idToplevel`)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeUInt32Size(1, `idToplevel`)
@@ -54,6 +54,18 @@ final case class TopLevel (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"idToplevel\": ").append("\"").append(`idToplevel`).append("\"").append(',')
+		sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object TopLevel {
@@ -83,7 +95,7 @@ object TopLevel {
 			output.writeUInt32(1, `idInner`)
 		}
 
-		lazy val getSerializedSize = {
+		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
 			__size += computeUInt32Size(1, `idInner`)
@@ -121,6 +133,18 @@ object TopLevel {
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
+		def toJson(indent: Int = 0): String = {
+			val indent0 = "\n" + ("\t" * indent)
+			val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+			val sb = StringBuilder.newBuilder
+			sb
+				.append("{")
+				sb.append(indent1).append("\"idInner\": ").append("\"").append(`idInner`).append("\"").append(',')
+			sb.length -= 1
+			sb.append(indent0).append("}")
+			sb.toString()
+		}
+
 	}
 
 	object Inner {
@@ -143,9 +167,9 @@ final case class Foobar (
 	`reqFoo`: Foobar.Foo = Foobar.Foo.defaultInstance,
 	`optFoo`: Option[Foobar.Foo] = None,
 	`optBar`: Option[Foobar.Bar] = None,
-	`repFoo`: collection.immutable.Seq[Foobar.Foo] = Vector.empty[Foobar.Foo],
-	`repBar`: collection.immutable.Seq[Foobar.Bar] = Vector.empty[Foobar.Bar],
-	`repFooBar`: collection.immutable.Seq[Foobar.FooBar] = Vector.empty[Foobar.FooBar],
+	`repFoo`: scala.collection.immutable.Seq[Foobar.Foo] = Vector.empty[Foobar.Foo],
+	`repBar`: scala.collection.immutable.Seq[Foobar.Bar] = Vector.empty[Foobar.Bar],
+	`repFooBar`: scala.collection.immutable.Seq[Foobar.FooBar] = Vector.empty[Foobar.FooBar],
 	`topLevelReq`: TopLevel = TopLevel.defaultInstance,
 	`topLevelOpt`: Option[TopLevel] = None,
 	`topLevelInnerReq`: TopLevel.Inner = TopLevel.Inner.defaultInstance
@@ -189,7 +213,7 @@ final case class Foobar (
 		output.writeMessage(9, `topLevelInnerReq`)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeMessageSize(1, `reqFoo`)
@@ -210,9 +234,9 @@ final case class Foobar (
 		var __reqFoo: Foobar.Foo = Foobar.Foo.defaultInstance
 		var __optFoo: Option[Foobar.Foo] = `optFoo`
 		var __optBar: Option[Foobar.Bar] = `optBar`
-		val __repFoo: collection.mutable.Buffer[Foobar.Foo] = `repFoo`.toBuffer
-		val __repBar: collection.mutable.Buffer[Foobar.Bar] = `repBar`.toBuffer
-		val __repFooBar: collection.mutable.Buffer[Foobar.FooBar] = `repFooBar`.toBuffer
+		val __repFoo: scala.collection.mutable.Buffer[Foobar.Foo] = `repFoo`.toBuffer
+		val __repBar: scala.collection.mutable.Buffer[Foobar.Bar] = `repBar`.toBuffer
+		val __repFooBar: scala.collection.mutable.Buffer[Foobar.FooBar] = `repFooBar`.toBuffer
 		var __topLevelReq: TopLevel = TopLevel.defaultInstance
 		var __topLevelOpt: Option[TopLevel] = `topLevelOpt`
 		var __topLevelInnerReq: TopLevel.Inner = TopLevel.Inner.defaultInstance
@@ -276,6 +300,26 @@ final case class Foobar (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"reqFoo\": ").append(`reqFoo`.toJson(indent + 1)).append(',')
+			if (`optFoo`.isDefined) { sb.append(indent1).append("\"optFoo\": ").append(`optFoo`.get.toJson(indent + 1)).append(',') }
+			if (`optBar`.isDefined) { sb.append(indent1).append("\"optBar\": ").append(`optBar`.get.toJson(indent + 1)).append(',') }
+			sb.append(indent1).append("\"repFoo\": [").append(indent2).append(`repFoo`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
+			sb.append(indent1).append("\"repBar\": [").append(indent2).append(`repBar`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
+			sb.append(indent1).append("\"repFooBar\": [").append(indent2).append(`repFooBar`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
+			sb.append(indent1).append("\"topLevelReq\": ").append(`topLevelReq`.toJson(indent + 1)).append(',')
+			if (`topLevelOpt`.isDefined) { sb.append(indent1).append("\"topLevelOpt\": ").append(`topLevelOpt`.get.toJson(indent + 1)).append(',') }
+			sb.append(indent1).append("\"topLevelInnerReq\": ").append(`topLevelInnerReq`.toJson(indent + 1)).append(',')
+		sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object Foobar {
@@ -315,7 +359,7 @@ object Foobar {
 			if (`id`.isDefined) output.writeUInt64(1, `id`.get)
 		}
 
-		lazy val getSerializedSize = {
+		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
 			if (`id`.isDefined) __size += computeUInt64Size(1, `id`.get)
@@ -353,6 +397,18 @@ object Foobar {
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
+		def toJson(indent: Int = 0): String = {
+			val indent0 = "\n" + ("\t" * indent)
+			val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+			val sb = StringBuilder.newBuilder
+			sb
+				.append("{")
+				if (`id`.isDefined) { sb.append(indent1).append("\"id\": ").append("\"").append(`id`.get).append("\"").append(',') }
+			sb.length -= 1
+			sb.append(indent0).append("}")
+			sb.toString()
+		}
+
 	}
 
 	object Foo {
@@ -385,7 +441,7 @@ object Foobar {
 			if (`id`.isDefined) output.writeUInt64(1, `id`.get)
 		}
 
-		lazy val getSerializedSize = {
+		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
 			if (`id`.isDefined) __size += computeUInt64Size(1, `id`.get)
@@ -423,6 +479,18 @@ object Foobar {
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
+		def toJson(indent: Int = 0): String = {
+			val indent0 = "\n" + ("\t" * indent)
+			val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+			val sb = StringBuilder.newBuilder
+			sb
+				.append("{")
+				if (`id`.isDefined) { sb.append(indent1).append("\"id\": ").append("\"").append(`id`.get).append("\"").append(',') }
+			sb.length -= 1
+			sb.append(indent0).append("}")
+			sb.toString()
+		}
+
 	}
 
 	object Bar {
@@ -455,7 +523,7 @@ object Foobar {
 			if (`id`.isDefined) output.writeUInt64(1, `id`.get)
 		}
 
-		lazy val getSerializedSize = {
+		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
 			if (`id`.isDefined) __size += computeUInt64Size(1, `id`.get)
@@ -493,6 +561,18 @@ object Foobar {
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
+		def toJson(indent: Int = 0): String = {
+			val indent0 = "\n" + ("\t" * indent)
+			val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+			val sb = StringBuilder.newBuilder
+			sb
+				.append("{")
+				if (`id`.isDefined) { sb.append(indent1).append("\"id\": ").append("\"").append(`id`.get).append("\"").append(',') }
+			sb.length -= 1
+			sb.append(indent0).append("}")
+			sb.toString()
+		}
+
 	}
 
 	object FooBar {
@@ -516,4 +596,15 @@ object NestedMessages {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 
+	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
+		 "TopLevel" -> (bytes ⇒ TopLevel.parseFrom(bytes)),
+		 "Foobar" -> (bytes ⇒ Foobar.parseFrom(bytes))
+	)
+
+	def deserializePayload(payload: Array[Byte], payloadType: String): com.google.protobuf.GeneratedMessageLite = {
+		fromBinaryHintMap.get(payloadType) match {
+			case Some(f) ⇒ f(payload)
+			case None    ⇒ throw new IllegalArgumentException(s"unimplemented deserialization of message payload of type [${payloadType}]")
+		}
+	}
 }
