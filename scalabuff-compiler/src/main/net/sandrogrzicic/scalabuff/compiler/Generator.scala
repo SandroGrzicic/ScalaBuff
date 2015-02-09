@@ -73,7 +73,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
           out.append(indent).append("\t")
             .append("case ").append(const.id).append(" => ").append(const.name).append("\n")
         }
-        out.append(indent).append("\t").append("case _default => throw new net.sandrogrzicic.scalabuff.UnknownEnumException(_default)\n");
+        out.append(indent).append("\t").append("case _default => throw new net.sandrogrzicic.scalabuff.UnknownEnumException(_default)\n")
         out.append(indent).append("}\n")
       } else { // O(n)
         out.append("values.find(_.id == id).orNull\n")
@@ -426,7 +426,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
               case _ =>
             }
           }
-        out.append(indent2).append("sb.length -= 1\n")
+        out.append(indent2).append("if (sb.last.equals(',')) sb.length -= 1\n")
         out.append(indent2).append("sb.append(indent0).append(\"}\")\n")
 
         out.append(indent2).append("sb.toString()\n")
@@ -563,7 +563,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
     }
 
     if (matchingTypeName) {
-      throw new GenerationFailureException("Cannot generate valid Scala output because the class name, '%s' for the extension registry class matches the name of one of the messages or enums declared in the .proto.  Please either rename the type or use the java_outer_classname option to specify a different class name for the .proto file.".format(className));
+      throw new GenerationFailureException("Cannot generate valid Scala output because the class name, '%s' for the extension registry class matches the name of one of the messages or enums declared in the .proto.  Please either rename the type or use the java_outer_classname option to specify a different class name for the .proto file.".format(className))
       }
 
     val output = StringBuilder.newBuilder
@@ -596,7 +596,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       .append("\t}\n\n")
 
       .append("\tprivate val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](").append("\n")
-      .append(messageNames.map { m => "\t\t" + s""" "$m" -> (bytes ⇒ $m.parseFrom(bytes))""" } mkString(",\n"))
+      .append(messageNames.map { m => "\t\t" + s""" "$m" -> (bytes ⇒ $m.parseFrom(bytes))""" } mkString ",\n")
       .append("\n\t)").append("\n")
 
       .append("\n")
@@ -691,11 +691,11 @@ object Generator {
       case parent @ Message(parentName, parentBody) =>
         // prepend parent class names to messages
         parentBody.messages.foreach {
-          case child @ Message(_, nestedMessage) => {
+          case child @ Message(_, nestedMessage) =>
             val filteredFields = parentBody.fields.withFilter(f => f.fType.isMessage && !processedFieldTypes(f.fType))
             for (field <- filteredFields) {
               val fType = field.fType
-              // prepend only if the mesage type is a child of the parent message   
+              // prepend only if the mesage type is a child of the parent message
               if (nestedMessageTypes(parent).contains(fType.scalaType)) {
                 fType.scalaType = parentName + "." + fType.scalaType
                 fType.defaultValue = parentName + "." + fType.defaultValue
@@ -704,18 +704,16 @@ object Generator {
             }
             // recurse for any nested messages
             prependParentClassNames(child :: nestedMessage.messages, nestedMessageTypes)
-          }
         }
         // prepend parent class names to all nested enums
         parentBody.enums.foreach {
-          case EnumStatement(eName, eConstants, eOptions) => {
+          case EnumStatement(eName, eConstants, eOptions) =>
             for (field <- parentBody.fields.withFilter { f => f.fType.isEnum && !processedEnums(f.fType) }) {
               val fType = field.fType
               processedEnums += fType
               fType.scalaType = parentName + "." + fType.scalaType
               fType.defaultValue = fType.scalaType.replace(".EnumVal", "") + "._UNINITIALIZED"
             }
-          }
         }
       case _ =>
     }
