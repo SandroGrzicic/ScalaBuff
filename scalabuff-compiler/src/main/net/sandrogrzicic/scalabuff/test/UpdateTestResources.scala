@@ -1,7 +1,7 @@
 package net.sandrogrzicic.scalabuff.test
 
 import net.sandrogrzicic.scalabuff.compiler._
-import java.io.File.{separator => SEP}
+import java.io.File.{separator => /}
 import java.io._
 import scala.Some
 
@@ -28,13 +28,16 @@ object UpdateTestResources extends App {
 			def accept(filtered: File) = filtered.getName.endsWith(protoExtension)
 		}
 
-    val testDir = "scalabuff-compiler" + SEP +  "src" + SEP + "test" + SEP
+    val testDir = "scalabuff-compiler" + / +  "src" + / + "test" + /
 
-    val parsedDir = testDir + "resources" + SEP + "parsed" + SEP
+    val parsedDir = testDir + "resources" + / + "parsed" + /
 
-    val protoDirFile = new File(testDir + "resources" + SEP + "proto" + SEP)
+    val protoDirFile = new File(testDir + "resources" + / + "proto" + /)
 
-		for (file <- protoDirFile.listFiles(protoFileFilter)) {
+    println(s"Processing files in directory ($protoDirFile)...\n")
+
+    val protoFiles = protoDirFile.listFiles(protoFileFilter)
+		for (file <- protoFiles) {
 			val fileName = file.getName.dropRight(protoExtension.length).camelCase
 			val generatedParsedFile = new File(parsedDir + fileName + parsedExtension)
 			generatedParsedFile.delete()
@@ -95,6 +98,8 @@ object UpdateTestResources extends App {
     }
 			println(fileName)
 		}
+
+    println(s"\nFinished processing (${protoFiles.length}) files.")
 	}
 
 }

@@ -144,7 +144,7 @@ final case class SimpleTest (
 			if (`stringDefault`.isDefined) { sb.append(indent1).append("\"stringDefault\": ").append("\"").append(`stringDefault`.get).append("\"").append(',') }
 			if (`floatDefault`.isDefined) { sb.append(indent1).append("\"floatDefault\": ").append("\"").append(`floatDefault`.get).append("\"").append(',') }
 			if (`floatNegative`.isDefined) { sb.append(indent1).append("\"floatNegative\": ").append("\"").append(`floatNegative`.get).append("\"").append(',') }
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -152,7 +152,7 @@ final case class SimpleTest (
 }
 
 object SimpleTest {
-	@reflect.BeanProperty val defaultInstance = new SimpleTest()
+	@scala.beans.BeanProperty val defaultInstance = new SimpleTest()
 
 	def parseFrom(data: Array[Byte]): SimpleTest = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): SimpleTest = defaultInstance.mergeFrom(data, offset, length)

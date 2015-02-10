@@ -1,5 +1,7 @@
 package net.sandrogrzicic.scalabuff
 
+import scala.language.implicitConversions
+
 /**
  * Viktor Klang's Enum, modified for ScalaBuff for protobuf usage
  * Source: https://gist.github.com/1057513/
@@ -10,7 +12,7 @@ trait Enum {
 
 	type EnumVal <: Value
 
-	implicit def _enumToInt(_e: EnumVal) = _e.id
+	implicit def _enumToInt(_e: EnumVal): Int = _e.id
 
 	private val _values = new AtomicReference(Vector[EnumVal]())
 

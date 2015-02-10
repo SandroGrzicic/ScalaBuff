@@ -56,7 +56,7 @@ final case class EmptyMessage (
 		val sb = StringBuilder.newBuilder
 		sb
 			.append("{")
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -64,7 +64,7 @@ final case class EmptyMessage (
 }
 
 object EmptyMessage {
-	@reflect.BeanProperty val defaultInstance = new EmptyMessage()
+	@scala.beans.BeanProperty val defaultInstance = new EmptyMessage()
 
 	def parseFrom(data: Array[Byte]): EmptyMessage = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): EmptyMessage = defaultInstance.mergeFrom(data, offset, length)

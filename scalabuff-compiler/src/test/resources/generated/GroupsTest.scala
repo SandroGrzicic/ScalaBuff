@@ -56,7 +56,7 @@ final case class Groups (
 		val sb = StringBuilder.newBuilder
 		sb
 			.append("{")
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -64,7 +64,7 @@ final case class Groups (
 }
 
 object Groups {
-	@reflect.BeanProperty val defaultInstance = new Groups()
+	@scala.beans.BeanProperty val defaultInstance = new Groups()
 
 	def parseFrom(data: Array[Byte]): Groups = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): Groups = defaultInstance.mergeFrom(data, offset, length)

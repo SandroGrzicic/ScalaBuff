@@ -61,7 +61,7 @@ final case class TopLevel (
 		sb
 			.append("{")
 			sb.append(indent1).append("\"idToplevel\": ").append("\"").append(`idToplevel`).append("\"").append(',')
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -69,7 +69,7 @@ final case class TopLevel (
 }
 
 object TopLevel {
-	@reflect.BeanProperty val defaultInstance = new TopLevel()
+	@scala.beans.BeanProperty val defaultInstance = new TopLevel()
 
 	def parseFrom(data: Array[Byte]): TopLevel = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): TopLevel = defaultInstance.mergeFrom(data, offset, length)
@@ -140,7 +140,7 @@ object TopLevel {
 			sb
 				.append("{")
 				sb.append(indent1).append("\"idInner\": ").append("\"").append(`idInner`).append("\"").append(',')
-			sb.length -= 1
+			if (sb.last.equals(',')) sb.length -= 1
 			sb.append(indent0).append("}")
 			sb.toString()
 		}
@@ -148,7 +148,7 @@ object TopLevel {
 	}
 
 	object Inner {
-		@reflect.BeanProperty val defaultInstance = new Inner()
+		@scala.beans.BeanProperty val defaultInstance = new Inner()
 
 		def parseFrom(data: Array[Byte]): Inner = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Inner = defaultInstance.mergeFrom(data, offset, length)
@@ -315,7 +315,7 @@ final case class Foobar (
 			sb.append(indent1).append("\"topLevelReq\": ").append(`topLevelReq`.toJson(indent + 1)).append(',')
 			if (`topLevelOpt`.isDefined) { sb.append(indent1).append("\"topLevelOpt\": ").append(`topLevelOpt`.get.toJson(indent + 1)).append(',') }
 			sb.append(indent1).append("\"topLevelInnerReq\": ").append(`topLevelInnerReq`.toJson(indent + 1)).append(',')
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -323,7 +323,7 @@ final case class Foobar (
 }
 
 object Foobar {
-	@reflect.BeanProperty val defaultInstance = new Foobar()
+	@scala.beans.BeanProperty val defaultInstance = new Foobar()
 
 	def parseFrom(data: Array[Byte]): Foobar = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): Foobar = defaultInstance.mergeFrom(data, offset, length)
@@ -404,7 +404,7 @@ object Foobar {
 			sb
 				.append("{")
 				if (`id`.isDefined) { sb.append(indent1).append("\"id\": ").append("\"").append(`id`.get).append("\"").append(',') }
-			sb.length -= 1
+			if (sb.last.equals(',')) sb.length -= 1
 			sb.append(indent0).append("}")
 			sb.toString()
 		}
@@ -412,7 +412,7 @@ object Foobar {
 	}
 
 	object Foo {
-		@reflect.BeanProperty val defaultInstance = new Foo()
+		@scala.beans.BeanProperty val defaultInstance = new Foo()
 
 		def parseFrom(data: Array[Byte]): Foo = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Foo = defaultInstance.mergeFrom(data, offset, length)
@@ -486,7 +486,7 @@ object Foobar {
 			sb
 				.append("{")
 				if (`id`.isDefined) { sb.append(indent1).append("\"id\": ").append("\"").append(`id`.get).append("\"").append(',') }
-			sb.length -= 1
+			if (sb.last.equals(',')) sb.length -= 1
 			sb.append(indent0).append("}")
 			sb.toString()
 		}
@@ -494,7 +494,7 @@ object Foobar {
 	}
 
 	object Bar {
-		@reflect.BeanProperty val defaultInstance = new Bar()
+		@scala.beans.BeanProperty val defaultInstance = new Bar()
 
 		def parseFrom(data: Array[Byte]): Bar = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Bar = defaultInstance.mergeFrom(data, offset, length)
@@ -568,7 +568,7 @@ object Foobar {
 			sb
 				.append("{")
 				if (`id`.isDefined) { sb.append(indent1).append("\"id\": ").append("\"").append(`id`.get).append("\"").append(',') }
-			sb.length -= 1
+			if (sb.last.equals(',')) sb.length -= 1
 			sb.append(indent0).append("}")
 			sb.toString()
 		}
@@ -576,7 +576,7 @@ object Foobar {
 	}
 
 	object FooBar {
-		@reflect.BeanProperty val defaultInstance = new FooBar()
+		@scala.beans.BeanProperty val defaultInstance = new FooBar()
 
 		def parseFrom(data: Array[Byte]): FooBar = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): FooBar = defaultInstance.mergeFrom(data, offset, length)

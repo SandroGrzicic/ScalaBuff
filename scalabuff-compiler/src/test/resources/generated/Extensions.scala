@@ -60,7 +60,7 @@ final case class ExtensionsTest (
 		sb
 			.append("{")
 			sb.append(indent1).append("\"foo\": ").append("\"").append(`foo`).append("\"").append(',')
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -68,7 +68,7 @@ final case class ExtensionsTest (
 }
 
 object ExtensionsTest {
-	@reflect.BeanProperty val defaultInstance = new ExtensionsTest()
+	@scala.beans.BeanProperty val defaultInstance = new ExtensionsTest()
 
 	def parseFrom(data: Array[Byte]): ExtensionsTest = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): ExtensionsTest = defaultInstance.mergeFrom(data, offset, length)

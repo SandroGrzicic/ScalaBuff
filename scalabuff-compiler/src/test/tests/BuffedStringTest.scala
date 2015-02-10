@@ -2,6 +2,7 @@ package tests
 
 import org.scalatest.{FunSuite, Matchers}
 import net.sandrogrzicic.scalabuff.compiler.BuffedString
+import scala.language.implicitConversions
 
 /**
  * Tests for the BuffedString string helper class.

@@ -1,5 +1,7 @@
 package net.sandrogrzicic.scalabuff
 
+import scala.language.implicitConversions
+
 /**
  * Useful things for this package.
  */

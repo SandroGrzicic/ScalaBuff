@@ -81,7 +81,7 @@ final case class SimpleRequest (
 			sb.append(indent1).append("\"query\": ").append("\"").append(`query`).append("\"").append(',')
 			if (`pageNumber`.isDefined) { sb.append(indent1).append("\"pageNumber\": ").append("\"").append(`pageNumber`.get).append("\"").append(',') }
 			if (`resultsPerPage`.isDefined) { sb.append(indent1).append("\"resultsPerPage\": ").append("\"").append(`resultsPerPage`.get).append("\"").append(',') }
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -89,7 +89,7 @@ final case class SimpleRequest (
 }
 
 object SimpleRequest {
-	@reflect.BeanProperty val defaultInstance = new SimpleRequest()
+	@scala.beans.BeanProperty val defaultInstance = new SimpleRequest()
 
 	def parseFrom(data: Array[Byte]): SimpleRequest = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): SimpleRequest = defaultInstance.mergeFrom(data, offset, length)

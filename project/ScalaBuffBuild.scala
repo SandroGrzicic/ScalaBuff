@@ -8,13 +8,13 @@ import com.typesafe.sbt.osgi.SbtOsgi._
  *
  * Useful SBT commands:
  *
- *      run (arguments)             Runs ScalaBuff inside SBT with the specified arguments.
- *      test                        Runs the tests.
- *      package                     Generates the main ScalaBuff compiler .JAR.
- *      update-test-resources       Regenerates the test resources using ScalaBuff.
+ *   run (arguments)             Runs ScalaBuff inside SBT with the specified arguments.
+ *   test                        Runs the tests.
+ *   package                     Generates the main ScalaBuff compiler .JAR.
+ *   update-test-resources       Regenerates the test resources using ScalaBuff.
  *
- *      project scalabuff-compiler            Switches to the compiler project (default).
- *      project scalabuff-runtime             Switches to the runtime project.
+ *   project scalabuff-compiler  Switches to the compiler project (default).
+ *   project scalabuff-runtime   Switches to the runtime project.
  *
  */
 object ScalaBuffBuild extends Build {
@@ -22,8 +22,8 @@ object ScalaBuffBuild extends Build {
 	lazy val buildSettings = Seq(
 		name := "ScalaBuff",
 		organization := "net.sandrogrzicic",
-		version := "1.3.9",
-		scalaVersion := "2.10.4",
+		version := "1.4.0",
+		scalaVersion := "2.11.4",
 		logLevel := Level.Info
 	)
 
@@ -44,28 +44,19 @@ object ScalaBuffBuild extends Build {
 		),
 		
 		libraryDependencies ++= Seq(
-			"com.google.protobuf" % "protobuf-java" % "2.5.0"
-		) ++ (CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, scalaMajor)) if scalaMajor >= 10 =>
-        Seq("org.scalatest" %% "scalatest" % "2.1.5" % "test") ++ (
-          if (scalaMajor >= 11) Seq("org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.1") else Seq()
-        )
-      case Some((2, scalaMajor)) if scalaMajor == 9 =>
-        Seq("org.scalatest" %% "scalatest" % "1.9.2" % "test")
+			"com.google.protobuf" % "protobuf-java" % "2.5.0",
+      "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+		) ++
+		  (CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, scalaMajor)) if scalaMajor >= 11 =>
+        Seq("org.scala-lang.modules" %% "scala-parser-combinators" % "1.0.3")
       case _ =>
         Seq()
     }),
 
-		crossScalaVersions ++= Seq("2.10.4", "2.11.2"),
+		crossScalaVersions ++= Seq("2.10.4", "2.11.4"),
 		
-		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation", "-Xlint"),
-		scalacOptions ++=
-		  (CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, scalaMajor)) if scalaMajor >= 10 =>
-          Seq("-Xlog-reflective-calls")
-        case _ =>
-         Seq()
-       }),
+		scalacOptions ++= Seq("-encoding", "utf8", "-unchecked", "-deprecation", "-Xlint", "-feature", "-Xlog-reflective-calls"),
 
 		javacOptions ++= Seq("-encoding", "utf8", "-Xlint:unchecked", "-Xlint:deprecation"),
 

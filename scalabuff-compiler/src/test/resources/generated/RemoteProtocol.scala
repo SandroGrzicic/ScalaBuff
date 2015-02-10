@@ -79,7 +79,7 @@ final case class AkkaRemoteProtocol (
 			.append("{")
 			if (`message`.isDefined) { sb.append(indent1).append("\"message\": ").append(`message`.get.toJson(indent + 1)).append(',') }
 			if (`instruction`.isDefined) { sb.append(indent1).append("\"instruction\": ").append(`instruction`.get.toJson(indent + 1)).append(',') }
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -87,7 +87,7 @@ final case class AkkaRemoteProtocol (
 }
 
 object AkkaRemoteProtocol {
-	@reflect.BeanProperty val defaultInstance = new AkkaRemoteProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new AkkaRemoteProtocol()
 
 	def parseFrom(data: Array[Byte]): AkkaRemoteProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): AkkaRemoteProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -194,7 +194,7 @@ final case class RemoteMessageProtocol (
 			sb.append(indent1).append("\"message\": ").append(`message`.toJson(indent + 1)).append(',')
 			if (`sender`.isDefined) { sb.append(indent1).append("\"sender\": ").append(`sender`.get.toJson(indent + 1)).append(',') }
 			sb.append(indent1).append("\"metadata\": [").append(indent2).append(`metadata`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -202,7 +202,7 @@ final case class RemoteMessageProtocol (
 }
 
 object RemoteMessageProtocol {
-	@reflect.BeanProperty val defaultInstance = new RemoteMessageProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new RemoteMessageProtocol()
 
 	def parseFrom(data: Array[Byte]): RemoteMessageProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): RemoteMessageProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -300,7 +300,7 @@ final case class RemoteControlProtocol (
 			sb.append(indent1).append("\"commandType\": ").append("\"").append(`commandType`).append("\"").append(',')
 			if (`cookie`.isDefined) { sb.append(indent1).append("\"cookie\": ").append("\"").append(`cookie`.get).append("\"").append(',') }
 			if (`origin`.isDefined) { sb.append(indent1).append("\"origin\": ").append(`origin`.get.toJson(indent + 1)).append(',') }
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -308,7 +308,7 @@ final case class RemoteControlProtocol (
 }
 
 object RemoteControlProtocol {
-	@reflect.BeanProperty val defaultInstance = new RemoteControlProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new RemoteControlProtocol()
 
 	def parseFrom(data: Array[Byte]): RemoteControlProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): RemoteControlProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -404,7 +404,7 @@ final case class ActorRefProtocol (
 		sb
 			.append("{")
 			sb.append(indent1).append("\"path\": ").append("\"").append(`path`).append("\"").append(',')
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -412,7 +412,7 @@ final case class ActorRefProtocol (
 }
 
 object ActorRefProtocol {
-	@reflect.BeanProperty val defaultInstance = new ActorRefProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new ActorRefProtocol()
 
 	def parseFrom(data: Array[Byte]): ActorRefProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): ActorRefProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -502,7 +502,7 @@ final case class MessageProtocol (
 			sb.append(indent1).append("\"message\": ").append("\"").append(`message`).append("\"").append(',')
 			sb.append(indent1).append("\"serializerId\": ").append("\"").append(`serializerId`).append("\"").append(',')
 			if (`messageManifest`.isDefined) { sb.append(indent1).append("\"messageManifest\": ").append("\"").append(`messageManifest`.get).append("\"").append(',') }
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -510,7 +510,7 @@ final case class MessageProtocol (
 }
 
 object MessageProtocol {
-	@reflect.BeanProperty val defaultInstance = new MessageProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new MessageProtocol()
 
 	def parseFrom(data: Array[Byte]): MessageProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): MessageProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -592,7 +592,7 @@ final case class MetadataEntryProtocol (
 			.append("{")
 			sb.append(indent1).append("\"key\": ").append("\"").append(`key`).append("\"").append(',')
 			sb.append(indent1).append("\"value\": ").append("\"").append(`value`).append("\"").append(',')
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -600,7 +600,7 @@ final case class MetadataEntryProtocol (
 }
 
 object MetadataEntryProtocol {
-	@reflect.BeanProperty val defaultInstance = new MetadataEntryProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new MetadataEntryProtocol()
 
 	def parseFrom(data: Array[Byte]): MetadataEntryProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): MetadataEntryProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -689,7 +689,7 @@ final case class AddressProtocol (
 			sb.append(indent1).append("\"system\": ").append("\"").append(`system`).append("\"").append(',')
 			sb.append(indent1).append("\"hostname\": ").append("\"").append(`hostname`).append("\"").append(',')
 			sb.append(indent1).append("\"port\": ").append("\"").append(`port`).append("\"").append(',')
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -697,7 +697,7 @@ final case class AddressProtocol (
 }
 
 object AddressProtocol {
-	@reflect.BeanProperty val defaultInstance = new AddressProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new AddressProtocol()
 
 	def parseFrom(data: Array[Byte]): AddressProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): AddressProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -795,7 +795,7 @@ final case class DaemonMsgCreateProtocol (
 			sb.append(indent1).append("\"deploy\": ").append(`deploy`.toJson(indent + 1)).append(',')
 			sb.append(indent1).append("\"path\": ").append("\"").append(`path`).append("\"").append(',')
 			sb.append(indent1).append("\"supervisor\": ").append(`supervisor`.toJson(indent + 1)).append(',')
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -803,7 +803,7 @@ final case class DaemonMsgCreateProtocol (
 }
 
 object DaemonMsgCreateProtocol {
-	@reflect.BeanProperty val defaultInstance = new DaemonMsgCreateProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new DaemonMsgCreateProtocol()
 
 	def parseFrom(data: Array[Byte]): DaemonMsgCreateProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): DaemonMsgCreateProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -916,7 +916,7 @@ final case class PropsProtocol (
 			if (`fromClassCreator`.isDefined) { sb.append(indent1).append("\"fromClassCreator\": ").append("\"").append(`fromClassCreator`.get).append("\"").append(',') }
 			if (`creator`.isDefined) { sb.append(indent1).append("\"creator\": ").append("\"").append(`creator`.get).append("\"").append(',') }
 			if (`routerConfig`.isDefined) { sb.append(indent1).append("\"routerConfig\": ").append("\"").append(`routerConfig`.get).append("\"").append(',') }
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -924,7 +924,7 @@ final case class PropsProtocol (
 }
 
 object PropsProtocol {
-	@reflect.BeanProperty val defaultInstance = new PropsProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new PropsProtocol()
 
 	def parseFrom(data: Array[Byte]): PropsProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): PropsProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -1030,7 +1030,7 @@ final case class DeployProtocol (
 			if (`config`.isDefined) { sb.append(indent1).append("\"config\": ").append("\"").append(`config`.get).append("\"").append(',') }
 			if (`routerConfig`.isDefined) { sb.append(indent1).append("\"routerConfig\": ").append("\"").append(`routerConfig`.get).append("\"").append(',') }
 			if (`scope`.isDefined) { sb.append(indent1).append("\"scope\": ").append("\"").append(`scope`.get).append("\"").append(',') }
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -1038,7 +1038,7 @@ final case class DeployProtocol (
 }
 
 object DeployProtocol {
-	@reflect.BeanProperty val defaultInstance = new DeployProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new DeployProtocol()
 
 	def parseFrom(data: Array[Byte]): DeployProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): DeployProtocol = defaultInstance.mergeFrom(data, offset, length)

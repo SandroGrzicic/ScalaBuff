@@ -73,7 +73,7 @@ final case class NumbersTest1 (
 			.append("{")
 			if (`someHexNumber`.isDefined) { sb.append(indent1).append("\"someHexNumber\": ").append("\"").append(`someHexNumber`.get).append("\"").append(',') }
 			if (`someOctNumber`.isDefined) { sb.append(indent1).append("\"someOctNumber\": ").append("\"").append(`someOctNumber`.get).append("\"").append(',') }
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -81,7 +81,7 @@ final case class NumbersTest1 (
 }
 
 object NumbersTest1 {
-	@reflect.BeanProperty val defaultInstance = new NumbersTest1()
+	@scala.beans.BeanProperty val defaultInstance = new NumbersTest1()
 
 	def parseFrom(data: Array[Byte]): NumbersTest1 = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): NumbersTest1 = defaultInstance.mergeFrom(data, offset, length)

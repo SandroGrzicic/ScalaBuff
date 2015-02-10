@@ -2,6 +2,7 @@ package net.sandrogrzicic.scalabuff
 
 import com.google.protobuf.{ExtensionRegistryLite, CodedInputStream, ByteString}
 import java.io.InputStream
+import scala.language.implicitConversions
 
 /**
  * Message trait for messages generated with ScalaBuff.
@@ -120,7 +121,7 @@ trait MessageBuilder[MessageType] {
     val length = in.readRawVarint32()
     val oldLimit = in.pushLimit(length)
 
-    val newMessage = message.mergeFrom(in, extensionRegistry).asInstanceOf[ReadMessageType]
+    val newMessage = message.mergeFrom(in, extensionRegistry)
 
     in.checkLastTagWas(0)
     in.popLimit(oldLimit)

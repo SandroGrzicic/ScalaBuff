@@ -82,7 +82,14 @@ final case class DataTypes (
 		if (`lengthDelim2`.isDefined) output.writeBytes(201, `lengthDelim2`.get)
 		if (`lengthDelim3`.isDefined) output.writeEnum(202, `lengthDelim3`.get)
 		for (_v <- `lengthDelim4`) output.writeInt32(204, _v)
-		for (_v <- `lengthDelim5`) output.writeInt32(203, _v)
+		// write field length_delim5 packed 
+		if (!`lengthDelim5`.isEmpty) {
+			import com.google.protobuf.CodedOutputStream._
+			val dataSize = `lengthDelim5`.map(computeInt32SizeNoTag(_)).sum 
+			output.writeRawVarint32(1626)
+			output.writeRawVarint32(dataSize)
+			for (_v <- `lengthDelim5`) output.writeInt32NoTag(_v)
+		}
 		if (`f32bit1`.isDefined) output.writeFixed32(500, `f32bit1`.get)
 		if (`f32bit2`.isDefined) output.writeSFixed32(501, `f32bit2`.get)
 		if (`f32bit3`.isDefined) output.writeFloat(502, `f32bit3`.get)
@@ -105,7 +112,10 @@ final case class DataTypes (
 		if (`lengthDelim2`.isDefined) __size += computeBytesSize(201, `lengthDelim2`.get)
 		if (`lengthDelim3`.isDefined) __size += computeEnumSize(202, `lengthDelim3`.get)
 		for (_v <- `lengthDelim4`) __size += computeInt32Size(204, _v)
-		for (_v <- `lengthDelim5`) __size += computeInt32Size(203, _v)
+		if (!`lengthDelim5`.isEmpty) {
+			val dataSize = `lengthDelim5`.map(computeInt32SizeNoTag(_)).sum 
+			__size += 2 + computeInt32SizeNoTag(dataSize) + dataSize
+		}
 		if (`f32bit1`.isDefined) __size += computeFixed32Size(500, `f32bit1`.get)
 		if (`f32bit2`.isDefined) __size += computeSFixed32Size(501, `f32bit2`.get)
 		if (`f32bit3`.isDefined) __size += computeFloatSize(502, `f32bit3`.get)
@@ -249,7 +259,7 @@ final case class DataTypes (
 			if (`f32bit1`.isDefined) { sb.append(indent1).append("\"f32bit1\": ").append("\"").append(`f32bit1`.get).append("\"").append(',') }
 			if (`f32bit2`.isDefined) { sb.append(indent1).append("\"f32bit2\": ").append("\"").append(`f32bit2`.get).append("\"").append(',') }
 			if (`f32bit3`.isDefined) { sb.append(indent1).append("\"f32bit3\": ").append("\"").append(`f32bit3`.get).append("\"").append(',') }
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -257,7 +267,7 @@ final case class DataTypes (
 }
 
 object DataTypes {
-	@reflect.BeanProperty val defaultInstance = new DataTypes()
+	@scala.beans.BeanProperty val defaultInstance = new DataTypes()
 
 	def parseFrom(data: Array[Byte]): DataTypes = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): DataTypes = defaultInstance.mergeFrom(data, offset, length)

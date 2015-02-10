@@ -1,5 +1,7 @@
 package net.sandrogrzicic.scalabuff.compiler
 
+import scala.language.implicitConversions
+
 /**
  * Viktor Klang's Enum
  * Source: https://gist.github.com/1057513/
@@ -132,7 +134,5 @@ object FieldTypes extends Enum {
 				fType.name.toLowerCase == fieldType.toLowerCase && fType.isInstanceOf[PredefinedEnumVal]
 			} getOrElse	CustomEnumVal(fieldType, fieldType, "null", WIRETYPE_LENGTH_DELIMITED)
 	}
-
-
 
 }

@@ -63,7 +63,7 @@ final case class UsesImport (
 		sb
 			.append("{")
 			sb.append(indent1).append("\"simpleTest\": ").append(`simpleTest`.toJson(indent + 1)).append(',')
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -71,7 +71,7 @@ final case class UsesImport (
 }
 
 object UsesImport {
-	@reflect.BeanProperty val defaultInstance = new UsesImport()
+	@scala.beans.BeanProperty val defaultInstance = new UsesImport()
 
 	def parseFrom(data: Array[Byte]): UsesImport = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): UsesImport = defaultInstance.mergeFrom(data, offset, length)

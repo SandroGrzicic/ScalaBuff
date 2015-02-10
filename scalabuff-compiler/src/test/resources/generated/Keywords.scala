@@ -125,7 +125,7 @@ final case class KeywordsTest (
 			sb.append(indent1).append("\"class\": ").append("\"").append(`class`).append("\"").append(',')
 			sb.append(indent1).append("\"lazy\": ").append("\"").append(`lazy`).append("\"").append(',')
 			sb.append(indent1).append("\"type\": ").append("\"").append(`type`).append("\"").append(',')
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -133,7 +133,7 @@ final case class KeywordsTest (
 }
 
 object KeywordsTest {
-	@reflect.BeanProperty val defaultInstance = new KeywordsTest()
+	@scala.beans.BeanProperty val defaultInstance = new KeywordsTest()
 
 	def parseFrom(data: Array[Byte]): KeywordsTest = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): KeywordsTest = defaultInstance.mergeFrom(data, offset, length)

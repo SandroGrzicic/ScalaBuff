@@ -130,7 +130,7 @@ final case class ComplexMessage (
 			sb.append(indent1).append("\"simpleEnumField\": [").append(indent2).append(`simpleEnumField`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
 			sb.append(indent1).append("\"repeatedStringField\": [").append(indent2).append(`repeatedStringField`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
 			sb.append(indent1).append("\"repeatedBytesField\": [").append(indent2).append(`repeatedBytesField`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -138,7 +138,7 @@ final case class ComplexMessage (
 }
 
 object ComplexMessage {
-	@reflect.BeanProperty val defaultInstance = new ComplexMessage()
+	@scala.beans.BeanProperty val defaultInstance = new ComplexMessage()
 
 	def parseFrom(data: Array[Byte]): ComplexMessage = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): ComplexMessage = defaultInstance.mergeFrom(data, offset, length)
@@ -241,7 +241,7 @@ object ComplexMessage {
 				.append("{")
 				sb.append(indent1).append("\"nestedField\": ").append("\"").append(`nestedField`).append("\"").append(',')
 				if (`nestedEnum`.isDefined) { sb.append(indent1).append("\"nestedEnum\": ").append("\"").append(`nestedEnum`.get).append("\"").append(',') }
-			sb.length -= 1
+			if (sb.last.equals(',')) sb.length -= 1
 			sb.append(indent0).append("}")
 			sb.toString()
 		}
@@ -249,7 +249,7 @@ object ComplexMessage {
 	}
 
 	object Nested {
-		@reflect.BeanProperty val defaultInstance = new Nested()
+		@scala.beans.BeanProperty val defaultInstance = new Nested()
 
 		def parseFrom(data: Array[Byte]): Nested = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Nested = defaultInstance.mergeFrom(data, offset, length)
@@ -331,7 +331,7 @@ final case class AnotherMessage (
 			.append("{")
 			sb.append(indent1).append("\"fieldNested\": ").append(`fieldNested`.toJson(indent + 1)).append(',')
 			sb.append(indent1).append("\"fieldEnum\": ").append("\"").append(`fieldEnum`).append("\"").append(',')
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -339,7 +339,7 @@ final case class AnotherMessage (
 }
 
 object AnotherMessage {
-	@reflect.BeanProperty val defaultInstance = new AnotherMessage()
+	@scala.beans.BeanProperty val defaultInstance = new AnotherMessage()
 
 	def parseFrom(data: Array[Byte]): AnotherMessage = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): AnotherMessage = defaultInstance.mergeFrom(data, offset, length)

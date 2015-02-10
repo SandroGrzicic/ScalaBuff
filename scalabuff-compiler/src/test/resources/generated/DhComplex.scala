@@ -66,7 +66,7 @@ final case class Response (
 		sb
 			.append("{")
 			sb.append(indent1).append("\"response\": [").append(indent2).append(`response`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -74,7 +74,7 @@ final case class Response (
 }
 
 object Response {
-	@reflect.BeanProperty val defaultInstance = new Response()
+	@scala.beans.BeanProperty val defaultInstance = new Response()
 
 	def parseFrom(data: Array[Byte]): Response = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): Response = defaultInstance.mergeFrom(data, offset, length)
@@ -170,7 +170,7 @@ object Response {
 				if (`profileKey`.isDefined) { sb.append(indent1).append("\"profileKey\": ").append("\"").append(`profileKey`.get).append("\"").append(',') }
 				if (`data`.isDefined) { sb.append(indent1).append("\"data\": ").append("\"").append(`data`.get).append("\"").append(',') }
 				sb.append(indent1).append("\"property\": [").append(indent2).append(`property`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
-			sb.length -= 1
+			if (sb.last.equals(',')) sb.length -= 1
 			sb.append(indent0).append("}")
 			sb.toString()
 		}
@@ -178,7 +178,7 @@ object Response {
 	}
 
 	object Rendition {
-		@reflect.BeanProperty val defaultInstance = new Rendition()
+		@scala.beans.BeanProperty val defaultInstance = new Rendition()
 
 		def parseFrom(data: Array[Byte]): Rendition = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Rendition = defaultInstance.mergeFrom(data, offset, length)
@@ -259,7 +259,7 @@ object Response {
 					.append("{")
 					sb.append(indent1).append("\"key\": ").append("\"").append(`key`).append("\"").append(',')
 					sb.append(indent1).append("\"value\": ").append("\"").append(`value`).append("\"").append(',')
-				sb.length -= 1
+				if (sb.last.equals(',')) sb.length -= 1
 				sb.append(indent0).append("}")
 				sb.toString()
 			}
@@ -267,7 +267,7 @@ object Response {
 		}
 
 		object Property {
-			@reflect.BeanProperty val defaultInstance = new Property()
+			@scala.beans.BeanProperty val defaultInstance = new Property()
 
 			def parseFrom(data: Array[Byte]): Property = defaultInstance.mergeFrom(data)
 			def parseFrom(data: Array[Byte], offset: Int, length: Int): Property = defaultInstance.mergeFrom(data, offset, length)
@@ -402,7 +402,7 @@ object Response {
 				if (`assetKey`.isDefined) { sb.append(indent1).append("\"assetKey\": ").append("\"").append(`assetKey`.get).append("\"").append(',') }
 				if (`duration`.isDefined) { sb.append(indent1).append("\"duration\": ").append("\"").append(`duration`.get).append("\"").append(',') }
 				sb.append(indent1).append("\"renditions\": [").append(indent2).append(`renditions`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
-			sb.length -= 1
+			if (sb.last.equals(',')) sb.length -= 1
 			sb.append(indent0).append("}")
 			sb.toString()
 		}
@@ -410,7 +410,7 @@ object Response {
 	}
 
 	object Video {
-		@reflect.BeanProperty val defaultInstance = new Video()
+		@scala.beans.BeanProperty val defaultInstance = new Video()
 
 		def parseFrom(data: Array[Byte]): Video = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Video = defaultInstance.mergeFrom(data, offset, length)
@@ -510,7 +510,7 @@ object Response {
 				if (`assetKey`.isDefined) { sb.append(indent1).append("\"assetKey\": ").append("\"").append(`assetKey`.get).append("\"").append(',') }
 				sb.append(indent1).append("\"reason\": [").append(indent2).append(`reason`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
 				if (`cause`.isDefined) { sb.append(indent1).append("\"cause\": ").append("\"").append(`cause`.get).append("\"").append(',') }
-			sb.length -= 1
+			if (sb.last.equals(',')) sb.length -= 1
 			sb.append(indent0).append("}")
 			sb.toString()
 		}
@@ -518,7 +518,7 @@ object Response {
 	}
 
 	object VideoFailure {
-		@reflect.BeanProperty val defaultInstance = new VideoFailure()
+		@scala.beans.BeanProperty val defaultInstance = new VideoFailure()
 
 		def parseFrom(data: Array[Byte]): VideoFailure = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): VideoFailure = defaultInstance.mergeFrom(data, offset, length)
@@ -639,7 +639,7 @@ object Response {
 				.append("{")
 				if (`success`.isDefined) { sb.append(indent1).append("\"success\": ").append(`success`.get.toJson(indent + 1)).append(',') }
 				if (`failure`.isDefined) { sb.append(indent1).append("\"failure\": ").append(`failure`.get.toJson(indent + 1)).append(',') }
-			sb.length -= 1
+			if (sb.last.equals(',')) sb.length -= 1
 			sb.append(indent0).append("}")
 			sb.toString()
 		}
@@ -647,7 +647,7 @@ object Response {
 	}
 
 	object VideoResult {
-		@reflect.BeanProperty val defaultInstance = new VideoResult()
+		@scala.beans.BeanProperty val defaultInstance = new VideoResult()
 
 		def parseFrom(data: Array[Byte]): VideoResult = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): VideoResult = defaultInstance.mergeFrom(data, offset, length)

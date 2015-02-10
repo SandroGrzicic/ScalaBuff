@@ -3,7 +3,7 @@ package tests
 import org.scalatest.{FunSuite, Matchers}
 import net.sandrogrzicic.scalabuff.compiler._
 import java.io.{FileFilter, PrintStream, ByteArrayOutputStream, File}
-import File.{separator => SEP}
+import File.{separator => /}
 
 /**
  * ScalaBuff performance test.
@@ -12,10 +12,10 @@ import File.{separator => SEP}
 
 class PerformanceTest extends FunSuite with Matchers {
 
-  val WARMUP_COUNT = 50
-  val REPEAT_COUNT = 50
+  val WARMUP_COUNT = 20
+  val REPEAT_COUNT = 20
 
-  val protoDir = "scalabuff-compiler" + SEP + "src" + SEP + "test" + SEP + "resources" + SEP + "proto" + SEP
+  val protoDir = "scalabuff-compiler" + / + "src" + / + "test" + / + "resources" + / + "proto" + /
   val protoDirFile = new File(protoDir)
 
   val protoFileFilter = new FileFilter {

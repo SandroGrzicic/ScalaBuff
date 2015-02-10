@@ -236,7 +236,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
             .append(field.number).append(", ").append(field.name.toScalaIdent).append(".get)\n")
           case REPEATED =>
             // TODO make this nicer currently code is generated 2 times
-            (field.fType.packable, field.options.filter(value => value.key == "packed" && value.value == "true").headOption) match {
+            (field.fType.packable, field.options.find(value => value.key == "packed" && value.value == "true")) match {
               case (true, Some(option)) =>
                 out.append(indent2).append("if (!").append(field.name.toScalaIdent).append(".isEmpty) {\n")
                 out.append(indent3).append("val dataSize = ").append(field.name.toScalaIdent)
@@ -304,7 +304,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
 
         if (field.label == REPEATED) out.append("+")
         out.append("= ")
-        if(isOptional)out.append("Some(")
+        if (isOptional) out.append("Some(")
         if (field.fType == WIRETYPE_LENGTH_DELIMITED) out.append("in.readBytes()")
         else if (field.fType.isEnum) {
           // IFF this is an optional field, AND it has a default (i.e. is not
@@ -453,8 +453,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       out.append(indent0).append("object ").append(name).append(" {\n")
         .append(indent1)
 
-
-      out.append("@beans.BeanProperty val defaultInstance = new ")
+      out.append("@scala.beans.BeanProperty val defaultInstance = new ")
 
       out.append(name).append("()\n").append("\n")
 
