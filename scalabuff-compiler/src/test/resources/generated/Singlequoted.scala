@@ -63,7 +63,7 @@ final case class SingleQuote (
 		sb
 			.append("{")
 			if (`singleQuotedField`.isDefined) { sb.append(indent1).append("\"singleQuotedField\": ").append("\"").append(`singleQuotedField`.get).append("\"").append(',') }
-		sb.length -= 1
+		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
 	}
@@ -71,7 +71,7 @@ final case class SingleQuote (
 }
 
 object SingleQuote {
-	@reflect.BeanProperty val defaultInstance = new SingleQuote()
+	@scala.beans.BeanProperty val defaultInstance = new SingleQuote()
 
 	def parseFrom(data: Array[Byte]): SingleQuote = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): SingleQuote = defaultInstance.mergeFrom(data, offset, length)

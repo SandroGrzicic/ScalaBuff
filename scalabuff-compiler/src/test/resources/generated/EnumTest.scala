@@ -7,20 +7,113 @@ object ComputerPeripherals extends net.sandrogrzicic.scalabuff.Enum {
 	sealed trait EnumVal extends Value
 	val _UNINITIALIZED = new EnumVal { val name = "UNINITIALIZED ENUM VALUE"; val id = -1 }
 
-	val MOUSE = new EnumVal { val name = "MOUSE"; val id = 1 }
-	val KEYBOARD = new EnumVal { val name = "KEYBOARD"; val id = 2 }
+	val KEYBOARD = new EnumVal { val name = "KEYBOARD"; val id = 1 }
+	val MOUSE = new EnumVal { val name = "MOUSE"; val id = 2 }
 
-	val MOUSE_VALUE = 1
-	val KEYBOARD_VALUE = 2
+	val KEYBOARD_VALUE = 1
+	val MOUSE_VALUE = 2
 
 	def valueOf(id: Int) = id match {
-		case 1 => MOUSE
-		case 2 => KEYBOARD
+		case 1 => KEYBOARD
+		case 2 => MOUSE
 		case _default => throw new net.sandrogrzicic.scalabuff.UnknownEnumException(_default)
 	}
 	val internalGetValueMap = new com.google.protobuf.Internal.EnumLiteMap[EnumVal] {
 		def findValueByNumber(id: Int): EnumVal = valueOf(id)
 	}
+}
+final case class MyPeripherals (
+	`primaryPeripheral`: Option[ComputerPeripherals.EnumVal] = Some(ComputerPeripherals.KEYBOARD),
+	`secondaryPeripheral`: Option[ComputerPeripherals.EnumVal] = None
+) extends com.google.protobuf.GeneratedMessageLite
+	with com.google.protobuf.MessageLite.Builder
+	with net.sandrogrzicic.scalabuff.Message[MyPeripherals]
+	with net.sandrogrzicic.scalabuff.Parser[MyPeripherals] {
+
+	def setPrimaryPeripheral(_f: ComputerPeripherals.EnumVal) = copy(`primaryPeripheral` = Some(_f))
+	def setSecondaryPeripheral(_f: ComputerPeripherals.EnumVal) = copy(`secondaryPeripheral` = Some(_f))
+
+	def clearPrimaryPeripheral = copy(`primaryPeripheral` = None)
+	def clearSecondaryPeripheral = copy(`secondaryPeripheral` = None)
+
+	def writeTo(output: com.google.protobuf.CodedOutputStream) {
+		if (`primaryPeripheral`.isDefined) output.writeEnum(1, `primaryPeripheral`.get)
+		if (`secondaryPeripheral`.isDefined) output.writeEnum(2, `secondaryPeripheral`.get)
+	}
+
+	def getSerializedSize = {
+		import com.google.protobuf.CodedOutputStream._
+		var __size = 0
+		if (`primaryPeripheral`.isDefined) __size += computeEnumSize(1, `primaryPeripheral`.get)
+		if (`secondaryPeripheral`.isDefined) __size += computeEnumSize(2, `secondaryPeripheral`.get)
+
+		__size
+	}
+
+	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): MyPeripherals = {
+		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
+		var __primaryPeripheral: Option[ComputerPeripherals.EnumVal] = `primaryPeripheral`
+		var __secondaryPeripheral: Option[ComputerPeripherals.EnumVal] = `secondaryPeripheral`
+
+		def __newMerged = MyPeripherals(
+			__primaryPeripheral,
+			__secondaryPeripheral
+		)
+		while (true) in.readTag match {
+			case 0 => return __newMerged
+			case 8 => __primaryPeripheral = Some(try { ComputerPeripherals.valueOf(in.readEnum()) } catch { case e: Exception => Some(ComputerPeripherals.KEYBOARD).get })
+			case 16 => __secondaryPeripheral = Some(ComputerPeripherals.valueOf(in.readEnum()))
+			case default => if (!in.skipField(default)) return __newMerged
+		}
+		null
+	}
+
+	def mergeFrom(m: MyPeripherals) = {
+		MyPeripherals(
+			m.`primaryPeripheral`.orElse(`primaryPeripheral`),
+			m.`secondaryPeripheral`.orElse(`secondaryPeripheral`)
+		)
+	}
+
+	def getDefaultInstanceForType = MyPeripherals.defaultInstance
+	def clear = getDefaultInstanceForType
+	def isInitialized = true
+	def build = this
+	def buildPartial = this
+	def parsePartialFrom(cis: com.google.protobuf.CodedInputStream, er: com.google.protobuf.ExtensionRegistryLite) = mergeFrom(cis, er)
+	override def getParserForType = this
+	def newBuilderForType = getDefaultInstanceForType
+	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			if (`primaryPeripheral`.isDefined) { sb.append(indent1).append("\"primaryPeripheral\": ").append("\"").append(`primaryPeripheral`.get).append("\"").append(',') }
+			if (`secondaryPeripheral`.isDefined) { sb.append(indent1).append("\"secondaryPeripheral\": ").append("\"").append(`secondaryPeripheral`.get).append("\"").append(',') }
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
+}
+
+object MyPeripherals {
+	@scala.beans.BeanProperty val defaultInstance = new MyPeripherals()
+
+	def parseFrom(data: Array[Byte]): MyPeripherals = defaultInstance.mergeFrom(data)
+	def parseFrom(data: Array[Byte], offset: Int, length: Int): MyPeripherals = defaultInstance.mergeFrom(data, offset, length)
+	def parseFrom(byteString: com.google.protobuf.ByteString): MyPeripherals = defaultInstance.mergeFrom(byteString)
+	def parseFrom(stream: java.io.InputStream): MyPeripherals = defaultInstance.mergeFrom(stream)
+	def parseDelimitedFrom(stream: java.io.InputStream): Option[MyPeripherals] = defaultInstance.mergeDelimitedFromStream(stream)
+
+	val PRIMARY_PERIPHERAL_FIELD_NUMBER = 1
+	val SECONDARY_PERIPHERAL_FIELD_NUMBER = 2
+
+	def newBuilder = defaultInstance.newBuilderForType
+	def newBuilder(prototype: MyPeripherals) = defaultInstance.mergeFrom(prototype)
+
 }
 final case class Outer (
 	`innerRequired`: Outer.Inner.EnumVal = Outer.Inner._UNINITIALIZED,
@@ -70,7 +163,7 @@ final case class Outer (
 		while (true) in.readTag match {
 			case 0 => return __newMerged
 			case 8 => __innerRequired = Outer.Inner.valueOf(in.readEnum())
-			case 16 => __innerOptional = Some(Outer.Inner.valueOf(in.readEnum()))
+			case 16 => __innerOptional = Some(try { Outer.Inner.valueOf(in.readEnum()) } catch { case e: Exception => Some(Outer.Inner.FIRST).get })
 			case 24 => __innerRepeated += Outer.Inner.valueOf(in.readEnum())
 			case 26 => 
 				val length = in.readRawVarint32()
@@ -202,7 +295,7 @@ final case class OuterDuplicate (
 		while (true) in.readTag match {
 			case 0 => return __newMerged
 			case 8 => __innerRequired = OuterDuplicate.Inner.valueOf(in.readEnum())
-			case 16 => __innerOptional = Some(OuterDuplicate.Inner.valueOf(in.readEnum()))
+			case 16 => __innerOptional = Some(try { OuterDuplicate.Inner.valueOf(in.readEnum()) } catch { case e: Exception => Some(OuterDuplicate.Inner.SECOND).get })
 			case 24 => __innerRepeated += OuterDuplicate.Inner.valueOf(in.readEnum())
 			case 26 => 
 				val length = in.readRawVarint32()
@@ -475,6 +568,7 @@ object EnumTest {
 	}
 
 	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
+		 "MyPeripherals" -> (bytes ⇒ MyPeripherals.parseFrom(bytes)),
 		 "Outer" -> (bytes ⇒ Outer.parseFrom(bytes)),
 		 "OuterDuplicate" -> (bytes ⇒ OuterDuplicate.parseFrom(bytes)),
 		 "OuterEnumContainer" -> (bytes ⇒ OuterEnumContainer.parseFrom(bytes))
