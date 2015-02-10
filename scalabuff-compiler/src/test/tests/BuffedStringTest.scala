@@ -1,15 +1,16 @@
 package tests
 
 import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 import net.sandrogrzicic.scalabuff.compiler.BuffedString
+import scala.language.implicitConversions
 
 /**
  * Tests for the BuffedString string helper class.
  * @author Sandro Gržičić
  */
 
-class BuffedStringTest extends FunSuite with ShouldMatchers {
+class BuffedStringTest extends FunSuite with Matchers {
 
 	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 

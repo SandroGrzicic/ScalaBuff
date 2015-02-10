@@ -1,7 +1,7 @@
 package tests
 
 import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 import resources.generated._
 import com.google.protobuf._
 import java.util.Arrays
@@ -11,7 +11,7 @@ import java.util.Arrays
  * @author Sandro Gržičić
  */
 
-class JavaInteroperabilityTest extends FunSuite with ShouldMatchers {
+class JavaInteroperabilityTest extends FunSuite with Matchers {
 
 	test("ComplexMessage") {
 		import resources.java.{Complex => JComplex}

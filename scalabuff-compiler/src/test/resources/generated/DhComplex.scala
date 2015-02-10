@@ -4,7 +4,7 @@
 package resources.generated
 
 final case class Response (
-	`response`: collection.immutable.Seq[Response.VideoResult] = Vector.empty[Response.VideoResult]
+	`response`: scala.collection.immutable.Seq[Response.VideoResult] = Vector.empty[Response.VideoResult]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[Response]
@@ -21,7 +21,7 @@ final case class Response (
 		for (_v <- `response`) output.writeMessage(1, _v)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		for (_v <- `response`) __size += computeMessageSize(1, _v)
@@ -31,7 +31,7 @@ final case class Response (
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Response = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		val __response: collection.mutable.Buffer[Response.VideoResult] = `response`.toBuffer
+		val __response: scala.collection.mutable.Buffer[Response.VideoResult] = `response`.toBuffer
 
 		def __newMerged = Response(
 			Vector(__response: _*)
@@ -59,10 +59,22 @@ final case class Response (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"response\": [").append(indent2).append(`response`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object Response {
-	@reflect.BeanProperty val defaultInstance = new Response()
+	@scala.beans.BeanProperty val defaultInstance = new Response()
 
 	def parseFrom(data: Array[Byte]): Response = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): Response = defaultInstance.mergeFrom(data, offset, length)
@@ -78,7 +90,7 @@ object Response {
 	final case class Rendition (
 		`profileKey`: Option[String] = None,
 		`data`: Option[String] = None,
-		`property`: collection.immutable.Seq[Rendition.Property] = Vector.empty[Rendition.Property]
+		`property`: scala.collection.immutable.Seq[Rendition.Property] = Vector.empty[Rendition.Property]
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Rendition]
@@ -101,7 +113,7 @@ object Response {
 			for (_v <- `property`) output.writeMessage(3, _v)
 		}
 
-		lazy val getSerializedSize = {
+		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
 			if (`profileKey`.isDefined) __size += computeStringSize(1, `profileKey`.get)
@@ -115,7 +127,7 @@ object Response {
 			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 			var __profileKey: Option[String] = `profileKey`
 			var __data: Option[String] = `data`
-			val __property: collection.mutable.Buffer[Rendition.Property] = `property`.toBuffer
+			val __property: scala.collection.mutable.Buffer[Rendition.Property] = `property`.toBuffer
 
 			def __newMerged = Rendition(
 				__profileKey,
@@ -149,10 +161,24 @@ object Response {
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
+		def toJson(indent: Int = 0): String = {
+			val indent0 = "\n" + ("\t" * indent)
+			val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+			val sb = StringBuilder.newBuilder
+			sb
+				.append("{")
+				if (`profileKey`.isDefined) { sb.append(indent1).append("\"profileKey\": ").append("\"").append(`profileKey`.get).append("\"").append(',') }
+				if (`data`.isDefined) { sb.append(indent1).append("\"data\": ").append("\"").append(`data`.get).append("\"").append(',') }
+				sb.append(indent1).append("\"property\": [").append(indent2).append(`property`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
+			if (sb.last.equals(',')) sb.length -= 1
+			sb.append(indent0).append("}")
+			sb.toString()
+		}
+
 	}
 
 	object Rendition {
-		@reflect.BeanProperty val defaultInstance = new Rendition()
+		@scala.beans.BeanProperty val defaultInstance = new Rendition()
 
 		def parseFrom(data: Array[Byte]): Rendition = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Rendition = defaultInstance.mergeFrom(data, offset, length)
@@ -182,7 +208,7 @@ object Response {
 				output.writeString(2, `value`)
 			}
 
-			lazy val getSerializedSize = {
+			def getSerializedSize = {
 				import com.google.protobuf.CodedOutputStream._
 				var __size = 0
 				__size += computeEnumSize(1, `key`)
@@ -225,10 +251,23 @@ object Response {
 			override def getParserForType = this
 			def newBuilderForType = getDefaultInstanceForType
 			def toBuilder = this
+			def toJson(indent: Int = 0): String = {
+				val indent0 = "\n" + ("\t" * indent)
+				val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+				val sb = StringBuilder.newBuilder
+				sb
+					.append("{")
+					sb.append(indent1).append("\"key\": ").append("\"").append(`key`).append("\"").append(',')
+					sb.append(indent1).append("\"value\": ").append("\"").append(`value`).append("\"").append(',')
+				if (sb.last.equals(',')) sb.length -= 1
+				sb.append(indent0).append("}")
+				sb.toString()
+			}
+
 		}
 
 		object Property {
-			@reflect.BeanProperty val defaultInstance = new Property()
+			@scala.beans.BeanProperty val defaultInstance = new Property()
 
 			def parseFrom(data: Array[Byte]): Property = defaultInstance.mergeFrom(data)
 			def parseFrom(data: Array[Byte], offset: Int, length: Int): Property = defaultInstance.mergeFrom(data, offset, length)
@@ -274,7 +313,7 @@ object Response {
 		`identifier`: Option[String] = None,
 		`assetKey`: Option[String] = None,
 		`duration`: Option[Float] = None,
-		`renditions`: collection.immutable.Seq[Rendition] = Vector.empty[Rendition]
+		`renditions`: scala.collection.immutable.Seq[Rendition] = Vector.empty[Rendition]
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Video]
@@ -300,7 +339,7 @@ object Response {
 			for (_v <- `renditions`) output.writeMessage(4, _v)
 		}
 
-		lazy val getSerializedSize = {
+		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
 			if (`identifier`.isDefined) __size += computeStringSize(1, `identifier`.get)
@@ -316,7 +355,7 @@ object Response {
 			var __identifier: Option[String] = `identifier`
 			var __assetKey: Option[String] = `assetKey`
 			var __duration: Option[Float] = `duration`
-			val __renditions: collection.mutable.Buffer[Rendition] = `renditions`.toBuffer
+			val __renditions: scala.collection.mutable.Buffer[Rendition] = `renditions`.toBuffer
 
 			def __newMerged = Video(
 				__identifier,
@@ -353,10 +392,25 @@ object Response {
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
+		def toJson(indent: Int = 0): String = {
+			val indent0 = "\n" + ("\t" * indent)
+			val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+			val sb = StringBuilder.newBuilder
+			sb
+				.append("{")
+				if (`identifier`.isDefined) { sb.append(indent1).append("\"identifier\": ").append("\"").append(`identifier`.get).append("\"").append(',') }
+				if (`assetKey`.isDefined) { sb.append(indent1).append("\"assetKey\": ").append("\"").append(`assetKey`.get).append("\"").append(',') }
+				if (`duration`.isDefined) { sb.append(indent1).append("\"duration\": ").append("\"").append(`duration`.get).append("\"").append(',') }
+				sb.append(indent1).append("\"renditions\": [").append(indent2).append(`renditions`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
+			if (sb.last.equals(',')) sb.length -= 1
+			sb.append(indent0).append("}")
+			sb.toString()
+		}
+
 	}
 
 	object Video {
-		@reflect.BeanProperty val defaultInstance = new Video()
+		@scala.beans.BeanProperty val defaultInstance = new Video()
 
 		def parseFrom(data: Array[Byte]): Video = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Video = defaultInstance.mergeFrom(data, offset, length)
@@ -375,7 +429,7 @@ object Response {
 	}
 	final case class VideoFailure (
 		`assetKey`: Option[String] = None,
-		`reason`: collection.immutable.Seq[String] = Vector.empty[String],
+		`reason`: scala.collection.immutable.Seq[String] = Vector.empty[String],
 		`cause`: Option[VideoFailure.Cause.EnumVal] = None
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
@@ -399,7 +453,7 @@ object Response {
 			if (`cause`.isDefined) output.writeEnum(3, `cause`.get)
 		}
 
-		lazy val getSerializedSize = {
+		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
 			if (`assetKey`.isDefined) __size += computeStringSize(1, `assetKey`.get)
@@ -412,7 +466,7 @@ object Response {
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): VideoFailure = {
 			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 			var __assetKey: Option[String] = `assetKey`
-			val __reason: collection.mutable.Buffer[String] = `reason`.toBuffer
+			val __reason: scala.collection.mutable.Buffer[String] = `reason`.toBuffer
 			var __cause: Option[VideoFailure.Cause.EnumVal] = `cause`
 
 			def __newMerged = VideoFailure(
@@ -447,10 +501,24 @@ object Response {
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
+		def toJson(indent: Int = 0): String = {
+			val indent0 = "\n" + ("\t" * indent)
+			val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+			val sb = StringBuilder.newBuilder
+			sb
+				.append("{")
+				if (`assetKey`.isDefined) { sb.append(indent1).append("\"assetKey\": ").append("\"").append(`assetKey`.get).append("\"").append(',') }
+				sb.append(indent1).append("\"reason\": [").append(indent2).append(`reason`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
+				if (`cause`.isDefined) { sb.append(indent1).append("\"cause\": ").append("\"").append(`cause`.get).append("\"").append(',') }
+			if (sb.last.equals(',')) sb.length -= 1
+			sb.append(indent0).append("}")
+			sb.toString()
+		}
+
 	}
 
 	object VideoFailure {
-		@reflect.BeanProperty val defaultInstance = new VideoFailure()
+		@scala.beans.BeanProperty val defaultInstance = new VideoFailure()
 
 		def parseFrom(data: Array[Byte]): VideoFailure = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): VideoFailure = defaultInstance.mergeFrom(data, offset, length)
@@ -514,7 +582,7 @@ object Response {
 			if (`failure`.isDefined) output.writeMessage(2, `failure`.get)
 		}
 
-		lazy val getSerializedSize = {
+		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
 			if (`success`.isDefined) __size += computeMessageSize(1, `success`.get)
@@ -563,10 +631,23 @@ object Response {
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
+		def toJson(indent: Int = 0): String = {
+			val indent0 = "\n" + ("\t" * indent)
+			val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+			val sb = StringBuilder.newBuilder
+			sb
+				.append("{")
+				if (`success`.isDefined) { sb.append(indent1).append("\"success\": ").append(`success`.get.toJson(indent + 1)).append(',') }
+				if (`failure`.isDefined) { sb.append(indent1).append("\"failure\": ").append(`failure`.get.toJson(indent + 1)).append(',') }
+			if (sb.last.equals(',')) sb.length -= 1
+			sb.append(indent0).append("}")
+			sb.toString()
+		}
+
 	}
 
 	object VideoResult {
-		@reflect.BeanProperty val defaultInstance = new VideoResult()
+		@scala.beans.BeanProperty val defaultInstance = new VideoResult()
 
 		def parseFrom(data: Array[Byte]): VideoResult = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): VideoResult = defaultInstance.mergeFrom(data, offset, length)
@@ -587,4 +668,14 @@ object DhComplex {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 
+	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
+		 "Response" -> (bytes ⇒ Response.parseFrom(bytes))
+	)
+
+	def deserializePayload(payload: Array[Byte], payloadType: String): com.google.protobuf.GeneratedMessageLite = {
+		fromBinaryHintMap.get(payloadType) match {
+			case Some(f) ⇒ f(payload)
+			case None    ⇒ throw new IllegalArgumentException(s"unimplemented deserialization of message payload of type [${payloadType}]")
+		}
+	}
 }

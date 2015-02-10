@@ -25,7 +25,7 @@ object ComputerPeripherals extends net.sandrogrzicic.scalabuff.Enum {
 final case class Outer (
 	`innerRequired`: Outer.Inner.EnumVal = Outer.Inner._UNINITIALIZED,
 	`innerOptional`: Option[Outer.Inner.EnumVal] = Some(Outer.Inner.FIRST),
-	`innerRepeated`: collection.immutable.Seq[Outer.Inner.EnumVal] = Vector.empty[Outer.Inner.EnumVal]
+	`innerRepeated`: scala.collection.immutable.Seq[Outer.Inner.EnumVal] = Vector.empty[Outer.Inner.EnumVal]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[Outer]
@@ -46,7 +46,7 @@ final case class Outer (
 		for (_v <- `innerRepeated`) output.writeEnum(3, _v)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeEnumSize(1, `innerRequired`)
@@ -60,7 +60,7 @@ final case class Outer (
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __innerRequired: Outer.Inner.EnumVal = Outer.Inner._UNINITIALIZED
 		var __innerOptional: Option[Outer.Inner.EnumVal] = `innerOptional`
-		val __innerRepeated: collection.mutable.Buffer[Outer.Inner.EnumVal] = `innerRepeated`.toBuffer
+		val __innerRepeated: scala.collection.mutable.Buffer[Outer.Inner.EnumVal] = `innerRepeated`.toBuffer
 
 		def __newMerged = Outer(
 			__innerRequired,
@@ -72,6 +72,13 @@ final case class Outer (
 			case 8 => __innerRequired = Outer.Inner.valueOf(in.readEnum())
 			case 16 => __innerOptional = Some(Outer.Inner.valueOf(in.readEnum()))
 			case 24 => __innerRepeated += Outer.Inner.valueOf(in.readEnum())
+			case 26 => 
+				val length = in.readRawVarint32()
+				val limit = in.pushLimit(length)
+				while (in.getBytesUntilLimit() > 0) {
+					__innerRepeated += Outer.Inner.valueOf(in.readEnum())
+				}
+				in.popLimit(limit)
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -94,10 +101,24 @@ final case class Outer (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"innerRequired\": ").append("\"").append(`innerRequired`).append("\"").append(',')
+			if (`innerOptional`.isDefined) { sb.append(indent1).append("\"innerOptional\": ").append("\"").append(`innerOptional`.get).append("\"").append(',') }
+			sb.append(indent1).append("\"innerRepeated\": [").append(indent2).append(`innerRepeated`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object Outer {
-	@reflect.BeanProperty val defaultInstance = new Outer()
+	@scala.beans.BeanProperty val defaultInstance = new Outer()
 
 	def parseFrom(data: Array[Byte]): Outer = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): Outer = defaultInstance.mergeFrom(data, offset, length)
@@ -136,7 +157,7 @@ object Outer {
 final case class OuterDuplicate (
 	`innerRequired`: OuterDuplicate.Inner.EnumVal = OuterDuplicate.Inner._UNINITIALIZED,
 	`innerOptional`: Option[OuterDuplicate.Inner.EnumVal] = Some(OuterDuplicate.Inner.SECOND),
-	`innerRepeated`: collection.immutable.Seq[OuterDuplicate.Inner.EnumVal] = Vector.empty[OuterDuplicate.Inner.EnumVal]
+	`innerRepeated`: scala.collection.immutable.Seq[OuterDuplicate.Inner.EnumVal] = Vector.empty[OuterDuplicate.Inner.EnumVal]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[OuterDuplicate]
@@ -157,7 +178,7 @@ final case class OuterDuplicate (
 		for (_v <- `innerRepeated`) output.writeEnum(3, _v)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeEnumSize(1, `innerRequired`)
@@ -171,7 +192,7 @@ final case class OuterDuplicate (
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __innerRequired: OuterDuplicate.Inner.EnumVal = OuterDuplicate.Inner._UNINITIALIZED
 		var __innerOptional: Option[OuterDuplicate.Inner.EnumVal] = `innerOptional`
-		val __innerRepeated: collection.mutable.Buffer[OuterDuplicate.Inner.EnumVal] = `innerRepeated`.toBuffer
+		val __innerRepeated: scala.collection.mutable.Buffer[OuterDuplicate.Inner.EnumVal] = `innerRepeated`.toBuffer
 
 		def __newMerged = OuterDuplicate(
 			__innerRequired,
@@ -183,6 +204,13 @@ final case class OuterDuplicate (
 			case 8 => __innerRequired = OuterDuplicate.Inner.valueOf(in.readEnum())
 			case 16 => __innerOptional = Some(OuterDuplicate.Inner.valueOf(in.readEnum()))
 			case 24 => __innerRepeated += OuterDuplicate.Inner.valueOf(in.readEnum())
+			case 26 => 
+				val length = in.readRawVarint32()
+				val limit = in.pushLimit(length)
+				while (in.getBytesUntilLimit() > 0) {
+					__innerRepeated += OuterDuplicate.Inner.valueOf(in.readEnum())
+				}
+				in.popLimit(limit)
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -205,10 +233,24 @@ final case class OuterDuplicate (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"innerRequired\": ").append("\"").append(`innerRequired`).append("\"").append(',')
+			if (`innerOptional`.isDefined) { sb.append(indent1).append("\"innerOptional\": ").append("\"").append(`innerOptional`.get).append("\"").append(',') }
+			sb.append(indent1).append("\"innerRepeated\": [").append(indent2).append(`innerRepeated`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object OuterDuplicate {
-	@reflect.BeanProperty val defaultInstance = new OuterDuplicate()
+	@scala.beans.BeanProperty val defaultInstance = new OuterDuplicate()
 
 	def parseFrom(data: Array[Byte]): OuterDuplicate = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): OuterDuplicate = defaultInstance.mergeFrom(data, offset, length)
@@ -257,7 +299,7 @@ final case class OuterEnumContainer (
 		output.writeMessage(1, `innerMessage`)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeMessageSize(1, `innerMessage`)
@@ -295,10 +337,22 @@ final case class OuterEnumContainer (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"innerMessage\": ").append(`innerMessage`.toJson(indent + 1)).append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object OuterEnumContainer {
-	@reflect.BeanProperty val defaultInstance = new OuterEnumContainer()
+	@scala.beans.BeanProperty val defaultInstance = new OuterEnumContainer()
 
 	def parseFrom(data: Array[Byte]): OuterEnumContainer = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): OuterEnumContainer = defaultInstance.mergeFrom(data, offset, length)
@@ -324,7 +378,7 @@ object OuterEnumContainer {
 			output.writeEnum(1, `someEnum`)
 		}
 
-		lazy val getSerializedSize = {
+		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
 			__size += computeEnumSize(1, `someEnum`)
@@ -362,10 +416,22 @@ object OuterEnumContainer {
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
+		def toJson(indent: Int = 0): String = {
+			val indent0 = "\n" + ("\t" * indent)
+			val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+			val sb = StringBuilder.newBuilder
+			sb
+				.append("{")
+				sb.append(indent1).append("\"someEnum\": ").append("\"").append(`someEnum`).append("\"").append(',')
+			if (sb.last.equals(',')) sb.length -= 1
+			sb.append(indent0).append("}")
+			sb.toString()
+		}
+
 	}
 
 	object InnerEnumContainer {
-		@reflect.BeanProperty val defaultInstance = new InnerEnumContainer()
+		@scala.beans.BeanProperty val defaultInstance = new InnerEnumContainer()
 
 		def parseFrom(data: Array[Byte]): InnerEnumContainer = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): InnerEnumContainer = defaultInstance.mergeFrom(data, offset, length)
@@ -408,4 +474,16 @@ object EnumTest {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 
+	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
+		 "Outer" -> (bytes ⇒ Outer.parseFrom(bytes)),
+		 "OuterDuplicate" -> (bytes ⇒ OuterDuplicate.parseFrom(bytes)),
+		 "OuterEnumContainer" -> (bytes ⇒ OuterEnumContainer.parseFrom(bytes))
+	)
+
+	def deserializePayload(payload: Array[Byte], payloadType: String): com.google.protobuf.GeneratedMessageLite = {
+		fromBinaryHintMap.get(payloadType) match {
+			case Some(f) ⇒ f(payload)
+			case None    ⇒ throw new IllegalArgumentException(s"unimplemented deserialization of message payload of type [${payloadType}]")
+		}
+	}
 }

@@ -22,7 +22,7 @@ final case class AkkaRemoteProtocol (
 		if (`instruction`.isDefined) output.writeMessage(2, `instruction`.get)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		if (`message`.isDefined) __size += computeMessageSize(1, `message`.get)
@@ -71,10 +71,23 @@ final case class AkkaRemoteProtocol (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			if (`message`.isDefined) { sb.append(indent1).append("\"message\": ").append(`message`.get.toJson(indent + 1)).append(',') }
+			if (`instruction`.isDefined) { sb.append(indent1).append("\"instruction\": ").append(`instruction`.get.toJson(indent + 1)).append(',') }
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object AkkaRemoteProtocol {
-	@reflect.BeanProperty val defaultInstance = new AkkaRemoteProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new AkkaRemoteProtocol()
 
 	def parseFrom(data: Array[Byte]): AkkaRemoteProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): AkkaRemoteProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -93,7 +106,7 @@ final case class RemoteMessageProtocol (
 	`recipient`: ActorRefProtocol = ActorRefProtocol.defaultInstance,
 	`message`: MessageProtocol = MessageProtocol.defaultInstance,
 	`sender`: Option[ActorRefProtocol] = None,
-	`metadata`: collection.immutable.Seq[MetadataEntryProtocol] = Vector.empty[MetadataEntryProtocol]
+	`metadata`: scala.collection.immutable.Seq[MetadataEntryProtocol] = Vector.empty[MetadataEntryProtocol]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[RemoteMessageProtocol]
@@ -115,7 +128,7 @@ final case class RemoteMessageProtocol (
 		for (_v <- `metadata`) output.writeMessage(5, _v)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeMessageSize(1, `recipient`)
@@ -131,7 +144,7 @@ final case class RemoteMessageProtocol (
 		var __recipient: ActorRefProtocol = ActorRefProtocol.defaultInstance
 		var __message: MessageProtocol = MessageProtocol.defaultInstance
 		var __sender: Option[ActorRefProtocol] = `sender`
-		val __metadata: collection.mutable.Buffer[MetadataEntryProtocol] = `metadata`.toBuffer
+		val __metadata: scala.collection.mutable.Buffer[MetadataEntryProtocol] = `metadata`.toBuffer
 
 		def __newMerged = RemoteMessageProtocol(
 			__recipient,
@@ -171,10 +184,25 @@ final case class RemoteMessageProtocol (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"recipient\": ").append(`recipient`.toJson(indent + 1)).append(',')
+			sb.append(indent1).append("\"message\": ").append(`message`.toJson(indent + 1)).append(',')
+			if (`sender`.isDefined) { sb.append(indent1).append("\"sender\": ").append(`sender`.get.toJson(indent + 1)).append(',') }
+			sb.append(indent1).append("\"metadata\": [").append(indent2).append(`metadata`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object RemoteMessageProtocol {
-	@reflect.BeanProperty val defaultInstance = new RemoteMessageProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new RemoteMessageProtocol()
 
 	def parseFrom(data: Array[Byte]): RemoteMessageProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): RemoteMessageProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -212,7 +240,7 @@ final case class RemoteControlProtocol (
 		if (`origin`.isDefined) output.writeMessage(3, `origin`.get)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeEnumSize(1, `commandType`)
@@ -263,10 +291,24 @@ final case class RemoteControlProtocol (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"commandType\": ").append("\"").append(`commandType`).append("\"").append(',')
+			if (`cookie`.isDefined) { sb.append(indent1).append("\"cookie\": ").append("\"").append(`cookie`.get).append("\"").append(',') }
+			if (`origin`.isDefined) { sb.append(indent1).append("\"origin\": ").append(`origin`.get.toJson(indent + 1)).append(',') }
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object RemoteControlProtocol {
-	@reflect.BeanProperty val defaultInstance = new RemoteControlProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new RemoteControlProtocol()
 
 	def parseFrom(data: Array[Byte]): RemoteControlProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): RemoteControlProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -317,7 +359,7 @@ final case class ActorRefProtocol (
 		output.writeString(1, `path`)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeStringSize(1, `path`)
@@ -355,10 +397,22 @@ final case class ActorRefProtocol (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"path\": ").append("\"").append(`path`).append("\"").append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object ActorRefProtocol {
-	@reflect.BeanProperty val defaultInstance = new ActorRefProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new ActorRefProtocol()
 
 	def parseFrom(data: Array[Byte]): ActorRefProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): ActorRefProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -391,7 +445,7 @@ final case class MessageProtocol (
 		if (`messageManifest`.isDefined) output.writeBytes(3, `messageManifest`.get)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeBytesSize(1, `message`)
@@ -439,10 +493,24 @@ final case class MessageProtocol (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"message\": ").append("\"").append(`message`).append("\"").append(',')
+			sb.append(indent1).append("\"serializerId\": ").append("\"").append(`serializerId`).append("\"").append(',')
+			if (`messageManifest`.isDefined) { sb.append(indent1).append("\"messageManifest\": ").append("\"").append(`messageManifest`.get).append("\"").append(',') }
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object MessageProtocol {
-	@reflect.BeanProperty val defaultInstance = new MessageProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new MessageProtocol()
 
 	def parseFrom(data: Array[Byte]): MessageProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): MessageProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -473,7 +541,7 @@ final case class MetadataEntryProtocol (
 		output.writeBytes(2, `value`)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeStringSize(1, `key`)
@@ -516,10 +584,23 @@ final case class MetadataEntryProtocol (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"key\": ").append("\"").append(`key`).append("\"").append(',')
+			sb.append(indent1).append("\"value\": ").append("\"").append(`value`).append("\"").append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object MetadataEntryProtocol {
-	@reflect.BeanProperty val defaultInstance = new MetadataEntryProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new MetadataEntryProtocol()
 
 	def parseFrom(data: Array[Byte]): MetadataEntryProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): MetadataEntryProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -551,7 +632,7 @@ final case class AddressProtocol (
 		output.writeUInt32(3, `port`)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeStringSize(1, `system`)
@@ -599,10 +680,24 @@ final case class AddressProtocol (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"system\": ").append("\"").append(`system`).append("\"").append(',')
+			sb.append(indent1).append("\"hostname\": ").append("\"").append(`hostname`).append("\"").append(',')
+			sb.append(indent1).append("\"port\": ").append("\"").append(`port`).append("\"").append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object AddressProtocol {
-	@reflect.BeanProperty val defaultInstance = new AddressProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new AddressProtocol()
 
 	def parseFrom(data: Array[Byte]): AddressProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): AddressProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -637,7 +732,7 @@ final case class DaemonMsgCreateProtocol (
 		output.writeMessage(4, `supervisor`)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeMessageSize(1, `props`)
@@ -690,10 +785,25 @@ final case class DaemonMsgCreateProtocol (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"props\": ").append(`props`.toJson(indent + 1)).append(',')
+			sb.append(indent1).append("\"deploy\": ").append(`deploy`.toJson(indent + 1)).append(',')
+			sb.append(indent1).append("\"path\": ").append("\"").append(`path`).append("\"").append(',')
+			sb.append(indent1).append("\"supervisor\": ").append(`supervisor`.toJson(indent + 1)).append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object DaemonMsgCreateProtocol {
-	@reflect.BeanProperty val defaultInstance = new DaemonMsgCreateProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new DaemonMsgCreateProtocol()
 
 	def parseFrom(data: Array[Byte]): DaemonMsgCreateProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): DaemonMsgCreateProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -737,7 +847,7 @@ final case class PropsProtocol (
 		if (`routerConfig`.isDefined) output.writeBytes(5, `routerConfig`.get)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeStringSize(1, `dispatcher`)
@@ -795,10 +905,26 @@ final case class PropsProtocol (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"dispatcher\": ").append("\"").append(`dispatcher`).append("\"").append(',')
+			sb.append(indent1).append("\"deploy\": ").append(`deploy`.toJson(indent + 1)).append(',')
+			if (`fromClassCreator`.isDefined) { sb.append(indent1).append("\"fromClassCreator\": ").append("\"").append(`fromClassCreator`.get).append("\"").append(',') }
+			if (`creator`.isDefined) { sb.append(indent1).append("\"creator\": ").append("\"").append(`creator`.get).append("\"").append(',') }
+			if (`routerConfig`.isDefined) { sb.append(indent1).append("\"routerConfig\": ").append("\"").append(`routerConfig`.get).append("\"").append(',') }
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object PropsProtocol {
-	@reflect.BeanProperty val defaultInstance = new PropsProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new PropsProtocol()
 
 	def parseFrom(data: Array[Byte]): PropsProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): PropsProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -841,7 +967,7 @@ final case class DeployProtocol (
 		if (`scope`.isDefined) output.writeBytes(4, `scope`.get)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeStringSize(1, `path`)
@@ -894,10 +1020,25 @@ final case class DeployProtocol (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"path\": ").append("\"").append(`path`).append("\"").append(',')
+			if (`config`.isDefined) { sb.append(indent1).append("\"config\": ").append("\"").append(`config`.get).append("\"").append(',') }
+			if (`routerConfig`.isDefined) { sb.append(indent1).append("\"routerConfig\": ").append("\"").append(`routerConfig`.get).append("\"").append(',') }
+			if (`scope`.isDefined) { sb.append(indent1).append("\"scope\": ").append("\"").append(`scope`.get).append("\"").append(',') }
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object DeployProtocol {
-	@reflect.BeanProperty val defaultInstance = new DeployProtocol()
+	@scala.beans.BeanProperty val defaultInstance = new DeployProtocol()
 
 	def parseFrom(data: Array[Byte]): DeployProtocol = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): DeployProtocol = defaultInstance.mergeFrom(data, offset, length)
@@ -919,4 +1060,23 @@ object RemoteProtocol {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 
+	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
+		 "AkkaRemoteProtocol" -> (bytes ⇒ AkkaRemoteProtocol.parseFrom(bytes)),
+		 "RemoteMessageProtocol" -> (bytes ⇒ RemoteMessageProtocol.parseFrom(bytes)),
+		 "RemoteControlProtocol" -> (bytes ⇒ RemoteControlProtocol.parseFrom(bytes)),
+		 "ActorRefProtocol" -> (bytes ⇒ ActorRefProtocol.parseFrom(bytes)),
+		 "MessageProtocol" -> (bytes ⇒ MessageProtocol.parseFrom(bytes)),
+		 "MetadataEntryProtocol" -> (bytes ⇒ MetadataEntryProtocol.parseFrom(bytes)),
+		 "AddressProtocol" -> (bytes ⇒ AddressProtocol.parseFrom(bytes)),
+		 "DaemonMsgCreateProtocol" -> (bytes ⇒ DaemonMsgCreateProtocol.parseFrom(bytes)),
+		 "PropsProtocol" -> (bytes ⇒ PropsProtocol.parseFrom(bytes)),
+		 "DeployProtocol" -> (bytes ⇒ DeployProtocol.parseFrom(bytes))
+	)
+
+	def deserializePayload(payload: Array[Byte], payloadType: String): com.google.protobuf.GeneratedMessageLite = {
+		fromBinaryHintMap.get(payloadType) match {
+			case Some(f) ⇒ f(payload)
+			case None    ⇒ throw new IllegalArgumentException(s"unimplemented deserialization of message payload of type [${payloadType}]")
+		}
+	}
 }

@@ -17,8 +17,8 @@ final case class DataTypes (
 	`lengthDelim1`: Option[String] = None,
 	`lengthDelim2`: Option[com.google.protobuf.ByteString] = None,
 	`lengthDelim3`: Option[DataTypes.Varint8Enum.EnumVal] = None,
-	`lengthDelim4`: collection.immutable.Seq[Int] = Vector.empty[Int],
-	`lengthDelim5`: collection.immutable.Seq[Int] = Vector.empty[Int],
+	`lengthDelim4`: scala.collection.immutable.Seq[Int] = Vector.empty[Int],
+	`lengthDelim5`: scala.collection.immutable.Seq[Int] = Vector.empty[Int],
 	`f32bit1`: Option[Int] = None,
 	`f32bit2`: Option[Int] = None,
 	`f32bit3`: Option[Float] = None
@@ -82,13 +82,20 @@ final case class DataTypes (
 		if (`lengthDelim2`.isDefined) output.writeBytes(201, `lengthDelim2`.get)
 		if (`lengthDelim3`.isDefined) output.writeEnum(202, `lengthDelim3`.get)
 		for (_v <- `lengthDelim4`) output.writeInt32(204, _v)
-		for (_v <- `lengthDelim5`) output.writeInt32(203, _v)
+		// write field length_delim5 packed 
+		if (!`lengthDelim5`.isEmpty) {
+			import com.google.protobuf.CodedOutputStream._
+			val dataSize = `lengthDelim5`.map(computeInt32SizeNoTag(_)).sum 
+			output.writeRawVarint32(1626)
+			output.writeRawVarint32(dataSize)
+			for (_v <- `lengthDelim5`) output.writeInt32NoTag(_v)
+		}
 		if (`f32bit1`.isDefined) output.writeFixed32(500, `f32bit1`.get)
 		if (`f32bit2`.isDefined) output.writeSFixed32(501, `f32bit2`.get)
 		if (`f32bit3`.isDefined) output.writeFloat(502, `f32bit3`.get)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeInt32Size(1, `varint1`)
@@ -105,7 +112,10 @@ final case class DataTypes (
 		if (`lengthDelim2`.isDefined) __size += computeBytesSize(201, `lengthDelim2`.get)
 		if (`lengthDelim3`.isDefined) __size += computeEnumSize(202, `lengthDelim3`.get)
 		for (_v <- `lengthDelim4`) __size += computeInt32Size(204, _v)
-		for (_v <- `lengthDelim5`) __size += computeInt32Size(203, _v)
+		if (!`lengthDelim5`.isEmpty) {
+			val dataSize = `lengthDelim5`.map(computeInt32SizeNoTag(_)).sum 
+			__size += 2 + computeInt32SizeNoTag(dataSize) + dataSize
+		}
 		if (`f32bit1`.isDefined) __size += computeFixed32Size(500, `f32bit1`.get)
 		if (`f32bit2`.isDefined) __size += computeSFixed32Size(501, `f32bit2`.get)
 		if (`f32bit3`.isDefined) __size += computeFloatSize(502, `f32bit3`.get)
@@ -128,8 +138,8 @@ final case class DataTypes (
 		var __lengthDelim1: Option[String] = `lengthDelim1`
 		var __lengthDelim2: Option[com.google.protobuf.ByteString] = `lengthDelim2`
 		var __lengthDelim3: Option[DataTypes.Varint8Enum.EnumVal] = `lengthDelim3`
-		val __lengthDelim4: collection.mutable.Buffer[Int] = `lengthDelim4`.toBuffer
-		val __lengthDelim5: collection.mutable.Buffer[Int] = `lengthDelim5`.toBuffer
+		val __lengthDelim4: scala.collection.mutable.Buffer[Int] = `lengthDelim4`.toBuffer
+		val __lengthDelim5: scala.collection.mutable.Buffer[Int] = `lengthDelim5`.toBuffer
 		var __f32bit1: Option[Int] = `f32bit1`
 		var __f32bit2: Option[Int] = `f32bit2`
 		var __f32bit3: Option[Float] = `f32bit3`
@@ -170,7 +180,21 @@ final case class DataTypes (
 			case 1610 => __lengthDelim2 = Some(in.readBytes())
 			case 1616 => __lengthDelim3 = Some(DataTypes.Varint8Enum.valueOf(in.readEnum()))
 			case 1632 => __lengthDelim4 += in.readInt32()
+			case 1634 => 
+				val length = in.readRawVarint32()
+				val limit = in.pushLimit(length)
+				while (in.getBytesUntilLimit() > 0) {
+					__lengthDelim4 += in.readInt32()
+				}
+				in.popLimit(limit)
 			case 1624 => __lengthDelim5 += in.readInt32()
+			case 1626 => 
+				val length = in.readRawVarint32()
+				val limit = in.pushLimit(length)
+				while (in.getBytesUntilLimit() > 0) {
+					__lengthDelim5 += in.readInt32()
+				}
+				in.popLimit(limit)
 			case 4005 => __f32bit1 = Some(in.readFixed32())
 			case 4013 => __f32bit2 = Some(in.readSFixed32())
 			case 4021 => __f32bit3 = Some(in.readFloat())
@@ -211,10 +235,39 @@ final case class DataTypes (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"varint1\": ").append("\"").append(`varint1`).append("\"").append(',')
+			if (`varint2`.isDefined) { sb.append(indent1).append("\"varint2\": ").append("\"").append(`varint2`.get).append("\"").append(',') }
+			if (`varint3`.isDefined) { sb.append(indent1).append("\"varint3\": ").append("\"").append(`varint3`.get).append("\"").append(',') }
+			sb.append(indent1).append("\"varint4\": ").append("\"").append(`varint4`).append("\"").append(',')
+			if (`varint5`.isDefined) { sb.append(indent1).append("\"varint5\": ").append("\"").append(`varint5`.get).append("\"").append(',') }
+			if (`varint6`.isDefined) { sb.append(indent1).append("\"varint6\": ").append("\"").append(`varint6`.get).append("\"").append(',') }
+			if (`varint7`.isDefined) { sb.append(indent1).append("\"varint7\": ").append("\"").append(`varint7`.get).append("\"").append(',') }
+			if (`f64bit1`.isDefined) { sb.append(indent1).append("\"f64bit1\": ").append("\"").append(`f64bit1`.get).append("\"").append(',') }
+			if (`f64bit2`.isDefined) { sb.append(indent1).append("\"f64bit2\": ").append("\"").append(`f64bit2`.get).append("\"").append(',') }
+			if (`f64bit3`.isDefined) { sb.append(indent1).append("\"f64bit3\": ").append("\"").append(`f64bit3`.get).append("\"").append(',') }
+			if (`lengthDelim1`.isDefined) { sb.append(indent1).append("\"lengthDelim1\": ").append("\"").append(`lengthDelim1`.get).append("\"").append(',') }
+			if (`lengthDelim2`.isDefined) { sb.append(indent1).append("\"lengthDelim2\": ").append("\"").append(`lengthDelim2`.get).append("\"").append(',') }
+			if (`lengthDelim3`.isDefined) { sb.append(indent1).append("\"lengthDelim3\": ").append("\"").append(`lengthDelim3`.get).append("\"").append(',') }
+			sb.append(indent1).append("\"lengthDelim4\": [").append(indent2).append(`lengthDelim4`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
+			sb.append(indent1).append("\"lengthDelim5\": [").append(indent2).append(`lengthDelim5`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
+			if (`f32bit1`.isDefined) { sb.append(indent1).append("\"f32bit1\": ").append("\"").append(`f32bit1`.get).append("\"").append(',') }
+			if (`f32bit2`.isDefined) { sb.append(indent1).append("\"f32bit2\": ").append("\"").append(`f32bit2`.get).append("\"").append(',') }
+			if (`f32bit3`.isDefined) { sb.append(indent1).append("\"f32bit3\": ").append("\"").append(`f32bit3`.get).append("\"").append(',') }
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object DataTypes {
-	@reflect.BeanProperty val defaultInstance = new DataTypes()
+	@scala.beans.BeanProperty val defaultInstance = new DataTypes()
 
 	def parseFrom(data: Array[Byte]): DataTypes = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): DataTypes = defaultInstance.mergeFrom(data, offset, length)
@@ -270,4 +323,14 @@ object DataTypesTest {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 
+	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
+		 "DataTypes" -> (bytes ⇒ DataTypes.parseFrom(bytes))
+	)
+
+	def deserializePayload(payload: Array[Byte], payloadType: String): com.google.protobuf.GeneratedMessageLite = {
+		fromBinaryHintMap.get(payloadType) match {
+			case Some(f) ⇒ f(payload)
+			case None    ⇒ throw new IllegalArgumentException(s"unimplemented deserialization of message payload of type [${payloadType}]")
+		}
+	}
 }

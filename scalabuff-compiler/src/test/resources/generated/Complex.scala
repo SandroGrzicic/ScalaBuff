@@ -7,9 +7,9 @@ final case class ComplexMessage (
 	`firstField`: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY,
 	`secondField`: Option[String] = Some("defaultValueForSecondField"),
 	`nestedOuterField`: Option[ComplexMessage.Nested] = None,
-	`simpleEnumField`: collection.immutable.Seq[ComplexMessage.SimpleEnum.EnumVal] = Vector.empty[ComplexMessage.SimpleEnum.EnumVal],
-	`repeatedStringField`: collection.immutable.Seq[String] = Vector.empty[String],
-	`repeatedBytesField`: collection.immutable.Seq[com.google.protobuf.ByteString] = Vector.empty[com.google.protobuf.ByteString]
+	`simpleEnumField`: scala.collection.immutable.Seq[ComplexMessage.SimpleEnum.EnumVal] = Vector.empty[ComplexMessage.SimpleEnum.EnumVal],
+	`repeatedStringField`: scala.collection.immutable.Seq[String] = Vector.empty[String],
+	`repeatedBytesField`: scala.collection.immutable.Seq[com.google.protobuf.ByteString] = Vector.empty[com.google.protobuf.ByteString]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[ComplexMessage]
@@ -45,7 +45,7 @@ final case class ComplexMessage (
 		for (_v <- `repeatedBytesField`) output.writeBytes(6, _v)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeBytesSize(1, `firstField`)
@@ -63,9 +63,9 @@ final case class ComplexMessage (
 		var __firstField: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
 		var __secondField: Option[String] = `secondField`
 		var __nestedOuterField: Option[ComplexMessage.Nested] = `nestedOuterField`
-		val __simpleEnumField: collection.mutable.Buffer[ComplexMessage.SimpleEnum.EnumVal] = `simpleEnumField`.toBuffer
-		val __repeatedStringField: collection.mutable.Buffer[String] = `repeatedStringField`.toBuffer
-		val __repeatedBytesField: collection.mutable.Buffer[com.google.protobuf.ByteString] = `repeatedBytesField`.toBuffer
+		val __simpleEnumField: scala.collection.mutable.Buffer[ComplexMessage.SimpleEnum.EnumVal] = `simpleEnumField`.toBuffer
+		val __repeatedStringField: scala.collection.mutable.Buffer[String] = `repeatedStringField`.toBuffer
+		val __repeatedBytesField: scala.collection.mutable.Buffer[com.google.protobuf.ByteString] = `repeatedBytesField`.toBuffer
 
 		def __newMerged = ComplexMessage(
 			__firstField,
@@ -84,6 +84,13 @@ final case class ComplexMessage (
 				__nestedOuterField
 			}).get, _emptyRegistry))
 			case 32 => __simpleEnumField += ComplexMessage.SimpleEnum.valueOf(in.readEnum())
+			case 34 => 
+				val length = in.readRawVarint32()
+				val limit = in.pushLimit(length)
+				while (in.getBytesUntilLimit() > 0) {
+					__simpleEnumField += ComplexMessage.SimpleEnum.valueOf(in.readEnum())
+				}
+				in.popLimit(limit)
 			case 42 => __repeatedStringField += in.readString()
 			case 50 => __repeatedBytesField += in.readBytes()
 			case default => if (!in.skipField(default)) return __newMerged
@@ -111,10 +118,27 @@ final case class ComplexMessage (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"firstField\": ").append("\"").append(`firstField`).append("\"").append(',')
+			if (`secondField`.isDefined) { sb.append(indent1).append("\"secondField\": ").append("\"").append(`secondField`.get).append("\"").append(',') }
+			if (`nestedOuterField`.isDefined) { sb.append(indent1).append("\"nestedOuterField\": ").append(`nestedOuterField`.get.toJson(indent + 1)).append(',') }
+			sb.append(indent1).append("\"simpleEnumField\": [").append(indent2).append(`simpleEnumField`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
+			sb.append(indent1).append("\"repeatedStringField\": [").append(indent2).append(`repeatedStringField`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
+			sb.append(indent1).append("\"repeatedBytesField\": [").append(indent2).append(`repeatedBytesField`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object ComplexMessage {
-	@reflect.BeanProperty val defaultInstance = new ComplexMessage()
+	@scala.beans.BeanProperty val defaultInstance = new ComplexMessage()
 
 	def parseFrom(data: Array[Byte]): ComplexMessage = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): ComplexMessage = defaultInstance.mergeFrom(data, offset, length)
@@ -166,7 +190,7 @@ object ComplexMessage {
 			if (`nestedEnum`.isDefined) output.writeEnum(2, `nestedEnum`.get)
 		}
 
-		lazy val getSerializedSize = {
+		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
 			__size += computeStringSize(1, `nestedField`)
@@ -209,10 +233,23 @@ object ComplexMessage {
 		override def getParserForType = this
 		def newBuilderForType = getDefaultInstanceForType
 		def toBuilder = this
+		def toJson(indent: Int = 0): String = {
+			val indent0 = "\n" + ("\t" * indent)
+			val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+			val sb = StringBuilder.newBuilder
+			sb
+				.append("{")
+				sb.append(indent1).append("\"nestedField\": ").append("\"").append(`nestedField`).append("\"").append(',')
+				if (`nestedEnum`.isDefined) { sb.append(indent1).append("\"nestedEnum\": ").append("\"").append(`nestedEnum`.get).append("\"").append(',') }
+			if (sb.last.equals(',')) sb.length -= 1
+			sb.append(indent0).append("}")
+			sb.toString()
+		}
+
 	}
 
 	object Nested {
-		@reflect.BeanProperty val defaultInstance = new Nested()
+		@scala.beans.BeanProperty val defaultInstance = new Nested()
 
 		def parseFrom(data: Array[Byte]): Nested = defaultInstance.mergeFrom(data)
 		def parseFrom(data: Array[Byte], offset: Int, length: Int): Nested = defaultInstance.mergeFrom(data, offset, length)
@@ -243,7 +280,7 @@ final case class AnotherMessage (
 		output.writeEnum(2, `fieldEnum`)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeMessageSize(1, `fieldNested`)
@@ -286,10 +323,23 @@ final case class AnotherMessage (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"fieldNested\": ").append(`fieldNested`.toJson(indent + 1)).append(',')
+			sb.append(indent1).append("\"fieldEnum\": ").append("\"").append(`fieldEnum`).append("\"").append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object AnotherMessage {
-	@reflect.BeanProperty val defaultInstance = new AnotherMessage()
+	@scala.beans.BeanProperty val defaultInstance = new AnotherMessage()
 
 	def parseFrom(data: Array[Byte]): AnotherMessage = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): AnotherMessage = defaultInstance.mergeFrom(data, offset, length)
@@ -309,4 +359,15 @@ object Complex {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 
+	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
+		 "ComplexMessage" -> (bytes ⇒ ComplexMessage.parseFrom(bytes)),
+		 "AnotherMessage" -> (bytes ⇒ AnotherMessage.parseFrom(bytes))
+	)
+
+	def deserializePayload(payload: Array[Byte], payloadType: String): com.google.protobuf.GeneratedMessageLite = {
+		fromBinaryHintMap.get(payloadType) match {
+			case Some(f) ⇒ f(payload)
+			case None    ⇒ throw new IllegalArgumentException(s"unimplemented deserialization of message payload of type [${payloadType}]")
+		}
+	}
 }

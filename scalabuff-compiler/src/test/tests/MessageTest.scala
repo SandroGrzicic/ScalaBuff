@@ -1,7 +1,7 @@
 package tests
 
 import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 import resources.generated._
 import com.google.protobuf._
 import scala.collection._
@@ -12,7 +12,7 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
  * @author Sandro Gržičić
  */
 
-class MessageTest extends FunSuite with ShouldMatchers {
+class MessageTest extends FunSuite with Matchers {
 
   test("ComplexMessage") {
     val nestedNested = "Nested String"

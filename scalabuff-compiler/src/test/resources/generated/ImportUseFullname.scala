@@ -60,7 +60,7 @@ final case class UseFullImportedName (
 }
 
 object UseFullImportedName {
-	@reflect.BeanProperty val defaultInstance = new UseFullImportedName()
+	@scala.beans.BeanProperty val defaultInstance = new UseFullImportedName()
 
 	def parseFrom(data: Array[Byte]): UseFullImportedName = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): UseFullImportedName = defaultInstance.mergeFrom(data, offset, length)

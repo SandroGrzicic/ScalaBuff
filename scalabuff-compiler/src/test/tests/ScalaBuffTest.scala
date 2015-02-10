@@ -1,34 +1,33 @@
 package tests
 
-import org.scalatest.FunSuite
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.{Matchers, FunSuite}
 import net.sandrogrzicic.scalabuff.compiler._
 import net.sandrogrzicic.scalabuff.compiler.{Strings, ScalaBuff, ScalaClass}
 import java.io.{PrintStream, ByteArrayOutputStream, File}
-import File.{separator => SEP}
+import File.{separator => /}
 
 /**
  * ScalaBuff CLI runner test.
  * @author Sandro Gržičić
  */
 
-class ScalaBuffTest extends FunSuite with ShouldMatchers {
+class ScalaBuffTest extends FunSuite with Matchers {
 
   val NEWLINE = System.getProperty("line.separator")
 
   val parsedExtension = ".txt"
 
-  val outputDir = "scalabuff-compiler" + SEP + "src" + SEP + "test" + SEP
+  val outputDir = "scalabuff-compiler" + / + "src" + / + "test" + /
 
-  val protoDir = outputDir + "resources" + SEP + "proto" + SEP
-  val multiProtoDir = outputDir + "resources" + SEP + "multipleprototests" + SEP
-  val parsedDir = outputDir + "resources" + SEP + "parsed" + SEP
-  val resourcesGeneratedDir = "resources" + SEP + "generated" + SEP
+  val protoDir = outputDir + "resources" + / + "proto" + /
+  val multiProtoDir = outputDir + "resources" + / + "multipleprototests" + /
+  val parsedDir = outputDir + "resources" + / + "parsed" + /
+  val resourcesGeneratedDir = "resources" + / + "generated" + /
   val generatedDir = outputDir + resourcesGeneratedDir
 
   val testProto = "simple"
-  val testProtoParsed = io.Source.fromFile(new File(parsedDir + testProto + parsedExtension)).mkString
-  val testProtoGenerated = io.Source.fromFile(new File(generatedDir + testProto.capitalize + ".scala")).mkString
+  val testProtoParsed = io.Source.fromFile(new File(parsedDir + testProto + parsedExtension), "UTF-8").mkString
+  val testProtoGenerated = io.Source.fromFile(new File(generatedDir + testProto.capitalize + ".scala"), "UTF-8").mkString
 
   val testProtoMulti = "multi_one"
 
@@ -51,8 +50,8 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
   }
 
   test("run: simple .proto file without a specified output directory") {
-    val resourcesDirectory = new File("scalabuff-compiler" + SEP + "resources")
-    val resourcesGeneratedDirectory = new File("scalabuff-compiler" + SEP + resourcesGeneratedDir)
+    val resourcesDirectory = new File("scalabuff-compiler" + / + "resources")
+    val resourcesGeneratedDirectory = new File("scalabuff-compiler" + / + resourcesGeneratedDir)
     // don't attempt to modify an existing root folder
     if (!(resourcesDirectory.exists() && resourcesDirectory.isDirectory ||
       resourcesGeneratedDirectory.exists() && resourcesGeneratedDirectory.isDirectory)
@@ -66,11 +65,11 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
       val outputFile = new File(resourcesGeneratedDir + testProto.camelCase + ".scala")
       outputFile should be('exists)
       outputFile.deleteOnExit()
-      val outputFileSource = io.Source.fromFile(outputFile)
+      val outputFileSource = io.Source.fromFile(outputFile, "UTF-8")
       outputFileSource.mkString should equal(testProtoGenerated)
       outputFileSource.close()
       outputFile.delete()
-      new File("resources" + SEP + "generated").delete()
+      new File("resources" + / + "generated").delete()
       new File("resources").delete()
     }
   }
@@ -81,12 +80,13 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
     Console.withOut(new PrintStream(outputStream)) {
       ScalaBuff.run(Array("-v", "-v", "--generate_json_method", "--scala_out=" + outputDir, simpleProto))
       val output = outputStream.toString.split("\r\n")
-      output.length should be (3)
-      output(1) should startWith("Processing: ")
+      info(s"Output: ${output.mkString("[", "---", "]")}")
+      output.length should be (2)
+      output(1) should startWith("Paths: ")
     }
-    val outputFile = new File(outputDir + SEP + resourcesGeneratedDir + testProto.camelCase + ".scala")
+    val outputFile = new File(outputDir + / + resourcesGeneratedDir + testProto.camelCase + ".scala")
     outputFile should be('exists)
-    val outputFileSource = io.Source.fromFile(outputFile)
+    val outputFileSource = io.Source.fromFile(outputFile, "UTF-8")
     outputFileSource.mkString should equal(testProtoGenerated)
     outputFileSource.close()
   }
@@ -101,10 +101,10 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
     }
 
     for (proto <- protoFiles) {
-      val outputFile = new File(outputDir + SEP + resourcesGeneratedDir + proto.camelCase + ".scala")
+      val outputFile = new File(outputDir + / + resourcesGeneratedDir + proto.camelCase + ".scala")
       outputFile should be('exists)
-      val outputFileSource = io.Source.fromFile(outputFile)
-      val exampleProtoGenerated = io.Source.fromFile(new File(generatedDir + proto.camelCase + ".scala")).mkString
+      val outputFileSource = io.Source.fromFile(outputFile, "UTF-8")
+      val exampleProtoGenerated = io.Source.fromFile(new File(generatedDir + proto.camelCase + ".scala"), "UTF-8").mkString
       outputFileSource.mkString should equal(exampleProtoGenerated)
       outputFileSource.close()
     }
@@ -121,10 +121,10 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
       outputStream.toString("utf-8").split("\n").size should be(1)
     }
 
-    val outputFile = new File(outputDir + SEP + resourcesGeneratedDir + testProtoMulti.camelCase + ".scala")
+    val outputFile = new File(outputDir + / + resourcesGeneratedDir + testProtoMulti.camelCase + ".scala")
     outputFile should be('exists)
-    val outputFileSource = io.Source.fromFile(outputFile)
-    val exampleProtoGenerated = io.Source.fromFile(new File(generatedDir + testProtoMulti.camelCase + ".scala")).mkString
+    val outputFileSource = io.Source.fromFile(outputFile, "UTF-8")
+    val exampleProtoGenerated = io.Source.fromFile(new File(generatedDir + testProtoMulti.camelCase + ".scala"), "UTF-8").mkString
     outputFileSource.mkString should equal(exampleProtoGenerated)
     outputFileSource.close()
   }
@@ -143,12 +143,12 @@ class ScalaBuffTest extends FunSuite with ShouldMatchers {
       }
 
       val outputFile =
-        new File(outputDir + SEP + resourcesGeneratedDir +
-          subFolder.map(_ + SEP).getOrElse("") + scalaFile)
+        new File(outputDir + / + resourcesGeneratedDir +
+          subFolder.map(_ + /).getOrElse("") + scalaFile)
       outputFile should be('exists)
-      val outputFileSource = io.Source.fromFile(outputFile)
+      val outputFileSource = io.Source.fromFile(outputFile, "UTF-8")
       val exampleProtoGenerated =
-        io.Source.fromFile(new File(generatedDir + subFolder.map(_ + SEP).getOrElse("") + scalaFile)).mkString
+        io.Source.fromFile(new File(generatedDir + subFolder.map(_ + /).getOrElse("") + scalaFile), "UTF-8").mkString
       outputFileSource.mkString should equal(exampleProtoGenerated)
       outputFileSource.close()
     }

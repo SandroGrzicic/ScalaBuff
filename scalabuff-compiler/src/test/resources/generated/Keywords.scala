@@ -32,7 +32,7 @@ final case class KeywordsTest (
 		output.writeInt32(9, `type`)
 	}
 
-	lazy val getSerializedSize = {
+	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeInt64Size(1, `size`)
@@ -110,10 +110,30 @@ final case class KeywordsTest (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"size\": ").append("\"").append(`size`).append("\"").append(',')
+			sb.append(indent1).append("\"case\": ").append("\"").append(`case`).append("\"").append(',')
+			sb.append(indent1).append("\"val\": ").append("\"").append(`val`).append("\"").append(',')
+			sb.append(indent1).append("\"var\": ").append("\"").append(`var`).append("\"").append(',')
+			sb.append(indent1).append("\"def\": ").append("\"").append(`def`).append("\"").append(',')
+			sb.append(indent1).append("\"object\": ").append("\"").append(`object`).append("\"").append(',')
+			sb.append(indent1).append("\"class\": ").append("\"").append(`class`).append("\"").append(',')
+			sb.append(indent1).append("\"lazy\": ").append("\"").append(`lazy`).append("\"").append(',')
+			sb.append(indent1).append("\"type\": ").append("\"").append(`type`).append("\"").append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object KeywordsTest {
-	@reflect.BeanProperty val defaultInstance = new KeywordsTest()
+	@scala.beans.BeanProperty val defaultInstance = new KeywordsTest()
 
 	def parseFrom(data: Array[Byte]): KeywordsTest = defaultInstance.mergeFrom(data)
 	def parseFrom(data: Array[Byte], offset: Int, length: Int): KeywordsTest = defaultInstance.mergeFrom(data, offset, length)
@@ -140,4 +160,14 @@ object Keywords {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 
+	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
+		 "KeywordsTest" -> (bytes ⇒ KeywordsTest.parseFrom(bytes))
+	)
+
+	def deserializePayload(payload: Array[Byte], payloadType: String): com.google.protobuf.GeneratedMessageLite = {
+		fromBinaryHintMap.get(payloadType) match {
+			case Some(f) ⇒ f(payload)
+			case None    ⇒ throw new IllegalArgumentException(s"unimplemented deserialization of message payload of type [${payloadType}]")
+		}
+	}
 }

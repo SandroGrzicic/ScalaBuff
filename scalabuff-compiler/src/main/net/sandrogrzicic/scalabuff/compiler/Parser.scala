@@ -4,6 +4,7 @@ import util.parsing.combinator._
 import util.parsing.input.{ PagedSeqReader, CharSequenceReader }
 import collection.immutable.PagedSeq
 import collection.mutable.ListBuffer
+import scala.language.postfixOps
 
 /**
  * Main Protobuf parser.
