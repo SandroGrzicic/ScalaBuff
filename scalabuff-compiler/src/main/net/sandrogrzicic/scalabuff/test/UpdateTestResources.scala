@@ -39,7 +39,7 @@ object UpdateTestResources extends App {
     val protoFiles = protoDirFile.listFiles(protoFileFilter)
 		for (file <- protoFiles) {
 			val fileName = file.getName.dropRight(protoExtension.length).camelCase
-			val generatedParsedFile = new File(parsedDir + fileName + parsedExtension)
+			val generatedParsedFile = new File(parsedDir + fileName.camelCase + parsedExtension)
 			generatedParsedFile.delete()
 
 			val generatedParsed = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(generatedParsedFile), "utf-8"))
