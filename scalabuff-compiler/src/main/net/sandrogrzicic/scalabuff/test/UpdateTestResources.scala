@@ -72,7 +72,8 @@ object UpdateTestResources extends App {
         // for now, this is hard-coded.
         val importedSymbols = Map(
           "PackageTest" -> ImportedSymbol("resources.generated.nested", isEnum = false, "resources.generated.nested"),
-          "PackageTestNoJavaPackage" -> ImportedSymbol("", isEnum = false, "resources.generated.nested")
+          "PackageTestNoJavaPackage" -> ImportedSymbol("", isEnum = false, "resources.generated.nested"),
+          "AnEnumToImport" -> ImportedSymbol("", isEnum = true, "resources.generated.nested")
         )
 
         val generated = Generator(parsed, file.getName, importedSymbols, generateJsonMethod = true, None)

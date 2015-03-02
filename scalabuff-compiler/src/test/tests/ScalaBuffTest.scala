@@ -161,6 +161,8 @@ class ScalaBuffTest extends FunSuite with Matchers {
     compile("import_use_fullname", None)
     compile("package_name_no_java_package", Some("nested"))
     compile("import_packages_no_java_package", None)
+    compile("enum_to_import", Some("nested"))
+    compile("import_enum", None)
   }
 
   test("run: unknown option") {

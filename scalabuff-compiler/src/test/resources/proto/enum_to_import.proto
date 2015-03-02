@@ -1,0 +1,6 @@
+package resources.generated.nested;
+
+enum AnEnumToImport {
+	KEYBOARD = 1;
+	MOUSE = 2;
+}
