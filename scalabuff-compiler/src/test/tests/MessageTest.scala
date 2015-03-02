@@ -5,6 +5,7 @@ import resources.generated._
 import com.google.protobuf._
 import scala.collection._
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
+import scala.util.{Try, Success, Failure}
 
 /**
  * Tests whether generated Scala classes function correctly.
@@ -41,6 +42,25 @@ class MessageTest extends FunSuite with Matchers {
     received.simpleEnumField should equal (sent.simpleEnumField)
     received.repeatedStringField should equal (sent.repeatedStringField)
     received.repeatedBytesField should equal (sent.repeatedBytesField)
+  }
+
+  test("Missing required field") {
+    val v1 = Required_v1(3,"test")
+    val v2 = Required_v2(2,"test2","test3")
+
+
+    val received1 = Required_v1.defaultInstance.mergeFrom(v2.toByteArray)
+    val received2 = Try { Required_v2.defaultInstance.mergeFrom(v1.toByteArray) }
+
+    val msg = received2 match {
+      case Success(s) => s.toString
+      case Failure(f) => f.getMessage
+    }
+
+    received1.`requiredField1` should equal(2)
+    received1.`requiredField2` should equal("test2")
+    received2.isFailure should equal(true)
+    msg should equal("key not found: required_field_3")
   }
 
   test("object.parseFrom") {
