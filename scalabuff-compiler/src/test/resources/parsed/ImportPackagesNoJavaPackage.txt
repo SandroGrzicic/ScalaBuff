@@ -1,0 +1,1 @@
+List(PackageStatement(resources.generated), ImportStatement("package_name_no_java_package.proto"), Message(UsesPackageTestNoJavaPackage,MessageBody(List(Field(required,PackageTestNoJavaPackage,package_test,1,List(),)),List(),List(),List(),List(),List(),List())))

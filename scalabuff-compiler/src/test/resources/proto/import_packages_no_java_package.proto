@@ -1,0 +1,7 @@
+package resources.generated;
+
+import "package_name_no_java_package.proto";
+
+message UsesPackageTestNoJavaPackage {
+  required PackageTestNoJavaPackage package_test = 1;
+}
