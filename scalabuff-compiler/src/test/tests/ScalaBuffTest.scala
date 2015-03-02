@@ -26,7 +26,7 @@ class ScalaBuffTest extends FunSuite with Matchers {
   val generatedDir = outputDir + resourcesGeneratedDir
 
   val testProto = "simple"
-  val testProtoParsed = io.Source.fromFile(new File(parsedDir + testProto + parsedExtension), "UTF-8").mkString
+  val testProtoParsed = io.Source.fromFile(new File(parsedDir + testProto.capitalize + parsedExtension), "UTF-8").mkString
   val testProtoGenerated = io.Source.fromFile(new File(generatedDir + testProto.capitalize + ".scala"), "UTF-8").mkString
 
   val testProtoMulti = "multi_one"
@@ -79,7 +79,7 @@ class ScalaBuffTest extends FunSuite with Matchers {
     val simpleProto = protoDir + testProto + ".proto"
     Console.withOut(new PrintStream(outputStream)) {
       ScalaBuff.run(Array("-v", "-v", "--generate_json_method", "--scala_out=" + outputDir, simpleProto))
-      val output = outputStream.toString.split("\r\n")
+      val output = outputStream.toString.split(NEWLINE)
       output.length should be (2)
       output(0) should startWith("Parameters: ")
       output(1) should startWith("Paths: ")
