@@ -17,21 +17,23 @@ class ScalaBuffTest extends FunSuite with Matchers {
 
   val parsedExtension = ".txt"
 
-  val outputDir = "scalabuff-compiler" + / + "src" + / + "test" + /
+  val testSrcDir = "scalabuff-compiler" + / + "src" + / + "test" + /
 
-  val protoDir = outputDir + "resources" + / + "proto" + /
-  val multiProtoDir = outputDir + "resources" + / + "multipleprototests" + /
-  val parsedDir = outputDir + "resources" + / + "parsed" + /
+  val protoDir = testSrcDir + "resources" + / + "proto" + /
+  val multiProtoDir = testSrcDir + "resources" + / + "multipleprototests" + /
+  val parsedDir = testSrcDir + "resources" + / + "parsed" + /
   val resourcesGeneratedDir = "resources" + / + "generated" + /
-  val generatedDir = outputDir + resourcesGeneratedDir
+  val generatedDir = testSrcDir + resourcesGeneratedDir
 
   val testProto = "simple"
-  val testProtoParsed = io.Source.fromFile(new File(parsedDir + testProto.capitalize + parsedExtension), "UTF-8").mkString
   val testProtoGenerated = io.Source.fromFile(new File(generatedDir + testProto.capitalize + ".scala"), "UTF-8").mkString
 
   val testProtoMulti = "multi_one"
 
   val testProtoPacked = "packed"
+
+  val outputDir = "scalabuff-compiler" + / + "target" + / + "test" + /
+  new File(outputDir).mkdirs()
 
   test("apply: simple .proto file") {
     val settings = ScalaBuff.Settings(generateJsonMethod = true)
@@ -138,6 +140,7 @@ class ScalaBuffTest extends FunSuite with Matchers {
         ScalaBuff.run(Array("--scala_out=" + outputDir,
           "--proto_path=" + protoDir,
           "--verbose",
+          "--generate_json_method",
           protoFile))
         outputStream.toString("utf-8").split("\n").size should be(1)
       }
