@@ -90,7 +90,13 @@ object ScalaBuffBuild extends Build {
 		settings = defaultSettings
 	)
 
-  val root = project.in(file(".")) settings (publish := {}) aggregate(compilerProject, runtimeProject)
+  lazy val root = project.in(file(".")).
+  			settings(publish := {}).
+  			settings(
+  				mainClass in (Compile, run) := Some("net.sandrogrzicic.scalabuff.compiler.ScalaBuff")
+  			).
+  			aggregate(compilerProject, runtimeProject).
+  			dependsOn(compilerProject)
 
 }
 
