@@ -32,7 +32,7 @@ object ScalaBuff {
    */
   def apply(file: File)(implicit settings: Settings = defaultSettings) = {
     val tree = parse(file)
-    val symbols = processImportSymbols(tree)
+    val symbols = processImportSymbols(tree, file.getParentFile)
     Generator(tree, file.getName, symbols, settings.generateJsonMethod, settings.targetScalaVersion)
   }
 
@@ -59,7 +59,8 @@ object ScalaBuff {
    * Process "import" statements in a protobuf AST by scanning the imported
    * files and building a map of their exported symbols.
    */
-  def processImportSymbols(tree: List[Node])(implicit settings: Settings = defaultSettings): Map[String, ImportedSymbol] = {
+  def processImportSymbols(tree: List[Node], parentFolder: File)(implicit settings: Settings = defaultSettings): Map[String, ImportedSymbol] = {
+    implicit val searchInFirst = Some(parentFolder)
     def dig(name: String): List[(String, ImportedSymbol)] = {
       val tree = parse(searchPath(name).getOrElse { throw new IOException("Unable to import: " + name) })
       val packageName = tree.collectFirst {
@@ -94,13 +95,13 @@ object ScalaBuff {
     recurse(startAt)
   }
 
-  def searchPath(filename: String)(implicit settings: Settings = defaultSettings): Option[File] = {
+  def searchPath(filename: String)(implicit settings: Settings = defaultSettings, searchInFirst: Option[File] = None): Option[File] = {
     val file = new File(filename)
 
     if (file.isAbsolute) {
       Option(file).filter(_.exists)
     } else {
-      settings.importDirectories.map { folder =>
+      (searchInFirst.toSeq ++ settings.importDirectories).map { folder =>
         new File(folder, filename)
       }.find(_.exists)
     }
