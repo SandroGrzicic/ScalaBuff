@@ -101,7 +101,7 @@ object ScalaBuff {
     if (file.isAbsolute) {
       Option(file).filter(_.exists)
     } else {
-      (searchInFirst.toSeq ++ settings.importDirectories).map { folder =>
+      (searchInFirst.toSeq ++ settings.importDirectories).view.map { folder =>
         new File(folder, filename)
       }.find(_.exists)
     }
