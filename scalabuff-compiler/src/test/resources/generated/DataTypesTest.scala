@@ -4,121 +4,121 @@
 package resources.generated
 
 final case class DataTypes (
-	`varint1`: Int = 0,
-	`varint2`: Option[Long] = None,
-	`varint3`: Option[Int] = None,
-	`varint4`: Long = 0L,
-	`varint5`: Option[Int] = None,
-	`varint6`: Option[Long] = None,
-	`varint7`: Option[Boolean] = None,
-	`f64bit1`: Option[Long] = None,
-	`f64bit2`: Option[Long] = None,
-	`f64bit3`: Option[Double] = None,
-	`lengthDelim1`: Option[String] = None,
-	`lengthDelim2`: Option[com.google.protobuf.ByteString] = None,
-	`lengthDelim3`: Option[DataTypes.Varint8Enum.EnumVal] = None,
-	`lengthDelim4`: scala.collection.immutable.Seq[Int] = Vector.empty[Int],
-	`lengthDelim5`: scala.collection.immutable.Seq[Int] = Vector.empty[Int],
-	`f32bit1`: Option[Int] = None,
-	`f32bit2`: Option[Int] = None,
-	`f32bit3`: Option[Float] = None
+	varint1: Int = 0,
+	varint2: Option[Long] = None,
+	varint3: Option[Int] = None,
+	varint4: Long = 0L,
+	varint5: Option[Int] = None,
+	varint6: Option[Long] = None,
+	varint7: Option[Boolean] = None,
+	f64bit1: Option[Long] = None,
+	f64bit2: Option[Long] = None,
+	f64bit3: Option[Double] = None,
+	lengthDelim1: Option[String] = None,
+	lengthDelim2: Option[com.google.protobuf.ByteString] = None,
+	lengthDelim3: Option[DataTypes.Varint8Enum.EnumVal] = None,
+	lengthDelim4: scala.collection.immutable.Seq[Int] = Vector.empty[Int],
+	lengthDelim5: scala.collection.immutable.Seq[Int] = Vector.empty[Int],
+	f32bit1: Option[Int] = None,
+	f32bit2: Option[Int] = None,
+	f32bit3: Option[Float] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[DataTypes]
 	with net.sandrogrzicic.scalabuff.Parser[DataTypes] {
 
-	def setVarint2(_f: Long) = copy(`varint2` = Some(_f))
-	def setVarint3(_f: Int) = copy(`varint3` = Some(_f))
-	def setVarint5(_f: Int) = copy(`varint5` = Some(_f))
-	def setVarint6(_f: Long) = copy(`varint6` = Some(_f))
-	def setVarint7(_f: Boolean) = copy(`varint7` = Some(_f))
-	def setF64bit1(_f: Long) = copy(`f64bit1` = Some(_f))
-	def setF64bit2(_f: Long) = copy(`f64bit2` = Some(_f))
-	def setF64bit3(_f: Double) = copy(`f64bit3` = Some(_f))
-	def setLengthDelim1(_f: String) = copy(`lengthDelim1` = Some(_f))
-	def setLengthDelim2(_f: com.google.protobuf.ByteString) = copy(`lengthDelim2` = Some(_f))
-	def setLengthDelim3(_f: DataTypes.Varint8Enum.EnumVal) = copy(`lengthDelim3` = Some(_f))
-	def setLengthDelim4(_i: Int, _v: Int) = copy(`lengthDelim4` = `lengthDelim4`.updated(_i, _v))
-	def addLengthDelim4(_f: Int) = copy(`lengthDelim4` = `lengthDelim4` :+ _f)
-	def addAllLengthDelim4(_f: Int*) = copy(`lengthDelim4` = `lengthDelim4` ++ _f)
-	def addAllLengthDelim4(_f: TraversableOnce[Int]) = copy(`lengthDelim4` = `lengthDelim4` ++ _f)
-	def setLengthDelim5(_i: Int, _v: Int) = copy(`lengthDelim5` = `lengthDelim5`.updated(_i, _v))
-	def addLengthDelim5(_f: Int) = copy(`lengthDelim5` = `lengthDelim5` :+ _f)
-	def addAllLengthDelim5(_f: Int*) = copy(`lengthDelim5` = `lengthDelim5` ++ _f)
-	def addAllLengthDelim5(_f: TraversableOnce[Int]) = copy(`lengthDelim5` = `lengthDelim5` ++ _f)
-	def setF32bit1(_f: Int) = copy(`f32bit1` = Some(_f))
-	def setF32bit2(_f: Int) = copy(`f32bit2` = Some(_f))
-	def setF32bit3(_f: Float) = copy(`f32bit3` = Some(_f))
+	def setVarint2(_f: Long) = copy(varint2 = Some(_f))
+	def setVarint3(_f: Int) = copy(varint3 = Some(_f))
+	def setVarint5(_f: Int) = copy(varint5 = Some(_f))
+	def setVarint6(_f: Long) = copy(varint6 = Some(_f))
+	def setVarint7(_f: Boolean) = copy(varint7 = Some(_f))
+	def setF64bit1(_f: Long) = copy(f64bit1 = Some(_f))
+	def setF64bit2(_f: Long) = copy(f64bit2 = Some(_f))
+	def setF64bit3(_f: Double) = copy(f64bit3 = Some(_f))
+	def setLengthDelim1(_f: String) = copy(lengthDelim1 = Some(_f))
+	def setLengthDelim2(_f: com.google.protobuf.ByteString) = copy(lengthDelim2 = Some(_f))
+	def setLengthDelim3(_f: DataTypes.Varint8Enum.EnumVal) = copy(lengthDelim3 = Some(_f))
+	def setLengthDelim4(_i: Int, _v: Int) = copy(lengthDelim4 = lengthDelim4.updated(_i, _v))
+	def addLengthDelim4(_f: Int) = copy(lengthDelim4 = lengthDelim4 :+ _f)
+	def addAllLengthDelim4(_f: Int*) = copy(lengthDelim4 = lengthDelim4 ++ _f)
+	def addAllLengthDelim4(_f: TraversableOnce[Int]) = copy(lengthDelim4 = lengthDelim4 ++ _f)
+	def setLengthDelim5(_i: Int, _v: Int) = copy(lengthDelim5 = lengthDelim5.updated(_i, _v))
+	def addLengthDelim5(_f: Int) = copy(lengthDelim5 = lengthDelim5 :+ _f)
+	def addAllLengthDelim5(_f: Int*) = copy(lengthDelim5 = lengthDelim5 ++ _f)
+	def addAllLengthDelim5(_f: TraversableOnce[Int]) = copy(lengthDelim5 = lengthDelim5 ++ _f)
+	def setF32bit1(_f: Int) = copy(f32bit1 = Some(_f))
+	def setF32bit2(_f: Int) = copy(f32bit2 = Some(_f))
+	def setF32bit3(_f: Float) = copy(f32bit3 = Some(_f))
 
-	def clearVarint2 = copy(`varint2` = None)
-	def clearVarint3 = copy(`varint3` = None)
-	def clearVarint5 = copy(`varint5` = None)
-	def clearVarint6 = copy(`varint6` = None)
-	def clearVarint7 = copy(`varint7` = None)
-	def clearF64bit1 = copy(`f64bit1` = None)
-	def clearF64bit2 = copy(`f64bit2` = None)
-	def clearF64bit3 = copy(`f64bit3` = None)
-	def clearLengthDelim1 = copy(`lengthDelim1` = None)
-	def clearLengthDelim2 = copy(`lengthDelim2` = None)
-	def clearLengthDelim3 = copy(`lengthDelim3` = None)
-	def clearLengthDelim4 = copy(`lengthDelim4` = Vector.empty[Int])
-	def clearLengthDelim5 = copy(`lengthDelim5` = Vector.empty[Int])
-	def clearF32bit1 = copy(`f32bit1` = None)
-	def clearF32bit2 = copy(`f32bit2` = None)
-	def clearF32bit3 = copy(`f32bit3` = None)
+	def clearVarint2 = copy(varint2 = None)
+	def clearVarint3 = copy(varint3 = None)
+	def clearVarint5 = copy(varint5 = None)
+	def clearVarint6 = copy(varint6 = None)
+	def clearVarint7 = copy(varint7 = None)
+	def clearF64bit1 = copy(f64bit1 = None)
+	def clearF64bit2 = copy(f64bit2 = None)
+	def clearF64bit3 = copy(f64bit3 = None)
+	def clearLengthDelim1 = copy(lengthDelim1 = None)
+	def clearLengthDelim2 = copy(lengthDelim2 = None)
+	def clearLengthDelim3 = copy(lengthDelim3 = None)
+	def clearLengthDelim4 = copy(lengthDelim4 = Vector.empty[Int])
+	def clearLengthDelim5 = copy(lengthDelim5 = Vector.empty[Int])
+	def clearF32bit1 = copy(f32bit1 = None)
+	def clearF32bit2 = copy(f32bit2 = None)
+	def clearF32bit3 = copy(f32bit3 = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeInt32(1, `varint1`)
-		if (`varint2`.isDefined) output.writeInt64(2, `varint2`.get)
-		if (`varint3`.isDefined) output.writeUInt32(3, `varint3`.get)
-		output.writeUInt64(4, `varint4`)
-		if (`varint5`.isDefined) output.writeSInt32(5, `varint5`.get)
-		if (`varint6`.isDefined) output.writeSInt64(6, `varint6`.get)
-		if (`varint7`.isDefined) output.writeBool(7, `varint7`.get)
-		if (`f64bit1`.isDefined) output.writeFixed64(100, `f64bit1`.get)
-		if (`f64bit2`.isDefined) output.writeSFixed64(101, `f64bit2`.get)
-		if (`f64bit3`.isDefined) output.writeDouble(102, `f64bit3`.get)
-		if (`lengthDelim1`.isDefined) output.writeString(200, `lengthDelim1`.get)
-		if (`lengthDelim2`.isDefined) output.writeBytes(201, `lengthDelim2`.get)
-		if (`lengthDelim3`.isDefined) output.writeEnum(202, `lengthDelim3`.get)
-		for (_v <- `lengthDelim4`) output.writeInt32(204, _v)
+		output.writeInt32(1, varint1)
+		if (varint2.isDefined) output.writeInt64(2, varint2.get)
+		if (varint3.isDefined) output.writeUInt32(3, varint3.get)
+		output.writeUInt64(4, varint4)
+		if (varint5.isDefined) output.writeSInt32(5, varint5.get)
+		if (varint6.isDefined) output.writeSInt64(6, varint6.get)
+		if (varint7.isDefined) output.writeBool(7, varint7.get)
+		if (f64bit1.isDefined) output.writeFixed64(100, f64bit1.get)
+		if (f64bit2.isDefined) output.writeSFixed64(101, f64bit2.get)
+		if (f64bit3.isDefined) output.writeDouble(102, f64bit3.get)
+		if (lengthDelim1.isDefined) output.writeString(200, lengthDelim1.get)
+		if (lengthDelim2.isDefined) output.writeBytes(201, lengthDelim2.get)
+		if (lengthDelim3.isDefined) output.writeEnum(202, lengthDelim3.get)
+		for (_v <- lengthDelim4) output.writeInt32(204, _v)
 		// write field length_delim5 packed 
-		if (!`lengthDelim5`.isEmpty) {
+		if (!lengthDelim5.isEmpty) {
 			import com.google.protobuf.CodedOutputStream._
-			val dataSize = `lengthDelim5`.map(computeInt32SizeNoTag(_)).sum 
+			val dataSize = lengthDelim5.map(computeInt32SizeNoTag(_)).sum 
 			output.writeRawVarint32(1626)
 			output.writeRawVarint32(dataSize)
-			for (_v <- `lengthDelim5`) output.writeInt32NoTag(_v)
+			for (_v <- lengthDelim5) output.writeInt32NoTag(_v)
 		}
-		if (`f32bit1`.isDefined) output.writeFixed32(500, `f32bit1`.get)
-		if (`f32bit2`.isDefined) output.writeSFixed32(501, `f32bit2`.get)
-		if (`f32bit3`.isDefined) output.writeFloat(502, `f32bit3`.get)
+		if (f32bit1.isDefined) output.writeFixed32(500, f32bit1.get)
+		if (f32bit2.isDefined) output.writeSFixed32(501, f32bit2.get)
+		if (f32bit3.isDefined) output.writeFloat(502, f32bit3.get)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeInt32Size(1, `varint1`)
-		if (`varint2`.isDefined) __size += computeInt64Size(2, `varint2`.get)
-		if (`varint3`.isDefined) __size += computeUInt32Size(3, `varint3`.get)
-		__size += computeUInt64Size(4, `varint4`)
-		if (`varint5`.isDefined) __size += computeSInt32Size(5, `varint5`.get)
-		if (`varint6`.isDefined) __size += computeSInt64Size(6, `varint6`.get)
-		if (`varint7`.isDefined) __size += computeBoolSize(7, `varint7`.get)
-		if (`f64bit1`.isDefined) __size += computeFixed64Size(100, `f64bit1`.get)
-		if (`f64bit2`.isDefined) __size += computeSFixed64Size(101, `f64bit2`.get)
-		if (`f64bit3`.isDefined) __size += computeDoubleSize(102, `f64bit3`.get)
-		if (`lengthDelim1`.isDefined) __size += computeStringSize(200, `lengthDelim1`.get)
-		if (`lengthDelim2`.isDefined) __size += computeBytesSize(201, `lengthDelim2`.get)
-		if (`lengthDelim3`.isDefined) __size += computeEnumSize(202, `lengthDelim3`.get)
-		for (_v <- `lengthDelim4`) __size += computeInt32Size(204, _v)
-		if (!`lengthDelim5`.isEmpty) {
-			val dataSize = `lengthDelim5`.map(computeInt32SizeNoTag(_)).sum 
+		__size += computeInt32Size(1, varint1)
+		if (varint2.isDefined) __size += computeInt64Size(2, varint2.get)
+		if (varint3.isDefined) __size += computeUInt32Size(3, varint3.get)
+		__size += computeUInt64Size(4, varint4)
+		if (varint5.isDefined) __size += computeSInt32Size(5, varint5.get)
+		if (varint6.isDefined) __size += computeSInt64Size(6, varint6.get)
+		if (varint7.isDefined) __size += computeBoolSize(7, varint7.get)
+		if (f64bit1.isDefined) __size += computeFixed64Size(100, f64bit1.get)
+		if (f64bit2.isDefined) __size += computeSFixed64Size(101, f64bit2.get)
+		if (f64bit3.isDefined) __size += computeDoubleSize(102, f64bit3.get)
+		if (lengthDelim1.isDefined) __size += computeStringSize(200, lengthDelim1.get)
+		if (lengthDelim2.isDefined) __size += computeBytesSize(201, lengthDelim2.get)
+		if (lengthDelim3.isDefined) __size += computeEnumSize(202, lengthDelim3.get)
+		for (_v <- lengthDelim4) __size += computeInt32Size(204, _v)
+		if (!lengthDelim5.isEmpty) {
+			val dataSize = lengthDelim5.map(computeInt32SizeNoTag(_)).sum 
 			__size += 2 + computeInt32SizeNoTag(dataSize) + dataSize
 		}
-		if (`f32bit1`.isDefined) __size += computeFixed32Size(500, `f32bit1`.get)
-		if (`f32bit2`.isDefined) __size += computeSFixed32Size(501, `f32bit2`.get)
-		if (`f32bit3`.isDefined) __size += computeFloatSize(502, `f32bit3`.get)
+		if (f32bit1.isDefined) __size += computeFixed32Size(500, f32bit1.get)
+		if (f32bit2.isDefined) __size += computeSFixed32Size(501, f32bit2.get)
+		if (f32bit3.isDefined) __size += computeFloatSize(502, f32bit3.get)
 
 		__size
 	}
@@ -126,23 +126,23 @@ final case class DataTypes (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): DataTypes = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __varint1: Int = 0
-		var __varint2: Option[Long] = `varint2`
-		var __varint3: Option[Int] = `varint3`
+		var __varint2: Option[Long] = varint2
+		var __varint3: Option[Int] = varint3
 		var __varint4: Long = 0L
-		var __varint5: Option[Int] = `varint5`
-		var __varint6: Option[Long] = `varint6`
-		var __varint7: Option[Boolean] = `varint7`
-		var __f64bit1: Option[Long] = `f64bit1`
-		var __f64bit2: Option[Long] = `f64bit2`
-		var __f64bit3: Option[Double] = `f64bit3`
-		var __lengthDelim1: Option[String] = `lengthDelim1`
-		var __lengthDelim2: Option[com.google.protobuf.ByteString] = `lengthDelim2`
-		var __lengthDelim3: Option[DataTypes.Varint8Enum.EnumVal] = `lengthDelim3`
-		val __lengthDelim4: scala.collection.mutable.Buffer[Int] = `lengthDelim4`.toBuffer
-		val __lengthDelim5: scala.collection.mutable.Buffer[Int] = `lengthDelim5`.toBuffer
-		var __f32bit1: Option[Int] = `f32bit1`
-		var __f32bit2: Option[Int] = `f32bit2`
-		var __f32bit3: Option[Float] = `f32bit3`
+		var __varint5: Option[Int] = varint5
+		var __varint6: Option[Long] = varint6
+		var __varint7: Option[Boolean] = varint7
+		var __f64bit1: Option[Long] = f64bit1
+		var __f64bit2: Option[Long] = f64bit2
+		var __f64bit3: Option[Double] = f64bit3
+		var __lengthDelim1: Option[String] = lengthDelim1
+		var __lengthDelim2: Option[com.google.protobuf.ByteString] = lengthDelim2
+		var __lengthDelim3: Option[DataTypes.Varint8Enum.EnumVal] = lengthDelim3
+		val __lengthDelim4: scala.collection.mutable.Buffer[Int] = lengthDelim4.toBuffer
+		val __lengthDelim5: scala.collection.mutable.Buffer[Int] = lengthDelim5.toBuffer
+		var __f32bit1: Option[Int] = f32bit1
+		var __f32bit2: Option[Int] = f32bit2
+		var __f32bit3: Option[Float] = f32bit3
 
 		def __newMerged = DataTypes(
 			__varint1,
@@ -205,24 +205,24 @@ final case class DataTypes (
 
 	def mergeFrom(m: DataTypes) = {
 		DataTypes(
-			m.`varint1`,
-			m.`varint2`.orElse(`varint2`),
-			m.`varint3`.orElse(`varint3`),
-			m.`varint4`,
-			m.`varint5`.orElse(`varint5`),
-			m.`varint6`.orElse(`varint6`),
-			m.`varint7`.orElse(`varint7`),
-			m.`f64bit1`.orElse(`f64bit1`),
-			m.`f64bit2`.orElse(`f64bit2`),
-			m.`f64bit3`.orElse(`f64bit3`),
-			m.`lengthDelim1`.orElse(`lengthDelim1`),
-			m.`lengthDelim2`.orElse(`lengthDelim2`),
-			m.`lengthDelim3`.orElse(`lengthDelim3`),
-			`lengthDelim4` ++ m.`lengthDelim4`,
-			`lengthDelim5` ++ m.`lengthDelim5`,
-			m.`f32bit1`.orElse(`f32bit1`),
-			m.`f32bit2`.orElse(`f32bit2`),
-			m.`f32bit3`.orElse(`f32bit3`)
+			m.varint1,
+			m.varint2.orElse(varint2),
+			m.varint3.orElse(varint3),
+			m.varint4,
+			m.varint5.orElse(varint5),
+			m.varint6.orElse(varint6),
+			m.varint7.orElse(varint7),
+			m.f64bit1.orElse(f64bit1),
+			m.f64bit2.orElse(f64bit2),
+			m.f64bit3.orElse(f64bit3),
+			m.lengthDelim1.orElse(lengthDelim1),
+			m.lengthDelim2.orElse(lengthDelim2),
+			m.lengthDelim3.orElse(lengthDelim3),
+			lengthDelim4 ++ m.lengthDelim4,
+			lengthDelim5 ++ m.lengthDelim5,
+			m.f32bit1.orElse(f32bit1),
+			m.f32bit2.orElse(f32bit2),
+			m.f32bit3.orElse(f32bit3)
 		)
 	}
 

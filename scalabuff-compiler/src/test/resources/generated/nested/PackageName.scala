@@ -4,7 +4,7 @@
 package resources.generated.nested
 
 final case class PackageTest (
-	`requiredField`: Int = 0
+	requiredField: Int = 0
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[PackageTest]
@@ -13,13 +13,13 @@ final case class PackageTest (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeInt32(1, `requiredField`)
+		output.writeInt32(1, requiredField)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeInt32Size(1, `requiredField`)
+		__size += computeInt32Size(1, requiredField)
 
 		__size
 	}
@@ -41,7 +41,7 @@ final case class PackageTest (
 
 	def mergeFrom(m: PackageTest) = {
 		PackageTest(
-			m.`requiredField`
+			m.requiredField
 		)
 	}
 
@@ -54,7 +54,18 @@ final case class PackageTest (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
-	def toJson(indent: Int = 0): String = "ScalaBuff JSON generation not enabled. Use --generate_json_method to enable."
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"requiredField\": ").append("\"").append(`requiredField`).append("\"").append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object PackageTest {

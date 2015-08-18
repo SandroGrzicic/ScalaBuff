@@ -23,37 +23,37 @@ object ComputerPeripherals extends net.sandrogrzicic.scalabuff.Enum {
 	}
 }
 final case class MyPeripherals (
-	`primaryPeripheral`: Option[ComputerPeripherals.EnumVal] = Some(ComputerPeripherals.KEYBOARD),
-	`secondaryPeripheral`: Option[ComputerPeripherals.EnumVal] = None
+	primaryPeripheral: Option[ComputerPeripherals.EnumVal] = Some(ComputerPeripherals.KEYBOARD),
+	secondaryPeripheral: Option[ComputerPeripherals.EnumVal] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[MyPeripherals]
 	with net.sandrogrzicic.scalabuff.Parser[MyPeripherals] {
 
-	def setPrimaryPeripheral(_f: ComputerPeripherals.EnumVal) = copy(`primaryPeripheral` = Some(_f))
-	def setSecondaryPeripheral(_f: ComputerPeripherals.EnumVal) = copy(`secondaryPeripheral` = Some(_f))
+	def setPrimaryPeripheral(_f: ComputerPeripherals.EnumVal) = copy(primaryPeripheral = Some(_f))
+	def setSecondaryPeripheral(_f: ComputerPeripherals.EnumVal) = copy(secondaryPeripheral = Some(_f))
 
-	def clearPrimaryPeripheral = copy(`primaryPeripheral` = None)
-	def clearSecondaryPeripheral = copy(`secondaryPeripheral` = None)
+	def clearPrimaryPeripheral = copy(primaryPeripheral = None)
+	def clearSecondaryPeripheral = copy(secondaryPeripheral = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		if (`primaryPeripheral`.isDefined) output.writeEnum(1, `primaryPeripheral`.get)
-		if (`secondaryPeripheral`.isDefined) output.writeEnum(2, `secondaryPeripheral`.get)
+		if (primaryPeripheral.isDefined) output.writeEnum(1, primaryPeripheral.get)
+		if (secondaryPeripheral.isDefined) output.writeEnum(2, secondaryPeripheral.get)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		if (`primaryPeripheral`.isDefined) __size += computeEnumSize(1, `primaryPeripheral`.get)
-		if (`secondaryPeripheral`.isDefined) __size += computeEnumSize(2, `secondaryPeripheral`.get)
+		if (primaryPeripheral.isDefined) __size += computeEnumSize(1, primaryPeripheral.get)
+		if (secondaryPeripheral.isDefined) __size += computeEnumSize(2, secondaryPeripheral.get)
 
 		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): MyPeripherals = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __primaryPeripheral: Option[ComputerPeripherals.EnumVal] = `primaryPeripheral`
-		var __secondaryPeripheral: Option[ComputerPeripherals.EnumVal] = `secondaryPeripheral`
+		var __primaryPeripheral: Option[ComputerPeripherals.EnumVal] = primaryPeripheral
+		var __secondaryPeripheral: Option[ComputerPeripherals.EnumVal] = secondaryPeripheral
 
 		def __newMerged = MyPeripherals(
 			__primaryPeripheral,
@@ -70,8 +70,8 @@ final case class MyPeripherals (
 
 	def mergeFrom(m: MyPeripherals) = {
 		MyPeripherals(
-			m.`primaryPeripheral`.orElse(`primaryPeripheral`),
-			m.`secondaryPeripheral`.orElse(`secondaryPeripheral`)
+			m.primaryPeripheral.orElse(primaryPeripheral),
+			m.secondaryPeripheral.orElse(secondaryPeripheral)
 		)
 	}
 
@@ -116,35 +116,35 @@ object MyPeripherals {
 
 }
 final case class Outer (
-	`innerRequired`: Outer.Inner.EnumVal = Outer.Inner._UNINITIALIZED,
-	`innerOptional`: Option[Outer.Inner.EnumVal] = Some(Outer.Inner.FIRST),
-	`innerRepeated`: scala.collection.immutable.Seq[Outer.Inner.EnumVal] = Vector.empty[Outer.Inner.EnumVal]
+	innerRequired: Outer.Inner.EnumVal = Outer.Inner._UNINITIALIZED,
+	innerOptional: Option[Outer.Inner.EnumVal] = Some(Outer.Inner.FIRST),
+	innerRepeated: scala.collection.immutable.Seq[Outer.Inner.EnumVal] = Vector.empty[Outer.Inner.EnumVal]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[Outer]
 	with net.sandrogrzicic.scalabuff.Parser[Outer] {
 
-	def setInnerOptional(_f: Outer.Inner.EnumVal) = copy(`innerOptional` = Some(_f))
-	def setInnerRepeated(_i: Int, _v: Outer.Inner.EnumVal) = copy(`innerRepeated` = `innerRepeated`.updated(_i, _v))
-	def addInnerRepeated(_f: Outer.Inner.EnumVal) = copy(`innerRepeated` = `innerRepeated` :+ _f)
-	def addAllInnerRepeated(_f: Outer.Inner.EnumVal*) = copy(`innerRepeated` = `innerRepeated` ++ _f)
-	def addAllInnerRepeated(_f: TraversableOnce[Outer.Inner.EnumVal]) = copy(`innerRepeated` = `innerRepeated` ++ _f)
+	def setInnerOptional(_f: Outer.Inner.EnumVal) = copy(innerOptional = Some(_f))
+	def setInnerRepeated(_i: Int, _v: Outer.Inner.EnumVal) = copy(innerRepeated = innerRepeated.updated(_i, _v))
+	def addInnerRepeated(_f: Outer.Inner.EnumVal) = copy(innerRepeated = innerRepeated :+ _f)
+	def addAllInnerRepeated(_f: Outer.Inner.EnumVal*) = copy(innerRepeated = innerRepeated ++ _f)
+	def addAllInnerRepeated(_f: TraversableOnce[Outer.Inner.EnumVal]) = copy(innerRepeated = innerRepeated ++ _f)
 
-	def clearInnerOptional = copy(`innerOptional` = None)
-	def clearInnerRepeated = copy(`innerRepeated` = Vector.empty[Outer.Inner.EnumVal])
+	def clearInnerOptional = copy(innerOptional = None)
+	def clearInnerRepeated = copy(innerRepeated = Vector.empty[Outer.Inner.EnumVal])
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeEnum(1, `innerRequired`)
-		if (`innerOptional`.isDefined) output.writeEnum(2, `innerOptional`.get)
-		for (_v <- `innerRepeated`) output.writeEnum(3, _v)
+		output.writeEnum(1, innerRequired)
+		if (innerOptional.isDefined) output.writeEnum(2, innerOptional.get)
+		for (_v <- innerRepeated) output.writeEnum(3, _v)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeEnumSize(1, `innerRequired`)
-		if (`innerOptional`.isDefined) __size += computeEnumSize(2, `innerOptional`.get)
-		for (_v <- `innerRepeated`) __size += computeEnumSize(3, _v)
+		__size += computeEnumSize(1, innerRequired)
+		if (innerOptional.isDefined) __size += computeEnumSize(2, innerOptional.get)
+		for (_v <- innerRepeated) __size += computeEnumSize(3, _v)
 
 		__size
 	}
@@ -152,8 +152,8 @@ final case class Outer (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Outer = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __innerRequired: Outer.Inner.EnumVal = Outer.Inner._UNINITIALIZED
-		var __innerOptional: Option[Outer.Inner.EnumVal] = `innerOptional`
-		val __innerRepeated: scala.collection.mutable.Buffer[Outer.Inner.EnumVal] = `innerRepeated`.toBuffer
+		var __innerOptional: Option[Outer.Inner.EnumVal] = innerOptional
+		val __innerRepeated: scala.collection.mutable.Buffer[Outer.Inner.EnumVal] = innerRepeated.toBuffer
 
 		def __newMerged = Outer(
 			__innerRequired,
@@ -179,9 +179,9 @@ final case class Outer (
 
 	def mergeFrom(m: Outer) = {
 		Outer(
-			m.`innerRequired`,
-			m.`innerOptional`.orElse(`innerOptional`),
-			`innerRepeated` ++ m.`innerRepeated`
+			m.innerRequired,
+			m.innerOptional.orElse(innerOptional),
+			innerRepeated ++ m.innerRepeated
 		)
 	}
 
@@ -248,35 +248,35 @@ object Outer {
 
 }
 final case class OuterDuplicate (
-	`innerRequired`: OuterDuplicate.Inner.EnumVal = OuterDuplicate.Inner._UNINITIALIZED,
-	`innerOptional`: Option[OuterDuplicate.Inner.EnumVal] = Some(OuterDuplicate.Inner.SECOND),
-	`innerRepeated`: scala.collection.immutable.Seq[OuterDuplicate.Inner.EnumVal] = Vector.empty[OuterDuplicate.Inner.EnumVal]
+	innerRequired: OuterDuplicate.Inner.EnumVal = OuterDuplicate.Inner._UNINITIALIZED,
+	innerOptional: Option[OuterDuplicate.Inner.EnumVal] = Some(OuterDuplicate.Inner.SECOND),
+	innerRepeated: scala.collection.immutable.Seq[OuterDuplicate.Inner.EnumVal] = Vector.empty[OuterDuplicate.Inner.EnumVal]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[OuterDuplicate]
 	with net.sandrogrzicic.scalabuff.Parser[OuterDuplicate] {
 
-	def setInnerOptional(_f: OuterDuplicate.Inner.EnumVal) = copy(`innerOptional` = Some(_f))
-	def setInnerRepeated(_i: Int, _v: OuterDuplicate.Inner.EnumVal) = copy(`innerRepeated` = `innerRepeated`.updated(_i, _v))
-	def addInnerRepeated(_f: OuterDuplicate.Inner.EnumVal) = copy(`innerRepeated` = `innerRepeated` :+ _f)
-	def addAllInnerRepeated(_f: OuterDuplicate.Inner.EnumVal*) = copy(`innerRepeated` = `innerRepeated` ++ _f)
-	def addAllInnerRepeated(_f: TraversableOnce[OuterDuplicate.Inner.EnumVal]) = copy(`innerRepeated` = `innerRepeated` ++ _f)
+	def setInnerOptional(_f: OuterDuplicate.Inner.EnumVal) = copy(innerOptional = Some(_f))
+	def setInnerRepeated(_i: Int, _v: OuterDuplicate.Inner.EnumVal) = copy(innerRepeated = innerRepeated.updated(_i, _v))
+	def addInnerRepeated(_f: OuterDuplicate.Inner.EnumVal) = copy(innerRepeated = innerRepeated :+ _f)
+	def addAllInnerRepeated(_f: OuterDuplicate.Inner.EnumVal*) = copy(innerRepeated = innerRepeated ++ _f)
+	def addAllInnerRepeated(_f: TraversableOnce[OuterDuplicate.Inner.EnumVal]) = copy(innerRepeated = innerRepeated ++ _f)
 
-	def clearInnerOptional = copy(`innerOptional` = None)
-	def clearInnerRepeated = copy(`innerRepeated` = Vector.empty[OuterDuplicate.Inner.EnumVal])
+	def clearInnerOptional = copy(innerOptional = None)
+	def clearInnerRepeated = copy(innerRepeated = Vector.empty[OuterDuplicate.Inner.EnumVal])
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeEnum(1, `innerRequired`)
-		if (`innerOptional`.isDefined) output.writeEnum(2, `innerOptional`.get)
-		for (_v <- `innerRepeated`) output.writeEnum(3, _v)
+		output.writeEnum(1, innerRequired)
+		if (innerOptional.isDefined) output.writeEnum(2, innerOptional.get)
+		for (_v <- innerRepeated) output.writeEnum(3, _v)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeEnumSize(1, `innerRequired`)
-		if (`innerOptional`.isDefined) __size += computeEnumSize(2, `innerOptional`.get)
-		for (_v <- `innerRepeated`) __size += computeEnumSize(3, _v)
+		__size += computeEnumSize(1, innerRequired)
+		if (innerOptional.isDefined) __size += computeEnumSize(2, innerOptional.get)
+		for (_v <- innerRepeated) __size += computeEnumSize(3, _v)
 
 		__size
 	}
@@ -284,8 +284,8 @@ final case class OuterDuplicate (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): OuterDuplicate = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __innerRequired: OuterDuplicate.Inner.EnumVal = OuterDuplicate.Inner._UNINITIALIZED
-		var __innerOptional: Option[OuterDuplicate.Inner.EnumVal] = `innerOptional`
-		val __innerRepeated: scala.collection.mutable.Buffer[OuterDuplicate.Inner.EnumVal] = `innerRepeated`.toBuffer
+		var __innerOptional: Option[OuterDuplicate.Inner.EnumVal] = innerOptional
+		val __innerRepeated: scala.collection.mutable.Buffer[OuterDuplicate.Inner.EnumVal] = innerRepeated.toBuffer
 
 		def __newMerged = OuterDuplicate(
 			__innerRequired,
@@ -311,9 +311,9 @@ final case class OuterDuplicate (
 
 	def mergeFrom(m: OuterDuplicate) = {
 		OuterDuplicate(
-			m.`innerRequired`,
-			m.`innerOptional`.orElse(`innerOptional`),
-			`innerRepeated` ++ m.`innerRepeated`
+			m.innerRequired,
+			m.innerOptional.orElse(innerOptional),
+			innerRepeated ++ m.innerRepeated
 		)
 	}
 
@@ -380,7 +380,7 @@ object OuterDuplicate {
 
 }
 final case class OuterEnumContainer (
-	`innerMessage`: OuterEnumContainer.InnerEnumContainer = OuterEnumContainer.InnerEnumContainer.defaultInstance
+	innerMessage: OuterEnumContainer.InnerEnumContainer = OuterEnumContainer.InnerEnumContainer.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[OuterEnumContainer]
@@ -389,13 +389,13 @@ final case class OuterEnumContainer (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, `innerMessage`)
+		output.writeMessage(1, innerMessage)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeMessageSize(1, `innerMessage`)
+		__size += computeMessageSize(1, innerMessage)
 
 		__size
 	}
@@ -417,7 +417,7 @@ final case class OuterEnumContainer (
 
 	def mergeFrom(m: OuterEnumContainer) = {
 		OuterEnumContainer(
-			m.`innerMessage`
+			m.innerMessage
 		)
 	}
 
@@ -459,7 +459,7 @@ object OuterEnumContainer {
 	def newBuilder(prototype: OuterEnumContainer) = defaultInstance.mergeFrom(prototype)
 
 	final case class InnerEnumContainer (
-		`someEnum`: InnerEnumContainer.SomeEnum.EnumVal = InnerEnumContainer.SomeEnum._UNINITIALIZED
+		someEnum: InnerEnumContainer.SomeEnum.EnumVal = InnerEnumContainer.SomeEnum._UNINITIALIZED
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[InnerEnumContainer]
@@ -468,13 +468,13 @@ object OuterEnumContainer {
 
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
-			output.writeEnum(1, `someEnum`)
+			output.writeEnum(1, someEnum)
 		}
 
 		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
-			__size += computeEnumSize(1, `someEnum`)
+			__size += computeEnumSize(1, someEnum)
 
 			__size
 		}
@@ -496,7 +496,7 @@ object OuterEnumContainer {
 
 		def mergeFrom(m: InnerEnumContainer) = {
 			InnerEnumContainer(
-				m.`someEnum`
+				m.someEnum
 			)
 		}
 

@@ -4,56 +4,56 @@
 package resources.generated
 
 final case class ComplexMessage (
-	`firstField`: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY,
-	`secondField`: Option[String] = Some("defaultValueForSecondField"),
-	`nestedOuterField`: Option[ComplexMessage.Nested] = None,
-	`simpleEnumField`: scala.collection.immutable.Seq[ComplexMessage.SimpleEnum.EnumVal] = Vector.empty[ComplexMessage.SimpleEnum.EnumVal],
-	`repeatedStringField`: scala.collection.immutable.Seq[String] = Vector.empty[String],
-	`repeatedBytesField`: scala.collection.immutable.Seq[com.google.protobuf.ByteString] = Vector.empty[com.google.protobuf.ByteString]
+	firstField: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY,
+	secondField: Option[String] = Some("defaultValueForSecondField"),
+	nestedOuterField: Option[ComplexMessage.Nested] = None,
+	simpleEnumField: scala.collection.immutable.Seq[ComplexMessage.SimpleEnum.EnumVal] = Vector.empty[ComplexMessage.SimpleEnum.EnumVal],
+	repeatedStringField: scala.collection.immutable.Seq[String] = Vector.empty[String],
+	repeatedBytesField: scala.collection.immutable.Seq[com.google.protobuf.ByteString] = Vector.empty[com.google.protobuf.ByteString]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[ComplexMessage]
 	with net.sandrogrzicic.scalabuff.Parser[ComplexMessage] {
 
-	def setSecondField(_f: String) = copy(`secondField` = Some(_f))
-	def setNestedOuterField(_f: ComplexMessage.Nested) = copy(`nestedOuterField` = Some(_f))
-	def setSimpleEnumField(_i: Int, _v: ComplexMessage.SimpleEnum.EnumVal) = copy(`simpleEnumField` = `simpleEnumField`.updated(_i, _v))
-	def addSimpleEnumField(_f: ComplexMessage.SimpleEnum.EnumVal) = copy(`simpleEnumField` = `simpleEnumField` :+ _f)
-	def addAllSimpleEnumField(_f: ComplexMessage.SimpleEnum.EnumVal*) = copy(`simpleEnumField` = `simpleEnumField` ++ _f)
-	def addAllSimpleEnumField(_f: TraversableOnce[ComplexMessage.SimpleEnum.EnumVal]) = copy(`simpleEnumField` = `simpleEnumField` ++ _f)
-	def setRepeatedStringField(_i: Int, _v: String) = copy(`repeatedStringField` = `repeatedStringField`.updated(_i, _v))
-	def addRepeatedStringField(_f: String) = copy(`repeatedStringField` = `repeatedStringField` :+ _f)
-	def addAllRepeatedStringField(_f: String*) = copy(`repeatedStringField` = `repeatedStringField` ++ _f)
-	def addAllRepeatedStringField(_f: TraversableOnce[String]) = copy(`repeatedStringField` = `repeatedStringField` ++ _f)
-	def setRepeatedBytesField(_i: Int, _v: com.google.protobuf.ByteString) = copy(`repeatedBytesField` = `repeatedBytesField`.updated(_i, _v))
-	def addRepeatedBytesField(_f: com.google.protobuf.ByteString) = copy(`repeatedBytesField` = `repeatedBytesField` :+ _f)
-	def addAllRepeatedBytesField(_f: com.google.protobuf.ByteString*) = copy(`repeatedBytesField` = `repeatedBytesField` ++ _f)
-	def addAllRepeatedBytesField(_f: TraversableOnce[com.google.protobuf.ByteString]) = copy(`repeatedBytesField` = `repeatedBytesField` ++ _f)
+	def setSecondField(_f: String) = copy(secondField = Some(_f))
+	def setNestedOuterField(_f: ComplexMessage.Nested) = copy(nestedOuterField = Some(_f))
+	def setSimpleEnumField(_i: Int, _v: ComplexMessage.SimpleEnum.EnumVal) = copy(simpleEnumField = simpleEnumField.updated(_i, _v))
+	def addSimpleEnumField(_f: ComplexMessage.SimpleEnum.EnumVal) = copy(simpleEnumField = simpleEnumField :+ _f)
+	def addAllSimpleEnumField(_f: ComplexMessage.SimpleEnum.EnumVal*) = copy(simpleEnumField = simpleEnumField ++ _f)
+	def addAllSimpleEnumField(_f: TraversableOnce[ComplexMessage.SimpleEnum.EnumVal]) = copy(simpleEnumField = simpleEnumField ++ _f)
+	def setRepeatedStringField(_i: Int, _v: String) = copy(repeatedStringField = repeatedStringField.updated(_i, _v))
+	def addRepeatedStringField(_f: String) = copy(repeatedStringField = repeatedStringField :+ _f)
+	def addAllRepeatedStringField(_f: String*) = copy(repeatedStringField = repeatedStringField ++ _f)
+	def addAllRepeatedStringField(_f: TraversableOnce[String]) = copy(repeatedStringField = repeatedStringField ++ _f)
+	def setRepeatedBytesField(_i: Int, _v: com.google.protobuf.ByteString) = copy(repeatedBytesField = repeatedBytesField.updated(_i, _v))
+	def addRepeatedBytesField(_f: com.google.protobuf.ByteString) = copy(repeatedBytesField = repeatedBytesField :+ _f)
+	def addAllRepeatedBytesField(_f: com.google.protobuf.ByteString*) = copy(repeatedBytesField = repeatedBytesField ++ _f)
+	def addAllRepeatedBytesField(_f: TraversableOnce[com.google.protobuf.ByteString]) = copy(repeatedBytesField = repeatedBytesField ++ _f)
 
-	def clearSecondField = copy(`secondField` = None)
-	def clearNestedOuterField = copy(`nestedOuterField` = None)
-	def clearSimpleEnumField = copy(`simpleEnumField` = Vector.empty[ComplexMessage.SimpleEnum.EnumVal])
-	def clearRepeatedStringField = copy(`repeatedStringField` = Vector.empty[String])
-	def clearRepeatedBytesField = copy(`repeatedBytesField` = Vector.empty[com.google.protobuf.ByteString])
+	def clearSecondField = copy(secondField = None)
+	def clearNestedOuterField = copy(nestedOuterField = None)
+	def clearSimpleEnumField = copy(simpleEnumField = Vector.empty[ComplexMessage.SimpleEnum.EnumVal])
+	def clearRepeatedStringField = copy(repeatedStringField = Vector.empty[String])
+	def clearRepeatedBytesField = copy(repeatedBytesField = Vector.empty[com.google.protobuf.ByteString])
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeBytes(1, `firstField`)
-		if (`secondField`.isDefined) output.writeString(2, `secondField`.get)
-		if (`nestedOuterField`.isDefined) output.writeMessage(3, `nestedOuterField`.get)
-		for (_v <- `simpleEnumField`) output.writeEnum(4, _v)
-		for (_v <- `repeatedStringField`) output.writeString(5, _v)
-		for (_v <- `repeatedBytesField`) output.writeBytes(6, _v)
+		output.writeBytes(1, firstField)
+		if (secondField.isDefined) output.writeString(2, secondField.get)
+		if (nestedOuterField.isDefined) output.writeMessage(3, nestedOuterField.get)
+		for (_v <- simpleEnumField) output.writeEnum(4, _v)
+		for (_v <- repeatedStringField) output.writeString(5, _v)
+		for (_v <- repeatedBytesField) output.writeBytes(6, _v)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeBytesSize(1, `firstField`)
-		if (`secondField`.isDefined) __size += computeStringSize(2, `secondField`.get)
-		if (`nestedOuterField`.isDefined) __size += computeMessageSize(3, `nestedOuterField`.get)
-		for (_v <- `simpleEnumField`) __size += computeEnumSize(4, _v)
-		for (_v <- `repeatedStringField`) __size += computeStringSize(5, _v)
-		for (_v <- `repeatedBytesField`) __size += computeBytesSize(6, _v)
+		__size += computeBytesSize(1, firstField)
+		if (secondField.isDefined) __size += computeStringSize(2, secondField.get)
+		if (nestedOuterField.isDefined) __size += computeMessageSize(3, nestedOuterField.get)
+		for (_v <- simpleEnumField) __size += computeEnumSize(4, _v)
+		for (_v <- repeatedStringField) __size += computeStringSize(5, _v)
+		for (_v <- repeatedBytesField) __size += computeBytesSize(6, _v)
 
 		__size
 	}
@@ -61,11 +61,11 @@ final case class ComplexMessage (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): ComplexMessage = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __firstField: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
-		var __secondField: Option[String] = `secondField`
-		var __nestedOuterField: Option[ComplexMessage.Nested] = `nestedOuterField`
-		val __simpleEnumField: scala.collection.mutable.Buffer[ComplexMessage.SimpleEnum.EnumVal] = `simpleEnumField`.toBuffer
-		val __repeatedStringField: scala.collection.mutable.Buffer[String] = `repeatedStringField`.toBuffer
-		val __repeatedBytesField: scala.collection.mutable.Buffer[com.google.protobuf.ByteString] = `repeatedBytesField`.toBuffer
+		var __secondField: Option[String] = secondField
+		var __nestedOuterField: Option[ComplexMessage.Nested] = nestedOuterField
+		val __simpleEnumField: scala.collection.mutable.Buffer[ComplexMessage.SimpleEnum.EnumVal] = simpleEnumField.toBuffer
+		val __repeatedStringField: scala.collection.mutable.Buffer[String] = repeatedStringField.toBuffer
+		val __repeatedBytesField: scala.collection.mutable.Buffer[com.google.protobuf.ByteString] = repeatedBytesField.toBuffer
 
 		def __newMerged = ComplexMessage(
 			__firstField,
@@ -100,12 +100,12 @@ final case class ComplexMessage (
 
 	def mergeFrom(m: ComplexMessage) = {
 		ComplexMessage(
-			m.`firstField`,
-			m.`secondField`.orElse(`secondField`),
-			m.`nestedOuterField`.orElse(`nestedOuterField`),
-			`simpleEnumField` ++ m.`simpleEnumField`,
-			`repeatedStringField` ++ m.`repeatedStringField`,
-			`repeatedBytesField` ++ m.`repeatedBytesField`
+			m.firstField,
+			m.secondField.orElse(secondField),
+			m.nestedOuterField.orElse(nestedOuterField),
+			simpleEnumField ++ m.simpleEnumField,
+			repeatedStringField ++ m.repeatedStringField,
+			repeatedBytesField ++ m.repeatedBytesField
 		)
 	}
 
@@ -174,27 +174,27 @@ object ComplexMessage {
 	}
 
 	final case class Nested (
-		`nestedField`: String = "",
-		`nestedEnum`: Option[SimpleEnum.EnumVal] = None
+		nestedField: String = "",
+		nestedEnum: Option[SimpleEnum.EnumVal] = None
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Nested]
 		with net.sandrogrzicic.scalabuff.Parser[Nested] {
 
-		def setNestedEnum(_f: SimpleEnum.EnumVal) = copy(`nestedEnum` = Some(_f))
+		def setNestedEnum(_f: SimpleEnum.EnumVal) = copy(nestedEnum = Some(_f))
 
-		def clearNestedEnum = copy(`nestedEnum` = None)
+		def clearNestedEnum = copy(nestedEnum = None)
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
-			output.writeString(1, `nestedField`)
-			if (`nestedEnum`.isDefined) output.writeEnum(2, `nestedEnum`.get)
+			output.writeString(1, nestedField)
+			if (nestedEnum.isDefined) output.writeEnum(2, nestedEnum.get)
 		}
 
 		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
-			__size += computeStringSize(1, `nestedField`)
-			if (`nestedEnum`.isDefined) __size += computeEnumSize(2, `nestedEnum`.get)
+			__size += computeStringSize(1, nestedField)
+			if (nestedEnum.isDefined) __size += computeEnumSize(2, nestedEnum.get)
 
 			__size
 		}
@@ -202,7 +202,7 @@ object ComplexMessage {
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Nested = {
 			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 			var __nestedField: String = ""
-			var __nestedEnum: Option[SimpleEnum.EnumVal] = `nestedEnum`
+			var __nestedEnum: Option[SimpleEnum.EnumVal] = nestedEnum
 
 			def __newMerged = Nested(
 				__nestedField,
@@ -219,8 +219,8 @@ object ComplexMessage {
 
 		def mergeFrom(m: Nested) = {
 			Nested(
-				m.`nestedField`,
-				m.`nestedEnum`.orElse(`nestedEnum`)
+				m.nestedField,
+				m.nestedEnum.orElse(nestedEnum)
 			)
 		}
 
@@ -266,8 +266,8 @@ object ComplexMessage {
 	}
 }
 final case class AnotherMessage (
-	`fieldNested`: ComplexMessage.Nested = ComplexMessage.Nested.defaultInstance,
-	`fieldEnum`: ComplexMessage.SimpleEnum.EnumVal = ComplexMessage.SimpleEnum._UNINITIALIZED
+	fieldNested: ComplexMessage.Nested = ComplexMessage.Nested.defaultInstance,
+	fieldEnum: ComplexMessage.SimpleEnum.EnumVal = ComplexMessage.SimpleEnum._UNINITIALIZED
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[AnotherMessage]
@@ -276,15 +276,15 @@ final case class AnotherMessage (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, `fieldNested`)
-		output.writeEnum(2, `fieldEnum`)
+		output.writeMessage(1, fieldNested)
+		output.writeEnum(2, fieldEnum)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeMessageSize(1, `fieldNested`)
-		__size += computeEnumSize(2, `fieldEnum`)
+		__size += computeMessageSize(1, fieldNested)
+		__size += computeEnumSize(2, fieldEnum)
 
 		__size
 	}
@@ -309,8 +309,8 @@ final case class AnotherMessage (
 
 	def mergeFrom(m: AnotherMessage) = {
 		AnotherMessage(
-			m.`fieldNested`,
-			m.`fieldEnum`
+			m.fieldNested,
+			m.fieldEnum
 		)
 	}
 

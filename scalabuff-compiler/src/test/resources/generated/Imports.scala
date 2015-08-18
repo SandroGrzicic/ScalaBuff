@@ -6,7 +6,7 @@ package resources.generated
 //import "simple.proto"
 
 final case class UsesImport (
-	`simpleTest`: SimpleTest = SimpleTest.defaultInstance
+	simpleTest: SimpleTest = SimpleTest.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[UsesImport]
@@ -15,13 +15,13 @@ final case class UsesImport (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, `simpleTest`)
+		output.writeMessage(1, simpleTest)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeMessageSize(1, `simpleTest`)
+		__size += computeMessageSize(1, simpleTest)
 
 		__size
 	}
@@ -43,7 +43,7 @@ final case class UsesImport (
 
 	def mergeFrom(m: UsesImport) = {
 		UsesImport(
-			m.`simpleTest`
+			m.simpleTest
 		)
 	}
 

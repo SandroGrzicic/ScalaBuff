@@ -4,7 +4,7 @@
 package resources.generated
 
 final case class KeywordsTest (
-	`size`: Long = 0L,
+	size: Long = 0L,
 	`case`: Int = 0,
 	`val`: Int = 0,
 	`var`: Int = 0,
@@ -21,7 +21,7 @@ final case class KeywordsTest (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeInt64(1, `size`)
+		output.writeInt64(1, size)
 		output.writeInt32(2, `case`)
 		output.writeInt32(3, `val`)
 		output.writeInt32(4, `var`)
@@ -35,7 +35,7 @@ final case class KeywordsTest (
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeInt64Size(1, `size`)
+		__size += computeInt64Size(1, size)
 		__size += computeInt32Size(2, `case`)
 		__size += computeInt32Size(3, `val`)
 		__size += computeInt32Size(4, `var`)
@@ -89,7 +89,7 @@ final case class KeywordsTest (
 
 	def mergeFrom(m: KeywordsTest) = {
 		KeywordsTest(
-			m.`size`,
+			m.size,
 			m.`case`,
 			m.`val`,
 			m.`var`,

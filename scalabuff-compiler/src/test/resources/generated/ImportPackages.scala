@@ -6,7 +6,7 @@ package resources.generated
 //import "package_name.proto"
 
 final case class UsesImportPackage (
-	`packageTest`: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
+	packageTest: nested.PackageTest = nested.PackageTest.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[UsesImportPackage]
@@ -15,27 +15,27 @@ final case class UsesImportPackage (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, `packageTest`)
+		output.writeMessage(1, packageTest)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeMessageSize(1, `packageTest`)
+		__size += computeMessageSize(1, packageTest)
 
 		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): UsesImportPackage = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __packageTest: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
+		var __packageTest: nested.PackageTest = nested.PackageTest.defaultInstance
 
 		def __newMerged = UsesImportPackage(
 			__packageTest
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
-			case 10 => __packageTest = readMessage[resources.generated.nested.PackageTest](in, __packageTest, _emptyRegistry)
+			case 10 => __packageTest = readMessage[nested.PackageTest](in, __packageTest, _emptyRegistry)
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -43,7 +43,7 @@ final case class UsesImportPackage (
 
 	def mergeFrom(m: UsesImportPackage) = {
 		UsesImportPackage(
-			m.`packageTest`
+			m.packageTest
 		)
 	}
 
@@ -56,7 +56,18 @@ final case class UsesImportPackage (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
-	def toJson(indent: Int = 0): String = "ScalaBuff JSON generation not enabled. Use --generate_json_method to enable."
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"packageTest\": ").append(`packageTest`.toJson(indent + 1)).append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object UsesImportPackage {

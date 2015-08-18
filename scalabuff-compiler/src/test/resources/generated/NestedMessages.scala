@@ -4,7 +4,7 @@
 package resources.generated
 
 final case class TopLevel (
-	`idToplevel`: Int = 0
+	idToplevel: Int = 0
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[TopLevel]
@@ -13,13 +13,13 @@ final case class TopLevel (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeUInt32(1, `idToplevel`)
+		output.writeUInt32(1, idToplevel)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeUInt32Size(1, `idToplevel`)
+		__size += computeUInt32Size(1, idToplevel)
 
 		__size
 	}
@@ -41,7 +41,7 @@ final case class TopLevel (
 
 	def mergeFrom(m: TopLevel) = {
 		TopLevel(
-			m.`idToplevel`
+			m.idToplevel
 		)
 	}
 
@@ -83,7 +83,7 @@ object TopLevel {
 	def newBuilder(prototype: TopLevel) = defaultInstance.mergeFrom(prototype)
 
 	final case class Inner (
-		`idInner`: Int = 0
+		idInner: Int = 0
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Inner]
@@ -92,13 +92,13 @@ object TopLevel {
 
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
-			output.writeUInt32(1, `idInner`)
+			output.writeUInt32(1, idInner)
 		}
 
 		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
-			__size += computeUInt32Size(1, `idInner`)
+			__size += computeUInt32Size(1, idInner)
 
 			__size
 		}
@@ -120,7 +120,7 @@ object TopLevel {
 
 		def mergeFrom(m: Inner) = {
 			Inner(
-				m.`idInner`
+				m.idInner
 			)
 		}
 
@@ -164,67 +164,67 @@ object TopLevel {
 	}
 }
 final case class Foobar (
-	`reqFoo`: Foobar.Foo = Foobar.Foo.defaultInstance,
-	`optFoo`: Option[Foobar.Foo] = None,
-	`optBar`: Option[Foobar.Bar] = None,
-	`repFoo`: scala.collection.immutable.Seq[Foobar.Foo] = Vector.empty[Foobar.Foo],
-	`repBar`: scala.collection.immutable.Seq[Foobar.Bar] = Vector.empty[Foobar.Bar],
-	`repFooBar`: scala.collection.immutable.Seq[Foobar.FooBar] = Vector.empty[Foobar.FooBar],
-	`topLevelReq`: TopLevel = TopLevel.defaultInstance,
-	`topLevelOpt`: Option[TopLevel] = None,
-	`topLevelInnerReq`: TopLevel.Inner = TopLevel.Inner.defaultInstance
+	reqFoo: Foobar.Foo = Foobar.Foo.defaultInstance,
+	optFoo: Option[Foobar.Foo] = None,
+	optBar: Option[Foobar.Bar] = None,
+	repFoo: scala.collection.immutable.Seq[Foobar.Foo] = Vector.empty[Foobar.Foo],
+	repBar: scala.collection.immutable.Seq[Foobar.Bar] = Vector.empty[Foobar.Bar],
+	repFooBar: scala.collection.immutable.Seq[Foobar.FooBar] = Vector.empty[Foobar.FooBar],
+	topLevelReq: TopLevel = TopLevel.defaultInstance,
+	topLevelOpt: Option[TopLevel] = None,
+	topLevelInnerReq: TopLevel.Inner = TopLevel.Inner.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[Foobar]
 	with net.sandrogrzicic.scalabuff.Parser[Foobar] {
 
-	def setOptFoo(_f: Foobar.Foo) = copy(`optFoo` = Some(_f))
-	def setOptBar(_f: Foobar.Bar) = copy(`optBar` = Some(_f))
-	def setRepFoo(_i: Int, _v: Foobar.Foo) = copy(`repFoo` = `repFoo`.updated(_i, _v))
-	def addRepFoo(_f: Foobar.Foo) = copy(`repFoo` = `repFoo` :+ _f)
-	def addAllRepFoo(_f: Foobar.Foo*) = copy(`repFoo` = `repFoo` ++ _f)
-	def addAllRepFoo(_f: TraversableOnce[Foobar.Foo]) = copy(`repFoo` = `repFoo` ++ _f)
-	def setRepBar(_i: Int, _v: Foobar.Bar) = copy(`repBar` = `repBar`.updated(_i, _v))
-	def addRepBar(_f: Foobar.Bar) = copy(`repBar` = `repBar` :+ _f)
-	def addAllRepBar(_f: Foobar.Bar*) = copy(`repBar` = `repBar` ++ _f)
-	def addAllRepBar(_f: TraversableOnce[Foobar.Bar]) = copy(`repBar` = `repBar` ++ _f)
-	def setRepFooBar(_i: Int, _v: Foobar.FooBar) = copy(`repFooBar` = `repFooBar`.updated(_i, _v))
-	def addRepFooBar(_f: Foobar.FooBar) = copy(`repFooBar` = `repFooBar` :+ _f)
-	def addAllRepFooBar(_f: Foobar.FooBar*) = copy(`repFooBar` = `repFooBar` ++ _f)
-	def addAllRepFooBar(_f: TraversableOnce[Foobar.FooBar]) = copy(`repFooBar` = `repFooBar` ++ _f)
-	def setTopLevelOpt(_f: TopLevel) = copy(`topLevelOpt` = Some(_f))
+	def setOptFoo(_f: Foobar.Foo) = copy(optFoo = Some(_f))
+	def setOptBar(_f: Foobar.Bar) = copy(optBar = Some(_f))
+	def setRepFoo(_i: Int, _v: Foobar.Foo) = copy(repFoo = repFoo.updated(_i, _v))
+	def addRepFoo(_f: Foobar.Foo) = copy(repFoo = repFoo :+ _f)
+	def addAllRepFoo(_f: Foobar.Foo*) = copy(repFoo = repFoo ++ _f)
+	def addAllRepFoo(_f: TraversableOnce[Foobar.Foo]) = copy(repFoo = repFoo ++ _f)
+	def setRepBar(_i: Int, _v: Foobar.Bar) = copy(repBar = repBar.updated(_i, _v))
+	def addRepBar(_f: Foobar.Bar) = copy(repBar = repBar :+ _f)
+	def addAllRepBar(_f: Foobar.Bar*) = copy(repBar = repBar ++ _f)
+	def addAllRepBar(_f: TraversableOnce[Foobar.Bar]) = copy(repBar = repBar ++ _f)
+	def setRepFooBar(_i: Int, _v: Foobar.FooBar) = copy(repFooBar = repFooBar.updated(_i, _v))
+	def addRepFooBar(_f: Foobar.FooBar) = copy(repFooBar = repFooBar :+ _f)
+	def addAllRepFooBar(_f: Foobar.FooBar*) = copy(repFooBar = repFooBar ++ _f)
+	def addAllRepFooBar(_f: TraversableOnce[Foobar.FooBar]) = copy(repFooBar = repFooBar ++ _f)
+	def setTopLevelOpt(_f: TopLevel) = copy(topLevelOpt = Some(_f))
 
-	def clearOptFoo = copy(`optFoo` = None)
-	def clearOptBar = copy(`optBar` = None)
-	def clearRepFoo = copy(`repFoo` = Vector.empty[Foobar.Foo])
-	def clearRepBar = copy(`repBar` = Vector.empty[Foobar.Bar])
-	def clearRepFooBar = copy(`repFooBar` = Vector.empty[Foobar.FooBar])
-	def clearTopLevelOpt = copy(`topLevelOpt` = None)
+	def clearOptFoo = copy(optFoo = None)
+	def clearOptBar = copy(optBar = None)
+	def clearRepFoo = copy(repFoo = Vector.empty[Foobar.Foo])
+	def clearRepBar = copy(repBar = Vector.empty[Foobar.Bar])
+	def clearRepFooBar = copy(repFooBar = Vector.empty[Foobar.FooBar])
+	def clearTopLevelOpt = copy(topLevelOpt = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, `reqFoo`)
-		if (`optFoo`.isDefined) output.writeMessage(2, `optFoo`.get)
-		if (`optBar`.isDefined) output.writeMessage(3, `optBar`.get)
-		for (_v <- `repFoo`) output.writeMessage(4, _v)
-		for (_v <- `repBar`) output.writeMessage(5, _v)
-		for (_v <- `repFooBar`) output.writeMessage(6, _v)
-		output.writeMessage(7, `topLevelReq`)
-		if (`topLevelOpt`.isDefined) output.writeMessage(8, `topLevelOpt`.get)
-		output.writeMessage(9, `topLevelInnerReq`)
+		output.writeMessage(1, reqFoo)
+		if (optFoo.isDefined) output.writeMessage(2, optFoo.get)
+		if (optBar.isDefined) output.writeMessage(3, optBar.get)
+		for (_v <- repFoo) output.writeMessage(4, _v)
+		for (_v <- repBar) output.writeMessage(5, _v)
+		for (_v <- repFooBar) output.writeMessage(6, _v)
+		output.writeMessage(7, topLevelReq)
+		if (topLevelOpt.isDefined) output.writeMessage(8, topLevelOpt.get)
+		output.writeMessage(9, topLevelInnerReq)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeMessageSize(1, `reqFoo`)
-		if (`optFoo`.isDefined) __size += computeMessageSize(2, `optFoo`.get)
-		if (`optBar`.isDefined) __size += computeMessageSize(3, `optBar`.get)
-		for (_v <- `repFoo`) __size += computeMessageSize(4, _v)
-		for (_v <- `repBar`) __size += computeMessageSize(5, _v)
-		for (_v <- `repFooBar`) __size += computeMessageSize(6, _v)
-		__size += computeMessageSize(7, `topLevelReq`)
-		if (`topLevelOpt`.isDefined) __size += computeMessageSize(8, `topLevelOpt`.get)
-		__size += computeMessageSize(9, `topLevelInnerReq`)
+		__size += computeMessageSize(1, reqFoo)
+		if (optFoo.isDefined) __size += computeMessageSize(2, optFoo.get)
+		if (optBar.isDefined) __size += computeMessageSize(3, optBar.get)
+		for (_v <- repFoo) __size += computeMessageSize(4, _v)
+		for (_v <- repBar) __size += computeMessageSize(5, _v)
+		for (_v <- repFooBar) __size += computeMessageSize(6, _v)
+		__size += computeMessageSize(7, topLevelReq)
+		if (topLevelOpt.isDefined) __size += computeMessageSize(8, topLevelOpt.get)
+		__size += computeMessageSize(9, topLevelInnerReq)
 
 		__size
 	}
@@ -232,13 +232,13 @@ final case class Foobar (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Foobar = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __reqFoo: Foobar.Foo = Foobar.Foo.defaultInstance
-		var __optFoo: Option[Foobar.Foo] = `optFoo`
-		var __optBar: Option[Foobar.Bar] = `optBar`
-		val __repFoo: scala.collection.mutable.Buffer[Foobar.Foo] = `repFoo`.toBuffer
-		val __repBar: scala.collection.mutable.Buffer[Foobar.Bar] = `repBar`.toBuffer
-		val __repFooBar: scala.collection.mutable.Buffer[Foobar.FooBar] = `repFooBar`.toBuffer
+		var __optFoo: Option[Foobar.Foo] = optFoo
+		var __optBar: Option[Foobar.Bar] = optBar
+		val __repFoo: scala.collection.mutable.Buffer[Foobar.Foo] = repFoo.toBuffer
+		val __repBar: scala.collection.mutable.Buffer[Foobar.Bar] = repBar.toBuffer
+		val __repFooBar: scala.collection.mutable.Buffer[Foobar.FooBar] = repFooBar.toBuffer
 		var __topLevelReq: TopLevel = TopLevel.defaultInstance
-		var __topLevelOpt: Option[TopLevel] = `topLevelOpt`
+		var __topLevelOpt: Option[TopLevel] = topLevelOpt
 		var __topLevelInnerReq: TopLevel.Inner = TopLevel.Inner.defaultInstance
 
 		def __newMerged = Foobar(
@@ -279,15 +279,15 @@ final case class Foobar (
 
 	def mergeFrom(m: Foobar) = {
 		Foobar(
-			m.`reqFoo`,
-			m.`optFoo`.orElse(`optFoo`),
-			m.`optBar`.orElse(`optBar`),
-			`repFoo` ++ m.`repFoo`,
-			`repBar` ++ m.`repBar`,
-			`repFooBar` ++ m.`repFooBar`,
-			m.`topLevelReq`,
-			m.`topLevelOpt`.orElse(`topLevelOpt`),
-			m.`topLevelInnerReq`
+			m.reqFoo,
+			m.optFoo.orElse(optFoo),
+			m.optBar.orElse(optBar),
+			repFoo ++ m.repFoo,
+			repBar ++ m.repBar,
+			repFooBar ++ m.repFooBar,
+			m.topLevelReq,
+			m.topLevelOpt.orElse(topLevelOpt),
+			m.topLevelInnerReq
 		)
 	}
 
@@ -345,31 +345,31 @@ object Foobar {
 	def newBuilder(prototype: Foobar) = defaultInstance.mergeFrom(prototype)
 
 	final case class Foo (
-		`id`: Option[Long] = None
+		id: Option[Long] = None
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Foo]
 		with net.sandrogrzicic.scalabuff.Parser[Foo] {
 
-		def setId(_f: Long) = copy(`id` = Some(_f))
+		def setId(_f: Long) = copy(id = Some(_f))
 
-		def clearId = copy(`id` = None)
+		def clearId = copy(id = None)
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
-			if (`id`.isDefined) output.writeUInt64(1, `id`.get)
+			if (id.isDefined) output.writeUInt64(1, id.get)
 		}
 
 		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
-			if (`id`.isDefined) __size += computeUInt64Size(1, `id`.get)
+			if (id.isDefined) __size += computeUInt64Size(1, id.get)
 
 			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Foo = {
 			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-			var __id: Option[Long] = `id`
+			var __id: Option[Long] = id
 
 			def __newMerged = Foo(
 				__id
@@ -384,7 +384,7 @@ object Foobar {
 
 		def mergeFrom(m: Foo) = {
 			Foo(
-				m.`id`.orElse(`id`)
+				m.id.orElse(id)
 			)
 		}
 
@@ -427,31 +427,31 @@ object Foobar {
 
 	}
 	final case class Bar (
-		`id`: Option[Long] = None
+		id: Option[Long] = None
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Bar]
 		with net.sandrogrzicic.scalabuff.Parser[Bar] {
 
-		def setId(_f: Long) = copy(`id` = Some(_f))
+		def setId(_f: Long) = copy(id = Some(_f))
 
-		def clearId = copy(`id` = None)
+		def clearId = copy(id = None)
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
-			if (`id`.isDefined) output.writeUInt64(1, `id`.get)
+			if (id.isDefined) output.writeUInt64(1, id.get)
 		}
 
 		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
-			if (`id`.isDefined) __size += computeUInt64Size(1, `id`.get)
+			if (id.isDefined) __size += computeUInt64Size(1, id.get)
 
 			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Bar = {
 			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-			var __id: Option[Long] = `id`
+			var __id: Option[Long] = id
 
 			def __newMerged = Bar(
 				__id
@@ -466,7 +466,7 @@ object Foobar {
 
 		def mergeFrom(m: Bar) = {
 			Bar(
-				m.`id`.orElse(`id`)
+				m.id.orElse(id)
 			)
 		}
 
@@ -509,31 +509,31 @@ object Foobar {
 
 	}
 	final case class FooBar (
-		`id`: Option[Long] = None
+		id: Option[Long] = None
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[FooBar]
 		with net.sandrogrzicic.scalabuff.Parser[FooBar] {
 
-		def setId(_f: Long) = copy(`id` = Some(_f))
+		def setId(_f: Long) = copy(id = Some(_f))
 
-		def clearId = copy(`id` = None)
+		def clearId = copy(id = None)
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
-			if (`id`.isDefined) output.writeUInt64(1, `id`.get)
+			if (id.isDefined) output.writeUInt64(1, id.get)
 		}
 
 		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
-			if (`id`.isDefined) __size += computeUInt64Size(1, `id`.get)
+			if (id.isDefined) __size += computeUInt64Size(1, id.get)
 
 			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): FooBar = {
 			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-			var __id: Option[Long] = `id`
+			var __id: Option[Long] = id
 
 			def __newMerged = FooBar(
 				__id
@@ -548,7 +548,7 @@ object Foobar {
 
 		def mergeFrom(m: FooBar) = {
 			FooBar(
-				m.`id`.orElse(`id`)
+				m.id.orElse(id)
 			)
 		}
 

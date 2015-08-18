@@ -6,7 +6,7 @@ package resources.generated
 //import "package_name.proto"
 
 final case class UseFullImportedName (
-	`fullnameTest`: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
+	fullnameTest: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[UseFullImportedName]
@@ -15,13 +15,13 @@ final case class UseFullImportedName (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, `fullnameTest`)
+		output.writeMessage(1, fullnameTest)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeMessageSize(1, `fullnameTest`)
+		__size += computeMessageSize(1, fullnameTest)
 
 		__size
 	}
@@ -43,7 +43,7 @@ final case class UseFullImportedName (
 
 	def mergeFrom(m: UseFullImportedName) = {
 		UseFullImportedName(
-			m.`fullnameTest`
+			m.fullnameTest
 		)
 	}
 
@@ -56,7 +56,18 @@ final case class UseFullImportedName (
 	override def getParserForType = this
 	def newBuilderForType = getDefaultInstanceForType
 	def toBuilder = this
-	def toJson(indent: Int = 0): String = "ScalaBuff JSON generation not enabled. Use --generate_json_method to enable."
+	def toJson(indent: Int = 0): String = {
+		val indent0 = "\n" + ("\t" * indent)
+		val (indent1, indent2) = (indent0 + "\t", indent0 + "\t\t")
+		val sb = StringBuilder.newBuilder
+		sb
+			.append("{")
+			sb.append(indent1).append("\"fullnameTest\": ").append(`fullnameTest`.toJson(indent + 1)).append(',')
+		if (sb.last.equals(',')) sb.length -= 1
+		sb.append(indent0).append("}")
+		sb.toString()
+	}
+
 }
 
 object UseFullImportedName {

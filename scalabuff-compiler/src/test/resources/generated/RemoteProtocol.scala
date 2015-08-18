@@ -4,37 +4,37 @@
 package resources.generated
 
 final case class AkkaRemoteProtocol (
-	`message`: Option[RemoteMessageProtocol] = None,
-	`instruction`: Option[RemoteControlProtocol] = None
+	message: Option[RemoteMessageProtocol] = None,
+	instruction: Option[RemoteControlProtocol] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[AkkaRemoteProtocol]
 	with net.sandrogrzicic.scalabuff.Parser[AkkaRemoteProtocol] {
 
-	def setMessage(_f: RemoteMessageProtocol) = copy(`message` = Some(_f))
-	def setInstruction(_f: RemoteControlProtocol) = copy(`instruction` = Some(_f))
+	def setMessage(_f: RemoteMessageProtocol) = copy(message = Some(_f))
+	def setInstruction(_f: RemoteControlProtocol) = copy(instruction = Some(_f))
 
-	def clearMessage = copy(`message` = None)
-	def clearInstruction = copy(`instruction` = None)
+	def clearMessage = copy(message = None)
+	def clearInstruction = copy(instruction = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		if (`message`.isDefined) output.writeMessage(1, `message`.get)
-		if (`instruction`.isDefined) output.writeMessage(2, `instruction`.get)
+		if (message.isDefined) output.writeMessage(1, message.get)
+		if (instruction.isDefined) output.writeMessage(2, instruction.get)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		if (`message`.isDefined) __size += computeMessageSize(1, `message`.get)
-		if (`instruction`.isDefined) __size += computeMessageSize(2, `instruction`.get)
+		if (message.isDefined) __size += computeMessageSize(1, message.get)
+		if (instruction.isDefined) __size += computeMessageSize(2, instruction.get)
 
 		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): AkkaRemoteProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __message: Option[RemoteMessageProtocol] = `message`
-		var __instruction: Option[RemoteControlProtocol] = `instruction`
+		var __message: Option[RemoteMessageProtocol] = message
+		var __instruction: Option[RemoteControlProtocol] = instruction
 
 		def __newMerged = AkkaRemoteProtocol(
 			__message,
@@ -57,8 +57,8 @@ final case class AkkaRemoteProtocol (
 
 	def mergeFrom(m: AkkaRemoteProtocol) = {
 		AkkaRemoteProtocol(
-			m.`message`.orElse(`message`),
-			m.`instruction`.orElse(`instruction`)
+			m.message.orElse(message),
+			m.instruction.orElse(instruction)
 		)
 	}
 
@@ -103,38 +103,38 @@ object AkkaRemoteProtocol {
 
 }
 final case class RemoteMessageProtocol (
-	`recipient`: ActorRefProtocol = ActorRefProtocol.defaultInstance,
-	`message`: MessageProtocol = MessageProtocol.defaultInstance,
-	`sender`: Option[ActorRefProtocol] = None,
-	`metadata`: scala.collection.immutable.Seq[MetadataEntryProtocol] = Vector.empty[MetadataEntryProtocol]
+	recipient: ActorRefProtocol = ActorRefProtocol.defaultInstance,
+	message: MessageProtocol = MessageProtocol.defaultInstance,
+	sender: Option[ActorRefProtocol] = None,
+	metadata: scala.collection.immutable.Seq[MetadataEntryProtocol] = Vector.empty[MetadataEntryProtocol]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[RemoteMessageProtocol]
 	with net.sandrogrzicic.scalabuff.Parser[RemoteMessageProtocol] {
 
-	def setSender(_f: ActorRefProtocol) = copy(`sender` = Some(_f))
-	def setMetadata(_i: Int, _v: MetadataEntryProtocol) = copy(`metadata` = `metadata`.updated(_i, _v))
-	def addMetadata(_f: MetadataEntryProtocol) = copy(`metadata` = `metadata` :+ _f)
-	def addAllMetadata(_f: MetadataEntryProtocol*) = copy(`metadata` = `metadata` ++ _f)
-	def addAllMetadata(_f: TraversableOnce[MetadataEntryProtocol]) = copy(`metadata` = `metadata` ++ _f)
+	def setSender(_f: ActorRefProtocol) = copy(sender = Some(_f))
+	def setMetadata(_i: Int, _v: MetadataEntryProtocol) = copy(metadata = metadata.updated(_i, _v))
+	def addMetadata(_f: MetadataEntryProtocol) = copy(metadata = metadata :+ _f)
+	def addAllMetadata(_f: MetadataEntryProtocol*) = copy(metadata = metadata ++ _f)
+	def addAllMetadata(_f: TraversableOnce[MetadataEntryProtocol]) = copy(metadata = metadata ++ _f)
 
-	def clearSender = copy(`sender` = None)
-	def clearMetadata = copy(`metadata` = Vector.empty[MetadataEntryProtocol])
+	def clearSender = copy(sender = None)
+	def clearMetadata = copy(metadata = Vector.empty[MetadataEntryProtocol])
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, `recipient`)
-		output.writeMessage(2, `message`)
-		if (`sender`.isDefined) output.writeMessage(4, `sender`.get)
-		for (_v <- `metadata`) output.writeMessage(5, _v)
+		output.writeMessage(1, recipient)
+		output.writeMessage(2, message)
+		if (sender.isDefined) output.writeMessage(4, sender.get)
+		for (_v <- metadata) output.writeMessage(5, _v)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeMessageSize(1, `recipient`)
-		__size += computeMessageSize(2, `message`)
-		if (`sender`.isDefined) __size += computeMessageSize(4, `sender`.get)
-		for (_v <- `metadata`) __size += computeMessageSize(5, _v)
+		__size += computeMessageSize(1, recipient)
+		__size += computeMessageSize(2, message)
+		if (sender.isDefined) __size += computeMessageSize(4, sender.get)
+		for (_v <- metadata) __size += computeMessageSize(5, _v)
 
 		__size
 	}
@@ -143,8 +143,8 @@ final case class RemoteMessageProtocol (
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __recipient: ActorRefProtocol = ActorRefProtocol.defaultInstance
 		var __message: MessageProtocol = MessageProtocol.defaultInstance
-		var __sender: Option[ActorRefProtocol] = `sender`
-		val __metadata: scala.collection.mutable.Buffer[MetadataEntryProtocol] = `metadata`.toBuffer
+		var __sender: Option[ActorRefProtocol] = sender
+		val __metadata: scala.collection.mutable.Buffer[MetadataEntryProtocol] = metadata.toBuffer
 
 		def __newMerged = RemoteMessageProtocol(
 			__recipient,
@@ -168,10 +168,10 @@ final case class RemoteMessageProtocol (
 
 	def mergeFrom(m: RemoteMessageProtocol) = {
 		RemoteMessageProtocol(
-			m.`recipient`,
-			m.`message`,
-			m.`sender`.orElse(`sender`),
-			`metadata` ++ m.`metadata`
+			m.recipient,
+			m.message,
+			m.sender.orElse(sender),
+			metadata ++ m.metadata
 		)
 	}
 
@@ -220,32 +220,32 @@ object RemoteMessageProtocol {
 
 }
 final case class RemoteControlProtocol (
-	`commandType`: CommandType.EnumVal = CommandType._UNINITIALIZED,
-	`cookie`: Option[String] = None,
-	`origin`: Option[AddressProtocol] = None
+	commandType: CommandType.EnumVal = CommandType._UNINITIALIZED,
+	cookie: Option[String] = None,
+	origin: Option[AddressProtocol] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[RemoteControlProtocol]
 	with net.sandrogrzicic.scalabuff.Parser[RemoteControlProtocol] {
 
-	def setCookie(_f: String) = copy(`cookie` = Some(_f))
-	def setOrigin(_f: AddressProtocol) = copy(`origin` = Some(_f))
+	def setCookie(_f: String) = copy(cookie = Some(_f))
+	def setOrigin(_f: AddressProtocol) = copy(origin = Some(_f))
 
-	def clearCookie = copy(`cookie` = None)
-	def clearOrigin = copy(`origin` = None)
+	def clearCookie = copy(cookie = None)
+	def clearOrigin = copy(origin = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeEnum(1, `commandType`)
-		if (`cookie`.isDefined) output.writeString(2, `cookie`.get)
-		if (`origin`.isDefined) output.writeMessage(3, `origin`.get)
+		output.writeEnum(1, commandType)
+		if (cookie.isDefined) output.writeString(2, cookie.get)
+		if (origin.isDefined) output.writeMessage(3, origin.get)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeEnumSize(1, `commandType`)
-		if (`cookie`.isDefined) __size += computeStringSize(2, `cookie`.get)
-		if (`origin`.isDefined) __size += computeMessageSize(3, `origin`.get)
+		__size += computeEnumSize(1, commandType)
+		if (cookie.isDefined) __size += computeStringSize(2, cookie.get)
+		if (origin.isDefined) __size += computeMessageSize(3, origin.get)
 
 		__size
 	}
@@ -253,8 +253,8 @@ final case class RemoteControlProtocol (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): RemoteControlProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __commandType: CommandType.EnumVal = CommandType._UNINITIALIZED
-		var __cookie: Option[String] = `cookie`
-		var __origin: Option[AddressProtocol] = `origin`
+		var __cookie: Option[String] = cookie
+		var __origin: Option[AddressProtocol] = origin
 
 		def __newMerged = RemoteControlProtocol(
 			__commandType,
@@ -276,9 +276,9 @@ final case class RemoteControlProtocol (
 
 	def mergeFrom(m: RemoteControlProtocol) = {
 		RemoteControlProtocol(
-			m.`commandType`,
-			m.`cookie`.orElse(`cookie`),
-			m.`origin`.orElse(`origin`)
+			m.commandType,
+			m.cookie.orElse(cookie),
+			m.origin.orElse(origin)
 		)
 	}
 
@@ -347,7 +347,7 @@ object CommandType extends net.sandrogrzicic.scalabuff.Enum {
 	}
 }
 final case class ActorRefProtocol (
-	`path`: String = ""
+	path: String = ""
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[ActorRefProtocol]
@@ -356,13 +356,13 @@ final case class ActorRefProtocol (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeString(1, `path`)
+		output.writeString(1, path)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeStringSize(1, `path`)
+		__size += computeStringSize(1, path)
 
 		__size
 	}
@@ -384,7 +384,7 @@ final case class ActorRefProtocol (
 
 	def mergeFrom(m: ActorRefProtocol) = {
 		ActorRefProtocol(
-			m.`path`
+			m.path
 		)
 	}
 
@@ -427,30 +427,30 @@ object ActorRefProtocol {
 
 }
 final case class MessageProtocol (
-	`message`: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY,
-	`serializerId`: Int = 0,
-	`messageManifest`: Option[com.google.protobuf.ByteString] = None
+	message: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY,
+	serializerId: Int = 0,
+	messageManifest: Option[com.google.protobuf.ByteString] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[MessageProtocol]
 	with net.sandrogrzicic.scalabuff.Parser[MessageProtocol] {
 
-	def setMessageManifest(_f: com.google.protobuf.ByteString) = copy(`messageManifest` = Some(_f))
+	def setMessageManifest(_f: com.google.protobuf.ByteString) = copy(messageManifest = Some(_f))
 
-	def clearMessageManifest = copy(`messageManifest` = None)
+	def clearMessageManifest = copy(messageManifest = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeBytes(1, `message`)
-		output.writeInt32(2, `serializerId`)
-		if (`messageManifest`.isDefined) output.writeBytes(3, `messageManifest`.get)
+		output.writeBytes(1, message)
+		output.writeInt32(2, serializerId)
+		if (messageManifest.isDefined) output.writeBytes(3, messageManifest.get)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeBytesSize(1, `message`)
-		__size += computeInt32Size(2, `serializerId`)
-		if (`messageManifest`.isDefined) __size += computeBytesSize(3, `messageManifest`.get)
+		__size += computeBytesSize(1, message)
+		__size += computeInt32Size(2, serializerId)
+		if (messageManifest.isDefined) __size += computeBytesSize(3, messageManifest.get)
 
 		__size
 	}
@@ -459,7 +459,7 @@ final case class MessageProtocol (
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __message: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
 		var __serializerId: Int = 0
-		var __messageManifest: Option[com.google.protobuf.ByteString] = `messageManifest`
+		var __messageManifest: Option[com.google.protobuf.ByteString] = messageManifest
 
 		def __newMerged = MessageProtocol(
 			__message,
@@ -478,9 +478,9 @@ final case class MessageProtocol (
 
 	def mergeFrom(m: MessageProtocol) = {
 		MessageProtocol(
-			m.`message`,
-			m.`serializerId`,
-			m.`messageManifest`.orElse(`messageManifest`)
+			m.message,
+			m.serializerId,
+			m.messageManifest.orElse(messageManifest)
 		)
 	}
 
@@ -527,8 +527,8 @@ object MessageProtocol {
 
 }
 final case class MetadataEntryProtocol (
-	`key`: String = "",
-	`value`: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
+	key: String = "",
+	value: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[MetadataEntryProtocol]
@@ -537,15 +537,15 @@ final case class MetadataEntryProtocol (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeString(1, `key`)
-		output.writeBytes(2, `value`)
+		output.writeString(1, key)
+		output.writeBytes(2, value)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeStringSize(1, `key`)
-		__size += computeBytesSize(2, `value`)
+		__size += computeStringSize(1, key)
+		__size += computeBytesSize(2, value)
 
 		__size
 	}
@@ -570,8 +570,8 @@ final case class MetadataEntryProtocol (
 
 	def mergeFrom(m: MetadataEntryProtocol) = {
 		MetadataEntryProtocol(
-			m.`key`,
-			m.`value`
+			m.key,
+			m.value
 		)
 	}
 
@@ -616,9 +616,9 @@ object MetadataEntryProtocol {
 
 }
 final case class AddressProtocol (
-	`system`: String = "",
-	`hostname`: String = "",
-	`port`: Int = 0
+	system: String = "",
+	hostname: String = "",
+	port: Int = 0
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[AddressProtocol]
@@ -627,17 +627,17 @@ final case class AddressProtocol (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeString(1, `system`)
-		output.writeString(2, `hostname`)
-		output.writeUInt32(3, `port`)
+		output.writeString(1, system)
+		output.writeString(2, hostname)
+		output.writeUInt32(3, port)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeStringSize(1, `system`)
-		__size += computeStringSize(2, `hostname`)
-		__size += computeUInt32Size(3, `port`)
+		__size += computeStringSize(1, system)
+		__size += computeStringSize(2, hostname)
+		__size += computeUInt32Size(3, port)
 
 		__size
 	}
@@ -665,9 +665,9 @@ final case class AddressProtocol (
 
 	def mergeFrom(m: AddressProtocol) = {
 		AddressProtocol(
-			m.`system`,
-			m.`hostname`,
-			m.`port`
+			m.system,
+			m.hostname,
+			m.port
 		)
 	}
 
@@ -714,10 +714,10 @@ object AddressProtocol {
 
 }
 final case class DaemonMsgCreateProtocol (
-	`props`: PropsProtocol = PropsProtocol.defaultInstance,
-	`deploy`: DeployProtocol = DeployProtocol.defaultInstance,
-	`path`: String = "",
-	`supervisor`: ActorRefProtocol = ActorRefProtocol.defaultInstance
+	props: PropsProtocol = PropsProtocol.defaultInstance,
+	deploy: DeployProtocol = DeployProtocol.defaultInstance,
+	path: String = "",
+	supervisor: ActorRefProtocol = ActorRefProtocol.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[DaemonMsgCreateProtocol]
@@ -726,19 +726,19 @@ final case class DaemonMsgCreateProtocol (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, `props`)
-		output.writeMessage(2, `deploy`)
-		output.writeString(3, `path`)
-		output.writeMessage(4, `supervisor`)
+		output.writeMessage(1, props)
+		output.writeMessage(2, deploy)
+		output.writeString(3, path)
+		output.writeMessage(4, supervisor)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeMessageSize(1, `props`)
-		__size += computeMessageSize(2, `deploy`)
-		__size += computeStringSize(3, `path`)
-		__size += computeMessageSize(4, `supervisor`)
+		__size += computeMessageSize(1, props)
+		__size += computeMessageSize(2, deploy)
+		__size += computeStringSize(3, path)
+		__size += computeMessageSize(4, supervisor)
 
 		__size
 	}
@@ -769,10 +769,10 @@ final case class DaemonMsgCreateProtocol (
 
 	def mergeFrom(m: DaemonMsgCreateProtocol) = {
 		DaemonMsgCreateProtocol(
-			m.`props`,
-			m.`deploy`,
-			m.`path`,
-			m.`supervisor`
+			m.props,
+			m.deploy,
+			m.path,
+			m.supervisor
 		)
 	}
 
@@ -821,40 +821,40 @@ object DaemonMsgCreateProtocol {
 
 }
 final case class PropsProtocol (
-	`dispatcher`: String = "",
-	`deploy`: DeployProtocol = DeployProtocol.defaultInstance,
-	`fromClassCreator`: Option[String] = None,
-	`creator`: Option[com.google.protobuf.ByteString] = None,
-	`routerConfig`: Option[com.google.protobuf.ByteString] = None
+	dispatcher: String = "",
+	deploy: DeployProtocol = DeployProtocol.defaultInstance,
+	fromClassCreator: Option[String] = None,
+	creator: Option[com.google.protobuf.ByteString] = None,
+	routerConfig: Option[com.google.protobuf.ByteString] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[PropsProtocol]
 	with net.sandrogrzicic.scalabuff.Parser[PropsProtocol] {
 
-	def setFromClassCreator(_f: String) = copy(`fromClassCreator` = Some(_f))
-	def setCreator(_f: com.google.protobuf.ByteString) = copy(`creator` = Some(_f))
-	def setRouterConfig(_f: com.google.protobuf.ByteString) = copy(`routerConfig` = Some(_f))
+	def setFromClassCreator(_f: String) = copy(fromClassCreator = Some(_f))
+	def setCreator(_f: com.google.protobuf.ByteString) = copy(creator = Some(_f))
+	def setRouterConfig(_f: com.google.protobuf.ByteString) = copy(routerConfig = Some(_f))
 
-	def clearFromClassCreator = copy(`fromClassCreator` = None)
-	def clearCreator = copy(`creator` = None)
-	def clearRouterConfig = copy(`routerConfig` = None)
+	def clearFromClassCreator = copy(fromClassCreator = None)
+	def clearCreator = copy(creator = None)
+	def clearRouterConfig = copy(routerConfig = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeString(1, `dispatcher`)
-		output.writeMessage(2, `deploy`)
-		if (`fromClassCreator`.isDefined) output.writeString(3, `fromClassCreator`.get)
-		if (`creator`.isDefined) output.writeBytes(4, `creator`.get)
-		if (`routerConfig`.isDefined) output.writeBytes(5, `routerConfig`.get)
+		output.writeString(1, dispatcher)
+		output.writeMessage(2, deploy)
+		if (fromClassCreator.isDefined) output.writeString(3, fromClassCreator.get)
+		if (creator.isDefined) output.writeBytes(4, creator.get)
+		if (routerConfig.isDefined) output.writeBytes(5, routerConfig.get)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeStringSize(1, `dispatcher`)
-		__size += computeMessageSize(2, `deploy`)
-		if (`fromClassCreator`.isDefined) __size += computeStringSize(3, `fromClassCreator`.get)
-		if (`creator`.isDefined) __size += computeBytesSize(4, `creator`.get)
-		if (`routerConfig`.isDefined) __size += computeBytesSize(5, `routerConfig`.get)
+		__size += computeStringSize(1, dispatcher)
+		__size += computeMessageSize(2, deploy)
+		if (fromClassCreator.isDefined) __size += computeStringSize(3, fromClassCreator.get)
+		if (creator.isDefined) __size += computeBytesSize(4, creator.get)
+		if (routerConfig.isDefined) __size += computeBytesSize(5, routerConfig.get)
 
 		__size
 	}
@@ -863,9 +863,9 @@ final case class PropsProtocol (
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __dispatcher: String = ""
 		var __deploy: DeployProtocol = DeployProtocol.defaultInstance
-		var __fromClassCreator: Option[String] = `fromClassCreator`
-		var __creator: Option[com.google.protobuf.ByteString] = `creator`
-		var __routerConfig: Option[com.google.protobuf.ByteString] = `routerConfig`
+		var __fromClassCreator: Option[String] = fromClassCreator
+		var __creator: Option[com.google.protobuf.ByteString] = creator
+		var __routerConfig: Option[com.google.protobuf.ByteString] = routerConfig
 
 		def __newMerged = PropsProtocol(
 			__dispatcher,
@@ -888,11 +888,11 @@ final case class PropsProtocol (
 
 	def mergeFrom(m: PropsProtocol) = {
 		PropsProtocol(
-			m.`dispatcher`,
-			m.`deploy`,
-			m.`fromClassCreator`.orElse(`fromClassCreator`),
-			m.`creator`.orElse(`creator`),
-			m.`routerConfig`.orElse(`routerConfig`)
+			m.dispatcher,
+			m.deploy,
+			m.fromClassCreator.orElse(fromClassCreator),
+			m.creator.orElse(creator),
+			m.routerConfig.orElse(routerConfig)
 		)
 	}
 
@@ -943,37 +943,37 @@ object PropsProtocol {
 
 }
 final case class DeployProtocol (
-	`path`: String = "",
-	`config`: Option[com.google.protobuf.ByteString] = None,
-	`routerConfig`: Option[com.google.protobuf.ByteString] = None,
-	`scope`: Option[com.google.protobuf.ByteString] = None
+	path: String = "",
+	config: Option[com.google.protobuf.ByteString] = None,
+	routerConfig: Option[com.google.protobuf.ByteString] = None,
+	scope: Option[com.google.protobuf.ByteString] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[DeployProtocol]
 	with net.sandrogrzicic.scalabuff.Parser[DeployProtocol] {
 
-	def setConfig(_f: com.google.protobuf.ByteString) = copy(`config` = Some(_f))
-	def setRouterConfig(_f: com.google.protobuf.ByteString) = copy(`routerConfig` = Some(_f))
-	def setScope(_f: com.google.protobuf.ByteString) = copy(`scope` = Some(_f))
+	def setConfig(_f: com.google.protobuf.ByteString) = copy(config = Some(_f))
+	def setRouterConfig(_f: com.google.protobuf.ByteString) = copy(routerConfig = Some(_f))
+	def setScope(_f: com.google.protobuf.ByteString) = copy(scope = Some(_f))
 
-	def clearConfig = copy(`config` = None)
-	def clearRouterConfig = copy(`routerConfig` = None)
-	def clearScope = copy(`scope` = None)
+	def clearConfig = copy(config = None)
+	def clearRouterConfig = copy(routerConfig = None)
+	def clearScope = copy(scope = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeString(1, `path`)
-		if (`config`.isDefined) output.writeBytes(2, `config`.get)
-		if (`routerConfig`.isDefined) output.writeBytes(3, `routerConfig`.get)
-		if (`scope`.isDefined) output.writeBytes(4, `scope`.get)
+		output.writeString(1, path)
+		if (config.isDefined) output.writeBytes(2, config.get)
+		if (routerConfig.isDefined) output.writeBytes(3, routerConfig.get)
+		if (scope.isDefined) output.writeBytes(4, scope.get)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeStringSize(1, `path`)
-		if (`config`.isDefined) __size += computeBytesSize(2, `config`.get)
-		if (`routerConfig`.isDefined) __size += computeBytesSize(3, `routerConfig`.get)
-		if (`scope`.isDefined) __size += computeBytesSize(4, `scope`.get)
+		__size += computeStringSize(1, path)
+		if (config.isDefined) __size += computeBytesSize(2, config.get)
+		if (routerConfig.isDefined) __size += computeBytesSize(3, routerConfig.get)
+		if (scope.isDefined) __size += computeBytesSize(4, scope.get)
 
 		__size
 	}
@@ -981,9 +981,9 @@ final case class DeployProtocol (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): DeployProtocol = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __path: String = ""
-		var __config: Option[com.google.protobuf.ByteString] = `config`
-		var __routerConfig: Option[com.google.protobuf.ByteString] = `routerConfig`
-		var __scope: Option[com.google.protobuf.ByteString] = `scope`
+		var __config: Option[com.google.protobuf.ByteString] = config
+		var __routerConfig: Option[com.google.protobuf.ByteString] = routerConfig
+		var __scope: Option[com.google.protobuf.ByteString] = scope
 
 		def __newMerged = DeployProtocol(
 			__path,
@@ -1004,10 +1004,10 @@ final case class DeployProtocol (
 
 	def mergeFrom(m: DeployProtocol) = {
 		DeployProtocol(
-			m.`path`,
-			m.`config`.orElse(`config`),
-			m.`routerConfig`.orElse(`routerConfig`),
-			m.`scope`.orElse(`scope`)
+			m.path,
+			m.config.orElse(config),
+			m.routerConfig.orElse(routerConfig),
+			m.scope.orElse(scope)
 		)
 	}
 
