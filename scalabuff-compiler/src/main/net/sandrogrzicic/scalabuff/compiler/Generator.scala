@@ -25,6 +25,8 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
    */
   protected var optimizeForSpeed = true
 
+  protected var lazyGetSerializedSize = false
+
   /**
    * Generates the Scala class code.
    */
@@ -222,7 +224,9 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       out.append(indent1).append("}\n")
 
       // getSerializedSize
-      out.append("\n").append(indent1).append("def getSerializedSize = {\n")
+      val definition = if (lazyGetSerializedSize) "lazy val" else "def"
+
+      out.append("\n").append(indent1).append(definition).append(" getSerializedSize = {\n")
         .append(indent2).append("import com.google.protobuf.CodedOutputStream._\n")
         .append(indent2).append("var __size = 0\n")
       for (field <- fields) {
@@ -529,6 +533,11 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
             case OptionValue(key, value) => key match {
               case "java_package"         => packageName = value.stripQuotes
               case "java_outer_classname" => className = value.stripQuotes
+              case "lazy_compute_serialized_size" => value match {
+                case "true"         => lazyGetSerializedSize = true
+                case "false"        => lazyGetSerializedSize = false
+                case _              => throw new InvalidOptionValueException(key, value)
+              }
               case "optimize_for" => value match {
                 case "SPEED"        => optimizeForSpeed = true
                 case "CODE_SIZE"    => optimizeForSpeed = false
