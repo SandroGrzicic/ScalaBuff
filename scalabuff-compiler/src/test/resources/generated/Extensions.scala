@@ -4,7 +4,7 @@
 package resources.generated
 
 final case class ExtensionsTest (
-	`foo`: Int = 0
+	foo: Int = 0
 ) extends com.google.protobuf.GeneratedMessageLite.ExtendableMessage[ExtensionsTest]
 	with net.sandrogrzicic.scalabuff.ExtendableMessage[ExtensionsTest]
 	with net.sandrogrzicic.scalabuff.Parser[ExtensionsTest] {
@@ -12,13 +12,13 @@ final case class ExtensionsTest (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeInt32(1, `foo`)
+		output.writeInt32(1, foo)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeInt32Size(1, `foo`)
+		__size += computeInt32Size(1, foo)
 
 		__size
 	}
@@ -40,7 +40,7 @@ final case class ExtensionsTest (
 
 	def mergeFrom(m: ExtensionsTest) = {
 		ExtensionsTest(
-			m.`foo`
+			m.foo
 		)
 	}
 

@@ -4,50 +4,50 @@
 package resources.generated
 
 final case class MultiMessageTwo (
-	`requiredField`: Int = 0,
-	`optionalField`: Option[Float] = None,
-	`repeatedField`: scala.collection.immutable.Seq[String] = Vector.empty[String],
+	requiredField: Int = 0,
+	optionalField: Option[Float] = None,
+	repeatedField: scala.collection.immutable.Seq[String] = Vector.empty[String],
 	`type`: Option[Int] = Some(100),
-	`int32Default`: Option[Int] = Some(100),
-	`stringDefault`: Option[String] = Some("somestring")
+	int32Default: Option[Int] = Some(100),
+	stringDefault: Option[String] = Some("somestring")
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[MultiMessageTwo]
 	with net.sandrogrzicic.scalabuff.Parser[MultiMessageTwo] {
 
-	def setOptionalField(_f: Float) = copy(`optionalField` = Some(_f))
-	def setRepeatedField(_i: Int, _v: String) = copy(`repeatedField` = `repeatedField`.updated(_i, _v))
-	def addRepeatedField(_f: String) = copy(`repeatedField` = `repeatedField` :+ _f)
-	def addAllRepeatedField(_f: String*) = copy(`repeatedField` = `repeatedField` ++ _f)
-	def addAllRepeatedField(_f: TraversableOnce[String]) = copy(`repeatedField` = `repeatedField` ++ _f)
+	def setOptionalField(_f: Float) = copy(optionalField = Some(_f))
+	def setRepeatedField(_i: Int, _v: String) = copy(repeatedField = repeatedField.updated(_i, _v))
+	def addRepeatedField(_f: String) = copy(repeatedField = repeatedField :+ _f)
+	def addAllRepeatedField(_f: String*) = copy(repeatedField = repeatedField ++ _f)
+	def addAllRepeatedField(_f: TraversableOnce[String]) = copy(repeatedField = repeatedField ++ _f)
 	def setType(_f: Int) = copy(`type` = Some(_f))
-	def setInt32Default(_f: Int) = copy(`int32Default` = Some(_f))
-	def setStringDefault(_f: String) = copy(`stringDefault` = Some(_f))
+	def setInt32Default(_f: Int) = copy(int32Default = Some(_f))
+	def setStringDefault(_f: String) = copy(stringDefault = Some(_f))
 
-	def clearOptionalField = copy(`optionalField` = None)
-	def clearRepeatedField = copy(`repeatedField` = Vector.empty[String])
+	def clearOptionalField = copy(optionalField = None)
+	def clearRepeatedField = copy(repeatedField = Vector.empty[String])
 	def clearType = copy(`type` = None)
-	def clearInt32Default = copy(`int32Default` = None)
-	def clearStringDefault = copy(`stringDefault` = None)
+	def clearInt32Default = copy(int32Default = None)
+	def clearStringDefault = copy(stringDefault = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeInt32(1, `requiredField`)
-		if (`optionalField`.isDefined) output.writeFloat(2, `optionalField`.get)
-		for (_v <- `repeatedField`) output.writeString(3, _v)
+		output.writeInt32(1, requiredField)
+		if (optionalField.isDefined) output.writeFloat(2, optionalField.get)
+		for (_v <- repeatedField) output.writeString(3, _v)
 		if (`type`.isDefined) output.writeInt32(4, `type`.get)
-		if (`int32Default`.isDefined) output.writeInt32(5, `int32Default`.get)
-		if (`stringDefault`.isDefined) output.writeString(6, `stringDefault`.get)
+		if (int32Default.isDefined) output.writeInt32(5, int32Default.get)
+		if (stringDefault.isDefined) output.writeString(6, stringDefault.get)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeInt32Size(1, `requiredField`)
-		if (`optionalField`.isDefined) __size += computeFloatSize(2, `optionalField`.get)
-		for (_v <- `repeatedField`) __size += computeStringSize(3, _v)
+		__size += computeInt32Size(1, requiredField)
+		if (optionalField.isDefined) __size += computeFloatSize(2, optionalField.get)
+		for (_v <- repeatedField) __size += computeStringSize(3, _v)
 		if (`type`.isDefined) __size += computeInt32Size(4, `type`.get)
-		if (`int32Default`.isDefined) __size += computeInt32Size(5, `int32Default`.get)
-		if (`stringDefault`.isDefined) __size += computeStringSize(6, `stringDefault`.get)
+		if (int32Default.isDefined) __size += computeInt32Size(5, int32Default.get)
+		if (stringDefault.isDefined) __size += computeStringSize(6, stringDefault.get)
 
 		__size
 	}
@@ -55,11 +55,11 @@ final case class MultiMessageTwo (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): MultiMessageTwo = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __requiredField: Int = 0
-		var __optionalField: Option[Float] = `optionalField`
-		val __repeatedField: scala.collection.mutable.Buffer[String] = `repeatedField`.toBuffer
+		var __optionalField: Option[Float] = optionalField
+		val __repeatedField: scala.collection.mutable.Buffer[String] = repeatedField.toBuffer
 		var __type: Option[Int] = `type`
-		var __int32Default: Option[Int] = `int32Default`
-		var __stringDefault: Option[String] = `stringDefault`
+		var __int32Default: Option[Int] = int32Default
+		var __stringDefault: Option[String] = stringDefault
 
 		def __newMerged = MultiMessageTwo(
 			__requiredField,
@@ -84,12 +84,12 @@ final case class MultiMessageTwo (
 
 	def mergeFrom(m: MultiMessageTwo) = {
 		MultiMessageTwo(
-			m.`requiredField`,
-			m.`optionalField`.orElse(`optionalField`),
-			`repeatedField` ++ m.`repeatedField`,
+			m.requiredField,
+			m.optionalField.orElse(optionalField),
+			repeatedField ++ m.repeatedField,
 			m.`type`.orElse(`type`),
-			m.`int32Default`.orElse(`int32Default`),
-			m.`stringDefault`.orElse(`stringDefault`)
+			m.int32Default.orElse(int32Default),
+			m.stringDefault.orElse(stringDefault)
 		)
 	}
 

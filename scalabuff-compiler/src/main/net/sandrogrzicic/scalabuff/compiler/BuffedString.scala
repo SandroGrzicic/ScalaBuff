@@ -6,7 +6,7 @@ package net.sandrogrzicic.scalabuff.compiler
  */
 
 class BuffedString(str: String) {
-	import BuffedString.camelCaseRegex
+	import BuffedString.{camelCaseRegex, scalaReserved}
 
 	/**
 	 * CamelCases this string, with the first letter uppercased.
@@ -14,10 +14,19 @@ class BuffedString(str: String) {
 	def camelCase = lowerCamelCase.capitalize
 
 	/**
+	 * Adds backticks for reserved keywords or names with characters like spaces, symbols etc.
+	 */
+	def quotedIdent(name: String) = {
+		if (scalaReserved(name)) '`' + name + '`'
+		else if (name.matches("[a-zA-Z_][\\w\\d_]*")) name
+		else '`' + name + '`'
+	}
+
+	/**
 	 * Generates a valid Scala identifier: 
 	 * camelCases this string, leaving the first letter lowercased and wraps it into backticks.
 	 */
-	def toScalaIdent = "`" + lowerCamelCase + "`"
+	def toScalaIdent = quotedIdent(lowerCamelCase)
 	
 	/**
 	 * camelCases this string, with the first letter lowercased.
@@ -92,4 +101,12 @@ object BuffedString {
 	def indent(indentLevel: Int) = "\t" * indentLevel
 
 	val camelCaseRegex = """_(\w)""".r
+
+	/**
+	 * Reserved scala keywords that require backticks
+	 */
+	val scalaReserved =
+		Set("type", "val", "def", "else", "if", "object",
+			"yield", "for", "import", "match", "case", "lazy",
+			"var", "class", "package", "extends")
 }

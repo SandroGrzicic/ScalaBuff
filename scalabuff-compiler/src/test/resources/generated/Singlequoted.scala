@@ -4,31 +4,31 @@
 package resources.generated
 
 final case class SingleQuote (
-	`singleQuotedField`: Option[String] = Some("NA")
+	singleQuotedField: Option[String] = Some("NA")
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[SingleQuote]
 	with net.sandrogrzicic.scalabuff.Parser[SingleQuote] {
 
-	def setSingleQuotedField(_f: String) = copy(`singleQuotedField` = Some(_f))
+	def setSingleQuotedField(_f: String) = copy(singleQuotedField = Some(_f))
 
-	def clearSingleQuotedField = copy(`singleQuotedField` = None)
+	def clearSingleQuotedField = copy(singleQuotedField = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		if (`singleQuotedField`.isDefined) output.writeString(1, `singleQuotedField`.get)
+		if (singleQuotedField.isDefined) output.writeString(1, singleQuotedField.get)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		if (`singleQuotedField`.isDefined) __size += computeStringSize(1, `singleQuotedField`.get)
+		if (singleQuotedField.isDefined) __size += computeStringSize(1, singleQuotedField.get)
 
 		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SingleQuote = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __singleQuotedField: Option[String] = `singleQuotedField`
+		var __singleQuotedField: Option[String] = singleQuotedField
 
 		def __newMerged = SingleQuote(
 			__singleQuotedField
@@ -43,7 +43,7 @@ final case class SingleQuote (
 
 	def mergeFrom(m: SingleQuote) = {
 		SingleQuote(
-			m.`singleQuotedField`.orElse(`singleQuotedField`)
+			m.singleQuotedField.orElse(singleQuotedField)
 		)
 	}
 

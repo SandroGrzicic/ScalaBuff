@@ -4,43 +4,43 @@
 package resources.generated
 
 final case class PackedTest (
-	`requiredField`: Int = 0,
-	`optionalField`: Option[Float] = None,
-	`repeatedPackedField`: scala.collection.immutable.Seq[Int] = Vector.empty[Int]
+	requiredField: Int = 0,
+	optionalField: Option[Float] = None,
+	repeatedPackedField: scala.collection.immutable.Seq[Int] = Vector.empty[Int]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[PackedTest]
 	with net.sandrogrzicic.scalabuff.Parser[PackedTest] {
 
-	def setOptionalField(_f: Float) = copy(`optionalField` = Some(_f))
-	def setRepeatedPackedField(_i: Int, _v: Int) = copy(`repeatedPackedField` = `repeatedPackedField`.updated(_i, _v))
-	def addRepeatedPackedField(_f: Int) = copy(`repeatedPackedField` = `repeatedPackedField` :+ _f)
-	def addAllRepeatedPackedField(_f: Int*) = copy(`repeatedPackedField` = `repeatedPackedField` ++ _f)
-	def addAllRepeatedPackedField(_f: TraversableOnce[Int]) = copy(`repeatedPackedField` = `repeatedPackedField` ++ _f)
+	def setOptionalField(_f: Float) = copy(optionalField = Some(_f))
+	def setRepeatedPackedField(_i: Int, _v: Int) = copy(repeatedPackedField = repeatedPackedField.updated(_i, _v))
+	def addRepeatedPackedField(_f: Int) = copy(repeatedPackedField = repeatedPackedField :+ _f)
+	def addAllRepeatedPackedField(_f: Int*) = copy(repeatedPackedField = repeatedPackedField ++ _f)
+	def addAllRepeatedPackedField(_f: TraversableOnce[Int]) = copy(repeatedPackedField = repeatedPackedField ++ _f)
 
-	def clearOptionalField = copy(`optionalField` = None)
-	def clearRepeatedPackedField = copy(`repeatedPackedField` = Vector.empty[Int])
+	def clearOptionalField = copy(optionalField = None)
+	def clearRepeatedPackedField = copy(repeatedPackedField = Vector.empty[Int])
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeInt32(1, `requiredField`)
-		if (`optionalField`.isDefined) output.writeFloat(2, `optionalField`.get)
+		output.writeInt32(1, requiredField)
+		if (optionalField.isDefined) output.writeFloat(2, optionalField.get)
 		// write field repeated_packed_field packed 
-		if (!`repeatedPackedField`.isEmpty) {
+		if (!repeatedPackedField.isEmpty) {
 			import com.google.protobuf.CodedOutputStream._
-			val dataSize = `repeatedPackedField`.map(computeInt32SizeNoTag(_)).sum 
+			val dataSize = repeatedPackedField.map(computeInt32SizeNoTag(_)).sum 
 			output.writeRawVarint32(26)
 			output.writeRawVarint32(dataSize)
-			for (_v <- `repeatedPackedField`) output.writeInt32NoTag(_v)
+			for (_v <- repeatedPackedField) output.writeInt32NoTag(_v)
 		}
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeInt32Size(1, `requiredField`)
-		if (`optionalField`.isDefined) __size += computeFloatSize(2, `optionalField`.get)
-		if (!`repeatedPackedField`.isEmpty) {
-			val dataSize = `repeatedPackedField`.map(computeInt32SizeNoTag(_)).sum 
+		__size += computeInt32Size(1, requiredField)
+		if (optionalField.isDefined) __size += computeFloatSize(2, optionalField.get)
+		if (!repeatedPackedField.isEmpty) {
+			val dataSize = repeatedPackedField.map(computeInt32SizeNoTag(_)).sum 
 			__size += 1 + computeInt32SizeNoTag(dataSize) + dataSize
 		}
 
@@ -50,8 +50,8 @@ final case class PackedTest (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): PackedTest = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __requiredField: Int = 0
-		var __optionalField: Option[Float] = `optionalField`
-		val __repeatedPackedField: scala.collection.mutable.Buffer[Int] = `repeatedPackedField`.toBuffer
+		var __optionalField: Option[Float] = optionalField
+		val __repeatedPackedField: scala.collection.mutable.Buffer[Int] = repeatedPackedField.toBuffer
 
 		def __newMerged = PackedTest(
 			__requiredField,
@@ -77,9 +77,9 @@ final case class PackedTest (
 
 	def mergeFrom(m: PackedTest) = {
 		PackedTest(
-			m.`requiredField`,
-			m.`optionalField`.orElse(`optionalField`),
-			`repeatedPackedField` ++ m.`repeatedPackedField`
+			m.requiredField,
+			m.optionalField.orElse(optionalField),
+			repeatedPackedField ++ m.repeatedPackedField
 		)
 	}
 

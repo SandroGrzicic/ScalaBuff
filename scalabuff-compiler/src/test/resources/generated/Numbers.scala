@@ -4,37 +4,37 @@
 package resources.generated
 
 final case class NumbersTest1 (
-	`someHexNumber`: Option[Int] = Some(430689775),
-	`someOctNumber`: Option[Int] = Some(342391)
+	someHexNumber: Option[Int] = Some(430689775),
+	someOctNumber: Option[Int] = Some(342391)
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[NumbersTest1]
 	with net.sandrogrzicic.scalabuff.Parser[NumbersTest1] {
 
-	def setSomeHexNumber(_f: Int) = copy(`someHexNumber` = Some(_f))
-	def setSomeOctNumber(_f: Int) = copy(`someOctNumber` = Some(_f))
+	def setSomeHexNumber(_f: Int) = copy(someHexNumber = Some(_f))
+	def setSomeOctNumber(_f: Int) = copy(someOctNumber = Some(_f))
 
-	def clearSomeHexNumber = copy(`someHexNumber` = None)
-	def clearSomeOctNumber = copy(`someOctNumber` = None)
+	def clearSomeHexNumber = copy(someHexNumber = None)
+	def clearSomeOctNumber = copy(someOctNumber = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		if (`someHexNumber`.isDefined) output.writeInt32(1, `someHexNumber`.get)
-		if (`someOctNumber`.isDefined) output.writeInt32(2, `someOctNumber`.get)
+		if (someHexNumber.isDefined) output.writeInt32(1, someHexNumber.get)
+		if (someOctNumber.isDefined) output.writeInt32(2, someOctNumber.get)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		if (`someHexNumber`.isDefined) __size += computeInt32Size(1, `someHexNumber`.get)
-		if (`someOctNumber`.isDefined) __size += computeInt32Size(2, `someOctNumber`.get)
+		if (someHexNumber.isDefined) __size += computeInt32Size(1, someHexNumber.get)
+		if (someOctNumber.isDefined) __size += computeInt32Size(2, someOctNumber.get)
 
 		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): NumbersTest1 = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __someHexNumber: Option[Int] = `someHexNumber`
-		var __someOctNumber: Option[Int] = `someOctNumber`
+		var __someHexNumber: Option[Int] = someHexNumber
+		var __someOctNumber: Option[Int] = someOctNumber
 
 		def __newMerged = NumbersTest1(
 			__someHexNumber,
@@ -51,8 +51,8 @@ final case class NumbersTest1 (
 
 	def mergeFrom(m: NumbersTest1) = {
 		NumbersTest1(
-			m.`someHexNumber`.orElse(`someHexNumber`),
-			m.`someOctNumber`.orElse(`someOctNumber`)
+			m.someHexNumber.orElse(someHexNumber),
+			m.someOctNumber.orElse(someOctNumber)
 		)
 	}
 
