@@ -106,7 +106,11 @@ object BuffedString {
 	 * Reserved scala keywords that require backticks
 	 */
 	val scalaReserved =
-		Set("type", "val", "def", "else", "if", "object",
-			"yield", "for", "import", "match", "case", "lazy",
-			"var", "class", "package", "extends")
+		Set("abstract", "case", "catch", "class", "def", "do", "else",
+			"extends", "false", "final", "finally", "for", "forSome",
+			"if", "implicit", "import", "lazy", "macro", "match",
+			"new", "null", "object", "override", "package", "private",
+			"protected", "return", "sealed", "super", "then", "this",
+			"throw", "trait", "true", "try", "type", "val", "var",
+			"while", "with", "yield")
 }
