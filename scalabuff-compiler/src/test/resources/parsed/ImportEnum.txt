@@ -1,0 +1,1 @@
+List(PackageStatement(resources.generated), ImportStatement("enum_to_import.proto"), Message(AnImportEnumMessage,MessageBody(List(Field(required,resources.generated.nested.AnEnumToImport,to_import,1,List(),)),List(),List(),List(),List(),List(),List())))

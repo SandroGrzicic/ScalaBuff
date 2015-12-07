@@ -665,7 +665,7 @@ object Generator {
   /** Update fields which have custom types. */
   protected def fixCustomTypes(tree: List[Node], enumNames: mutable.Set[String], customFieldTypes: mutable.Buffer[EnumVal], importedSymbols: Map[String, ImportedSymbol]) {
     for (fType <- customFieldTypes if !fType.isMessage && !fType.isEnum) {
-      if (enumNames.contains(fType.name.dropUntilLast('.')) || importedSymbols.get(fType.scalaType).exists(_.isEnum)) {
+      if (enumNames.contains(fType.name.dropUntilLast('.')) || importedSymbols.get(fType.scalaType.dropUntilLast('.')).exists(_.isEnum)) {
         fType.isEnum = true
         fType.name = "Enum"
         fType.defaultValue = fType.scalaType + "._UNINITIALIZED"
@@ -775,8 +775,9 @@ object Generator {
             }.foreach {
               case (name, symbol) =>
 	              // namespaces might be empty for imported message types
-	              val namespacePrefix = if (symbol.packageName.isEmpty) "" else symbol.packageName + "."
                 val protoPkgPrefix = if (symbol.protoPackage.isEmpty) "" else symbol.protoPackage + "."
+                // Java package defaults to proto package according to spec
+	              val namespacePrefix = if (symbol.packageName.isEmpty) protoPkgPrefix else symbol.packageName + "."
                 field.fType.scalaType = namespacePrefix + field.fType.scalaType.stripPrefix(protoPkgPrefix)
                 field.fType.defaultValue = namespacePrefix + field.fType.defaultValue.stripPrefix(protoPkgPrefix)
             }

@@ -1,0 +1,1 @@
+List(PackageStatement(resources.generated.nested), EnumStatement(AnEnumToImport,List(EnumConstant(KEYBOARD,1), EnumConstant(MOUSE,2)),List()))
