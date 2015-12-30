@@ -39,7 +39,7 @@ final case class SimpleTest (
 	def clearFloatDefault = copy(floatDefault = None)
 	def clearFloatNegative = copy(floatNegative = None)
 
-	def writeTo(output: com.google.protobuf.CodedOutputStream) {
+	def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {
 		output.writeInt32(1, requiredField)
 		if (optionalField.isDefined) output.writeFloat(2, optionalField.get)
 		var index_repeatedField = 0
@@ -184,7 +184,7 @@ object SimpleTest {
 }
 
 object Simple {
-	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
+	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite): Unit = {
 	}
 
 	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](

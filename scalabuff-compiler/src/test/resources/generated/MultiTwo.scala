@@ -30,7 +30,7 @@ final case class MultiMessageTwo (
 	def clearInt32Default = copy(int32Default = None)
 	def clearStringDefault = copy(stringDefault = None)
 
-	def writeTo(output: com.google.protobuf.CodedOutputStream) {
+	def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {
 		output.writeInt32(1, requiredField)
 		if (optionalField.isDefined) output.writeFloat(2, optionalField.get)
 		var index_repeatedField = 0
@@ -135,7 +135,7 @@ object MultiMessageTwo {
 }
 
 object MultiTwo {
-	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
+	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite): Unit = {
 	}
 
 	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
