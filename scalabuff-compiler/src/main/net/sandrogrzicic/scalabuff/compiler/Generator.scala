@@ -184,7 +184,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
 
       // writeTo(CodedOutputStream)
       out.append("\n").append(indent1)
-        .append("def writeTo(output: com.google.protobuf.CodedOutputStream) {\n")
+        .append("def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {\n")
 
       fields.foreach { field =>
         field.label match {
@@ -227,8 +227,10 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       val definition = if (lazyGetSerializedSize) "lazy val" else "def"
 
       out.append("\n").append(indent1).append(definition).append(" getSerializedSize = {\n")
-        .append(indent2).append("import com.google.protobuf.CodedOutputStream._\n")
-        .append(indent2).append("var __size = 0\n")
+      if(fields.nonEmpty) { // prevent Unused import compilation warning when there are no fields for size computing
+        out.append(indent2).append("import com.google.protobuf.CodedOutputStream._\n")
+      }
+      out.append(indent2).append("var __size = 0\n")
       for (field <- fields) {
         field.label match {
           case REQUIRED => out.append(indent2)
@@ -267,7 +269,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       out.append("\n").append(indent1)
         .append("def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): ")
         .append(name).append(" = {\n")
-        .append(indent2).append("import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}\n")
+        .append(indent2).append("val _emptyRegistry = com.google.protobuf.ExtensionRegistryLite.getEmptyRegistry\n")
 
       for (field <- fields) {
         field.label match {
@@ -602,7 +604,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
     // outer object
     output
       .append("object ").append(className).append(" {\n")
-      .append("\tdef registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {\n")
+      .append("\tdef registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite): Unit = {\n")
       .append("\t}\n\n")
 
       .append("\tprivate val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](").append("\n")

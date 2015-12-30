@@ -12,18 +12,17 @@ final case class MutiMessageOne (
 
 
 
-	def writeTo(output: com.google.protobuf.CodedOutputStream) {
+	def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {
 	}
 
 	def getSerializedSize = {
-		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 
 		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): MutiMessageOne = {
-		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
+		val _emptyRegistry = com.google.protobuf.ExtensionRegistryLite.getEmptyRegistry
 
 		def __newMerged = MutiMessageOne(
 
@@ -69,7 +68,7 @@ object MutiMessageOne {
 }
 
 object MultiOne {
-	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
+	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite): Unit = {
 	}
 
 	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](

@@ -30,7 +30,7 @@ final case class MultiMessageTwo (
 	def clearInt32Default = copy(int32Default = None)
 	def clearStringDefault = copy(stringDefault = None)
 
-	def writeTo(output: com.google.protobuf.CodedOutputStream) {
+	def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {
 		output.writeInt32(1, requiredField)
 		if (optionalField.isDefined) output.writeFloat(2, optionalField.get)
 		for (_v <- repeatedField) output.writeString(3, _v)
@@ -53,7 +53,7 @@ final case class MultiMessageTwo (
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): MultiMessageTwo = {
-		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
+		val _emptyRegistry = com.google.protobuf.ExtensionRegistryLite.getEmptyRegistry
 		var __requiredField: Int = 0
 		var __optionalField: Option[Float] = optionalField
 		val __repeatedField: scala.collection.mutable.Buffer[String] = repeatedField.toBuffer
@@ -127,7 +127,7 @@ object MultiMessageTwo {
 }
 
 object MultiTwo {
-	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
+	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite): Unit = {
 	}
 
 	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](

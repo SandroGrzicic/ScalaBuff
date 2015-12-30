@@ -12,7 +12,7 @@ final case class PackageTest (
 
 
 
-	def writeTo(output: com.google.protobuf.CodedOutputStream) {
+	def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {
 		output.writeInt32(1, requiredField)
 	}
 
@@ -25,7 +25,7 @@ final case class PackageTest (
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): PackageTest = {
-		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
+		val _emptyRegistry = com.google.protobuf.ExtensionRegistryLite.getEmptyRegistry
 		var __requiredField: Int = 0
 
 		def __newMerged = PackageTest(
@@ -85,7 +85,7 @@ object PackageTest {
 }
 
 object PackageName {
-	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
+	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite): Unit = {
 	}
 
 	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](
