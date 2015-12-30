@@ -14,7 +14,7 @@ final case class UsesImportPackage (
 
 
 
-	def writeTo(output: com.google.protobuf.CodedOutputStream) {
+	def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {
 		output.writeMessage(1, packageTest)
 	}
 
@@ -87,7 +87,7 @@ object UsesImportPackage {
 }
 
 object ImportPackages {
-	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
+	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite): Unit = {
 	}
 
 	private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](

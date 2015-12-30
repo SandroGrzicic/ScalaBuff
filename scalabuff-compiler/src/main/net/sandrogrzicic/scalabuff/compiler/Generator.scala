@@ -184,7 +184,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
 
       // writeTo(CodedOutputStream)
       out.append("\n").append(indent1)
-        .append("def writeTo(output: com.google.protobuf.CodedOutputStream) {\n")
+        .append("def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {\n")
 
       fields.foreach { field =>
         field.label match {
@@ -602,7 +602,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
     // outer object
     output
       .append("object ").append(className).append(" {\n")
-      .append("\tdef registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {\n")
+      .append("\tdef registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite): Unit = {\n")
       .append("\t}\n\n")
 
       .append("\tprivate val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.google.protobuf.GeneratedMessageLite](").append("\n")
