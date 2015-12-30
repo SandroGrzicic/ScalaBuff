@@ -27,7 +27,7 @@ final case class UsesImportPackage (
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): UsesImportPackage = {
-		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
+		val _emptyRegistry = com.google.protobuf.ExtensionRegistryLite.getEmptyRegistry
 		var __packageTest: nested.PackageTest = nested.PackageTest.defaultInstance
 
 		def __newMerged = UsesImportPackage(

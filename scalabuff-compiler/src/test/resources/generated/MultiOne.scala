@@ -16,14 +16,13 @@ final case class MutiMessageOne (
 	}
 
 	def getSerializedSize = {
-		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 
 		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): MutiMessageOne = {
-		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
+		val _emptyRegistry = com.google.protobuf.ExtensionRegistryLite.getEmptyRegistry
 
 		def __newMerged = MutiMessageOne(
 

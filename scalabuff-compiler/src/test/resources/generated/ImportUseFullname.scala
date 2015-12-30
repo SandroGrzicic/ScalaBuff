@@ -27,7 +27,7 @@ final case class UseFullImportedName (
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): UseFullImportedName = {
-		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
+		val _emptyRegistry = com.google.protobuf.ExtensionRegistryLite.getEmptyRegistry
 		var __fullnameTest: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
 
 		def __newMerged = UseFullImportedName(
