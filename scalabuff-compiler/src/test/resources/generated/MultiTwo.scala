@@ -61,7 +61,7 @@ final case class MultiMessageTwo (
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): MultiMessageTwo = {
-		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
+		val _emptyRegistry = com.google.protobuf.ExtensionRegistryLite.getEmptyRegistry
 		var __requiredField: Int = 0
 		var __optionalField: Option[Float] = optionalField
 		val __repeatedField: scala.collection.mutable.Buffer[String] = repeatedField.toBuffer
