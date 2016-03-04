@@ -79,7 +79,7 @@ class ScalaBuffTest extends FunSuite with Matchers {
     val simpleProto = protoDir + testProto + ".proto"
     Console.withOut(new PrintStream(outputStream)) {
       ScalaBuff.run(Array("-v", "-v", "--generate_json_method", "--scala_out=" + outputDir, simpleProto))
-      val output = outputStream.toString.split("\r\n")
+      val output = outputStream.toString.split("\r?\n")
       output.length should be (2)
       output(0) should startWith("Parameters: ")
       output(1) should startWith("Paths: ")
