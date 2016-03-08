@@ -2,7 +2,12 @@ ScalaBuff is a Scala [Protocol Buffers](https://developers.google.com/protocol-b
 
 Both the ScalaBuff generator and the generated Scala classes depend on Google's Java runtime for Protocol Buffers, which is provided with ScalaBuff.
 
-If you want to utilize ScalaBuff to generate your Scala classes from .proto sources, you'll need to either [download the source](https://github.com/SandroGrzicic/ScalaBuff/archive/master.zip) or download the packaged JAR for your Scala version from the Sonatype OSS repository. If you download the sources, you can easily run it from SBT.
+If you want to utilize ScalaBuff to generate your Scala classes from .proto sources, you'll need to either [download the source](https://github.com/SandroGrzicic/ScalaBuff/archive/master.zip) or download the packaged JAR for your Scala version from the Sonatype OSS repository. If you download the sources, you can easily run it from SBT or by generating a fat Jar with sbt assembly:
+
+```sh
+$ sbt assembly
+$ java -jar target/scala-2.11/scalabuff-compiler-assembly-1.4.0.jar --proto_path=INPUT_DIR --scala_out=OUTPUT_DIR
+```
 
 If you just want to use ScalaBuff-generated classes in your SBT-managed project, here's the dependency to add (located on the Sonatype OSS repository): `"net.sandrogrzicic" %% "scalabuff-runtime" % "[desired_version]"`
 The latest release is **1.4.0** with support for Scala 2.10 and 2.11.
