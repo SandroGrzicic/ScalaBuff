@@ -211,18 +211,48 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
                 out.append(indent3).append("output.writeRawVarint32(")
                   .append((field.number << 3) | WIRETYPE_LENGTH_DELIMITED).append(")").append("\n")
                 out.append(indent3).append("output.writeRawVarint32(dataSize)").append("\n")
-                out.append(indent3).append("for (_v <- ")
-                  .append(field.name.toScalaIdent).append(") ")
-                  .append("output.write").append(field.fType.name).append("NoTag")
-                  .append("(_v)\n")
+                if (optimizeForSpeed) {
+                  createWriteToWhile(false, "", indent3, indent4)
+                } else {
+                  out.append(indent3).append("for (_v <- ")
+                    .append(field.name.toScalaIdent).append(") ")
+                    .append("output.write").append(field.fType.name).append("NoTag")
+                    .append("(_v)\n")
+                }
                 out.append(indent2).append("}\n")
               case _ =>
-                out.append(indent2).append("for (_v <- ")
-                  .append(field.name.toScalaIdent).append(") ")
-                  .append("output.write").append(field.fType.name)
-                out.append("(").append(field.number).append(", _v)\n")
+                if (optimizeForSpeed) {
+                  createWriteToWhile(true, field.number.toString, indent2, indent3)
+                } else {
+                  out.append(indent2).append("for (_v <- ")
+                    .append(field.name.toScalaIdent).append(") ")
+                    .append("output.write").append(field.fType.name)
+                  out.append("(").append(field.number).append(", _v)\n")
+                }
             }
           case _ => // "missing combination <local child>"
+        }
+
+        def createWriteToWhile(useTag: Boolean, tagName: String, i1: String, i2: String): Unit = {
+          val indexName = s"index_${field.name.toScalaIdent}"
+          out.append(i1).append(s"var $indexName = 0\n")
+          out.append(i1).append(s"while (").append(indexName)
+            .append(" < ").append(field.name.toScalaIdent).append(".length) {\n")
+          out.append(i2).append("output.write").append(field.fType.name)
+
+          if (!useTag) {
+            out.append("NoTag")
+          }
+
+          out.append("(")
+          if (useTag) {
+            out.append(field.number).append(", ")
+          }
+
+          out.append(field.name.toScalaIdent)
+            .append("(").append(indexName).append("))\n")
+          out.append(i2).append(indexName).append(" += 1\n")
+          out.append(i1).append("}\n")
         }
       }
       out.append(indent1).append("}\n")
@@ -254,11 +284,24 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
                 val tagSize = CodedOutputStream.computeTagSize(field.number)
                 out.append(indent3).append(s"__size += $tagSize + computeInt32SizeNoTag(dataSize) + dataSize\n")
                 out.append(indent2).append("}\n")
-              case _            =>
-                out.append(indent2).append("for (_v <- ")
-                  .append(field.name.toScalaIdent).append(") ")
-                  .append("__size += compute").append(field.fType.name).append("Size(")
-                  .append(field.number).append(", _v)\n")
+              case _ =>
+                if (optimizeForSpeed) {
+                  val indexName = s"index_${field.name.toScalaIdent}"
+                  out.append(indent2).append(s"var $indexName = 0\n")
+                  out.append(indent2).append(s"while (").append(indexName)
+                    .append(" < ").append(field.name.toScalaIdent).append(".length) {\n")
+                  out.append(indent3).append("__size += compute")
+                    .append(field.fType.name).append("Size(")
+                    .append(field.number).append(", ").append(field.name.toScalaIdent)
+                    .append("(").append(indexName).append("))\n")
+                  out.append(indent3).append(indexName).append(" += 1\n")
+                  out.append(indent2).append("}\n")
+                } else {
+                  out.append(indent2).append("for (_v <- ")
+                    .append(field.name.toScalaIdent).append(") ")
+                    .append("__size += compute").append(field.fType.name).append("Size(")
+                    .append(field.number).append(", _v)\n")
+                }
             }
           case _ => // "missing combination <local child>"
         }
