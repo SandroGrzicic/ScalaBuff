@@ -149,6 +149,10 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
       }
       out.append('\n').append(indent1).append("with net.sandrogrzicic.scalabuff.Parser[").append(name).append("]")
 
+      for (OptionValue(_, value) <- body.options.filter(_.key == "trait")) {
+        out.append('\n').append(indent1).append("with ").append(value.replace("$name", name).stripQuotes)
+      }
+
       out.append(" {\n\n")
 
       // setters
