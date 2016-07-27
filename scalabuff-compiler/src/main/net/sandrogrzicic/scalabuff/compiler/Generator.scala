@@ -578,7 +578,9 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
             case ImportStatement(name)  => imports += name
             case PackageStatement(name) => if (packageName.isEmpty) packageName = name
             case OptionValue(key, value) => key match {
+              case "scala_package"        => packageName = value.stripQuotes
               case "java_package"         => packageName = value.stripQuotes
+              case "scala_outer_classname" => className = value.stripQuotes
               case "java_outer_classname" => className = value.stripQuotes
               case "lazy_compute_serialized_size" => value match {
                 case "true"         => lazyGetSerializedSize = true

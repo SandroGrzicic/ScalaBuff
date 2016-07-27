@@ -64,7 +64,8 @@ object ScalaBuff {
     def dig(name: String): List[(String, ImportedSymbol)] = {
       val tree = parse(searchPath(name).getOrElse { throw new IOException("Unable to import: " + name) })
       val packageName = tree.collectFirst {
-        case OptionValue(key, value) if key == "java_package" => value.stripQuotes
+        case OptionValue("scala_package", value) => value.stripQuotes
+        case OptionValue("java_package", value)  => value.stripQuotes
       }.getOrElse("")
       val protoPackage = tree.collectFirst {
         case PackageStatement(name) => name

@@ -70,7 +70,10 @@ object UpdateTestResources extends App {
 	// if we have a valid parsing tree, generate a Scala proto class.
 
         // for now, this is hard-coded.
-        val importedSymbols = Map("PackageTest" -> ImportedSymbol("nested", isEnum = false))
+        val importedSymbols = Map(
+					"PackageTest" -> ImportedSymbol("nested", isEnum = false),
+					"PackageScalaTest" -> ImportedSymbol("nested_scala", isEnum = false)
+				)
 
         val generated = Generator(parsed, file.getName, importedSymbols, generateJsonMethod = true, None)
 	val generatedPath = testDir + generated.path + generated.file + ".scala"
