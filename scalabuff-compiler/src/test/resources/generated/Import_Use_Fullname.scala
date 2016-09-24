@@ -6,7 +6,7 @@ package resources.generated
 //import "package_name.proto"
 
 final case class UseFullImportedName (
-	fullnameTest: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
+	fullname_Test: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[UseFullImportedName]
@@ -15,27 +15,27 @@ final case class UseFullImportedName (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, fullnameTest)
+		output.writeMessage(1, fullname_Test)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeMessageSize(1, fullnameTest)
+		__size += computeMessageSize(1, fullname_Test)
 
 		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): UseFullImportedName = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __fullnameTest: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
+		var __fullname_Test: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
 
 		def __newMerged = UseFullImportedName(
-			__fullnameTest
+			__fullname_Test
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
-			case 10 => __fullnameTest = readMessage[resources.generated.nested.PackageTest](in, __fullnameTest, _emptyRegistry)
+			case 10 => __fullname_Test = readMessage[resources.generated.nested.PackageTest](in, __fullname_Test, _emptyRegistry)
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -43,7 +43,7 @@ final case class UseFullImportedName (
 
 	def mergeFrom(m: UseFullImportedName) = {
 		UseFullImportedName(
-			m.fullnameTest
+			m.fullname_Test
 		)
 	}
 
@@ -75,7 +75,7 @@ object UseFullImportedName {
 
 }
 
-object ImportUseFullname {
+object Import_Use_Fullname {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 

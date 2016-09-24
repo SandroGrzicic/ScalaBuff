@@ -31,7 +31,7 @@ class BuffedString(str: String) {
 	/**
 	 * camelCases this string, with the first letter lowercased.
 	 */
-	def lowerCamelCase = camelCaseRegex.replaceAllIn(str.replace('-', '_'), _.matched.tail.toUpperCase)
+	def lowerCamelCase = camelCaseRegex.replaceAllIn(str.replace('-', '_'), _.matched.toUpperCase)
 
 	/**
 	 * Generates a valid temporary Scala identifier:

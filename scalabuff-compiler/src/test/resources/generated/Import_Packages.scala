@@ -6,7 +6,7 @@ package resources.generated
 //import "package_name.proto"
 
 final case class UsesImportPackage (
-	packageTest: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
+	package_Test: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[UsesImportPackage]
@@ -15,27 +15,27 @@ final case class UsesImportPackage (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, packageTest)
+		output.writeMessage(1, package_Test)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeMessageSize(1, packageTest)
+		__size += computeMessageSize(1, package_Test)
 
 		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): UsesImportPackage = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __packageTest: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
+		var __package_Test: resources.generated.nested.PackageTest = resources.generated.nested.PackageTest.defaultInstance
 
 		def __newMerged = UsesImportPackage(
-			__packageTest
+			__package_Test
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
-			case 10 => __packageTest = readMessage[resources.generated.nested.PackageTest](in, __packageTest, _emptyRegistry)
+			case 10 => __package_Test = readMessage[resources.generated.nested.PackageTest](in, __package_Test, _emptyRegistry)
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -43,7 +43,7 @@ final case class UsesImportPackage (
 
 	def mergeFrom(m: UsesImportPackage) = {
 		UsesImportPackage(
-			m.packageTest
+			m.package_Test
 		)
 	}
 
@@ -75,7 +75,7 @@ object UsesImportPackage {
 
 }
 
-object ImportPackages {
+object Import_Packages {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 

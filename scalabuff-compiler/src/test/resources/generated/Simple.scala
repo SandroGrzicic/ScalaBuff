@@ -4,9 +4,9 @@
 package resources.generated
 
 final case class SimpleTest (
-	requiredField: Int = 0,
-	optionalField: Option[Float] = None,
-	repeatedField: scala.collection.immutable.Seq[String] = Vector.empty[String],
+	required_Field: Int = 0,
+	optional_Field: Option[Float] = None,
+	repeated_Field: scala.collection.immutable.Seq[String] = Vector.empty[String],
 	`type`: Option[Int] = Some(100),
 	int32Default: Option[Int] = Some(100),
 	int32Negative: Option[Int] = Some(-1),
@@ -18,11 +18,11 @@ final case class SimpleTest (
 	with net.sandrogrzicic.scalabuff.Message[SimpleTest]
 	with net.sandrogrzicic.scalabuff.Parser[SimpleTest] {
 
-	def setOptionalField(_f: Float) = copy(optionalField = Some(_f))
-	def setRepeatedField(_i: Int, _v: String) = copy(repeatedField = repeatedField.updated(_i, _v))
-	def addRepeatedField(_f: String) = copy(repeatedField = repeatedField :+ _f)
-	def addAllRepeatedField(_f: String*) = copy(repeatedField = repeatedField ++ _f)
-	def addAllRepeatedField(_f: TraversableOnce[String]) = copy(repeatedField = repeatedField ++ _f)
+	def setOptional_Field(_f: Float) = copy(optional_Field = Some(_f))
+	def setRepeated_Field(_i: Int, _v: String) = copy(repeated_Field = repeated_Field.updated(_i, _v))
+	def addRepeated_Field(_f: String) = copy(repeated_Field = repeated_Field :+ _f)
+	def addAllRepeated_Field(_f: String*) = copy(repeated_Field = repeated_Field ++ _f)
+	def addAllRepeated_Field(_f: TraversableOnce[String]) = copy(repeated_Field = repeated_Field ++ _f)
 	def setType(_f: Int) = copy(`type` = Some(_f))
 	def setInt32Default(_f: Int) = copy(int32Default = Some(_f))
 	def setInt32Negative(_f: Int) = copy(int32Negative = Some(_f))
@@ -30,8 +30,8 @@ final case class SimpleTest (
 	def setFloatDefault(_f: Float) = copy(floatDefault = Some(_f))
 	def setFloatNegative(_f: Float) = copy(floatNegative = Some(_f))
 
-	def clearOptionalField = copy(optionalField = None)
-	def clearRepeatedField = copy(repeatedField = Vector.empty[String])
+	def clearOptional_Field = copy(optional_Field = None)
+	def clearRepeated_Field = copy(repeated_Field = Vector.empty[String])
 	def clearType = copy(`type` = None)
 	def clearInt32Default = copy(int32Default = None)
 	def clearInt32Negative = copy(int32Negative = None)
@@ -40,9 +40,13 @@ final case class SimpleTest (
 	def clearFloatNegative = copy(floatNegative = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeInt32(1, requiredField)
-		if (optionalField.isDefined) output.writeFloat(2, optionalField.get)
-		for (_v <- repeatedField) output.writeString(3, _v)
+		output.writeInt32(1, required_Field)
+		if (optional_Field.isDefined) output.writeFloat(2, optional_Field.get)
+		var index_repeated_Field = 0
+		while (index_repeated_Field < repeated_Field.length) {
+			output.writeString(3, repeated_Field(index_repeated_Field))
+			index_repeated_Field += 1
+		}
 		if (`type`.isDefined) output.writeInt32(4, `type`.get)
 		if (int32Default.isDefined) output.writeInt32(5, int32Default.get)
 		if (int32Negative.isDefined) output.writeInt32(6, int32Negative.get)
@@ -54,9 +58,13 @@ final case class SimpleTest (
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeInt32Size(1, requiredField)
-		if (optionalField.isDefined) __size += computeFloatSize(2, optionalField.get)
-		for (_v <- repeatedField) __size += computeStringSize(3, _v)
+		__size += computeInt32Size(1, required_Field)
+		if (optional_Field.isDefined) __size += computeFloatSize(2, optional_Field.get)
+		var index_repeated_Field = 0
+		while (index_repeated_Field < repeated_Field.length) {
+			__size += computeStringSize(3, repeated_Field(index_repeated_Field))
+			index_repeated_Field += 1
+		}
 		if (`type`.isDefined) __size += computeInt32Size(4, `type`.get)
 		if (int32Default.isDefined) __size += computeInt32Size(5, int32Default.get)
 		if (int32Negative.isDefined) __size += computeInt32Size(6, int32Negative.get)
@@ -69,9 +77,9 @@ final case class SimpleTest (
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SimpleTest = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __requiredField: Int = 0
-		var __optionalField: Option[Float] = optionalField
-		val __repeatedField: scala.collection.mutable.Buffer[String] = repeatedField.toBuffer
+		var __required_Field: Int = 0
+		var __optional_Field: Option[Float] = optional_Field
+		val __repeated_Field: scala.collection.mutable.Buffer[String] = repeated_Field.toBuffer
 		var __type: Option[Int] = `type`
 		var __int32Default: Option[Int] = int32Default
 		var __int32Negative: Option[Int] = int32Negative
@@ -80,9 +88,9 @@ final case class SimpleTest (
 		var __floatNegative: Option[Float] = floatNegative
 
 		def __newMerged = SimpleTest(
-			__requiredField,
-			__optionalField,
-			Vector(__repeatedField: _*),
+			__required_Field,
+			__optional_Field,
+			Vector(__repeated_Field: _*),
 			__type,
 			__int32Default,
 			__int32Negative,
@@ -92,9 +100,9 @@ final case class SimpleTest (
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
-			case 8 => __requiredField = in.readInt32()
-			case 21 => __optionalField = Some(in.readFloat())
-			case 26 => __repeatedField += in.readString()
+			case 8 => __required_Field = in.readInt32()
+			case 21 => __optional_Field = Some(in.readFloat())
+			case 26 => __repeated_Field += in.readString()
 			case 32 => __type = Some(in.readInt32())
 			case 40 => __int32Default = Some(in.readInt32())
 			case 48 => __int32Negative = Some(in.readInt32())
@@ -108,9 +116,9 @@ final case class SimpleTest (
 
 	def mergeFrom(m: SimpleTest) = {
 		SimpleTest(
-			m.requiredField,
-			m.optionalField.orElse(optionalField),
-			repeatedField ++ m.repeatedField,
+			m.required_Field,
+			m.optional_Field.orElse(optional_Field),
+			repeated_Field ++ m.repeated_Field,
 			m.`type`.orElse(`type`),
 			m.int32Default.orElse(int32Default),
 			m.int32Negative.orElse(int32Negative),
@@ -135,9 +143,9 @@ final case class SimpleTest (
 		val sb = StringBuilder.newBuilder
 		sb
 			.append("{")
-			sb.append(indent1).append("\"requiredField\": ").append("\"").append(`requiredField`).append("\"").append(',')
-			if (`optionalField`.isDefined) { sb.append(indent1).append("\"optionalField\": ").append("\"").append(`optionalField`.get).append("\"").append(',') }
-			sb.append(indent1).append("\"repeatedField\": [").append(indent2).append(`repeatedField`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
+			sb.append(indent1).append("\"required_Field\": ").append("\"").append(`required_Field`).append("\"").append(',')
+			if (`optional_Field`.isDefined) { sb.append(indent1).append("\"optional_Field\": ").append("\"").append(`optional_Field`.get).append("\"").append(',') }
+			sb.append(indent1).append("\"repeated_Field\": [").append(indent2).append(`repeated_Field`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
 			if (`type`.isDefined) { sb.append(indent1).append("\"type\": ").append("\"").append(`type`.get).append("\"").append(',') }
 			if (`int32Default`.isDefined) { sb.append(indent1).append("\"int32Default\": ").append("\"").append(`int32Default`.get).append("\"").append(',') }
 			if (`int32Negative`.isDefined) { sb.append(indent1).append("\"int32Negative\": ").append("\"").append(`int32Negative`.get).append("\"").append(',') }

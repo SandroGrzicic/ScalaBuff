@@ -14,7 +14,7 @@ class BuffedStringTest extends FunSuite with Matchers {
 	implicit def buffString(string: String): BuffedString = new BuffedString(string)
 
   test("camelCase") {
-		"very_long_name_in_c_style_001".camelCase should equal ("VeryLongNameInCStyle001")
+		"very_long_name_in_c_style_001".camelCase should equal ("Very_Long_Name_In_C_Style_001")
 	}
 
   val testPath = "root/dots.in.path/file.name.extension"
@@ -35,6 +35,12 @@ class BuffedStringTest extends FunSuite with Matchers {
 
 	test("betweenLast") {
 		testPath.betweenLast('/', '.') should equal ("file.name")
+	}
+
+	test("camelCase Unique") {
+		val first = "ASDF1_1".camelCase
+		val second = "ASDF11".camelCase
+		first should not equal second
 	}
 
 }
