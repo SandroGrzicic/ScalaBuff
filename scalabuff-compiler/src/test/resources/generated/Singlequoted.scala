@@ -4,38 +4,38 @@
 package resources.generated
 
 final case class SingleQuote (
-	singleQuotedField: Option[String] = Some("NA")
+	single_Quoted_Field: Option[String] = Some("NA")
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[SingleQuote]
 	with net.sandrogrzicic.scalabuff.Parser[SingleQuote] {
 
-	def setSingleQuotedField(_f: String) = copy(singleQuotedField = Some(_f))
+	def setSingle_Quoted_Field(_f: String) = copy(single_Quoted_Field = Some(_f))
 
-	def clearSingleQuotedField = copy(singleQuotedField = None)
+	def clearSingle_Quoted_Field = copy(single_Quoted_Field = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		if (singleQuotedField.isDefined) output.writeString(1, singleQuotedField.get)
+		if (single_Quoted_Field.isDefined) output.writeString(1, single_Quoted_Field.get)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		if (singleQuotedField.isDefined) __size += computeStringSize(1, singleQuotedField.get)
+		if (single_Quoted_Field.isDefined) __size += computeStringSize(1, single_Quoted_Field.get)
 
 		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SingleQuote = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __singleQuotedField: Option[String] = singleQuotedField
+		var __single_Quoted_Field: Option[String] = single_Quoted_Field
 
 		def __newMerged = SingleQuote(
-			__singleQuotedField
+			__single_Quoted_Field
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
-			case 10 => __singleQuotedField = Some(in.readString())
+			case 10 => __single_Quoted_Field = Some(in.readString())
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -43,7 +43,7 @@ final case class SingleQuote (
 
 	def mergeFrom(m: SingleQuote) = {
 		SingleQuote(
-			m.singleQuotedField.orElse(singleQuotedField)
+			m.single_Quoted_Field.orElse(single_Quoted_Field)
 		)
 	}
 
@@ -62,7 +62,7 @@ final case class SingleQuote (
 		val sb = StringBuilder.newBuilder
 		sb
 			.append("{")
-			if (`singleQuotedField`.isDefined) { sb.append(indent1).append("\"singleQuotedField\": ").append("\"").append(`singleQuotedField`.get).append("\"").append(',') }
+			if (`single_Quoted_Field`.isDefined) { sb.append(indent1).append("\"single_Quoted_Field\": ").append("\"").append(`single_Quoted_Field`.get).append("\"").append(',') }
 		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()

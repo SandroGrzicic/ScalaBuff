@@ -4,7 +4,7 @@
 package resources.generated
 
 final case class TopLevel (
-	idToplevel: Int = 0
+	id_Toplevel: Int = 0
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[TopLevel]
@@ -13,27 +13,27 @@ final case class TopLevel (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeUInt32(1, idToplevel)
+		output.writeUInt32(1, id_Toplevel)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeUInt32Size(1, idToplevel)
+		__size += computeUInt32Size(1, id_Toplevel)
 
 		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): TopLevel = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __idToplevel: Int = 0
+		var __id_Toplevel: Int = 0
 
 		def __newMerged = TopLevel(
-			__idToplevel
+			__id_Toplevel
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
-			case 8 => __idToplevel = in.readUInt32()
+			case 8 => __id_Toplevel = in.readUInt32()
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -41,7 +41,7 @@ final case class TopLevel (
 
 	def mergeFrom(m: TopLevel) = {
 		TopLevel(
-			m.idToplevel
+			m.id_Toplevel
 		)
 	}
 
@@ -60,7 +60,7 @@ final case class TopLevel (
 		val sb = StringBuilder.newBuilder
 		sb
 			.append("{")
-			sb.append(indent1).append("\"idToplevel\": ").append("\"").append(`idToplevel`).append("\"").append(',')
+			sb.append(indent1).append("\"id_Toplevel\": ").append("\"").append(`id_Toplevel`).append("\"").append(',')
 		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
@@ -83,7 +83,7 @@ object TopLevel {
 	def newBuilder(prototype: TopLevel) = defaultInstance.mergeFrom(prototype)
 
 	final case class Inner (
-		idInner: Int = 0
+		id_Inner: Int = 0
 	) extends com.google.protobuf.GeneratedMessageLite
 		with com.google.protobuf.MessageLite.Builder
 		with net.sandrogrzicic.scalabuff.Message[Inner]
@@ -92,27 +92,27 @@ object TopLevel {
 
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
-			output.writeUInt32(1, idInner)
+			output.writeUInt32(1, id_Inner)
 		}
 
 		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
-			__size += computeUInt32Size(1, idInner)
+			__size += computeUInt32Size(1, id_Inner)
 
 			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Inner = {
 			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-			var __idInner: Int = 0
+			var __id_Inner: Int = 0
 
 			def __newMerged = Inner(
-				__idInner
+				__id_Inner
 			)
 			while (true) in.readTag match {
 				case 0 => return __newMerged
-				case 8 => __idInner = in.readUInt32()
+				case 8 => __id_Inner = in.readUInt32()
 				case default => if (!in.skipField(default)) return __newMerged
 			}
 			null
@@ -120,7 +120,7 @@ object TopLevel {
 
 		def mergeFrom(m: Inner) = {
 			Inner(
-				m.idInner
+				m.id_Inner
 			)
 		}
 
@@ -139,7 +139,7 @@ object TopLevel {
 			val sb = StringBuilder.newBuilder
 			sb
 				.append("{")
-				sb.append(indent1).append("\"idInner\": ").append("\"").append(`idInner`).append("\"").append(',')
+				sb.append(indent1).append("\"id_Inner\": ").append("\"").append(`id_Inner`).append("\"").append(',')
 			if (sb.last.equals(',')) sb.length -= 1
 			sb.append(indent0).append("}")
 			sb.toString()
@@ -169,10 +169,10 @@ final case class Foobar (
 	optBar: Option[Foobar.Bar] = None,
 	repFoo: scala.collection.immutable.Seq[Foobar.Foo] = Vector.empty[Foobar.Foo],
 	repBar: scala.collection.immutable.Seq[Foobar.Bar] = Vector.empty[Foobar.Bar],
-	repFooBar: scala.collection.immutable.Seq[Foobar.FooBar] = Vector.empty[Foobar.FooBar],
-	topLevelReq: TopLevel = TopLevel.defaultInstance,
-	topLevelOpt: Option[TopLevel] = None,
-	topLevelInnerReq: TopLevel.Inner = TopLevel.Inner.defaultInstance
+	rep_Foo_Bar: scala.collection.immutable.Seq[Foobar.FooBar] = Vector.empty[Foobar.FooBar],
+	top_Level_Req: TopLevel = TopLevel.defaultInstance,
+	top_Level_Opt: Option[TopLevel] = None,
+	top_Level_Inner_Req: TopLevel.Inner = TopLevel.Inner.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[Foobar]
@@ -188,29 +188,41 @@ final case class Foobar (
 	def addRepBar(_f: Foobar.Bar) = copy(repBar = repBar :+ _f)
 	def addAllRepBar(_f: Foobar.Bar*) = copy(repBar = repBar ++ _f)
 	def addAllRepBar(_f: TraversableOnce[Foobar.Bar]) = copy(repBar = repBar ++ _f)
-	def setRepFooBar(_i: Int, _v: Foobar.FooBar) = copy(repFooBar = repFooBar.updated(_i, _v))
-	def addRepFooBar(_f: Foobar.FooBar) = copy(repFooBar = repFooBar :+ _f)
-	def addAllRepFooBar(_f: Foobar.FooBar*) = copy(repFooBar = repFooBar ++ _f)
-	def addAllRepFooBar(_f: TraversableOnce[Foobar.FooBar]) = copy(repFooBar = repFooBar ++ _f)
-	def setTopLevelOpt(_f: TopLevel) = copy(topLevelOpt = Some(_f))
+	def setRep_Foo_Bar(_i: Int, _v: Foobar.FooBar) = copy(rep_Foo_Bar = rep_Foo_Bar.updated(_i, _v))
+	def addRep_Foo_Bar(_f: Foobar.FooBar) = copy(rep_Foo_Bar = rep_Foo_Bar :+ _f)
+	def addAllRep_Foo_Bar(_f: Foobar.FooBar*) = copy(rep_Foo_Bar = rep_Foo_Bar ++ _f)
+	def addAllRep_Foo_Bar(_f: TraversableOnce[Foobar.FooBar]) = copy(rep_Foo_Bar = rep_Foo_Bar ++ _f)
+	def setTop_Level_Opt(_f: TopLevel) = copy(top_Level_Opt = Some(_f))
 
 	def clearOptFoo = copy(optFoo = None)
 	def clearOptBar = copy(optBar = None)
 	def clearRepFoo = copy(repFoo = Vector.empty[Foobar.Foo])
 	def clearRepBar = copy(repBar = Vector.empty[Foobar.Bar])
-	def clearRepFooBar = copy(repFooBar = Vector.empty[Foobar.FooBar])
-	def clearTopLevelOpt = copy(topLevelOpt = None)
+	def clearRep_Foo_Bar = copy(rep_Foo_Bar = Vector.empty[Foobar.FooBar])
+	def clearTop_Level_Opt = copy(top_Level_Opt = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
 		output.writeMessage(1, reqFoo)
 		if (optFoo.isDefined) output.writeMessage(2, optFoo.get)
 		if (optBar.isDefined) output.writeMessage(3, optBar.get)
-		for (_v <- repFoo) output.writeMessage(4, _v)
-		for (_v <- repBar) output.writeMessage(5, _v)
-		for (_v <- repFooBar) output.writeMessage(6, _v)
-		output.writeMessage(7, topLevelReq)
-		if (topLevelOpt.isDefined) output.writeMessage(8, topLevelOpt.get)
-		output.writeMessage(9, topLevelInnerReq)
+		var index_repFoo = 0
+		while (index_repFoo < repFoo.length) {
+			output.writeMessage(4, repFoo(index_repFoo))
+			index_repFoo += 1
+		}
+		var index_repBar = 0
+		while (index_repBar < repBar.length) {
+			output.writeMessage(5, repBar(index_repBar))
+			index_repBar += 1
+		}
+		var index_rep_Foo_Bar = 0
+		while (index_rep_Foo_Bar < rep_Foo_Bar.length) {
+			output.writeMessage(6, rep_Foo_Bar(index_rep_Foo_Bar))
+			index_rep_Foo_Bar += 1
+		}
+		output.writeMessage(7, top_Level_Req)
+		if (top_Level_Opt.isDefined) output.writeMessage(8, top_Level_Opt.get)
+		output.writeMessage(9, top_Level_Inner_Req)
 	}
 
 	def getSerializedSize = {
@@ -219,12 +231,24 @@ final case class Foobar (
 		__size += computeMessageSize(1, reqFoo)
 		if (optFoo.isDefined) __size += computeMessageSize(2, optFoo.get)
 		if (optBar.isDefined) __size += computeMessageSize(3, optBar.get)
-		for (_v <- repFoo) __size += computeMessageSize(4, _v)
-		for (_v <- repBar) __size += computeMessageSize(5, _v)
-		for (_v <- repFooBar) __size += computeMessageSize(6, _v)
-		__size += computeMessageSize(7, topLevelReq)
-		if (topLevelOpt.isDefined) __size += computeMessageSize(8, topLevelOpt.get)
-		__size += computeMessageSize(9, topLevelInnerReq)
+		var index_repFoo = 0
+		while (index_repFoo < repFoo.length) {
+			__size += computeMessageSize(4, repFoo(index_repFoo))
+			index_repFoo += 1
+		}
+		var index_repBar = 0
+		while (index_repBar < repBar.length) {
+			__size += computeMessageSize(5, repBar(index_repBar))
+			index_repBar += 1
+		}
+		var index_rep_Foo_Bar = 0
+		while (index_rep_Foo_Bar < rep_Foo_Bar.length) {
+			__size += computeMessageSize(6, rep_Foo_Bar(index_rep_Foo_Bar))
+			index_rep_Foo_Bar += 1
+		}
+		__size += computeMessageSize(7, top_Level_Req)
+		if (top_Level_Opt.isDefined) __size += computeMessageSize(8, top_Level_Opt.get)
+		__size += computeMessageSize(9, top_Level_Inner_Req)
 
 		__size
 	}
@@ -236,10 +260,10 @@ final case class Foobar (
 		var __optBar: Option[Foobar.Bar] = optBar
 		val __repFoo: scala.collection.mutable.Buffer[Foobar.Foo] = repFoo.toBuffer
 		val __repBar: scala.collection.mutable.Buffer[Foobar.Bar] = repBar.toBuffer
-		val __repFooBar: scala.collection.mutable.Buffer[Foobar.FooBar] = repFooBar.toBuffer
-		var __topLevelReq: TopLevel = TopLevel.defaultInstance
-		var __topLevelOpt: Option[TopLevel] = topLevelOpt
-		var __topLevelInnerReq: TopLevel.Inner = TopLevel.Inner.defaultInstance
+		val __rep_Foo_Bar: scala.collection.mutable.Buffer[Foobar.FooBar] = rep_Foo_Bar.toBuffer
+		var __top_Level_Req: TopLevel = TopLevel.defaultInstance
+		var __top_Level_Opt: Option[TopLevel] = top_Level_Opt
+		var __top_Level_Inner_Req: TopLevel.Inner = TopLevel.Inner.defaultInstance
 
 		def __newMerged = Foobar(
 			__reqFoo,
@@ -247,10 +271,10 @@ final case class Foobar (
 			__optBar,
 			Vector(__repFoo: _*),
 			Vector(__repBar: _*),
-			Vector(__repFooBar: _*),
-			__topLevelReq,
-			__topLevelOpt,
-			__topLevelInnerReq
+			Vector(__rep_Foo_Bar: _*),
+			__top_Level_Req,
+			__top_Level_Opt,
+			__top_Level_Inner_Req
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
@@ -265,13 +289,13 @@ final case class Foobar (
 			}).get, _emptyRegistry))
 			case 34 => __repFoo += readMessage[Foobar.Foo](in, Foobar.Foo.defaultInstance, _emptyRegistry)
 			case 42 => __repBar += readMessage[Foobar.Bar](in, Foobar.Bar.defaultInstance, _emptyRegistry)
-			case 50 => __repFooBar += readMessage[Foobar.FooBar](in, Foobar.FooBar.defaultInstance, _emptyRegistry)
-			case 58 => __topLevelReq = readMessage[TopLevel](in, __topLevelReq, _emptyRegistry)
-			case 66 => __topLevelOpt = Some(readMessage[TopLevel](in, __topLevelOpt.orElse({
-				__topLevelOpt = TopLevel.defaultInstance
-				__topLevelOpt
+			case 50 => __rep_Foo_Bar += readMessage[Foobar.FooBar](in, Foobar.FooBar.defaultInstance, _emptyRegistry)
+			case 58 => __top_Level_Req = readMessage[TopLevel](in, __top_Level_Req, _emptyRegistry)
+			case 66 => __top_Level_Opt = Some(readMessage[TopLevel](in, __top_Level_Opt.orElse({
+				__top_Level_Opt = TopLevel.defaultInstance
+				__top_Level_Opt
 			}).get, _emptyRegistry))
-			case 74 => __topLevelInnerReq = readMessage[TopLevel.Inner](in, __topLevelInnerReq, _emptyRegistry)
+			case 74 => __top_Level_Inner_Req = readMessage[TopLevel.Inner](in, __top_Level_Inner_Req, _emptyRegistry)
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -284,10 +308,10 @@ final case class Foobar (
 			m.optBar.orElse(optBar),
 			repFoo ++ m.repFoo,
 			repBar ++ m.repBar,
-			repFooBar ++ m.repFooBar,
-			m.topLevelReq,
-			m.topLevelOpt.orElse(topLevelOpt),
-			m.topLevelInnerReq
+			rep_Foo_Bar ++ m.rep_Foo_Bar,
+			m.top_Level_Req,
+			m.top_Level_Opt.orElse(top_Level_Opt),
+			m.top_Level_Inner_Req
 		)
 	}
 
@@ -311,10 +335,10 @@ final case class Foobar (
 			if (`optBar`.isDefined) { sb.append(indent1).append("\"optBar\": ").append(`optBar`.get.toJson(indent + 1)).append(',') }
 			sb.append(indent1).append("\"repFoo\": [").append(indent2).append(`repFoo`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
 			sb.append(indent1).append("\"repBar\": [").append(indent2).append(`repBar`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
-			sb.append(indent1).append("\"repFooBar\": [").append(indent2).append(`repFooBar`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
-			sb.append(indent1).append("\"topLevelReq\": ").append(`topLevelReq`.toJson(indent + 1)).append(',')
-			if (`topLevelOpt`.isDefined) { sb.append(indent1).append("\"topLevelOpt\": ").append(`topLevelOpt`.get.toJson(indent + 1)).append(',') }
-			sb.append(indent1).append("\"topLevelInnerReq\": ").append(`topLevelInnerReq`.toJson(indent + 1)).append(',')
+			sb.append(indent1).append("\"rep_Foo_Bar\": [").append(indent2).append(`rep_Foo_Bar`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
+			sb.append(indent1).append("\"top_Level_Req\": ").append(`top_Level_Req`.toJson(indent + 1)).append(',')
+			if (`top_Level_Opt`.isDefined) { sb.append(indent1).append("\"top_Level_Opt\": ").append(`top_Level_Opt`.get.toJson(indent + 1)).append(',') }
+			sb.append(indent1).append("\"top_Level_Inner_Req\": ").append(`top_Level_Inner_Req`.toJson(indent + 1)).append(',')
 		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()

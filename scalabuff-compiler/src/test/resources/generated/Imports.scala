@@ -6,7 +6,7 @@ package resources.generated
 //import "simple.proto"
 
 final case class UsesImport (
-	simpleTest: SimpleTest = SimpleTest.defaultInstance
+	simple_Test: SimpleTest = SimpleTest.defaultInstance
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[UsesImport]
@@ -15,27 +15,27 @@ final case class UsesImport (
 
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeMessage(1, simpleTest)
+		output.writeMessage(1, simple_Test)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeMessageSize(1, simpleTest)
+		__size += computeMessageSize(1, simple_Test)
 
 		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): UsesImport = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __simpleTest: SimpleTest = SimpleTest.defaultInstance
+		var __simple_Test: SimpleTest = SimpleTest.defaultInstance
 
 		def __newMerged = UsesImport(
-			__simpleTest
+			__simple_Test
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
-			case 10 => __simpleTest = readMessage[SimpleTest](in, __simpleTest, _emptyRegistry)
+			case 10 => __simple_Test = readMessage[SimpleTest](in, __simple_Test, _emptyRegistry)
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -43,7 +43,7 @@ final case class UsesImport (
 
 	def mergeFrom(m: UsesImport) = {
 		UsesImport(
-			m.simpleTest
+			m.simple_Test
 		)
 	}
 
@@ -62,7 +62,7 @@ final case class UsesImport (
 		val sb = StringBuilder.newBuilder
 		sb
 			.append("{")
-			sb.append(indent1).append("\"simpleTest\": ").append(`simpleTest`.toJson(indent + 1)).append(',')
+			sb.append(indent1).append("\"simple_Test\": ").append(`simple_Test`.toJson(indent + 1)).append(',')
 		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
