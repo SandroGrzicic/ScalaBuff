@@ -18,13 +18,21 @@ final case class Response (
 	def clearResponse = copy(response = Vector.empty[Response.VideoResult])
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		for (_v <- response) output.writeMessage(1, _v)
+		var index_response = 0
+		while (index_response < response.length) {
+			output.writeMessage(1, response(index_response))
+			index_response += 1
+		}
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		for (_v <- response) __size += computeMessageSize(1, _v)
+		var index_response = 0
+		while (index_response < response.length) {
+			__size += computeMessageSize(1, response(index_response))
+			index_response += 1
+		}
 
 		__size
 	}
@@ -88,7 +96,7 @@ object Response {
 	def newBuilder(prototype: Response) = defaultInstance.mergeFrom(prototype)
 
 	final case class Rendition (
-		profileKey: Option[String] = None,
+		profile_Key: Option[String] = None,
 		data: Option[String] = None,
 		property: scala.collection.immutable.Seq[Rendition.Property] = Vector.empty[Rendition.Property]
 	) extends com.google.protobuf.GeneratedMessageLite
@@ -96,47 +104,55 @@ object Response {
 		with net.sandrogrzicic.scalabuff.Message[Rendition]
 		with net.sandrogrzicic.scalabuff.Parser[Rendition] {
 
-		def setProfileKey(_f: String) = copy(profileKey = Some(_f))
+		def setProfile_Key(_f: String) = copy(profile_Key = Some(_f))
 		def setData(_f: String) = copy(data = Some(_f))
 		def setProperty(_i: Int, _v: Rendition.Property) = copy(property = property.updated(_i, _v))
 		def addProperty(_f: Rendition.Property) = copy(property = property :+ _f)
 		def addAllProperty(_f: Rendition.Property*) = copy(property = property ++ _f)
 		def addAllProperty(_f: TraversableOnce[Rendition.Property]) = copy(property = property ++ _f)
 
-		def clearProfileKey = copy(profileKey = None)
+		def clearProfile_Key = copy(profile_Key = None)
 		def clearData = copy(data = None)
 		def clearProperty = copy(property = Vector.empty[Rendition.Property])
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
-			if (profileKey.isDefined) output.writeString(1, profileKey.get)
+			if (profile_Key.isDefined) output.writeString(1, profile_Key.get)
 			if (data.isDefined) output.writeString(2, data.get)
-			for (_v <- property) output.writeMessage(3, _v)
+			var index_property = 0
+			while (index_property < property.length) {
+				output.writeMessage(3, property(index_property))
+				index_property += 1
+			}
 		}
 
 		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
-			if (profileKey.isDefined) __size += computeStringSize(1, profileKey.get)
+			if (profile_Key.isDefined) __size += computeStringSize(1, profile_Key.get)
 			if (data.isDefined) __size += computeStringSize(2, data.get)
-			for (_v <- property) __size += computeMessageSize(3, _v)
+			var index_property = 0
+			while (index_property < property.length) {
+				__size += computeMessageSize(3, property(index_property))
+				index_property += 1
+			}
 
 			__size
 		}
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Rendition = {
 			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-			var __profileKey: Option[String] = profileKey
+			var __profile_Key: Option[String] = profile_Key
 			var __data: Option[String] = data
 			val __property: scala.collection.mutable.Buffer[Rendition.Property] = property.toBuffer
 
 			def __newMerged = Rendition(
-				__profileKey,
+				__profile_Key,
 				__data,
 				Vector(__property: _*)
 			)
 			while (true) in.readTag match {
 				case 0 => return __newMerged
-				case 10 => __profileKey = Some(in.readString())
+				case 10 => __profile_Key = Some(in.readString())
 				case 18 => __data = Some(in.readString())
 				case 26 => __property += readMessage[Rendition.Property](in, Rendition.Property.defaultInstance, _emptyRegistry)
 				case default => if (!in.skipField(default)) return __newMerged
@@ -146,7 +162,7 @@ object Response {
 
 		def mergeFrom(m: Rendition) = {
 			Rendition(
-				m.profileKey.orElse(profileKey),
+				m.profile_Key.orElse(profile_Key),
 				m.data.orElse(data),
 				property ++ m.property
 			)
@@ -167,7 +183,7 @@ object Response {
 			val sb = StringBuilder.newBuilder
 			sb
 				.append("{")
-				if (`profileKey`.isDefined) { sb.append(indent1).append("\"profileKey\": ").append("\"").append(`profileKey`.get).append("\"").append(',') }
+				if (`profile_Key`.isDefined) { sb.append(indent1).append("\"profile_Key\": ").append("\"").append(`profile_Key`.get).append("\"").append(',') }
 				if (`data`.isDefined) { sb.append(indent1).append("\"data\": ").append("\"").append(`data`.get).append("\"").append(',') }
 				sb.append(indent1).append("\"property\": [").append(indent2).append(`property`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
 			if (sb.last.equals(',')) sb.length -= 1
@@ -311,7 +327,7 @@ object Response {
 	}
 	final case class Video (
 		identifier: Option[String] = None,
-		assetKey: Option[String] = None,
+		asset_Key: Option[String] = None,
 		duration: Option[Float] = None,
 		renditions: scala.collection.immutable.Seq[Rendition] = Vector.empty[Rendition]
 	) extends com.google.protobuf.GeneratedMessageLite
@@ -320,7 +336,7 @@ object Response {
 		with net.sandrogrzicic.scalabuff.Parser[Video] {
 
 		def setIdentifier(_f: String) = copy(identifier = Some(_f))
-		def setAssetKey(_f: String) = copy(assetKey = Some(_f))
+		def setAsset_Key(_f: String) = copy(asset_Key = Some(_f))
 		def setDuration(_f: Float) = copy(duration = Some(_f))
 		def setRenditions(_i: Int, _v: Rendition) = copy(renditions = renditions.updated(_i, _v))
 		def addRenditions(_f: Rendition) = copy(renditions = renditions :+ _f)
@@ -328,24 +344,32 @@ object Response {
 		def addAllRenditions(_f: TraversableOnce[Rendition]) = copy(renditions = renditions ++ _f)
 
 		def clearIdentifier = copy(identifier = None)
-		def clearAssetKey = copy(assetKey = None)
+		def clearAsset_Key = copy(asset_Key = None)
 		def clearDuration = copy(duration = None)
 		def clearRenditions = copy(renditions = Vector.empty[Rendition])
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
 			if (identifier.isDefined) output.writeString(1, identifier.get)
-			if (assetKey.isDefined) output.writeString(2, assetKey.get)
+			if (asset_Key.isDefined) output.writeString(2, asset_Key.get)
 			if (duration.isDefined) output.writeFloat(3, duration.get)
-			for (_v <- renditions) output.writeMessage(4, _v)
+			var index_renditions = 0
+			while (index_renditions < renditions.length) {
+				output.writeMessage(4, renditions(index_renditions))
+				index_renditions += 1
+			}
 		}
 
 		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
 			if (identifier.isDefined) __size += computeStringSize(1, identifier.get)
-			if (assetKey.isDefined) __size += computeStringSize(2, assetKey.get)
+			if (asset_Key.isDefined) __size += computeStringSize(2, asset_Key.get)
 			if (duration.isDefined) __size += computeFloatSize(3, duration.get)
-			for (_v <- renditions) __size += computeMessageSize(4, _v)
+			var index_renditions = 0
+			while (index_renditions < renditions.length) {
+				__size += computeMessageSize(4, renditions(index_renditions))
+				index_renditions += 1
+			}
 
 			__size
 		}
@@ -353,20 +377,20 @@ object Response {
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): Video = {
 			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 			var __identifier: Option[String] = identifier
-			var __assetKey: Option[String] = assetKey
+			var __asset_Key: Option[String] = asset_Key
 			var __duration: Option[Float] = duration
 			val __renditions: scala.collection.mutable.Buffer[Rendition] = renditions.toBuffer
 
 			def __newMerged = Video(
 				__identifier,
-				__assetKey,
+				__asset_Key,
 				__duration,
 				Vector(__renditions: _*)
 			)
 			while (true) in.readTag match {
 				case 0 => return __newMerged
 				case 10 => __identifier = Some(in.readString())
-				case 18 => __assetKey = Some(in.readString())
+				case 18 => __asset_Key = Some(in.readString())
 				case 29 => __duration = Some(in.readFloat())
 				case 34 => __renditions += readMessage[Rendition](in, Rendition.defaultInstance, _emptyRegistry)
 				case default => if (!in.skipField(default)) return __newMerged
@@ -377,7 +401,7 @@ object Response {
 		def mergeFrom(m: Video) = {
 			Video(
 				m.identifier.orElse(identifier),
-				m.assetKey.orElse(assetKey),
+				m.asset_Key.orElse(asset_Key),
 				m.duration.orElse(duration),
 				renditions ++ m.renditions
 			)
@@ -399,7 +423,7 @@ object Response {
 			sb
 				.append("{")
 				if (`identifier`.isDefined) { sb.append(indent1).append("\"identifier\": ").append("\"").append(`identifier`.get).append("\"").append(',') }
-				if (`assetKey`.isDefined) { sb.append(indent1).append("\"assetKey\": ").append("\"").append(`assetKey`.get).append("\"").append(',') }
+				if (`asset_Key`.isDefined) { sb.append(indent1).append("\"asset_Key\": ").append("\"").append(`asset_Key`.get).append("\"").append(',') }
 				if (`duration`.isDefined) { sb.append(indent1).append("\"duration\": ").append("\"").append(`duration`.get).append("\"").append(',') }
 				sb.append(indent1).append("\"renditions\": [").append(indent2).append(`renditions`.map(_.toJson(indent + 1)).mkString(", " + indent2)).append(indent1).append(']').append(',')
 			if (sb.last.equals(',')) sb.length -= 1
@@ -428,7 +452,7 @@ object Response {
 
 	}
 	final case class VideoFailure (
-		assetKey: Option[String] = None,
+		asset_Key: Option[String] = None,
 		reason: scala.collection.immutable.Seq[String] = Vector.empty[String],
 		cause: Option[VideoFailure.Cause.EnumVal] = None
 	) extends com.google.protobuf.GeneratedMessageLite
@@ -436,28 +460,36 @@ object Response {
 		with net.sandrogrzicic.scalabuff.Message[VideoFailure]
 		with net.sandrogrzicic.scalabuff.Parser[VideoFailure] {
 
-		def setAssetKey(_f: String) = copy(assetKey = Some(_f))
+		def setAsset_Key(_f: String) = copy(asset_Key = Some(_f))
 		def setReason(_i: Int, _v: String) = copy(reason = reason.updated(_i, _v))
 		def addReason(_f: String) = copy(reason = reason :+ _f)
 		def addAllReason(_f: String*) = copy(reason = reason ++ _f)
 		def addAllReason(_f: TraversableOnce[String]) = copy(reason = reason ++ _f)
 		def setCause(_f: VideoFailure.Cause.EnumVal) = copy(cause = Some(_f))
 
-		def clearAssetKey = copy(assetKey = None)
+		def clearAsset_Key = copy(asset_Key = None)
 		def clearReason = copy(reason = Vector.empty[String])
 		def clearCause = copy(cause = None)
 
 		def writeTo(output: com.google.protobuf.CodedOutputStream) {
-			if (assetKey.isDefined) output.writeString(1, assetKey.get)
-			for (_v <- reason) output.writeString(2, _v)
+			if (asset_Key.isDefined) output.writeString(1, asset_Key.get)
+			var index_reason = 0
+			while (index_reason < reason.length) {
+				output.writeString(2, reason(index_reason))
+				index_reason += 1
+			}
 			if (cause.isDefined) output.writeEnum(3, cause.get)
 		}
 
 		def getSerializedSize = {
 			import com.google.protobuf.CodedOutputStream._
 			var __size = 0
-			if (assetKey.isDefined) __size += computeStringSize(1, assetKey.get)
-			for (_v <- reason) __size += computeStringSize(2, _v)
+			if (asset_Key.isDefined) __size += computeStringSize(1, asset_Key.get)
+			var index_reason = 0
+			while (index_reason < reason.length) {
+				__size += computeStringSize(2, reason(index_reason))
+				index_reason += 1
+			}
 			if (cause.isDefined) __size += computeEnumSize(3, cause.get)
 
 			__size
@@ -465,18 +497,18 @@ object Response {
 
 		def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): VideoFailure = {
 			import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-			var __assetKey: Option[String] = assetKey
+			var __asset_Key: Option[String] = asset_Key
 			val __reason: scala.collection.mutable.Buffer[String] = reason.toBuffer
 			var __cause: Option[VideoFailure.Cause.EnumVal] = cause
 
 			def __newMerged = VideoFailure(
-				__assetKey,
+				__asset_Key,
 				Vector(__reason: _*),
 				__cause
 			)
 			while (true) in.readTag match {
 				case 0 => return __newMerged
-				case 10 => __assetKey = Some(in.readString())
+				case 10 => __asset_Key = Some(in.readString())
 				case 18 => __reason += in.readString()
 				case 24 => __cause = Some(VideoFailure.Cause.valueOf(in.readEnum()))
 				case default => if (!in.skipField(default)) return __newMerged
@@ -486,7 +518,7 @@ object Response {
 
 		def mergeFrom(m: VideoFailure) = {
 			VideoFailure(
-				m.assetKey.orElse(assetKey),
+				m.asset_Key.orElse(asset_Key),
 				reason ++ m.reason,
 				m.cause.orElse(cause)
 			)
@@ -507,7 +539,7 @@ object Response {
 			val sb = StringBuilder.newBuilder
 			sb
 				.append("{")
-				if (`assetKey`.isDefined) { sb.append(indent1).append("\"assetKey\": ").append("\"").append(`assetKey`.get).append("\"").append(',') }
+				if (`asset_Key`.isDefined) { sb.append(indent1).append("\"asset_Key\": ").append("\"").append(`asset_Key`.get).append("\"").append(',') }
 				sb.append(indent1).append("\"reason\": [").append(indent2).append(`reason`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
 				if (`cause`.isDefined) { sb.append(indent1).append("\"cause\": ").append("\"").append(`cause`.get).append("\"").append(',') }
 			if (sb.last.equals(',')) sb.length -= 1
@@ -664,7 +696,7 @@ object Response {
 	}
 }
 
-object DhComplex {
+object Dh_Complex {
 	def registerAllExtensions(registry: com.google.protobuf.ExtensionRegistryLite) {
 	}
 

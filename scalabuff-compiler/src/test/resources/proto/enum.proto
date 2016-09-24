@@ -12,6 +12,16 @@ message MyPeripherals {
 	optional ComputerPeripherals secondary_peripheral = 2;
 }
 
+enum TestNames {
+        TEST1_1 = 1;
+        TEST11 = 2;
+}
+
+message MyTestNames {
+	optional TestNames first_name = 1 [default = TEST1_1];
+        optional TestNames second_name = 2;
+}
+
 message Outer {
 	enum Inner {
 		FIRST = 1;

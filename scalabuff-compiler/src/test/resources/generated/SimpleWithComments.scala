@@ -5,31 +5,31 @@ package resources.generated
 
 final case class SimpleRequest (
 	query: String = "",
-	pageNumber: Option[Int] = None,
-	resultsPerPage: Option[Int] = None
+	page_Number: Option[Int] = None,
+	results_Per_Page: Option[Int] = None
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[SimpleRequest]
 	with net.sandrogrzicic.scalabuff.Parser[SimpleRequest] {
 
-	def setPageNumber(_f: Int) = copy(pageNumber = Some(_f))
-	def setResultsPerPage(_f: Int) = copy(resultsPerPage = Some(_f))
+	def setPage_Number(_f: Int) = copy(page_Number = Some(_f))
+	def setResults_Per_Page(_f: Int) = copy(results_Per_Page = Some(_f))
 
-	def clearPageNumber = copy(pageNumber = None)
-	def clearResultsPerPage = copy(resultsPerPage = None)
+	def clearPage_Number = copy(page_Number = None)
+	def clearResults_Per_Page = copy(results_Per_Page = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
 		output.writeString(1, query)
-		if (pageNumber.isDefined) output.writeInt32(2, pageNumber.get)
-		if (resultsPerPage.isDefined) output.writeInt32(3, resultsPerPage.get)
+		if (page_Number.isDefined) output.writeInt32(2, page_Number.get)
+		if (results_Per_Page.isDefined) output.writeInt32(3, results_Per_Page.get)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
 		__size += computeStringSize(1, query)
-		if (pageNumber.isDefined) __size += computeInt32Size(2, pageNumber.get)
-		if (resultsPerPage.isDefined) __size += computeInt32Size(3, resultsPerPage.get)
+		if (page_Number.isDefined) __size += computeInt32Size(2, page_Number.get)
+		if (results_Per_Page.isDefined) __size += computeInt32Size(3, results_Per_Page.get)
 
 		__size
 	}
@@ -37,19 +37,19 @@ final case class SimpleRequest (
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): SimpleRequest = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
 		var __query: String = ""
-		var __pageNumber: Option[Int] = pageNumber
-		var __resultsPerPage: Option[Int] = resultsPerPage
+		var __page_Number: Option[Int] = page_Number
+		var __results_Per_Page: Option[Int] = results_Per_Page
 
 		def __newMerged = SimpleRequest(
 			__query,
-			__pageNumber,
-			__resultsPerPage
+			__page_Number,
+			__results_Per_Page
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
 			case 10 => __query = in.readString()
-			case 16 => __pageNumber = Some(in.readInt32())
-			case 24 => __resultsPerPage = Some(in.readInt32())
+			case 16 => __page_Number = Some(in.readInt32())
+			case 24 => __results_Per_Page = Some(in.readInt32())
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -58,8 +58,8 @@ final case class SimpleRequest (
 	def mergeFrom(m: SimpleRequest) = {
 		SimpleRequest(
 			m.query,
-			m.pageNumber.orElse(pageNumber),
-			m.resultsPerPage.orElse(resultsPerPage)
+			m.page_Number.orElse(page_Number),
+			m.results_Per_Page.orElse(results_Per_Page)
 		)
 	}
 
@@ -79,8 +79,8 @@ final case class SimpleRequest (
 		sb
 			.append("{")
 			sb.append(indent1).append("\"query\": ").append("\"").append(`query`).append("\"").append(',')
-			if (`pageNumber`.isDefined) { sb.append(indent1).append("\"pageNumber\": ").append("\"").append(`pageNumber`.get).append("\"").append(',') }
-			if (`resultsPerPage`.isDefined) { sb.append(indent1).append("\"resultsPerPage\": ").append("\"").append(`resultsPerPage`.get).append("\"").append(',') }
+			if (`page_Number`.isDefined) { sb.append(indent1).append("\"page_Number\": ").append("\"").append(`page_Number`.get).append("\"").append(',') }
+			if (`results_Per_Page`.isDefined) { sb.append(indent1).append("\"results_Per_Page\": ").append("\"").append(`results_Per_Page`.get).append("\"").append(',') }
 		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()

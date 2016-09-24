@@ -125,7 +125,11 @@ final case class RemoteMessageProtocol (
 		output.writeMessage(1, recipient)
 		output.writeMessage(2, message)
 		if (sender.isDefined) output.writeMessage(4, sender.get)
-		for (_v <- metadata) output.writeMessage(5, _v)
+		var index_metadata = 0
+		while (index_metadata < metadata.length) {
+			output.writeMessage(5, metadata(index_metadata))
+			index_metadata += 1
+		}
 	}
 
 	def getSerializedSize = {
@@ -134,7 +138,11 @@ final case class RemoteMessageProtocol (
 		__size += computeMessageSize(1, recipient)
 		__size += computeMessageSize(2, message)
 		if (sender.isDefined) __size += computeMessageSize(4, sender.get)
-		for (_v <- metadata) __size += computeMessageSize(5, _v)
+		var index_metadata = 0
+		while (index_metadata < metadata.length) {
+			__size += computeMessageSize(5, metadata(index_metadata))
+			index_metadata += 1
+		}
 
 		__size
 	}

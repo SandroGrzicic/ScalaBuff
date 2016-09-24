@@ -4,46 +4,46 @@
 package resources.generated
 
 final case class NumbersTest1 (
-	someHexNumber: Option[Int] = Some(430689775),
-	someOctNumber: Option[Int] = Some(342391)
+	some_Hex_Number: Option[Int] = Some(430689775),
+	some_Oct_Number: Option[Int] = Some(342391)
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[NumbersTest1]
 	with net.sandrogrzicic.scalabuff.Parser[NumbersTest1] {
 
-	def setSomeHexNumber(_f: Int) = copy(someHexNumber = Some(_f))
-	def setSomeOctNumber(_f: Int) = copy(someOctNumber = Some(_f))
+	def setSome_Hex_Number(_f: Int) = copy(some_Hex_Number = Some(_f))
+	def setSome_Oct_Number(_f: Int) = copy(some_Oct_Number = Some(_f))
 
-	def clearSomeHexNumber = copy(someHexNumber = None)
-	def clearSomeOctNumber = copy(someOctNumber = None)
+	def clearSome_Hex_Number = copy(some_Hex_Number = None)
+	def clearSome_Oct_Number = copy(some_Oct_Number = None)
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		if (someHexNumber.isDefined) output.writeInt32(1, someHexNumber.get)
-		if (someOctNumber.isDefined) output.writeInt32(2, someOctNumber.get)
+		if (some_Hex_Number.isDefined) output.writeInt32(1, some_Hex_Number.get)
+		if (some_Oct_Number.isDefined) output.writeInt32(2, some_Oct_Number.get)
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		if (someHexNumber.isDefined) __size += computeInt32Size(1, someHexNumber.get)
-		if (someOctNumber.isDefined) __size += computeInt32Size(2, someOctNumber.get)
+		if (some_Hex_Number.isDefined) __size += computeInt32Size(1, some_Hex_Number.get)
+		if (some_Oct_Number.isDefined) __size += computeInt32Size(2, some_Oct_Number.get)
 
 		__size
 	}
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): NumbersTest1 = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __someHexNumber: Option[Int] = someHexNumber
-		var __someOctNumber: Option[Int] = someOctNumber
+		var __some_Hex_Number: Option[Int] = some_Hex_Number
+		var __some_Oct_Number: Option[Int] = some_Oct_Number
 
 		def __newMerged = NumbersTest1(
-			__someHexNumber,
-			__someOctNumber
+			__some_Hex_Number,
+			__some_Oct_Number
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
-			case 8 => __someHexNumber = Some(in.readInt32())
-			case 16 => __someOctNumber = Some(in.readInt32())
+			case 8 => __some_Hex_Number = Some(in.readInt32())
+			case 16 => __some_Oct_Number = Some(in.readInt32())
 			case default => if (!in.skipField(default)) return __newMerged
 		}
 		null
@@ -51,8 +51,8 @@ final case class NumbersTest1 (
 
 	def mergeFrom(m: NumbersTest1) = {
 		NumbersTest1(
-			m.someHexNumber.orElse(someHexNumber),
-			m.someOctNumber.orElse(someOctNumber)
+			m.some_Hex_Number.orElse(some_Hex_Number),
+			m.some_Oct_Number.orElse(some_Oct_Number)
 		)
 	}
 
@@ -71,8 +71,8 @@ final case class NumbersTest1 (
 		val sb = StringBuilder.newBuilder
 		sb
 			.append("{")
-			if (`someHexNumber`.isDefined) { sb.append(indent1).append("\"someHexNumber\": ").append("\"").append(`someHexNumber`.get).append("\"").append(',') }
-			if (`someOctNumber`.isDefined) { sb.append(indent1).append("\"someOctNumber\": ").append("\"").append(`someOctNumber`.get).append("\"").append(',') }
+			if (`some_Hex_Number`.isDefined) { sb.append(indent1).append("\"some_Hex_Number\": ").append("\"").append(`some_Hex_Number`.get).append("\"").append(',') }
+			if (`some_Oct_Number`.isDefined) { sb.append(indent1).append("\"some_Oct_Number\": ").append("\"").append(`some_Oct_Number`.get).append("\"").append(',') }
 		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()

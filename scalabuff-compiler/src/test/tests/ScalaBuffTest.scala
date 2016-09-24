@@ -33,6 +33,8 @@ class ScalaBuffTest extends FunSuite with Matchers {
 
   val testProtoPacked = "packed"
 
+  val testProtoEnum = "enum"
+
   test("apply: simple .proto file") {
     val settings = ScalaBuff.Settings(generateJsonMethod = true)
     val scalaClass: ScalaClass = ScalaBuff(new File(protoDir + testProto + ".proto"))(settings)

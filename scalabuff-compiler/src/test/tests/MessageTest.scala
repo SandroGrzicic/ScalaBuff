@@ -26,21 +26,21 @@ class MessageTest extends FunSuite with Matchers {
 
     val sent = ComplexMessage(first, Some(second), Some(nestedOuter), simpleEnum, repeatedString, repeatedBytes)
 
-    sent.firstField should equal(first)
-    sent.secondField.get should equal(second)
-    sent.nestedOuterField.get should equal(nestedOuter)
-    sent.simpleEnumField should equal(simpleEnum)
-    sent.repeatedStringField should equal(repeatedString)
-    sent.repeatedBytesField should equal(repeatedBytes)
+    sent.first_Field should equal(first)
+    sent.second_Field.get should equal(second)
+    sent.nested_Outer_Field.get should equal(nestedOuter)
+    sent.simple_Enum_Field should equal(simpleEnum)
+    sent.repeated_String_Field should equal(repeatedString)
+    sent.repeated_Bytes_Field should equal(repeatedBytes)
 
     val received = ComplexMessage.defaultInstance.mergeFrom(sent.toByteArray)
 
-    received.firstField should equal (sent.firstField)
-    received.secondField should equal (sent.secondField)
-    received.nestedOuterField should equal (sent.nestedOuterField)
-    received.simpleEnumField should equal (sent.simpleEnumField)
-    received.repeatedStringField should equal (sent.repeatedStringField)
-    received.repeatedBytesField should equal (sent.repeatedBytesField)
+    received.first_Field should equal (sent.first_Field)
+    received.second_Field should equal (sent.second_Field)
+    received.nested_Outer_Field should equal (sent.nested_Outer_Field)
+    received.simple_Enum_Field should equal (sent.simple_Enum_Field)
+    received.repeated_String_Field should equal (sent.repeated_String_Field)
+    received.repeated_Bytes_Field should equal (sent.repeated_Bytes_Field)
   }
 
   test("object.parseFrom") {

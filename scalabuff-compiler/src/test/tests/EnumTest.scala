@@ -42,6 +42,23 @@ class EnumTest extends FunSuite with Matchers {
     MyPeripherals.parseFrom(rawMessage.toByteArray) should equal (message)
   }
 
+test("enum.parseFrom: valid name and enum ID") {
+  val message = MyTestNames(Some(TestNames.TEST1_1))
+
+  MyTestNames.parseFrom(message.toByteArray) should equal (message)
+  MyTestNames.parseFrom(message.toByteString) should equal (message)
+
+  val os = new ByteArrayOutputStream
+  message.writeTo(os)
+
+  MyTestNames.parseFrom(new ByteArrayInputStream(os.toByteArray)) should equal (message)
+
+  val tag = makeTag(1, WireFormat.WIRETYPE_VARINT)
+  val rawMessage = ByteString.copyFrom(Array[Byte](tag, 2))
+
+  MyTestNames.parseFrom(rawMessage.toByteArray) should not equal (message)
+}
+
   test("enum.parseFrom: unknown enum ID without default") {
     val tag = makeTag(2, WireFormat.WIRETYPE_VARINT)
     val message = ByteString.copyFrom(Array[Byte](tag, 7))

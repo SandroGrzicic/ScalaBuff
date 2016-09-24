@@ -14,11 +14,11 @@ final case class DataTypes (
 	f64bit1: Option[Long] = None,
 	f64bit2: Option[Long] = None,
 	f64bit3: Option[Double] = None,
-	lengthDelim1: Option[String] = None,
-	lengthDelim2: Option[com.google.protobuf.ByteString] = None,
-	lengthDelim3: Option[DataTypes.Varint8Enum.EnumVal] = None,
-	lengthDelim4: scala.collection.immutable.Seq[Int] = Vector.empty[Int],
-	lengthDelim5: scala.collection.immutable.Seq[Int] = Vector.empty[Int],
+	length_Delim1: Option[String] = None,
+	length_Delim2: Option[com.google.protobuf.ByteString] = None,
+	length_Delim3: Option[DataTypes.Varint8Enum.EnumVal] = None,
+	length_Delim4: scala.collection.immutable.Seq[Int] = Vector.empty[Int],
+	length_Delim5: scala.collection.immutable.Seq[Int] = Vector.empty[Int],
 	f32bit1: Option[Int] = None,
 	f32bit2: Option[Int] = None,
 	f32bit3: Option[Float] = None
@@ -35,17 +35,17 @@ final case class DataTypes (
 	def setF64bit1(_f: Long) = copy(f64bit1 = Some(_f))
 	def setF64bit2(_f: Long) = copy(f64bit2 = Some(_f))
 	def setF64bit3(_f: Double) = copy(f64bit3 = Some(_f))
-	def setLengthDelim1(_f: String) = copy(lengthDelim1 = Some(_f))
-	def setLengthDelim2(_f: com.google.protobuf.ByteString) = copy(lengthDelim2 = Some(_f))
-	def setLengthDelim3(_f: DataTypes.Varint8Enum.EnumVal) = copy(lengthDelim3 = Some(_f))
-	def setLengthDelim4(_i: Int, _v: Int) = copy(lengthDelim4 = lengthDelim4.updated(_i, _v))
-	def addLengthDelim4(_f: Int) = copy(lengthDelim4 = lengthDelim4 :+ _f)
-	def addAllLengthDelim4(_f: Int*) = copy(lengthDelim4 = lengthDelim4 ++ _f)
-	def addAllLengthDelim4(_f: TraversableOnce[Int]) = copy(lengthDelim4 = lengthDelim4 ++ _f)
-	def setLengthDelim5(_i: Int, _v: Int) = copy(lengthDelim5 = lengthDelim5.updated(_i, _v))
-	def addLengthDelim5(_f: Int) = copy(lengthDelim5 = lengthDelim5 :+ _f)
-	def addAllLengthDelim5(_f: Int*) = copy(lengthDelim5 = lengthDelim5 ++ _f)
-	def addAllLengthDelim5(_f: TraversableOnce[Int]) = copy(lengthDelim5 = lengthDelim5 ++ _f)
+	def setLength_Delim1(_f: String) = copy(length_Delim1 = Some(_f))
+	def setLength_Delim2(_f: com.google.protobuf.ByteString) = copy(length_Delim2 = Some(_f))
+	def setLength_Delim3(_f: DataTypes.Varint8Enum.EnumVal) = copy(length_Delim3 = Some(_f))
+	def setLength_Delim4(_i: Int, _v: Int) = copy(length_Delim4 = length_Delim4.updated(_i, _v))
+	def addLength_Delim4(_f: Int) = copy(length_Delim4 = length_Delim4 :+ _f)
+	def addAllLength_Delim4(_f: Int*) = copy(length_Delim4 = length_Delim4 ++ _f)
+	def addAllLength_Delim4(_f: TraversableOnce[Int]) = copy(length_Delim4 = length_Delim4 ++ _f)
+	def setLength_Delim5(_i: Int, _v: Int) = copy(length_Delim5 = length_Delim5.updated(_i, _v))
+	def addLength_Delim5(_f: Int) = copy(length_Delim5 = length_Delim5 :+ _f)
+	def addAllLength_Delim5(_f: Int*) = copy(length_Delim5 = length_Delim5 ++ _f)
+	def addAllLength_Delim5(_f: TraversableOnce[Int]) = copy(length_Delim5 = length_Delim5 ++ _f)
 	def setF32bit1(_f: Int) = copy(f32bit1 = Some(_f))
 	def setF32bit2(_f: Int) = copy(f32bit2 = Some(_f))
 	def setF32bit3(_f: Float) = copy(f32bit3 = Some(_f))
@@ -58,11 +58,11 @@ final case class DataTypes (
 	def clearF64bit1 = copy(f64bit1 = None)
 	def clearF64bit2 = copy(f64bit2 = None)
 	def clearF64bit3 = copy(f64bit3 = None)
-	def clearLengthDelim1 = copy(lengthDelim1 = None)
-	def clearLengthDelim2 = copy(lengthDelim2 = None)
-	def clearLengthDelim3 = copy(lengthDelim3 = None)
-	def clearLengthDelim4 = copy(lengthDelim4 = Vector.empty[Int])
-	def clearLengthDelim5 = copy(lengthDelim5 = Vector.empty[Int])
+	def clearLength_Delim1 = copy(length_Delim1 = None)
+	def clearLength_Delim2 = copy(length_Delim2 = None)
+	def clearLength_Delim3 = copy(length_Delim3 = None)
+	def clearLength_Delim4 = copy(length_Delim4 = Vector.empty[Int])
+	def clearLength_Delim5 = copy(length_Delim5 = Vector.empty[Int])
 	def clearF32bit1 = copy(f32bit1 = None)
 	def clearF32bit2 = copy(f32bit2 = None)
 	def clearF32bit3 = copy(f32bit3 = None)
@@ -78,17 +78,25 @@ final case class DataTypes (
 		if (f64bit1.isDefined) output.writeFixed64(100, f64bit1.get)
 		if (f64bit2.isDefined) output.writeSFixed64(101, f64bit2.get)
 		if (f64bit3.isDefined) output.writeDouble(102, f64bit3.get)
-		if (lengthDelim1.isDefined) output.writeString(200, lengthDelim1.get)
-		if (lengthDelim2.isDefined) output.writeBytes(201, lengthDelim2.get)
-		if (lengthDelim3.isDefined) output.writeEnum(202, lengthDelim3.get)
-		for (_v <- lengthDelim4) output.writeInt32(204, _v)
+		if (length_Delim1.isDefined) output.writeString(200, length_Delim1.get)
+		if (length_Delim2.isDefined) output.writeBytes(201, length_Delim2.get)
+		if (length_Delim3.isDefined) output.writeEnum(202, length_Delim3.get)
+		var index_length_Delim4 = 0
+		while (index_length_Delim4 < length_Delim4.length) {
+			output.writeInt32(204, length_Delim4(index_length_Delim4))
+			index_length_Delim4 += 1
+		}
 		// write field length_delim5 packed 
-		if (!lengthDelim5.isEmpty) {
+		if (!length_Delim5.isEmpty) {
 			import com.google.protobuf.CodedOutputStream._
-			val dataSize = lengthDelim5.map(computeInt32SizeNoTag(_)).sum 
+			val dataSize = length_Delim5.map(computeInt32SizeNoTag(_)).sum 
 			output.writeRawVarint32(1626)
 			output.writeRawVarint32(dataSize)
-			for (_v <- lengthDelim5) output.writeInt32NoTag(_v)
+			var index_length_Delim5 = 0
+			while (index_length_Delim5 < length_Delim5.length) {
+				output.writeInt32NoTag(length_Delim5(index_length_Delim5))
+				index_length_Delim5 += 1
+			}
 		}
 		if (f32bit1.isDefined) output.writeFixed32(500, f32bit1.get)
 		if (f32bit2.isDefined) output.writeSFixed32(501, f32bit2.get)
@@ -108,12 +116,16 @@ final case class DataTypes (
 		if (f64bit1.isDefined) __size += computeFixed64Size(100, f64bit1.get)
 		if (f64bit2.isDefined) __size += computeSFixed64Size(101, f64bit2.get)
 		if (f64bit3.isDefined) __size += computeDoubleSize(102, f64bit3.get)
-		if (lengthDelim1.isDefined) __size += computeStringSize(200, lengthDelim1.get)
-		if (lengthDelim2.isDefined) __size += computeBytesSize(201, lengthDelim2.get)
-		if (lengthDelim3.isDefined) __size += computeEnumSize(202, lengthDelim3.get)
-		for (_v <- lengthDelim4) __size += computeInt32Size(204, _v)
-		if (!lengthDelim5.isEmpty) {
-			val dataSize = lengthDelim5.map(computeInt32SizeNoTag(_)).sum 
+		if (length_Delim1.isDefined) __size += computeStringSize(200, length_Delim1.get)
+		if (length_Delim2.isDefined) __size += computeBytesSize(201, length_Delim2.get)
+		if (length_Delim3.isDefined) __size += computeEnumSize(202, length_Delim3.get)
+		var index_length_Delim4 = 0
+		while (index_length_Delim4 < length_Delim4.length) {
+			__size += computeInt32Size(204, length_Delim4(index_length_Delim4))
+			index_length_Delim4 += 1
+		}
+		if (!length_Delim5.isEmpty) {
+			val dataSize = length_Delim5.map(computeInt32SizeNoTag(_)).sum 
 			__size += 2 + computeInt32SizeNoTag(dataSize) + dataSize
 		}
 		if (f32bit1.isDefined) __size += computeFixed32Size(500, f32bit1.get)
@@ -135,11 +147,11 @@ final case class DataTypes (
 		var __f64bit1: Option[Long] = f64bit1
 		var __f64bit2: Option[Long] = f64bit2
 		var __f64bit3: Option[Double] = f64bit3
-		var __lengthDelim1: Option[String] = lengthDelim1
-		var __lengthDelim2: Option[com.google.protobuf.ByteString] = lengthDelim2
-		var __lengthDelim3: Option[DataTypes.Varint8Enum.EnumVal] = lengthDelim3
-		val __lengthDelim4: scala.collection.mutable.Buffer[Int] = lengthDelim4.toBuffer
-		val __lengthDelim5: scala.collection.mutable.Buffer[Int] = lengthDelim5.toBuffer
+		var __length_Delim1: Option[String] = length_Delim1
+		var __length_Delim2: Option[com.google.protobuf.ByteString] = length_Delim2
+		var __length_Delim3: Option[DataTypes.Varint8Enum.EnumVal] = length_Delim3
+		val __length_Delim4: scala.collection.mutable.Buffer[Int] = length_Delim4.toBuffer
+		val __length_Delim5: scala.collection.mutable.Buffer[Int] = length_Delim5.toBuffer
 		var __f32bit1: Option[Int] = f32bit1
 		var __f32bit2: Option[Int] = f32bit2
 		var __f32bit3: Option[Float] = f32bit3
@@ -155,11 +167,11 @@ final case class DataTypes (
 			__f64bit1,
 			__f64bit2,
 			__f64bit3,
-			__lengthDelim1,
-			__lengthDelim2,
-			__lengthDelim3,
-			Vector(__lengthDelim4: _*),
-			Vector(__lengthDelim5: _*),
+			__length_Delim1,
+			__length_Delim2,
+			__length_Delim3,
+			Vector(__length_Delim4: _*),
+			Vector(__length_Delim5: _*),
 			__f32bit1,
 			__f32bit2,
 			__f32bit3
@@ -176,23 +188,23 @@ final case class DataTypes (
 			case 801 => __f64bit1 = Some(in.readFixed64())
 			case 809 => __f64bit2 = Some(in.readSFixed64())
 			case 817 => __f64bit3 = Some(in.readDouble())
-			case 1602 => __lengthDelim1 = Some(in.readString())
-			case 1610 => __lengthDelim2 = Some(in.readBytes())
-			case 1616 => __lengthDelim3 = Some(DataTypes.Varint8Enum.valueOf(in.readEnum()))
-			case 1632 => __lengthDelim4 += in.readInt32()
+			case 1602 => __length_Delim1 = Some(in.readString())
+			case 1610 => __length_Delim2 = Some(in.readBytes())
+			case 1616 => __length_Delim3 = Some(DataTypes.Varint8Enum.valueOf(in.readEnum()))
+			case 1632 => __length_Delim4 += in.readInt32()
 			case 1634 => 
 				val length = in.readRawVarint32()
 				val limit = in.pushLimit(length)
 				while (in.getBytesUntilLimit() > 0) {
-					__lengthDelim4 += in.readInt32()
+					__length_Delim4 += in.readInt32()
 				}
 				in.popLimit(limit)
-			case 1624 => __lengthDelim5 += in.readInt32()
+			case 1624 => __length_Delim5 += in.readInt32()
 			case 1626 => 
 				val length = in.readRawVarint32()
 				val limit = in.pushLimit(length)
 				while (in.getBytesUntilLimit() > 0) {
-					__lengthDelim5 += in.readInt32()
+					__length_Delim5 += in.readInt32()
 				}
 				in.popLimit(limit)
 			case 4005 => __f32bit1 = Some(in.readFixed32())
@@ -215,11 +227,11 @@ final case class DataTypes (
 			m.f64bit1.orElse(f64bit1),
 			m.f64bit2.orElse(f64bit2),
 			m.f64bit3.orElse(f64bit3),
-			m.lengthDelim1.orElse(lengthDelim1),
-			m.lengthDelim2.orElse(lengthDelim2),
-			m.lengthDelim3.orElse(lengthDelim3),
-			lengthDelim4 ++ m.lengthDelim4,
-			lengthDelim5 ++ m.lengthDelim5,
+			m.length_Delim1.orElse(length_Delim1),
+			m.length_Delim2.orElse(length_Delim2),
+			m.length_Delim3.orElse(length_Delim3),
+			length_Delim4 ++ m.length_Delim4,
+			length_Delim5 ++ m.length_Delim5,
 			m.f32bit1.orElse(f32bit1),
 			m.f32bit2.orElse(f32bit2),
 			m.f32bit3.orElse(f32bit3)
@@ -251,11 +263,11 @@ final case class DataTypes (
 			if (`f64bit1`.isDefined) { sb.append(indent1).append("\"f64bit1\": ").append("\"").append(`f64bit1`.get).append("\"").append(',') }
 			if (`f64bit2`.isDefined) { sb.append(indent1).append("\"f64bit2\": ").append("\"").append(`f64bit2`.get).append("\"").append(',') }
 			if (`f64bit3`.isDefined) { sb.append(indent1).append("\"f64bit3\": ").append("\"").append(`f64bit3`.get).append("\"").append(',') }
-			if (`lengthDelim1`.isDefined) { sb.append(indent1).append("\"lengthDelim1\": ").append("\"").append(`lengthDelim1`.get).append("\"").append(',') }
-			if (`lengthDelim2`.isDefined) { sb.append(indent1).append("\"lengthDelim2\": ").append("\"").append(`lengthDelim2`.get).append("\"").append(',') }
-			if (`lengthDelim3`.isDefined) { sb.append(indent1).append("\"lengthDelim3\": ").append("\"").append(`lengthDelim3`.get).append("\"").append(',') }
-			sb.append(indent1).append("\"lengthDelim4\": [").append(indent2).append(`lengthDelim4`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
-			sb.append(indent1).append("\"lengthDelim5\": [").append(indent2).append(`lengthDelim5`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
+			if (`length_Delim1`.isDefined) { sb.append(indent1).append("\"length_Delim1\": ").append("\"").append(`length_Delim1`.get).append("\"").append(',') }
+			if (`length_Delim2`.isDefined) { sb.append(indent1).append("\"length_Delim2\": ").append("\"").append(`length_Delim2`.get).append("\"").append(',') }
+			if (`length_Delim3`.isDefined) { sb.append(indent1).append("\"length_Delim3\": ").append("\"").append(`length_Delim3`.get).append("\"").append(',') }
+			sb.append(indent1).append("\"length_Delim4\": [").append(indent2).append(`length_Delim4`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
+			sb.append(indent1).append("\"length_Delim5\": [").append(indent2).append(`length_Delim5`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
 			if (`f32bit1`.isDefined) { sb.append(indent1).append("\"f32bit1\": ").append("\"").append(`f32bit1`.get).append("\"").append(',') }
 			if (`f32bit2`.isDefined) { sb.append(indent1).append("\"f32bit2\": ").append("\"").append(`f32bit2`.get).append("\"").append(',') }
 			if (`f32bit3`.isDefined) { sb.append(indent1).append("\"f32bit3\": ").append("\"").append(`f32bit3`.get).append("\"").append(',') }

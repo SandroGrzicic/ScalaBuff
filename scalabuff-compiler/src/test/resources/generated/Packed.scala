@@ -4,43 +4,47 @@
 package resources.generated
 
 final case class PackedTest (
-	requiredField: Int = 0,
-	optionalField: Option[Float] = None,
-	repeatedPackedField: scala.collection.immutable.Seq[Int] = Vector.empty[Int]
+	required_Field: Int = 0,
+	optional_Field: Option[Float] = None,
+	repeated_Packed_Field: scala.collection.immutable.Seq[Int] = Vector.empty[Int]
 ) extends com.google.protobuf.GeneratedMessageLite
 	with com.google.protobuf.MessageLite.Builder
 	with net.sandrogrzicic.scalabuff.Message[PackedTest]
 	with net.sandrogrzicic.scalabuff.Parser[PackedTest] {
 
-	def setOptionalField(_f: Float) = copy(optionalField = Some(_f))
-	def setRepeatedPackedField(_i: Int, _v: Int) = copy(repeatedPackedField = repeatedPackedField.updated(_i, _v))
-	def addRepeatedPackedField(_f: Int) = copy(repeatedPackedField = repeatedPackedField :+ _f)
-	def addAllRepeatedPackedField(_f: Int*) = copy(repeatedPackedField = repeatedPackedField ++ _f)
-	def addAllRepeatedPackedField(_f: TraversableOnce[Int]) = copy(repeatedPackedField = repeatedPackedField ++ _f)
+	def setOptional_Field(_f: Float) = copy(optional_Field = Some(_f))
+	def setRepeated_Packed_Field(_i: Int, _v: Int) = copy(repeated_Packed_Field = repeated_Packed_Field.updated(_i, _v))
+	def addRepeated_Packed_Field(_f: Int) = copy(repeated_Packed_Field = repeated_Packed_Field :+ _f)
+	def addAllRepeated_Packed_Field(_f: Int*) = copy(repeated_Packed_Field = repeated_Packed_Field ++ _f)
+	def addAllRepeated_Packed_Field(_f: TraversableOnce[Int]) = copy(repeated_Packed_Field = repeated_Packed_Field ++ _f)
 
-	def clearOptionalField = copy(optionalField = None)
-	def clearRepeatedPackedField = copy(repeatedPackedField = Vector.empty[Int])
+	def clearOptional_Field = copy(optional_Field = None)
+	def clearRepeated_Packed_Field = copy(repeated_Packed_Field = Vector.empty[Int])
 
 	def writeTo(output: com.google.protobuf.CodedOutputStream) {
-		output.writeInt32(1, requiredField)
-		if (optionalField.isDefined) output.writeFloat(2, optionalField.get)
+		output.writeInt32(1, required_Field)
+		if (optional_Field.isDefined) output.writeFloat(2, optional_Field.get)
 		// write field repeated_packed_field packed 
-		if (!repeatedPackedField.isEmpty) {
+		if (!repeated_Packed_Field.isEmpty) {
 			import com.google.protobuf.CodedOutputStream._
-			val dataSize = repeatedPackedField.map(computeInt32SizeNoTag(_)).sum 
+			val dataSize = repeated_Packed_Field.map(computeInt32SizeNoTag(_)).sum 
 			output.writeRawVarint32(26)
 			output.writeRawVarint32(dataSize)
-			for (_v <- repeatedPackedField) output.writeInt32NoTag(_v)
+			var index_repeated_Packed_Field = 0
+			while (index_repeated_Packed_Field < repeated_Packed_Field.length) {
+				output.writeInt32NoTag(repeated_Packed_Field(index_repeated_Packed_Field))
+				index_repeated_Packed_Field += 1
+			}
 		}
 	}
 
 	def getSerializedSize = {
 		import com.google.protobuf.CodedOutputStream._
 		var __size = 0
-		__size += computeInt32Size(1, requiredField)
-		if (optionalField.isDefined) __size += computeFloatSize(2, optionalField.get)
-		if (!repeatedPackedField.isEmpty) {
-			val dataSize = repeatedPackedField.map(computeInt32SizeNoTag(_)).sum 
+		__size += computeInt32Size(1, required_Field)
+		if (optional_Field.isDefined) __size += computeFloatSize(2, optional_Field.get)
+		if (!repeated_Packed_Field.isEmpty) {
+			val dataSize = repeated_Packed_Field.map(computeInt32SizeNoTag(_)).sum 
 			__size += 1 + computeInt32SizeNoTag(dataSize) + dataSize
 		}
 
@@ -49,25 +53,25 @@ final case class PackedTest (
 
 	def mergeFrom(in: com.google.protobuf.CodedInputStream, extensionRegistry: com.google.protobuf.ExtensionRegistryLite): PackedTest = {
 		import com.google.protobuf.ExtensionRegistryLite.{getEmptyRegistry => _emptyRegistry}
-		var __requiredField: Int = 0
-		var __optionalField: Option[Float] = optionalField
-		val __repeatedPackedField: scala.collection.mutable.Buffer[Int] = repeatedPackedField.toBuffer
+		var __required_Field: Int = 0
+		var __optional_Field: Option[Float] = optional_Field
+		val __repeated_Packed_Field: scala.collection.mutable.Buffer[Int] = repeated_Packed_Field.toBuffer
 
 		def __newMerged = PackedTest(
-			__requiredField,
-			__optionalField,
-			Vector(__repeatedPackedField: _*)
+			__required_Field,
+			__optional_Field,
+			Vector(__repeated_Packed_Field: _*)
 		)
 		while (true) in.readTag match {
 			case 0 => return __newMerged
-			case 8 => __requiredField = in.readInt32()
-			case 21 => __optionalField = Some(in.readFloat())
-			case 24 => __repeatedPackedField += in.readInt32()
+			case 8 => __required_Field = in.readInt32()
+			case 21 => __optional_Field = Some(in.readFloat())
+			case 24 => __repeated_Packed_Field += in.readInt32()
 			case 26 => 
 				val length = in.readRawVarint32()
 				val limit = in.pushLimit(length)
 				while (in.getBytesUntilLimit() > 0) {
-					__repeatedPackedField += in.readInt32()
+					__repeated_Packed_Field += in.readInt32()
 				}
 				in.popLimit(limit)
 			case default => if (!in.skipField(default)) return __newMerged
@@ -77,9 +81,9 @@ final case class PackedTest (
 
 	def mergeFrom(m: PackedTest) = {
 		PackedTest(
-			m.requiredField,
-			m.optionalField.orElse(optionalField),
-			repeatedPackedField ++ m.repeatedPackedField
+			m.required_Field,
+			m.optional_Field.orElse(optional_Field),
+			repeated_Packed_Field ++ m.repeated_Packed_Field
 		)
 	}
 
@@ -98,9 +102,9 @@ final case class PackedTest (
 		val sb = StringBuilder.newBuilder
 		sb
 			.append("{")
-			sb.append(indent1).append("\"requiredField\": ").append("\"").append(`requiredField`).append("\"").append(',')
-			if (`optionalField`.isDefined) { sb.append(indent1).append("\"optionalField\": ").append("\"").append(`optionalField`.get).append("\"").append(',') }
-			sb.append(indent1).append("\"repeatedPackedField\": [").append(indent2).append(`repeatedPackedField`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
+			sb.append(indent1).append("\"required_Field\": ").append("\"").append(`required_Field`).append("\"").append(',')
+			if (`optional_Field`.isDefined) { sb.append(indent1).append("\"optional_Field\": ").append("\"").append(`optional_Field`.get).append("\"").append(',') }
+			sb.append(indent1).append("\"repeated_Packed_Field\": [").append(indent2).append(`repeated_Packed_Field`.map("\"" + _ + "\"").mkString(", " + indent2)).append(indent1).append(']').append(',')
 		if (sb.last.equals(',')) sb.length -= 1
 		sb.append(indent0).append("}")
 		sb.toString()
