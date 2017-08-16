@@ -25,7 +25,7 @@ class ParserTest extends FunSuite with Matchers {
 	 * make sure the Parser output equals the corresponding output file in the parsedDir directory.
 	 */
 	for (file <- protoDir.listFiles(protoFileFilter)) {
-		val fileName = file.getName.stripSuffix(".proto").camelCase
+		val fileName = file.getName.stripSuffix(".proto")
 		test(fileName) {
 			val output = io.Source.fromFile(new File(parsedDir + fileName + parsedExtension))
 			var parsed: String = null

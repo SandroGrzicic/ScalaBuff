@@ -25,13 +25,13 @@ class ScalaBuffTest extends FunSuite with Matchers {
   val resourcesGeneratedDir = "resources" + / + "generated" + /
   val generatedDir = outputDir + resourcesGeneratedDir
 
-  val testProto = "simple"
+  val testProto = "Simple"
   val testProtoParsed = io.Source.fromFile(new File(parsedDir + testProto + parsedExtension), "UTF-8").mkString
   val testProtoGenerated = io.Source.fromFile(new File(generatedDir + testProto.capitalize + ".scala"), "UTF-8").mkString
 
-  val testProtoMulti = "multi_one"
+  val testProtoMulti = "MultiOne"
 
-  val testProtoPacked = "packed"
+  val testProtoPacked = "Packed"
 
   test("apply: simple .proto file") {
     val settings = ScalaBuff.Settings(generateJsonMethod = true)
@@ -62,7 +62,7 @@ class ScalaBuffTest extends FunSuite with Matchers {
         ScalaBuff.run(Array("--generate_json_method", simpleProto))
         outputStream.toString("utf-8") should be('empty)
       }
-      val outputFile = new File(resourcesGeneratedDir + testProto.camelCase + ".scala")
+      val outputFile = new File(resourcesGeneratedDir + testProto + ".scala")
       outputFile should be('exists)
       outputFile.deleteOnExit()
       val outputFileSource = io.Source.fromFile(outputFile, "UTF-8")
@@ -84,7 +84,7 @@ class ScalaBuffTest extends FunSuite with Matchers {
       output(0) should startWith("Parameters: ")
       output(1) should startWith("Paths: ")
     }
-    val outputFile = new File(outputDir + / + resourcesGeneratedDir + testProto.camelCase + ".scala")
+    val outputFile = new File(outputDir + / + resourcesGeneratedDir + testProto + ".scala")
     outputFile should be('exists)
     val outputFileSource = io.Source.fromFile(outputFile, "UTF-8")
     outputFileSource.mkString should equal(testProtoGenerated)
@@ -92,7 +92,7 @@ class ScalaBuffTest extends FunSuite with Matchers {
   }
 
   test("run: input directory only") {
-    val protoFiles = Seq("multi_one", "multi_two")
+    val protoFiles = Seq("MultiOne", "MultiTwo")
 
     val outputStream = new ByteArrayOutputStream()
     Console.withOut(new PrintStream(outputStream)) {
@@ -101,10 +101,10 @@ class ScalaBuffTest extends FunSuite with Matchers {
     }
 
     for (proto <- protoFiles) {
-      val outputFile = new File(outputDir + / + resourcesGeneratedDir + proto.camelCase + ".scala")
+      val outputFile = new File(outputDir + / + resourcesGeneratedDir + proto + ".scala")
       outputFile should be('exists)
       val outputFileSource = io.Source.fromFile(outputFile, "UTF-8")
-      val exampleProtoGenerated = io.Source.fromFile(new File(generatedDir + proto.camelCase + ".scala"), "UTF-8").mkString
+      val exampleProtoGenerated = io.Source.fromFile(new File(generatedDir + proto + ".scala"), "UTF-8").mkString
       outputFileSource.mkString should equal(exampleProtoGenerated)
       outputFileSource.close()
     }
@@ -114,17 +114,17 @@ class ScalaBuffTest extends FunSuite with Matchers {
     val outputStream = new ByteArrayOutputStream()
     Console.withOut(new PrintStream(outputStream)) {
       ScalaBuff.run(Array("--scala_out=" + outputDir,
-        "--proto_path=" + parsedDir, // no proto files here, but we want to make sure multi_one.proto is found
+        "--proto_path=" + parsedDir, // no proto files here, but we want to make sure MultiOne.proto is found
         "--proto_path=" + multiProtoDir,
         "--verbose",
         testProtoMulti + ".proto"))
       outputStream.toString("utf-8").split("\n").size should be(1)
     }
 
-    val outputFile = new File(outputDir + / + resourcesGeneratedDir + testProtoMulti.camelCase + ".scala")
+    val outputFile = new File(outputDir + / + resourcesGeneratedDir + testProtoMulti + ".scala")
     outputFile should be('exists)
     val outputFileSource = io.Source.fromFile(outputFile, "UTF-8")
-    val exampleProtoGenerated = io.Source.fromFile(new File(generatedDir + testProtoMulti.camelCase + ".scala"), "UTF-8").mkString
+    val exampleProtoGenerated = io.Source.fromFile(new File(generatedDir + testProtoMulti + ".scala"), "UTF-8").mkString
     outputFileSource.mkString should equal(exampleProtoGenerated)
     outputFileSource.close()
   }
@@ -132,7 +132,7 @@ class ScalaBuffTest extends FunSuite with Matchers {
   test("run: import across packages") {
     def compile(filename: String, subFolder: Option[String]) {
       val protoFile = filename + ".proto"
-      val scalaFile = filename.camelCase + ".scala"
+      val scalaFile = filename + ".scala"
       val outputStream = new ByteArrayOutputStream()
       Console.withOut(new PrintStream(outputStream)) {
         ScalaBuff.run(Array("--scala_out=" + outputDir,
@@ -153,9 +153,9 @@ class ScalaBuffTest extends FunSuite with Matchers {
       outputFileSource.close()
     }
 
-    compile("package_name", Some("nested"))
-    compile("import_packages", None)
-    compile("import_use_fullname", None)
+    compile("PackageName", Some("nested"))
+    compile("ImportPackages", None)
+    compile("ImportUseFullname", None)
   }
 
   test("run: unknown option") {
