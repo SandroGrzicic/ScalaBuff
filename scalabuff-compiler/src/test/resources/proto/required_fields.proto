@@ -1,0 +1,12 @@
+package resources.generated;
+
+message Required_v1 {
+    required int32 required_field_1 = 1;
+    required string required_field_2 = 2;
+}
+
+message Required_v2 {
+    required int32 required_field_1 = 1;
+    required string required_field_2 = 2;
+    required string required_field_3 = 3;
+}

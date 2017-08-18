@@ -333,11 +333,19 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
         }
       }
       out.append("\n")
+        .append(indent2).append("import scala.collection.JavaConversions.mapAsScalaMap")
+      out.append("\n")
+        .append(indent2).append("val required: scala.collection.mutable.Map[String, Boolean] = new java.util.HashMap[String, Boolean]")
+      out.append("\n")
         .append(indent2).append("def __newMerged = ").append(name).append("(\n")
       fields.foreach { field =>
         out.append(indent3)
         if (field.label == REPEATED) out.append("Vector(")
-        out.append(field.name.toTemporaryIdent)
+        if (field.label == REQUIRED) {
+          out.append("if (required(\"").append(field.name).append("\")) ")
+          out.append(field.name.toTemporaryIdent).append(" else ").append(field.name.toTemporaryIdent)
+          }
+        else out.append(field.name.toTemporaryIdent)
         if (field.label == REPEATED) out.append(": _*)")
         out.append(",\n")
       }
@@ -353,6 +361,7 @@ class Generator protected (sourceName: String, importedSymbols: Map[String, Impo
           case _        => false
         }
         out.append(indent3).append("case ").append((field.number << 3) | field.fType.wireType).append(" => ")
+        if (field.label == REQUIRED) out.append("required(\"").append(field.name).append("\") = true; ")
         out.append(field.name.toTemporaryIdent).append(" ")
 
         if (field.label == REPEATED) out.append("+")
