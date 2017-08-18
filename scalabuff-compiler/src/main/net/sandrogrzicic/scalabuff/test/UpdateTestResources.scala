@@ -1,105 +1,111 @@
 package net.sandrogrzicic.scalabuff.test
 
-import net.sandrogrzicic.scalabuff.compiler._
-import java.io.File.{separator => /}
 import java.io._
-import scala.Some
+import java.io.File.{separator => /}
+
+import net.sandrogrzicic.scalabuff.compiler._
 
 /**
  * A small program which updates the test resources (ScalaBuff outputs).
  *
  * @author Sandro Gržičić
  */
-
 object UpdateTestResources extends App {
   // Set this to true for debugging resource generation
   val verbose = false
 
   update()
 
-	/**
-	 * Update the output test resources.
-	 */
-	def update() {
-		val protoExtension = ".proto"
-		val parsedExtension = ".txt"
+  /**
+   * Update the output test resources.
+   */
+  def update() {
+    val protoExtension = ".proto"
+    val parsedExtension = ".txt"
 
-		val protoFileFilter = new FileFilter {
-			def accept(filtered: File) = filtered.getName.endsWith(protoExtension)
-		}
+    val protoFileFilter = new FileFilter {
+      def accept(filtered: File) = filtered.getName.endsWith(protoExtension)
+    }
 
-    val testDir = "scalabuff-compiler" + / +  "src" + / + "test" + /
+    val testDir = "scalabuff-compiler" + / + "src" + / + "test" + /
 
     val parsedDir = testDir + "resources" + / + "parsed" + /
 
     val protoDirFile = new File(testDir + "resources" + / + "proto" + /)
 
-    println(s"Processing files in directory ($protoDirFile)...\n")
+    Option(protoDirFile.listFiles(protoFileFilter)) match {
+      case None =>
+        println(s"Cannot find directory ($protoDirFile)!")
 
-    val protoFiles = protoDirFile.listFiles(protoFileFilter)
-		for (file <- protoFiles) {
-			val fileName = file.getName.dropRight(protoExtension.length).camelCase
-			val generatedParsedFile = new File(parsedDir + fileName + parsedExtension)
-			generatedParsedFile.delete()
+      case Some(protoFiles) =>
+        println(s"Processing files in directory ($protoDirFile)...\n")
 
-			val generatedParsed = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(generatedParsedFile), "utf-8"))
+        for (file <- protoFiles) {
+          val fileName = file.getName.dropRight(protoExtension.length).camelCase
+          val generatedParsedFile = new File(parsedDir + fileName + parsedExtension)
+          generatedParsedFile.delete()
 
-			var parsedOption: Option[List[Node]] = None
-			var output: String = null
+          val generatedParsed = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(generatedParsedFile), "utf-8"))
 
-			try {
-				parsedOption = Some(Parser(file))
-			} catch {
-				// in case of a parsing error, write it to the output file
-				case e: Throwable =>
-					if (verbose) println(s"Error parsing ${file}: ${e}")
-					output = e.getMessage
-			}
-      try {
-        generatedParsed.write(parsedOption.map(_.toString + "\n").getOrElse(output))
-      } catch {
-        case e: Throwable =>
-          if (verbose) println(s"Error parsing ${file}: ${e}")
-          e.printStackTrace
+          var parsedOption: Option[List[Node]] = None
+          var output: String = null
 
-      } finally {
-        generatedParsed.close()
-      }
+          try {
+            parsedOption = Some(Parser(file))
+          } catch {
+            // in case of a parsing error, write it to the output file
+            case e: Throwable =>
+              if (verbose) println(s"Error parsing ${file}: ${e}")
+              output = e.getMessage
+          }
+          try {
+            generatedParsed.write(parsedOption.map(_.toString + "\n").getOrElse(output))
+          } catch {
+            case e: Throwable =>
+              if (verbose) println(s"Error parsing ${file}: ${e}")
+              e.printStackTrace()
 
-	parsedOption.foreach { parsed =>
-	// if we have a valid parsing tree, generate a Scala proto class.
+          } finally {
+            generatedParsed.close()
+          }
 
-        // for now, this is hard-coded.
-        val importedSymbols = Map("PackageTest" -> ImportedSymbol("nested", isEnum = false))
+          parsedOption.foreach { parsed =>
+            // if we have a valid parsing tree, generate a Scala proto class.
 
-        val generated = Generator(parsed, file.getName, importedSymbols, generateJsonMethod = true, None)
-	val generatedPath = testDir + generated.path + generated.file + ".scala"
+            // for now, this is hard-coded.
+            val importedSymbols = Map("PackageTest" -> ImportedSymbol("nested", isEnum = false))
 
-        new File(testDir + generated.path).mkdirs()
+            val generated = Generator(parsed, file.getName, importedSymbols, generateJsonMethod = true, None)
+            val generatedPath = testDir + generated.path + generated.file + ".scala"
 
-        if (verbose) println(s"# Deleting ${generatedPath}")
-        new File(generatedPath).delete()
+            new File(testDir + generated.path).mkdirs()
 
-        val generatedClass = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(generatedPath), "utf-8"))
+            if (verbose) println(s"# Deleting $generatedPath")
+            new File(generatedPath).delete()
 
-	try {
-  	  generatedClass.write(generated.body)
+            val generatedClass = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(generatedPath), "utf-8"))
 
-	} catch {
-	  case e: Throwable =>
-  	    if (verbose) println(s"Error parsing ${file}: ${e}")
-	    e.printStackTrace
+            try {
+              generatedClass.write(generated.body)
 
-	} finally {
-	  generatedClass.close()
-	}
+            } catch {
+              case e: Throwable =>
+                if (verbose) println(s"Error parsing $file: $e")
+                e.printStackTrace()
 
-	if (verbose) println(s"# Wrote ${generatedPath}")
+            } finally {
+              generatedClass.close()
+            }
+
+            if (verbose) println(s"# Wrote $generatedPath")
+          }
+          println(fileName)
+        }
+
+        println(s"\nFinished processing (${protoFiles.length}) files.")
     }
-			println(fileName)
-		}
 
-    println(s"\nFinished processing (${protoFiles.length}) files.")
-	}
+
+  }
 
 }

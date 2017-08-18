@@ -10,7 +10,6 @@ import File.{separator => /}
  * ScalaBuff CLI runner test.
  * @author Sandro Gržičić
  */
-
 class ScalaBuffTest extends FunSuite with Matchers {
 
   val NEWLINE = System.getProperty("line.separator")

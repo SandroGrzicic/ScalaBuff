@@ -171,7 +171,7 @@ class Parser(val inputName: String) extends RegexParsers with PackratParsers {
   /**
    * Returns the parsing failure details.
    */
-  def parsingError(error: String, element: Input) = {
+  def parsingError(error: String, element: Input): String = {
     inputName + ":" + element.pos.line + ":" + element.pos.column + ": " + error + "\n" +
       element.pos.longString
   }

@@ -1,4 +1,5 @@
 package net.sandrogrzicic.scalabuff.compiler
+import scala.util.matching.Regex
 
 /**
  * String extension with some useful methods.
@@ -11,12 +12,12 @@ class BuffedString(str: String) {
 	/**
 	 * CamelCases this string, with the first letter uppercased.
 	 */
-	def camelCase = lowerCamelCase.capitalize
+	def camelCase: String = lowerCamelCase.capitalize
 
 	/**
 	 * Adds backticks for reserved keywords or names with characters like spaces, symbols etc.
 	 */
-	def quotedIdent(name: String) = {
+	def quotedIdent(name: String): String = {
 		if (scalaReserved(name)) '`' + name + '`'
 		else if (name.matches("[a-zA-Z_][\\w\\d_]*")) name
 		else '`' + name + '`'
@@ -26,37 +27,37 @@ class BuffedString(str: String) {
 	 * Generates a valid Scala identifier: 
 	 * camelCases this string, leaving the first letter lowercased and wraps it into backticks.
 	 */
-	def toScalaIdent = quotedIdent(lowerCamelCase)
+	def toScalaIdent: String = quotedIdent(lowerCamelCase)
 	
 	/**
 	 * camelCases this string, with the first letter lowercased.
 	 */
-	def lowerCamelCase = camelCaseRegex.replaceAllIn(str.replace('-', '_'), _.matched.tail.toUpperCase)
+	def lowerCamelCase: String = camelCaseRegex.replaceAllIn(str.replace('-', '_'), _.matched.tail.toUpperCase)
 
 	/**
 	 * Generates a valid temporary Scala identifier:
 	 * camelCases this string and prefixes it with two underscores.
 	 */
-	def toTemporaryIdent = "__" + lowerCamelCase
+	def toTemporaryIdent: String = "__" + lowerCamelCase
 	/**
 	 * Returns the tail of this string, starting at the first character after the last occurence of the specified character.
 	 */
-	def dropUntilLast(c: Char) = str.drop(str.lastIndexOf(c)+1)
+	def dropUntilLast(c: Char): String = str.drop(str.lastIndexOf(c)+1)
 
 	/**
 	 * Returns the tail of this string, starting at the first character after the first occurence of the specified character.
 	 */
-	def dropUntilFirst(c: Char) = str.drop(str.indexOf(c)+1)
+	def dropUntilFirst(c: Char): String = str.drop(str.indexOf(c)+1)
 
 	/**
 	 * Returns the head of this string, until the first occurence of the specified character.
 	 */
-	def takeUntilFirst(c: Char) = str.take(str.indexOf(c))
+	def takeUntilFirst(c: Char): String = str.take(str.indexOf(c))
 
 	/**
 	 * Returns the head of this string, until the last occurence of the specified character.
 	 */
-	def takeUntilLast(c: Char) = str.take(str.lastIndexOf(c))
+	def takeUntilLast(c: Char): String = str.take(str.lastIndexOf(c))
 
 	/**
 	 * Returns the substring between the specified characters on the last original string positions.
@@ -64,7 +65,7 @@ class BuffedString(str: String) {
 	 * to the end of the original string.
 	 * If the end position is lower than the start position, an empty string is returned.
 	 */
-	def betweenLast(from: Char, to: Char) = {
+	def betweenLast(from: Char, to: Char): String = {
 		var fromPos = str.lastIndexOf(from) + 1
 		var toPos = str.lastIndexOf(to, from)
 		if (fromPos < 0) fromPos = 0
@@ -79,7 +80,7 @@ class BuffedString(str: String) {
    * to the end of the original string.
    * If the end position is lower than the start position, an empty string is returned.
    */
-  def between(from: Char, to: Char) = {
+  def between(from: Char, to: Char): String = {
     var fromPos = str.indexOf(from) + 1
     var toPos = str.lastIndexOf(to, from)
     if (fromPos < 0) fromPos = 0
@@ -91,16 +92,16 @@ class BuffedString(str: String) {
 	/**
 	 * Removes leading and trailing double quotes from this string, if any.
 	 */
-	def stripQuotes = str.stripPrefix("\"").stripSuffix("\"")
+	def stripQuotes: String = str.stripPrefix("\"").stripSuffix("\"")
 }
 
 object BuffedString {
 	/**
 	 * Generates as much tabs as there are indent levels.
 	 */
-	def indent(indentLevel: Int) = "\t" * indentLevel
+	def indent(indentLevel: Int): String = "\t" * indentLevel
 
-	val camelCaseRegex = """_(\w)""".r
+	val camelCaseRegex: Regex = """_(\w)""".r
 
 	/**
 	 * Reserved scala keywords that require backticks

@@ -35,9 +35,9 @@ trait Enum {
 
 		def name: String
 
-		override def toString = name
-		override def equals(other: Any) = this eq other.asInstanceOf[AnyRef]
-		override def hashCode = 31 * (this.getClass.## + name.## + ordinal)
+		override def toString: String = name
+		override def equals(other: Any): Boolean = this eq other.asInstanceOf[AnyRef]
+		override def hashCode: Int = 31 * (this.getClass.## + name.## + ordinal)
 	}
 
 }
@@ -48,13 +48,13 @@ trait Enum {
 object FieldLabels extends Enum {
 	sealed trait EnumVal extends Value
 
-	val REQUIRED = new EnumVal { val name = "required" }
-	val OPTIONAL = new EnumVal { val name = "optional" }
-	val REPEATED = new EnumVal { val name = "repeated" }
+	val REQUIRED: EnumVal = new EnumVal { val name = "required" }
+	val OPTIONAL: EnumVal = new EnumVal { val name = "optional" }
+	val REPEATED: EnumVal = new EnumVal { val name = "repeated" }
 
-	def apply(label: String) = values.find(label == _.name).getOrElse(
+	def apply(label: String): EnumVal = values.find(label == _.name).getOrElse {
 		throw new InvalidFieldLabelException(label)
-	)
+	}
 
 	class InvalidFieldLabelException(label: String) extends RuntimeException(
 		"Invalid field label: " + label
@@ -129,7 +129,7 @@ object FieldTypes extends Enum {
 	 * Returns an immutable FieldType.PredefinedEnumVal based on the specified proto field type,
 	 * or a new EnumVal with a null default value if it's a custom Message or Enum type.
 	 */
-	def apply(fieldType: String) = {
+	def apply(fieldType: String): EnumVal = {
 		values find { fType =>
 				fType.name.toLowerCase == fieldType.toLowerCase && fType.isInstanceOf[PredefinedEnumVal]
 			} getOrElse	CustomEnumVal(fieldType, fieldType, "null", WIRETYPE_LENGTH_DELIMITED)

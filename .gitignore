@@ -1,14 +1,12 @@
 .cache
 *.swp
-/target
-project/project
-project/target
-scalabuff-compiler/bin
-scalabuff-compiler/doc
-scalabuff-compiler/target
-scalabuff-runtime/bin
-scalabuff-runtime/doc
-scalabuff-runtime/target
 .idea
 .idea_modules
+*.iml
+
+target
+bin
+doc
+
+resources/generated
 

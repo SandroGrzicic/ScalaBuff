@@ -30,7 +30,7 @@ object ScalaBuff {
    * Runs ScalaBuff on the specified file and returns the resulting Scala class.
    * If the encoding is not specified, it defaults to either UTF-8 (if available) or the platform default charset.
    */
-  def apply(file: File)(implicit settings: Settings = defaultSettings) = {
+  def apply(file: File)(implicit settings: Settings = defaultSettings): ScalaClass = {
     val tree = parse(file)
     val symbols = processImportSymbols(tree, file.getParentFile)
     Generator(tree, file.getName, symbols, settings.generateJsonMethod, settings.targetScalaVersion)
@@ -39,7 +39,7 @@ object ScalaBuff {
   /**
    * Runs ScalaBuff on the specified input String and returns the output Scala class.
    */
-  def fromString(input: String, generateJsonMethod: Boolean = false, targetScalaVersion: Option[String] = None) = {
+  def fromString(input: String, generateJsonMethod: Boolean = false, targetScalaVersion: Option[String] = None): ScalaClass = {
     Generator(Parser(input), "", Map(), generateJsonMethod, targetScalaVersion)
   }
 
@@ -60,7 +60,8 @@ object ScalaBuff {
    * files and building a map of their exported symbols.
    */
   def processImportSymbols(tree: List[Node], parentFolder: File)(implicit settings: Settings = defaultSettings): Map[String, ImportedSymbol] = {
-    implicit val searchInFirst = Some(parentFolder)
+    implicit val searchInFirst: Option[File] = Some(parentFolder)
+
     def dig(name: String): List[(String, ImportedSymbol)] = {
       val tree = parse(searchPath(name).getOrElse { throw new IOException("Unable to import: " + name) })
       val packageName = tree.collectFirst {
@@ -79,8 +80,8 @@ object ScalaBuff {
     }.flatten.toMap
   }
 
-  val protoFileFilter = new FileFilter {
-    def accept(filtered: File) = filtered.getName.endsWith(".proto")
+  val protoFileFilter: FileFilter = new FileFilter() {
+    override def accept(file: File) = file.getName.endsWith(".proto")
   }
 
   def findFiles(startAt: File): Seq[File] = {
@@ -133,7 +134,7 @@ object ScalaBuff {
       case arguments: Array[String] =>
         val (rawSettings: Array[String], paths: Array[String]) = arguments.partition(_.startsWith("-"))
 
-        implicit val parsedSettings = rawSettings.foldLeft(Settings()) {
+        implicit val parsedSettings: Settings = rawSettings.foldLeft(Settings()) {
           case (settings, setting) => parseSetting(setting, settings) match {
             case Left(message)      => println(message); settings
             case Right(newSettings) => newSettings
